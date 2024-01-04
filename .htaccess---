@@ -1,0 +1,17 @@
+# execute .html extension as PHP
+AddType application/x-httpd-php .html .htm
+
+# mod_rewrite
+RewriteEngine ON
+RewriteBase /AT/
+
+# Used in Documentation
+RewriteRule ^(.*)\/(.*)\/(.*)\/(.*)\.html$ main.php?module=$1&page=$2&section=$3&ss=$4&url_rewrite [QSA,L]
+RewriteRule ^(.*)\/(.*)\/(.*)\.html$ main.php?module=$1&page=$2&section=$3&url_rewrite [QSA,L]
+
+# Used in all modules
+# URL /path/php/admin/index.html actually loads /path/php/index.php?module=admin&page=index
+RewriteRule ^(.*)\/(.*)\.html$ main.php?module=$1&page=$2&url_rewrite [QSA,L]
+
+# URL /path/php/admin/ loads /path/php/index.php?module=admin
+RewriteRule ^([a-zA-Z]+)?(\/)$ main.php?module=$1&url_rewrite [QSA,L]

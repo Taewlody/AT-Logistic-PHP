@@ -1,0 +1,198 @@
+<?php
+require_once( 'class.php' );
+require_once( 'function.php' );
+$db=new cl;
+$acton=get('action');
+$countryCode=get('countryCode');
+$countryNameTH='';
+$countryNameEN='';
+$isActive='1';
+$readonly='';
+$createID='';
+$createTime='';
+$editID='';
+$editTime='';
+if($acton=='view'){ $disabled='disabled';}else{$disabled='';}
+$sql=" SELECT
+c.comCode,
+c.countryCode,
+c.countryNameTH,
+c.countryNameEN,
+c.isActive,
+c.createID,
+c.createTime,
+c.editID,
+c.editTime
+FROM $db->dbname.common_country AS c
+WHERE c.comCode='$db->comCode' AND c.countryCode='$countryCode' ";
+if($r=$db->fetch($sql)){
+	$countryNameTH=$r['countryNameTH'];
+	$countryNameEN=$r['countryNameEN'];
+	$isActive=$r['isActive'];
+	$readonly='readonly';	
+	$createID=$r['createID'];
+	$createTime=$r['createTime'];
+	$editID=$r['editID'];
+	$editTime=$r['editTime'];
+}
+
+
+?>
+
+<link href="css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+<link href="css/plugins/select2/select2.min.css" rel="stylesheet">
+<script>
+  $(document).ready(function(){  
+
+    $("#form").validate({
+                 rules: {
+                  countryCode: {required: true },
+				 countryNameTH: {required: true },
+					countryNameEN: {required: true }
+                 }
+     });
+	  
+$("#save").click(function (event) {
+        event.preventDefault();
+		if($('#form').valid()){
+        var form = $('#form')[0];
+        var data = new FormData(form);
+        data.append("CustomField", "This is some extra data, testing");
+		// disabled the submit button
+        $("#save").prop("disabled", true);
+        $.ajax({
+            type: "POST",
+            enctype: 'multipart/form-data',
+            url: "country_action.php",
+            data: data,
+            processData: false,
+            contentType: false,
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
+
+
+              var obj = jQuery.parseJSON(data);
+              var dataresult=obj.result;
+                  if(dataresult=='success'){
+                    $("#countryCode").val(obj.documentID);
+                    $("#action").val('edit');
+                    msgSuccess();
+                    console.log("SUCCESS : ", dataresult);
+                  }else{
+                    msgError();
+                    console.log("Error : ", dataresult);
+                  }
+            
+                $("#save").prop("disabled", false);
+
+				
+            },
+            error: function (e) {
+				        msgError();
+                console.log("ERROR : ", e);
+                $("#save").prop("disabled", false);
+
+            }
+        });
+
+
+	}
+
+    });
+
+
+});
+
+</script>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Country / ประเทศ</h2>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"> <a>Home</a></li>
+      <li class="breadcrumb-item"> <a>Common Data</a></li>
+      <li class="breadcrumb-item"> <a>Country</a> </li>
+      <li class="breadcrumb-item"> <a>Country Form</a></li>
+    </ol>
+  </div>
+  <div class="col-lg-2"> </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <!-- Body-->
+
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox ">
+        <div class="ibox-content">
+        <form  name="form" id="form" action="" enctype="multipart/form-data" method="post">
+            <div class="form-group  row">
+              <label class="col-sm-2 col-form-label">
+                <h3>Country info</h3>
+              </label>
+
+            </div>
+            <div class="hr-line-dashed"></div>
+            <div class="form-group  row">
+              <label class="col-sm-2 col-form-label"> Code</label>
+              <div class="col-md-2">
+                <input type="text" name="countryCode" id="countryCode" class="form-control " value="<?php echo $countryCode; ?>" <?php echo $readonly;?>  >
+              </div>
+            </div>
+            <div class="form-group  row"><label class="col-sm-2 col-form-label"> Name (TH)</label>
+              <div class="col-sm-8"><input name="countryNameTH" type="text" class="form-control " id="countryNameTH" value="<?php echo $countryNameTH; ?>" ></div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label"> Name (EN)</label>
+              <div class="col-md-8">
+                <input type="text" class="form-control " name="countryNameEN" autocomplete="off" id="countryNameEN"  value="<?php echo $countryNameEN; ?>" >
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Status</label>
+              <div class="col-sm-10">
+                <label class="checkbox-inline i-checks">
+                  <input type="radio" name="isActive" value="1" <?php if($isActive==1){ echo 'checked';}?> >
+                  Active </label>
+                <label class="i-checks">
+                  <input type="radio" name="isActive" value="0" <?php if($isActive==0){ echo 'checked';}?> >
+                  Inactive</label>
+              </div>
+            </div>
+
+            <div class="form-group  row">
+              <label class="col-sm-2 col-form-label">Create By</label>
+              <div class="col-sm-10">
+                <label><?php echo $createID;?>&nbsp;&nbsp;&nbsp;<?php echo $createTime;?></label>
+              </div>
+            </div>
+
+            <div class="form-group  row">
+              <label class="col-sm-2 col-form-label">Update By</label>
+              <div class="col-sm-10">
+                <label><?php echo $editID ;?>&nbsp;&nbsp;&nbsp;<?php echo $editTime;?></label>
+              </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+
+            <div class="form-group row">
+              <div class="col-sm-4 col-sm-offset-2">
+                <button name="back" class="btn btn-white" type="button" onclick="window.location='country' "><i class="fa fa-reply"></i> Back</button>
+                <button name="save" id="save" class="btn btn-primary" type="button"<?php echo $disabled;?>  ><i class="fa fa-save"></i> Save</button>
+                <input type="hidden" name="action" id="action" value="<?php echo $acton;?>">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  function closeCurrentTab() {
+    window.close();
+  }
+</script>
+<!--  END Body-->
