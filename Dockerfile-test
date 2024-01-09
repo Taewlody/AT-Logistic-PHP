@@ -1,0 +1,74 @@
+FROM composer:2.4 as build
+
+COPY . /app/
+
+RUN composer require laravelcollective/html
+
+RUN composer install --prefer-dist --no-dev --optimize-autoloader --no-interaction
+
+FROM php:8.2-apache-buster as dev
+
+ARG WWWGROUP
+
+ENV APP_ENV=dev
+ENV APP_DEBUG=true
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
+WORKDIR /var/www/html
+
+RUN apt-get update && apt-get install -y zip
+RUN docker-php-ext-install pdo pdo_mysql
+
+COPY . /var/www/html/
+COPY --from=build /usr/bin/composer /usr/bin/composer
+
+RUN composer require laravelcollective/html
+
+RUN composer dump-autoload && composer update
+
+RUN composer install --prefer-dist --no-interaction
+
+COPY default.conf /etc/apache2/sites-available/000-default.conf
+COPY .env /var/www/html/.env
+
+
+RUN groupadd --force -g $WWWGROUP sail
+RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
+
+RUN php artisan cache:clear && \
+    php artisan config:cache && \
+    php artisan route:cache && \
+    php artisan storage:link && \
+    chmod 755 -R /var/www/html/storage/ && \
+    chown 755 -R www-data:www-data /var/www/ && \
+    a2enmod rewrite
+
+# RUN a2enmod rewrite
+
+# COPY start-container /usr/local/bin/start-container
+# COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# COPY php.ini /etc/php/8.3/cli/conf.d/99-sail.ini
+# RUN chmod +x /usr/local/bin/start-container
+
+# EXPOSE 8000
+
+# ENTRYPOINT ["start-container"]
+
+# FROM php:8.1-apache-buster as production
+
+# ENV APP_ENV=production
+# ENV APP_DEBUG=false
+
+# RUN docker-php-ext-configure opcache --enable-opcache && \
+#     docker-php-ext-install pdo pdo_mysql
+# COPY docker/php/conf.d/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+
+# COPY --from=build /app /var/www/html
+# COPY docker/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
+# COPY .env.prod /var/www/html/.env
+
+# RUN php artisan config:cache && \
+#     php artisan route:cache && \
+#     chmod 777 -R /var/www/html/storage/ && \
+#     chown -R www-data:www-data /var/www/ && \
+#     a2enmod rewrite
