@@ -1,4 +1,9 @@
-<div>
-    <!-- Well begun is half done. - Aristotle -->
-    dashboard
-</div>
+@extends('layouts.main')
+
+@section('title', 'dashboard')
+
+@section('content')
+    <div>
+        dashboard
+    </div>
+@endsection

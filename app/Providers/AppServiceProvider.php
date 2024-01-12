@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use DB;
 use File;
 use Log;
+use Hash;
+use App\Hashing\Md5Hasher;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+
+        Hash::extend('md5', static function () {
+            return new Md5Hasher();
+        });
+
         DB::listen(function($query) {
             Log::info(
                 $query->sql,

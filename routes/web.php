@@ -15,15 +15,30 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\LoginController;
 
-Route::get('/', function () {
-    return view('login');
+ Route::group([
+    'prefix' => '/AT',
+    'middleware' => 'auth',
+], function() {
+    Route::get('/', function() {
+        return redirect('/login');
+    });
+    
+    Route::get('/login', function () {
+        if(Auth::check()) {
+            return redirect('/dashboard');
+        }
+        return view('login');
+    })->name('login')->withoutMiddleware('auth');
+    
+    Route::post('/login', [LoginController::class,'authenticate'])->withoutMiddleware('auth');
+    
+    Route::get('/dashboard', function () {
+        Log::info("get user dashboard: ".Auth::user());
+        return view('dashboard');
+    })->name('dashboard');
 });
 
-Route::post('/', [LoginController::class,'authenticate']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-});
 
 Route::fallback(function() {
     return view('404');

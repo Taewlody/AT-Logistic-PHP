@@ -8,21 +8,6 @@
     <link rel="stylesheet" href="{{asset('assets/css/animate.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
 
-@endpush
-
-@push('script')
-    <script src="/app.js"></script>
-    <script>
-        $(document).ready(function () {
-
-            $("#form").validate({
-                        rules: {
-                        atusername: {required: true },
-                        atpassword: {required: true }
-                        }
-            });
-        });
-    </script>
     <style type="text/css">
         body {
             background-image: url("{{asset('assets/img/bg.jpg')}}");
@@ -31,6 +16,11 @@
             background-position: left;
         }
     </style>
+
+@endpush
+
+@push('script')
+    <script src="/app.js"></script>
 @endpush
 
 <?php
@@ -93,10 +83,10 @@
                 @csrf
                 <div class="form-group">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Username" autocomplete="off" id="username" name="username" required="">
+                    <input type="text" class="form-control" placeholder="Username" autocomplete="off" id="username" name="username" required=true>
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Password"  autocomplete="new-password" id="password" name="password" required="">
+                    <input type="password" class="form-control" placeholder="Password"  autocomplete="new-password" id="password" name="password" required=true>
                 </div>
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <button type="submit" name="btnSubmit" class="btn btn-primary block full-width m-b">Login</button>
