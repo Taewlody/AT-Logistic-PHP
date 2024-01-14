@@ -21,44 +21,13 @@
 
 @push('script')
     <script src="/app.js"></script>
-@endpush
-
-<?php
-// require_once( 'class.php' );
-// require_once( 'function.php' );
-// $db = new cl;
-// if(isset($_POST['btnSubmit'])){
-// $login_username=isset($_POST['atusername'])?$_POST['atusername']:'';
-// $login_password=isset($_POST['atpassword'])?$_POST['atpassword']:'';
-//  $sql_check=" SELECT
-// u.comCode,
-// u.usercode,
-// u.username,
-// u.userpass,
-// u.surname,
-// u.userTypecode,
-// u.img_sinal
-// FROM
-// `user` AS u
-// WHERE u.usercode='$login_username' AND u.userpass =MD5('$login_password') AND u.isActive=1 ";
-// 		$info=$db->fetch($sql_check);
-// 		if (isset($info['usercode'])!=''){
-//           $_SESSION['userID']=$info['usercode'];
-//           $_SESSION['userTypecode']=$info['userTypecode'];
-//             if($info['userTypecode']==4){
-//                echo'<script  type="text/javascript">location.replace("advance_payment");</script>'; 
-//             }else{
-// 			echo'<script  type="text/javascript">location.replace("dashboard");</script>';
-//             }
-// 		}else{
-// 			echo'<script  type="text/javascript">alert("ไม่พบชื่อผู้ใช้งานนี้กรุณาตรวจสอบ");</script>';
-// 		}
-// }
-?>    
+@endpush   
 <head>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="{{ config('session.lifetime') * 60 }}">
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}">
 
     <title>AT Logistic | Login</title>
 
@@ -88,7 +57,7 @@
                 <div class="form-group">
                     <input type="password" class="form-control" placeholder="Password"  autocomplete="new-password" id="password" name="password" required=true>
                 </div>
-                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                {{ csrf_field() }}
                 <button type="submit" name="btnSubmit" class="btn btn-primary block full-width m-b">Login</button>
             </form>
 

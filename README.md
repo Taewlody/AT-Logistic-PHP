@@ -28,6 +28,18 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
+## How to Fix Error 'chmod(): Operation not permitted'
+- remove path ./vender
+- install php (skip, if exist) and php-curl
+- sudo apt-get install git
+- sudo apt install zip unzip php-zip
+- sudo apt-get install php-dom
+- php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+- php -r "if (hash_file('sha384', 'composer-setup.php') === 'e21205b207c3ff031906575712edab6f13eb0b361f2085f1f1237b7126d785e826a450292b6cfd1d64d92e6563bbde02') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+- php composer-setup.php
+- php -r "unlink('composer-setup.php');"
+- composer update --ignore-platform-reqs --prefer-dist
+  
 ## Learning Laravel
 
 Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.

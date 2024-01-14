@@ -13,24 +13,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\AuthController;
 
  Route::group([
     'prefix' => '/AT',
     'middleware' => 'auth',
+    'middleware' => 'auth.session'
 ], function() {
     Route::get('/', function() {
         return redirect('/login');
     });
     
     Route::get('/login', function () {
-        if(Auth::check()) {
-            return redirect('/dashboard');
-        }
+        // if(Auth::check()) {
+        //     return redirect()->route('dashboard');
+        // }
         return view('login');
-    })->name('login')->withoutMiddleware('auth');
+    })->name('login')->withoutMiddleware(['auth', 'auth.session'])->Middleware('guest');
     
-    Route::post('/login', [LoginController::class,'authenticate'])->withoutMiddleware('auth');
+    Route::post('/login', [AuthController::class,'authenticate'])->withoutMiddleware(['auth', 'auth.session']);
+
+    // Route::get('/logout', 'AuthController@logout')->name('logout');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     
     Route::get('/dashboard', function () {
         Log::info("get user dashboard: ".Auth::user());

@@ -169,6 +169,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         // Collective\Html\HtmlServiceProvider::class,
+        Spatie\Html\HtmlServiceProvider::class,
+        Livewire\LivewireServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -186,6 +188,7 @@ return [
         // 'Example' => App\Facades\Example::class,
         // 'Form' => Collective\Html\FormFacade::class,
         // 'Html' => Collective\Html\HtmlFacade::class,
+        'Sidebar' => App\Http\Controllers\layouts\menu\SidebarController::class,
     ])->toArray(),
 
 ];

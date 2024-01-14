@@ -15,30 +15,28 @@
 <head>
 
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}">
 
     <title>@yield('title')</title>
-
+    <title>AT Logistic Management System</title>
     @stack('css')
     @stack('script')
 
 </head>
-<body>
-    <nav class="navbar-default navbar-static-side" role="navigation">
-        <div class="sidebar-collapse">
-            <ul class="nav metismenu" id="side-menu">
-              <li class="nav-header">
-                <div class="dropdown profile-element"> <img alt="image" class="rounded-circle" src="img/profile_small.jpg"/> <a data-toggle="dropdown" class="dropdown-toggle" href="#"> <span class="block m-t-xs font-bold">{{Auth::user()->username}}</span> <span class="text-muted text-xs block">User<b class="caret"></b></span> </a>
-             
-                    
-                </div>
-                <div class="logo-element"> ATS</div>
-              </li>
-            </ul>
+<body class="pace-done">
+    <div class="pace pace-inactive">
+        
+    </div>
+    <div id="wrapper">
+        {{-- @include('layouts.menu.sidebar', ['MainMenu' => App\Http\Controllers\layouts\menu\SidebarController::$mainMenu]) --}}
+        {{-- @include('layouts.menu.sidebar') --}}
+        @livewire('menu.sidebar')
+        <div id="page-wrapper" class="gray-bg">
+            @include('layouts.menu.navbar')
+            @yield('content')
         </div>
-    </nav>
-    <div class="container">
-        @yield('content')
     </div>
     
 </body>

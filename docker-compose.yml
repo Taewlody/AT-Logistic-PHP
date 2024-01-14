@@ -9,7 +9,7 @@ services:
             args:
                 WWWGROUP: '${WWWGROUP}'
         image: sail-8.2/app
-        extra_hosts:
+        extra_hosts:      
             - 'host.docker.internal:host-gateway'
         ports:
             - '${APP_PORT:-8090}:80'
@@ -21,7 +21,7 @@ services:
             XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
             IGNITION_LOCAL_SITES_PATH: '${PWD}'
         volumes:
-            - '.:/var/www/html:cached'
+            - '.:/var/www/html'
         networks:
             - laravel
         depends_on:
