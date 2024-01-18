@@ -189,6 +189,7 @@ return [
         // 'Form' => Collective\Html\FormFacade::class,
         // 'Html' => Collective\Html\HtmlFacade::class,
         'Sidebar' => App\Http\Controllers\layouts\menu\SidebarController::class,
+        'Livewire' => Livewire\Livewire::class,
     ])->toArray(),
 
 ];

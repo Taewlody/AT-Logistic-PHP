@@ -18,7 +18,8 @@ use App\Http\Controllers\AuthController;
  Route::group([
     'prefix' => '/AT',
     'middleware' => 'auth',
-    'middleware' => 'auth.session'
+    'middleware' => 'auth.session',
+    'middleware' => 'session.timeout',
 ], function() {
     Route::get('/', function() {
         return redirect('/login');
@@ -28,10 +29,11 @@ use App\Http\Controllers\AuthController;
         // if(Auth::check()) {
         //     return redirect()->route('dashboard');
         // }
+        Artisan::call('cache:clear');
         return view('login');
-    })->name('login')->withoutMiddleware(['auth', 'auth.session'])->Middleware('guest');
+    })->name('login')->withoutMiddleware(['auth', 'auth.session', 'session.timeout'])->Middleware('guest');
     
-    Route::post('/login', [AuthController::class,'authenticate'])->withoutMiddleware(['auth', 'auth.session']);
+    Route::post('/login', [AuthController::class,'authenticate'])->withoutMiddleware(['auth', 'auth.session', 'session.timeout'])->Middleware('guest');
 
     // Route::get('/logout', 'AuthController@logout')->name('logout');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
