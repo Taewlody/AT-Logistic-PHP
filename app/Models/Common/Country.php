@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Common;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Casts\BooleanString;
+use Livewire\Wireable;
 
 class Country extends Model
 {
@@ -34,4 +36,20 @@ class Country extends Model
         'editID' => 'string',
         'editTime' => 'datetime:Y-m-d H:M'
     ];
+
+    public function toLivewire()
+    {
+        return [
+            'comCode',
+            'countryCode',
+            'countryNameTH',
+            'countryNameEN',
+            'isActive',
+            'createID',
+            'createTime',
+            'editID',
+            'editTime'
+        ];
+    }
+
 }

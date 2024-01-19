@@ -14,22 +14,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 use App\Http\Controllers\AuthController;
+use App\Livewire\Page\Common\Country\Page as Country;
 
  Route::group([
     'prefix' => '/AT',
-    'middleware' => 'auth',
-    'middleware' => 'auth.session',
-    'middleware' => 'session.timeout',
+    'middleware' => ['auth', 'auth.session', 'session.timeout',]
 ], function() {
     Route::get('/', function() {
         return redirect('/login');
     });
     
     Route::get('/login', function () {
-        // if(Auth::check()) {
-        //     return redirect()->route('dashboard');
-        // }
-        Artisan::call('cache:clear');
         return view('login');
     })->name('login')->withoutMiddleware(['auth', 'auth.session', 'session.timeout'])->Middleware('guest');
     
@@ -39,9 +34,10 @@ use App\Http\Controllers\AuthController;
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     
     Route::get('/dashboard', function () {
-        Log::info("get user dashboard: ".Auth::user());
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('/country', Country::class)->name('country');
 });
 
 

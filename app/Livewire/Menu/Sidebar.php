@@ -19,7 +19,7 @@ class Sidebar extends Component
                 ['name' => 'Dashboard', 'route_name' => 'dashboard']
             ],
         ],
-        /* [
+        [
             'name' => 'Common Data', 
             'icon' => 'fa fa-bars', 
             'menu' => [
@@ -39,7 +39,7 @@ class Sidebar extends Component
                 ['name' => 'Unit', 'route_name' => 'unit'],
                 ['name' => 'Currency', 'route_name' => 'currency'],
             ]
-         ], */
+         ],
         [
             'name' => 'Marketing',
             'icon' => 'fa fa-shopping-cart',
@@ -73,7 +73,7 @@ class Sidebar extends Component
                 ['name' => 'Calendar booking', 'route_name' => 'calendar-booking'],
             ]
         ],
-        /*[
+       [
             'name' => 'Accounting',
             'icon' => 'fa fa-folder-open',
             'menu' => [
@@ -110,7 +110,7 @@ class Sidebar extends Component
                 ['name' => 'UserType', 'route_name' => 'user-type'],
                 ['name' => 'User', 'route_name' => 'user'],
             ]
-        ],*/
+        ],
     ];
 
     public $ActiveMenu = "";
