@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Account;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 
 class PettyCash extends Model
@@ -11,6 +12,10 @@ class PettyCash extends Model
 
     protected $table = 'petty_cash';
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'documentID';
+    
     protected $fillable = [
         'comCode',
         'documentID',

@@ -1,15 +1,26 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Marketing;
 
+use App\Models\Common\Saleman;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+use App\Models\Common\TransportType;
+use App\Models\Common\Port;
+use App\Models\Common\Customer;
+use App\Models\Status\RefDocumentStatus;
 
 class JobOrder extends Model
 {
     use HasFactory;
 
     protected $table = 'joborder';
+
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'documentID';
 
     protected $fillable = [
         'comCode',
@@ -67,13 +78,10 @@ class JobOrder extends Model
         'cus_paid',
         'total_netamt',
         'documentstatus',
-
-
         'createID',
         'createTime',
         'editID',
         'editTime',
-
         'freetime',
         'freetimeEXP',
         'feederVOY',
@@ -136,16 +144,58 @@ class JobOrder extends Model
         'cus_paid' => 'float',
         'total_netamt' => 'float',
         'documentstatus' => 'string',
-
-
         'createID' => 'string',
         'createTime' => 'datetime:Y-m-d H:M',
         'editID' => 'string',
         'editTime' => 'datetime:Y-m-d H:M',
-
         'freetime' => 'string',
         'freetimeEXP' => 'date:Y-m-d',
         'feederVOY' => 'string',
         'vesselVOY' => 'string',
     ];
+
+    public function portLanding(): HasOne
+    {
+        return $this->hasOne(Port::class, 'portCode', 'port_of_landing');
+    }
+
+
+    public function portDischarge(): HasOne
+    {
+        return $this->hasOne(Port::class, 'portCode', 'port_of_discharge');
+    }
+
+    public function freightRef(): HasOne
+    {
+        return $this->hasOne(TransportType::class, 'transportCode', 'freight');
+    }
+
+    // public function bill_of_landing(): HasOne {
+
+    // }
+
+    public function docStatus(): HasOne
+    {
+        return $this->hasOne(RefDocumentStatus::class, 'status_code', 'documentstatus');
+    }
+
+    public function customer(): HasOne
+    {
+        return $this->hasOne(Customer::class, 'cusCode', 'cusCode');
+    }
+
+    public function salemanRef(): HasOne
+    {
+        return $this->hasOne(Saleman::class, 'usercode', 'saleman');
+    }
+
+    public function createBy(): HasOne
+    {
+        return $this->hasOne(User::class, 'userCode', 'createID');
+    }
+
+    public function editBy(): HasOne
+    {
+        return $this->hasOne(User::class, 'usercode', 'editID');
+    }
 }

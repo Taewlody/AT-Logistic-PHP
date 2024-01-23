@@ -1,15 +1,22 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Common;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
+use App\Casts\BooleanString;
+use App\Models\User;
 
 class Saleman extends Model
 {
     use HasFactory;
 
     protected $table = 'common_saleman';
+
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'empCode';
 
     protected $fillable = [
         'comCode',
@@ -42,4 +49,9 @@ class Saleman extends Model
         'editTime' => 'datetime:Y-m-d H:M',
         'isActive' => BooleanString::class
     ];
+
+    public function editBy(): HasOne
+    {
+        return $this->hasOne(User::class, 'usercode', 'editID');
+    }
 }

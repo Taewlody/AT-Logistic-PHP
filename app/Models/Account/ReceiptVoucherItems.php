@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Account;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 
 class ReceiptVoucherItems extends Model
@@ -10,6 +11,10 @@ class ReceiptVoucherItems extends Model
     use HasFactory;
 
     protected $table = 'receipt_voucher_items';
+
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'documentID';
 
     protected $fillable = [
         'autoid',

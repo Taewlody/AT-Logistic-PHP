@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Common;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Casts\BooleanString;
 
 class ContractPerson extends Model
 {
@@ -11,6 +12,9 @@ class ContractPerson extends Model
 
     protected $table = 'common_contractperson';
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'contactCode';
     protected $fillable = [
         'comCode',
         'contactCode',

@@ -3,15 +3,20 @@
 namespace App\Models\Common;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 use App\Casts\BooleanString;
-use Livewire\Wireable;
+use App\Models\User;
 
 class Country extends Model
 {
     use HasFactory;
 
     protected $table = 'common_country';
+
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'countryCode';
 
     protected $fillable = [
         'comCode',
@@ -50,6 +55,11 @@ class Country extends Model
             'editID',
             'editTime'
         ];
+    }
+
+    public function editBy(): HasOne
+    {
+        return $this->hasOne(User::class, 'userCode','editID');
     }
 
 }

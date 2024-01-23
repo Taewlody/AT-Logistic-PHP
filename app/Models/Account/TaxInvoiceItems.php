@@ -1,15 +1,20 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Account;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 
 class TaxInvoiceItems extends Model
 {
-    use HasFactory;
+    use HasFactory; 
 
     protected $table = 'tax_invoice_items';
+
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'documentID';
 
     protected $fillable = [
         'items',

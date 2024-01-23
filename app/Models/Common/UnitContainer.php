@@ -1,15 +1,20 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Common;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Casts\BooleanString;
 
 class UnitContainer extends Model
 {
     use HasFactory;
 
     protected $table = 'common_unit_container';
+
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'unitCode';
 
     protected $fillable = [
         'comCode',

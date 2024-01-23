@@ -8,6 +8,7 @@ use File;
 use Log;
 use Hash;
 use App\Hashing\Md5Hasher;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        Paginator::useBootstrap();
 
         Hash::extend('md5', static function () {
             return new Md5Hasher();

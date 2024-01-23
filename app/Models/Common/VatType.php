@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Common;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Casts\BooleanString;
 
 class VatType extends Model
 {
@@ -11,6 +12,10 @@ class VatType extends Model
 
     protected $table = 'common_vattype';
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'typeCode';
+    
     protected $fillable = [
         'comCode',
         'typeCode',

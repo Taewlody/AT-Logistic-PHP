@@ -1,15 +1,24 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Account;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Common\Customer;
+use App\Models\Common\Saleman;
+use App\Models\Common\TransportType;
+use App\Models\User;
 
 class Invoice extends Model
 {
     use HasFactory;
 
     protected $table = 'invoice';
+
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'documentID';
 
     protected $fillable = [
         'comCode',
@@ -78,4 +87,22 @@ class Invoice extends Model
         'total_netamt' => 'float',
         'taxivRef' => 'string',
     ];
+
+    public function customer(): HasOne
+    {
+        return $this->hasOne(Customer::class, 'cusCode', 'cusCode');
+    }
+
+    public function saleman(): HasOne
+    {
+        return $this->hasOne(Saleman::class, 'empCode', 'saleman');
+    }
+
+    public function transport(): HasOne{
+        return $this->hasOne(TransportType::class, 'transportCode', 'freight');
+    }
+
+    public function user(): HasOne{
+        return $this->hasOne(User::class, 'userCode', 'createID');
+    }
 }

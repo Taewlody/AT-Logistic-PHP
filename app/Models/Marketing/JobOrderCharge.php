@@ -1,15 +1,20 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Marketing;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Common\Charges;
 
 class JobOrderCharge extends Model
 {
     use HasFactory;
 
     protected $table = 'joborder_charge';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'documentID';
 
     protected $fillable = [
         'items',
@@ -34,4 +39,9 @@ class JobOrderCharge extends Model
         'chargesReceive' => 'float',
         'chargesbillReceive' => 'float',
     ];
+
+    public function charges(): HasOne
+    {
+        return $this->hasOne(Charges::class, 'chargeCode', 'chargeCode');
+    }
 }

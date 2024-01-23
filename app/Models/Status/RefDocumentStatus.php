@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Status;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 
 class RefDocumentStatus extends Model

@@ -1,15 +1,22 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Common;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Casts\BooleanString;
+use App\Models\User;
 
 class Customer extends Model
 {
     use HasFactory;
 
     protected $table = 'common_customer';
+
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'cusCode';
 
     protected $fillable = [
         'comCode',
@@ -68,4 +75,9 @@ class Customer extends Model
         'editID' => 'string',
         'editTime' => 'datetime:Y-m-d H:M'
     ];
+
+    public function editBy(): HasOne
+    {
+        return $this->hasOne(User::class, 'userCode','editID');
+    }
 }

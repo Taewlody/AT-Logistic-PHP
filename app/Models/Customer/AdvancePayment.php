@@ -1,9 +1,16 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Customer;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
+
+use App\Models\User;
+use App\Models\Common\Customer;
+use App\Models\Common\Feeder;
+use App\Models\Status\RefDocumentStatus;
+use App\Models\Marketing\JobOrder;
 
 class AdvancePayment extends Model
 {
@@ -56,4 +63,19 @@ class AdvancePayment extends Model
         'accountCode' => 'string',
         'dueTime' => 'string'
     ];
+
+    public function jobOrder(): HasOne
+    {
+        return $this->hasOne(JobOrder::class, 'documentID', 'refJobNo');
+    }
+
+    public function docStatus(): HasOne
+    {
+        return $this->hasOne(RefDocumentStatus::class, 'status_code', 'documentstatus');
+    }
+
+    public function editBy(): HasOne
+    {
+        return $this->hasOne(User::class, 'usercode', 'editID');
+    }
 }

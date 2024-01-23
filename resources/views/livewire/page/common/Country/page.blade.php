@@ -1,15 +1,5 @@
 <div>
-    <div class="row wrapper border-bottom white-bg page-heading">
-        <div class="col-lg-10">
-            <h2>Country / ประเทศ</h2>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"> <a>Home</a></li>
-                <li class="breadcrumb-item"> <a>Common Data</a></li>
-                <li class="breadcrumb-item"> <a>Country</a> </li>
-            </ol>
-        </div>
-        <div class="col-lg-2"> </div>
-    </div>
+    <livewire:component.page-heading title_en="Country" title_th="ประเทศ" breadcrumb_title="Common Data" breadcrumb_page="Country" />
 
     <div class="wrapper wrapper-content animated fadeInRight">
 
@@ -30,35 +20,36 @@
                             {{-- <livewire:page.common.country.table :data="$countries"/> --}}
 
                             <table class="footable table table-stripped toggle-arrow-tiny"
-                                data-page-size="{{ $countries->total() }}" data-filter=#filter>
+                                data-page-size="{{ $data->total() }}" data-filter=#filter>
                                 <thead>
                                     <tr>
                                       <th style="width:5%">No.</th>
                                       <th style="width:10%">Code</th>
                                       <th style="width:40%">Country Name</th>
                                       <th  style="width:10%">Status</th>
-                                      <th data-hide="phone"  style="width:10%">Update By</th>
-                                      <th data-hide="phone,tablet"  style="width:10%">Action</th>
+                                      <th data-hide="phone" style="width:10%">Update By</th>
+                                      <th data-hide="phone,tablet" style="width:10%">Action</th>
                                     </tr>
                                   </thead>
                                     <tbody>
-                                        @foreach ($countries as $country)
+                                        @foreach ($data as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $country->countryCode }}</td>
-                                            <td>{{ $country->countryNameTH }}</td>
-                                            <td>{{ $country->isActive }}</td>
-                                            <td>{{ $country->editID }}</td>
+                                            <td>{{ $item->countryCode }}</td>
+                                            <td>{{ $item->countryNameTH }}</td>
+                                            <td class="center"><span @class(['label', 'label-primary' => $item->isActive])>{{ $item->isActive ? 'Active' : 'Disable' }}</span></td>
+                                            <td class="center">{{ $item->editBy != null? $item->editBy->username : '' }}</td>
                                             <td>
-                                                <a href="country_form?action=edit&id={{ $country->id }}"
-                                                    class="btn btn-primary btn-xs"><i class="fa fa-pencil"> </i> Edit </a>
-                                                <a href="country_form?action=delete&id={{ $country->id }}"
-                                                    class="btn btn-danger btn-xs"><i class="fa fa-trash"> </i> Delete </a>
+                                                <div class="btn-group">
+                                                    <button class="btn-white btn btn-xs" onClick="location.href='port_form?action=view&portCode={{ $item->portCode }}">View</button>
+                                                    <button class="btn-white btn btn-xs" onClick="location.href='port_form?action=edit&portCode={{ $item->portCode }}">Edit</button>
+                                                    <button class="btn-white btn btn-xs" onClick="return confirmDel('{{ $item->portCode }}','port_action.php');">Delete</button>
+                                                </div>
                                             </td>
                                         </tr>
                                         @endforeach
                             </table>
-                            {{ $countries->links() }}
+                            {{ $data->appends(['sort'])->links() }}
 
 
                         </div>

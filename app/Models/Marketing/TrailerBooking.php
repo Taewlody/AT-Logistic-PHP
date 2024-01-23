@@ -1,15 +1,27 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Marketing;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Common\Feeder;
+use App\Models\Common\Customer;
+use App\Models\Common\Saleman;
+use App\Models\Common\Supplier;
+use App\Models\Marketing\JobOrder;
+use App\Models\Status\RefDocumentStatus;
+use App\Models\User;
 
 class TrailerBooking extends Model
 {
     use HasFactory;
 
     protected $table = 'trailer_booking';
+
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'documentID';
 
     protected $fillable = [
         'comCode',
@@ -39,7 +51,6 @@ class TrailerBooking extends Model
         'documentDate' => 'date: Y-m-d',
         'ref_jobID' => 'string',
         'cusCode' => 'string',
-
         'feeder' => 'string',
         'agent' => 'string',
         'tocompany' => 'string',
@@ -55,4 +66,35 @@ class TrailerBooking extends Model
         'editID' => 'string',
         'editTime' => 'datetime:Y-m-d H:M',
     ];
+
+    public function customer(): HasOne
+    {
+        return $this->hasOne(Customer::class, 'cusCode', 'cusCode');
+    }
+
+    public function feederRef(): HasOne
+    {
+        return $this->hasOne(Feeder::class, 'feederCode', 'feeder');
+    }
+
+    public function supplier(): HasOne
+    {
+        return $this->hasOne(Supplier::class, 'supCode', 'agent');
+    }
+
+    public function jobOrder(): HasOne
+    {
+        return $this->hasOne(JobOrder::class,'documentID','ref_jobID');
+    }
+
+    public function docStatus(): HasOne
+    {
+        return $this->hasOne(RefDocumentStatus::class, 'status_code', 'documentstatus');
+    }
+
+    public function editBy(): HasOne
+    {
+        return $this->hasOne(User::class, 'usercode', 'editID');
+    }
+
 }

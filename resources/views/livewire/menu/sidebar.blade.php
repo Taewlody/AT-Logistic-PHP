@@ -12,22 +12,22 @@
                 <div class="logo-element"> ATS</div>
             </li>
             @foreach ($mainMenu as $menu)
-                <li wire.model.live @class(['active' => $ActiveMenu == $menu['name']])
-                    wire:click="update('{{ $menu['name'] }}')">
-                    <a wire:click="update('{{ $menu['name'] }}')" aria-expanded="false"><i
-                            class="{{ $menu['icon'] }}"></i> <span class="nav-label">{{ $menu['name'] }}</span> <span
-                            class="fa arrow"></span></a>
+                <li @class(['active' => $ActiveMenu == $menu['name']]) wire:click="update('{{ $menu['name'] }}')">
+                    <a href="#" aria-expanded="false">
+                        <i class="{{ $menu['icon'] }}"></i> 
+                        <span class="nav-label">{{ $menu['name'] }}</span>
+                        <span class="fa arrow"></span>
+                        </a>
                     @if (array_key_exists('menu', $menu))
-                        <ul class="nav nav-second-level collapse @if ($ActiveMenu == $menu['name']) in @endif">
+                        <ul @class(['nav', 'nav-second-level', 'collapse', 'in' => $ActiveMenu == $menu['name']])>
                             @foreach ($menu['menu'] as $sub_menu)
                                 <li>
-                                    <a
-                                        href="@if (Route::has($sub_menu['route_name'])) {{ $sub_menu['route_name'] }} @else # @endif">{{ $sub_menu['name'] }}</a>
+                                    <a href="@if (Route::has($sub_menu['route_name'])) {{ $sub_menu['route_name'] }} @else # @endif">{{ $sub_menu['name'] }}</a>
                                 </li>
                             @endforeach
                         </ul>
                     @endif
-                    <span class="fa arrow"></span>
+                    {{-- <span class="fa arrow"></span> --}}
                 </li>
             @endforeach
         </ul>
@@ -36,15 +36,18 @@
 
 {{-- @push('script') --}}
 @script
-<script>
-    $wire.$on('click', (menu) => {
-        console.log("click", menu);
-    });
+    <script>
+        $wire.$on('click', (menu) => {
+            console.log("click", menu);
+        });
 
-    Livewire.hook('component.init', ({ component, cleanup }) => {
-        console.log("component.init", component);
-    });
+        Livewire.hook('component.init', ({
+            component,
+            cleanup
+        }) => {
+            console.log("component.init", component);
+        });
 
-    Alpine.data()
-</script>
+        Alpine.data()
+    </script>
 @endscript

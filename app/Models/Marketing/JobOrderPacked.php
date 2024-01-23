@@ -1,15 +1,21 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Marketing;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Common\Unit;
 
 class JobOrderPacked extends Model
 {
     use HasFactory;
 
     protected $table = 'joborder_packed';
+    
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'documentID';
 
     protected $fillable = [
         'items',
@@ -38,4 +44,9 @@ class JobOrderPacked extends Model
         'packaed_totalCBM' => 'float',
         'packaed_totalWeight' => 'float',
     ];
+
+    public function unit() : HasOne
+    {
+        return $this->hasOne(Unit::class, 'unitCode', 'packaed_unit');
+    }
 }

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Marketing;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 
 class JobOrderGoods extends Model
@@ -10,6 +11,10 @@ class JobOrderGoods extends Model
     use HasFactory;
 
     protected $table = 'joborder_goods';
+
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'documentID';
 
     protected $fillable = [
         'items',

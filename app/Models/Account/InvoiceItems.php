@@ -1,15 +1,21 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Account;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Common\Charges;
 
 class InvoiceItems extends Model
 {
     use HasFactory;
 
     protected $table = 'invoice_items';
+
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'documentID';
 
     protected $fillable = [
         'items',
@@ -32,4 +38,9 @@ class InvoiceItems extends Model
         'chargesReceive' => 'float',
         'chargesbillReceive' => 'float',
     ];
+
+    public function charges(): HasOne
+    {
+        return $this->hasOne(Charges::class, 'chargeCode', 'chargeCode');
+    }
 }

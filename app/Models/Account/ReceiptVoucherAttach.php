@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Account;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 
 class ReceiptVoucherAttach extends Model
@@ -10,6 +11,10 @@ class ReceiptVoucherAttach extends Model
     use HasFactory;
 
     protected $table = 'receipt_voucher_attach';
+
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'documentID';
 
     protected $fillable = [
         'items',

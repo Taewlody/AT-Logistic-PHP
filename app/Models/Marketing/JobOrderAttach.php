@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Marketing;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,6 +11,10 @@ class JobOrderAttach extends Model
 
     protected $table = 'joborder_attach';
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'documentID';
+    
     protected $fillable = [
         'items',
         'comCode',

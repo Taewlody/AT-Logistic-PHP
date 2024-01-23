@@ -1,15 +1,22 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Common;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
+use App\Casts\BooleanString;
+use App\Models\User;
 
 class Supplier extends Model
 {
     use HasFactory;
 
     protected $table = 'common_supplier';
+
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'supCode';
 
     protected $fillable = [
         'comCode',
@@ -66,4 +73,9 @@ class Supplier extends Model
         'editTime' => 'datetime:Y-m-d H:M',
         'supType' => 'string'
     ];
+
+    public function editBy(): HasOne
+    {
+        return $this->hasOne(User::class, 'userCode','editID');
+    }
 }

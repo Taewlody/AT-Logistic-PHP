@@ -1,15 +1,24 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Marketing;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+use App\Models\Common\Customer;
+use App\Models\Common\Feeder;
+use App\Models\Status\RefDocumentStatus;
 
 class BillOfLading extends Model
 {
     use HasFactory;
 
     protected $table = 'bill_of_lading';
+
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'documentID';
 
     protected $fillable = [
         'comCode',
@@ -52,4 +61,29 @@ class BillOfLading extends Model
         'editID' => 'string',
         'editTime' => 'datetime:Y-m-d H:M',
     ];
+
+    public function customer(): HasOne
+    {
+        return $this->hasOne(Customer::class, 'cusCode', 'cusCode');
+    }
+
+    public function feederRef(): HasOne
+    {
+        return $this->hasOne(Feeder::class, 'feederCode', 'feeder');
+    }
+
+    public function jobOrder(): HasOne
+    {
+        return $this->hasOne(JobOrder::class,'documentID','ref_jobID');
+    }
+
+    public function docStatus(): HasOne
+    {
+        return $this->hasOne(RefDocumentStatus::class, 'status_code', 'documentstatus');
+    }
+
+    public function editBy(): HasOne
+    {
+        return $this->hasOne(User::class, 'usercode', 'editID');
+    }
 }

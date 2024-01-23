@@ -13,7 +13,7 @@ class Sidebar extends Component
     #[Locked]
     public $mainMenu = [
         [
-            'name' => 'Dashboard', 
+            'name' => 'Dashboards', 
             'icon' => 'fa fa-th-large', 
             'menu' => [
                 ['name' => 'Dashboard', 'route_name' => 'dashboard']
@@ -74,7 +74,7 @@ class Sidebar extends Component
             ]
         ],
        [
-            'name' => 'Accounting',
+            'name' => 'Account',
             'icon' => 'fa fa-folder-open',
             'menu' => [
                 ['name' => 'Invoice', 'route_name' => 'invoice'],
@@ -105,7 +105,7 @@ class Sidebar extends Component
         ],
         [
             'name' => 'Administrator',
-            'icon' => 'fa fa-cog',
+            'icon' => 'fa fa-cogs',
             'menu' => [
                 ['name' => 'UserType', 'route_name' => 'user-type'],
                 ['name' => 'User', 'route_name' => 'user'],
@@ -117,18 +117,18 @@ class Sidebar extends Component
     
     public function mount()
     {
-        $this->ActiveMenu = $ActiveMenu ?? '';
+        $this->ActiveMenu;
         // $this->emit('update', ["mainMenu" => $this->mainMenu]);
         $this->mainMenu;
     }
 
     // #[Computed]
     public function update(String $ActiveMenu) {
-        // if($this->ActiveMenu == $ActiveMenu){
-        //     $this->ActiveMenu = "";
-        // }else{
+        if($this->ActiveMenu == $ActiveMenu){
+            $this->ActiveMenu = "";
+        }else{
             $this->ActiveMenu = $ActiveMenu;
-        // }
+        }
         // $this->dispatch('update', ActiveMenu: $this->ActiveMenu);
 
     }
