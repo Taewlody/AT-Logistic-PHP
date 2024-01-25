@@ -69,6 +69,11 @@ class AdvancePayment extends Model
         return $this->hasOne(JobOrder::class, 'documentID', 'refJobNo');
     }
 
+    public function customer(): HasOne
+    {
+        return $this->hasOne(Customer::class,'cusCode', 'cusCode');
+    }
+
     public function docStatus(): HasOne
     {
         return $this->hasOne(RefDocumentStatus::class, 'status_code', 'documentstatus');

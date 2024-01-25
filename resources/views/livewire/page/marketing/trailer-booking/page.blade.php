@@ -1,5 +1,5 @@
 <div>
-    <livewire:component.page-heading title_en="Trailer Booking" title_th="ใบจองหัวราก" breadcrumb_title="Marketing"
+    <livewire:component.page-heading title_main="Trailer Booking" title_sub="ใบจองหัวราก" breadcrumb_title="Marketing"
         breadcrumb_page="Trailer Booking" />
 
     <div class="wrapper wrapper-content animated fadeInRight ecommerce">

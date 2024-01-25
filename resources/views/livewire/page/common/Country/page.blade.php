@@ -1,5 +1,5 @@
 <div>
-    <livewire:component.page-heading title_en="Country" title_th="ประเทศ" breadcrumb_title="Common Data" breadcrumb_page="Country" />
+    <livewire:component.page-heading title_main="Country" title_sub="ประเทศ" breadcrumb_title="Common Data" breadcrumb_page="Country" />
 
     <div class="wrapper wrapper-content animated fadeInRight">
 

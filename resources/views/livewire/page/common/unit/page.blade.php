@@ -1,5 +1,5 @@
 <div>
-    <livewire:component.page-heading title_en="Unit" title_th="หน่วยนับ" breadcrumb_title="Common Data"
+    <livewire:component.page-heading title_main="Unit" title_sub="หน่วยนับ" breadcrumb_title="Common Data"
         breadcrumb_page="Unit" />
 
     <div class="wrapper wrapper-content animated fadeInRight">

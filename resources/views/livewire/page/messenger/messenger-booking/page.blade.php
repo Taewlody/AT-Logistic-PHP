@@ -1,6 +1,6 @@
 <div>
-    <livewire:component.page-heading title_main="Job Orders" title_sub="ใบสั่งงาน" breadcrumb_title="Marketing"
-        breadcrumb_page="Job Orders" />
+    <livewire:component.page-heading title_main="Messenger Booking" breadcrumb_title="Messenger"
+        breadcrumb_page="Messenger Booking" />
 
     <div class="wrapper wrapper-content animated fadeInRight ecommerce">
 
@@ -32,57 +32,38 @@
                                         autocomplete="off">
                                 </div>
                             </div>
+                            <div class="form-group" >
+                                <label class="font-normal">Document No.</label>
+                                <div class="input-group">
+                                  <input type="text" id="documentID" name="documentID" class="form-control" wire:model.live="documentNo">
+                                </div>
+                              </div>
+                                
+                          {{-- <div class="form-group" >
+                                <label class="font-normal">Job No.</label>
+                                <div class="input-group">
+                                  <input type="text" id="refJobNo" name="refJobNo" class="form-control" wire:model.live="jobNo">
+                                </div>
+                              </div> --}}
                             <div class="form-group col-margin0">
-                                <label class="font-normal">Customer</label>
+                                <label class="font-normal">Job Type</label>
                                 <div>
                                     <select class="select2_single form-control select2" style="width:300px;"
                                         name="cusCode" id="cusCode" wire:model.live="customerSearch">
                                         <option value="">- select -</option>
-                                        @foreach ($customerList as $customer)
+                                        {{-- @foreach ($customerList as $customer)
                                             <option value="{{ $customer->cusCode }}">
                                                 {{ $customer->custNameEN }}</option>
-                                        @endforeach
+                                        @endforeach --}}
+                                        <option value="1">รับเอกสาร</option>
+							            <option value="1">วางบิล/รับเชค</option>
                                     </select>
-                                </div>
-                            </div>
-                            <div class="form-group col-margin0">
-                                <label class="font-normal">Sale</label>
-                                <div class="input-group">
-                                    <div class="">
-                                        <select class="select2_single form-control select2" style="width: 200px;"
-                                            name="saleman" id="saleman" wire:model.live="salemanSearch">
-                                            <option value="">- select -</option>
-                                            @foreach ($salemanList as $saleman)
-                                                <option value="{{ $saleman->empCode }}">
-                                                    {{ $saleman->empName }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group col-margin0">
-                                <label class="font-normal">เลขที่ JOB</label>
-                                <div class="input-group">
-                                    <div class="">
-                                        <input type='text' name='documentID' class='form-control' id="documentID"
-                                            wire:model.live="documentID">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group col-margin0">
-                                <label class="font-normal">Invoice</label>
-                                <div class="input-group">
-                                    <div class="">
-                                        <input type='text' name='invNo' class='form-control' id="invNo"
-                                            wire:mode.live="invNo">
-                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="font-normal" style="color: wheat">.</label>
                                 <div class="input-group">
-                                    <button type="submit" class="btn btn-primary">Search</button>&nbsp;
-                                    <button type="button" id="btnClear" class="btn btn-default">Clear</button>
+                                    <button type="submit" class="btn btn-primary">Search</button>
                                 </div>
                             </div>
                         </div>
@@ -98,28 +79,34 @@
                     <div class="ibox-content">
 
 
-                        <table class="footable table table-stripped toggle-arrow-tiny"
-                            data-page-size="{{ $data->total() }}" data-filter=#filter>
+                        {{-- <table class="footable table table-stripped toggle-arrow-tiny"
+                            data-page-size="{{ $data->total() }}" data-filter=#filter> --}}
+                            <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15">
+
                             <thead>
                                 <tr>
                                     <th width="5%">No.</th>
                                     <th data-toggle="true" width="10%">Document  No.</th>
-                                    <th data-hide="phone" width="15%">Job Date</th>
-                                    <th data-toggle="true" width="35%">Customer</th>
-                                    <th data-hide="phone,tablet" width="10%">Sale</th>
-                                    <th width="10%">Status</th>
-                                    <th data-hide="phone,tablet" data-sort-ignore="true" width="15%">Action</th>
+                                    <th data-hide="phone" width="15%"> Date</th>
+                                    <th data-toggle="true" width="25%">Messenger</th>
+                                    
+                                    <th data-hide="phone,tablet" width="15%">Job Type</th>
+                                
+                                    <th data-hide="phone,tablet" width="15%">Status</th>
+                                    <th class="text-center" data-sort-ignore="true" width="15%">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($data as $item)
+                                {{-- @foreach ($data as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->documentID }}</td>
                                         <td>{{ $item->documentDate }}</td>
-                                        <td>{{ $item->customer != null ? $item->customer->custNameEN : '' }}</td>
-                                        <td>{{ $item->salemanRef != null ? $item->salemanRef->empName : '' }}</td>
+                                        <td>{{ $item->customer != null ? $item->customer->custNameTH : '' }}</td>
+                                        
 
+                                        <td>{{ $item->refJobNo }}</td>
+                                        <td>{{ $item->sumTotal }}</td>
                                         @if ($item->docStatus != null)
                                             <td class="center"><span
                                                     @class([
@@ -150,10 +137,48 @@
                                             </div>
                                         </td>
                                     </tr>
-                                @endforeach
-                        </table>
-                        {{ $data->appends(['sort'])->links() }}
+                                @endforeach --}}
 
+                                <tr>
+                                    <td>1</td>
+                                    <td>INV2106-001</td>
+                                    <td>16/6/2021</td>
+                                    <td>Messenger</td>
+                             
+                                    <td>รับเชค/วางบิล</td>
+                                  
+                                    <td><span class="label label-primary">Approve</span></td>
+                                    <td class="text-right"><div class="btn-group">
+                                        <button class="btn-white btn btn-xs">View</button>
+                                        <button class="btn-white btn btn-xs">Edit</button>
+                                        <button class="btn-white btn btn-xs">Delete</button>
+                                      </div></td>
+                                  </tr>
+                                  <tr>
+                                    <td>2</td>
+                                    <td>INV2106-002</td>
+                                    <td>16/6/2021</td>
+                                    <td>Messenger</td>
+                                    
+                                    
+                                    <td>ส่งเอกสาร</td>
+                                   
+                                    <td><span class="label label-primary">Approve</span></td>
+                                    <td class="text-right"><div class="btn-group">
+                                        <button class="btn-white btn btn-xs">View</button>
+                                        <button class="btn-white btn btn-xs">Edit</button>
+                                        <button class="btn-white btn btn-xs">Delete</button>
+                                      </div></td>
+                                  </tr>
+                                </tbody>
+                                <tfoot>
+                                  <tr>
+                                    <td colspan="10"><ul class="pagination float-left">
+                                      </ul></td>
+                                  </tr>
+                                </tfoot>
+                        </table>
+                        {{-- {{ $data->appends(['sort'])->links() }} --}}
                     </div>
                 </div>
             </div>

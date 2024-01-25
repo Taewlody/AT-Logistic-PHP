@@ -1,5 +1,5 @@
 <div>
-    <livewire:component.page-heading title_en="Container Type" title_th="ประเภทตู้คอนเทนเนอร์" breadcrumb_title="Common Data" breadcrumb_page="Container Type" />
+    <livewire:component.page-heading title_main="Container Type" title_sub="ประเภทตู้คอนเทนเนอร์" breadcrumb_title="Common Data" breadcrumb_page="Container Type" />
 
     <div class="wrapper wrapper-content animated fadeInRight">
 

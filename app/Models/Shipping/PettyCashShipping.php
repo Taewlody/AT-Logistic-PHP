@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\User;
+use App\Models\Common\Supplier;
+use App\Models\Status\RefDocumentStatus;
+use App\Models\Marketing\JobOrder;
+
 class PettyCashShipping extends Model
 {
     use HasFactory;
@@ -43,4 +48,24 @@ class PettyCashShipping extends Model
         'editID' => 'string',
         'editTime' => 'datetime:Y-m-d H:M',
     ];
+
+    public function jobOrder(): HasOne
+    {
+        return $this->hasOne(JobOrder::class, 'documentID', 'refJobNo');
+    }
+
+    public function supplier(): HasOne
+    {
+        return $this->hasOne(Supplier::class,'supCode', 'supCode');
+    }
+
+    public function docStatus(): HasOne
+    {
+        return $this->hasOne(RefDocumentStatus::class, 'status_code', 'documentstatus');
+    }
+
+    public function editBy(): HasOne
+    {
+        return $this->hasOne(User::class, 'usercode', 'editID');
+    }
 }

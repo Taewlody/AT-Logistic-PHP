@@ -1,5 +1,5 @@
 <div>
-    <livewire:component.page-heading title_en="Transport Type" title_th="ประเภทการขนส่ง" breadcrumb_title="Common Data"
+    <livewire:component.page-heading title_main="Transport Type" title_sub="ประเภทการขนส่ง" breadcrumb_title="Common Data"
         breadcrumb_page="Transport Type" />
 
     <div class="wrapper wrapper-content animated fadeInRight">

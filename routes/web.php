@@ -32,6 +32,12 @@ use App\Livewire\Page\Common\Currency\Page as Currency;
 use App\Livewire\Page\Marketing\JobOrder\Page as JobOrder;
 use App\Livewire\Page\Marketing\TrailerBooking\Page as TrailerBooking;
 use App\Livewire\Page\Marketing\BillOfLading\Page as BillOfLading;
+use App\Livewire\Page\Customer\AdvancePayment\Page as AdvancePayment;
+use App\Livewire\Page\Shipping\PaymentVoucher\Page as PaymentVoucher;
+use App\Livewire\Page\Shipping\PettyCash\Page as PettyCash;
+use App\Livewire\Page\Shipping\Deposit\Page as Deposit;
+use App\Livewire\Page\Messenger\CalendarBooking\Page as CalendarBooking;
+use App\Livewire\Page\Messenger\MessengerBooking\Page as MessengerBooking;
 
  Route::group([
     'prefix' => '/AT',
@@ -89,6 +95,18 @@ use App\Livewire\Page\Marketing\BillOfLading\Page as BillOfLading;
     Route::get('/trailer-booking', TrailerBooking::class)->name('trailer-booking');
 
     Route::get('/bill-of-lading', BillOfLading::class)->name('bill-of-lading');
+
+    Route::get('/advance-payment', AdvancePayment::class)->name('advance-payment');
+
+    Route::get('/payment-voucher', PaymentVoucher::class)->name('payment-voucher');
+
+    Route::get('/petty-cash', PettyCash::class)->name('petty-cash');
+
+    Route::get('/deposit', Deposit::class)->name('deposit');
+
+    Route::get("/calendar-booking", CalendarBooking::class)->name('calendar-booking');
+
+    Route::get("/messanger-booking", MessengerBooking::class)->name('messanger-booking');
 
 });
 

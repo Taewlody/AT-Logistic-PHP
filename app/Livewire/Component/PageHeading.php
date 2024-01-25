@@ -7,16 +7,16 @@ use Livewire\Component;
 class PageHeading extends Component
 {
 
-    public $title_en;
-    public $title_th;
+    public $title_main;
+    public $title_sub = "";
     public $breadcrumb_main = "Home";
     public $breadcrumb_title;
     public $breadcrumb_page;
 
-    public function mount(String $title_en, String $title_th, String $breadcrumb_title, String $breadcrumb_page, String|null $breadcrumb_main = null,)
+    public function mount(String $title_main, String $breadcrumb_title, String $breadcrumb_page, String|null $title_sub = null, String|null $breadcrumb_main = null,)
     {
-        $this->title_en = $title_en;
-        $this->title_th = $title_th;
+        $this->title_main = $title_main;
+        $this->title_sub = $title_sub ?? $this->title_sub;
         $this->breadcrumb_main = $breadcrumb_main ?? $this->breadcrumb_main;
         $this->breadcrumb_title = $breadcrumb_title;
         $this->breadcrumb_page = $breadcrumb_page;

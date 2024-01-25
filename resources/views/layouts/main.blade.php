@@ -22,6 +22,7 @@
     {{-- <title>@yield('title')</title> --}}
     <title>AT Logistic Management System</title>
     @stack('css')
+    @stack('scripts')
 
 </head>
 <body class="pace-done">

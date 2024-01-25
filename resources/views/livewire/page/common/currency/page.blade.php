@@ -1,5 +1,5 @@
 <div>
-    <livewire:component.page-heading title_en="Currency" title_th="สกุลเงิน" breadcrumb_title="Common Data"
+    <livewire:component.page-heading title_main="Currency" title_sub="สกุลเงิน" breadcrumb_title="Common Data"
         breadcrumb_page="Currency" />
 
     <div class="wrapper wrapper-content animated fadeInRight">

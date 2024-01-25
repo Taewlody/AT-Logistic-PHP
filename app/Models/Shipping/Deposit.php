@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\User;
+use App\Models\Common\Customer;
+use App\Models\Status\RefDocumentStatus;
+use App\Models\Marketing\JobOrder;
+
 class Deposit extends Model
 {
     use HasFactory;
@@ -59,4 +64,25 @@ class Deposit extends Model
         'accountCode' => 'string',
         'dueTime' => 'time: H:M',
     ];
+
+    public function jobOrder(): HasOne
+    {
+        return $this->hasOne(JobOrder::class, 'documentID', 'refJobNo');
+    }
+
+    public function customer(): HasOne
+    {
+        return $this->hasOne(Customer::class,'cusCode', 'cusCode');
+    }
+
+    public function docStatus(): HasOne
+    {
+        return $this->hasOne(RefDocumentStatus::class, 'status_code', 'documentstatus');
+    }
+
+    public function editBy(): HasOne
+    {
+        return $this->hasOne(User::class, 'usercode', 'editID');
+    }
+    
 }

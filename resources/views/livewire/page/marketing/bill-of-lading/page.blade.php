@@ -1,5 +1,5 @@
 <div>
-    <livewire:component.page-heading title_en="Bill of lading" title_th="ใบตราส่งสินค้า" breadcrumb_title="Marketing"
+    <livewire:component.page-heading title_main="Bill of lading" title_sub="ใบตราส่งสินค้า" breadcrumb_title="Marketing"
         breadcrumb_page="Bill of lading" />
 
     <div class="wrapper wrapper-content animated fadeInRight ecommerce">

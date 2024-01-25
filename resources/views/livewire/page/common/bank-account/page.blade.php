@@ -1,5 +1,5 @@
 <div>
-    <livewire:component.page-heading title_en="Common Data" title_th="Bank Account" breadcrumb_title="Common Data"
+    <livewire:component.page-heading title_main="Common Data" title_sub="Bank Account" breadcrumb_title="Common Data"
         breadcrumb_page="Bank Account" />
 
     <div class="wrapper wrapper-content animated fadeInRight">

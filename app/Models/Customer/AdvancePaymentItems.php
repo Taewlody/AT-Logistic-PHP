@@ -2,6 +2,7 @@
 
 namespace App\Models\Customer;
 
+use App\Models\Common\Charges; // Add the missing import statement
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
@@ -31,4 +32,9 @@ class AdvancePaymentItems extends Model
         'chartDetail' => 'string',
         'amount' => 'float',
     ];
+
+    public function charge(): HasOne
+    {
+        return $this->hasOne(Charges::class, 'chargeCode', 'chargeCode');
+    }
 }

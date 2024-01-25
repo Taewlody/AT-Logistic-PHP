@@ -146,7 +146,7 @@ $('.footable').footable();
                       </div>
                     </div>
                 <div class="form-group" >
-                      <label class="font-normal">Document  No.</label>
+                      <label class="font-normal">Document No.</label>
                       <div class="input-group">
                         <input type="text" id="documentID" name="documentID" class="form-control" value="<?php echo $documentID;?>">
                       </div>

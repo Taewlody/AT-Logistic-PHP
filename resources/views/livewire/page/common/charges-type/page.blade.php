@@ -1,5 +1,5 @@
 <div>
-    <livewire:component.page-heading title_en="Charges Type" title_th="ประเภทค่าใช้จ่าย" breadcrumb_title="Common Data"
+    <livewire:component.page-heading title_main="Charges Type" title_sub="ประเภทค่าใช้จ่าย" breadcrumb_title="Common Data"
         breadcrumb_page="Charges Type" />
 
     <div class="wrapper wrapper-content animated fadeInRight">

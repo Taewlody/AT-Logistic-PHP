@@ -1,6 +1,6 @@
 <div>
-    <livewire:component.page-heading title_main="Job Orders" title_sub="ใบสั่งงาน" breadcrumb_title="Marketing"
-        breadcrumb_page="Job Orders" />
+    <livewire:component.page-heading title_main="Petty Cash" title_sub="เงินสดย่อย" breadcrumb_title="Account"
+        breadcrumb_page="Petty Cash" />
 
     <div class="wrapper wrapper-content animated fadeInRight ecommerce">
 
@@ -32,6 +32,19 @@
                                         autocomplete="off">
                                 </div>
                             </div>
+                            <div class="form-group" >
+                                <label class="font-normal">Document  No.</label>
+                                <div class="input-group">
+                                  <input type="text" id="documentID" name="documentID" class="form-control" wire:model.live="documentNo">
+                                </div>
+                              </div>
+                                
+                          <div class="form-group" >
+                                <label class="font-normal">Job No.</label>
+                                <div class="input-group">
+                                  <input type="text" id="refJobNo" name="refJobNo" class="form-control" wire:model.live="jobNo">
+                                </div>
+                              </div>
                             <div class="form-group col-margin0">
                                 <label class="font-normal">Customer</label>
                                 <div>
@@ -45,7 +58,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group col-margin0">
+                            {{-- <div class="form-group col-margin0">
                                 <label class="font-normal">Sale</label>
                                 <div class="input-group">
                                     <div class="">
@@ -59,8 +72,8 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group col-margin0">
+                            </div> --}}
+                            {{-- <div class="form-group col-margin0">
                                 <label class="font-normal">เลขที่ JOB</label>
                                 <div class="input-group">
                                     <div class="">
@@ -77,12 +90,11 @@
                                             wire:mode.live="invNo">
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="form-group">
                                 <label class="font-normal" style="color: wheat">.</label>
                                 <div class="input-group">
-                                    <button type="submit" class="btn btn-primary">Search</button>&nbsp;
-                                    <button type="button" id="btnClear" class="btn btn-default">Clear</button>
+                                    <button type="submit" class="btn btn-primary">Search</button>
                                 </div>
                             </div>
                         </div>
@@ -103,12 +115,13 @@
                             <thead>
                                 <tr>
                                     <th width="5%">No.</th>
-                                    <th data-toggle="true" width="10%">Document  No.</th>
-                                    <th data-hide="phone" width="15%">Job Date</th>
-                                    <th data-toggle="true" width="35%">Customer</th>
-                                    <th data-hide="phone,tablet" width="10%">Sale</th>
-                                    <th width="10%">Status</th>
-                                    <th data-hide="phone,tablet" data-sort-ignore="true" width="15%">Action</th>
+                                    <th data-toggle="true" width="10%">Document No.</th>
+                                    <th data-hide="phone" width="15%">Document Date</th>
+                                    <th data-toggle="true" width="10%">RefJob</th>
+                                    <th data-toggle="true" width="35%">Supplier</th>
+                                    <th data-hide="phone,tablet" width="10%">Amount</th>
+                                    <th  width="10%">Status</th>
+                                    <th data-hide="phone,tablet"  data-sort-ignore="true" width="15%">Action</th>                               
                                 </tr>
                             </thead>
                             <tbody>
@@ -117,9 +130,13 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->documentID }}</td>
                                         <td>{{ $item->documentDate }}</td>
-                                        <td>{{ $item->customer != null ? $item->customer->custNameEN : '' }}</td>
-                                        <td>{{ $item->salemanRef != null ? $item->salemanRef->empName : '' }}</td>
+                                        
+                                        {{-- <td><a href="job_form?action=view&documentID={{$item->ref_jobID}}" target="blank">{{$item->ref_jobID}}</a></td> --}}
+                                        {{-- <td>{{ $item->jobOrder != null && $item->jobOrder->salemanRef != null ? $item->jobOrder->salemanRef->empName : '' }}</td> --}}
 
+                                        <td>{{ $item->refJobNo }}</td>
+                                        <td>{{ $item->supplier != null ? $item->supplier->supNameTH : '' }}</td>
+                                        <td>{{ $item->sumTotal }}</td>
                                         @if ($item->docStatus != null)
                                             <td class="center"><span
                                                     @class([
@@ -153,7 +170,6 @@
                                 @endforeach
                         </table>
                         {{ $data->appends(['sort'])->links() }}
-
                     </div>
                 </div>
             </div>
