@@ -32,6 +32,6 @@ class Page extends Component
 
     public function render()
     {
-        return view('livewire.page.marketing.job-order.page',[ 'data'=> JobOrder::paginate(50)])->extends('layouts.main')->section('content');
+        return view('livewire.page.marketing.job-order.page',[ 'data'=> JobOrder::paginate(50)])->extends('theme.layout.master')->section('main-content');
     }
 }
