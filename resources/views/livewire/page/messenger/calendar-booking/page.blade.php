@@ -1,30 +1,28 @@
-@push('css')
-    {{-- <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet"> --}}
-    {{-- <link href="{{ asset('assets/font-awesome/css/font-awesome.css') }}" rel="stylesheet"> --}}
-
-    <link href="{{ asset('assets/css/plugins/iCheck/custom.css') }}" rel="stylesheet">
-
-    <link href="{{ asset('assets/css/plugins/fullcalendar/fullcalendar.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/plugins/fullcalendar/fullcalendar.print.css') }}" rel='stylesheet' media='print'>
-
-    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
-
-@endpush
-
 @push('scripts')
-    <script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
-    <script src="{{ asset('assets/js/plugins/fullcalendar/moment.min.js')}}"></script>
-    <script src="{{ asset('assets/js/plugins/fullcalendar/fullcalendar.min.js')}}"></script>
+    <script src="js/plugins/fullcalendar/moment.min.js"></script>
+    <script src="js/plugins/fullcalendar/fullcalendar.min.js"></script>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+
+    <link href="css/plugins/fullcalendar/fullcalendar.css" rel="stylesheet">
+    <link href="css/plugins/fullcalendar/fullcalendar.print.css" rel='stylesheet' media='print'>
+
+
+    <link href="css/style.css" rel="stylesheet">
+
 
     <script>
         $(document).ready(function() {
 
 
 
-            // $('.i-checks').iCheck({
-            //     checkboxClass: 'icheckbox_square-green',
-            //     radioClass: 'iradio_square-green'
-            // });
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green'
+            });
 
             /* initialize the external events
              -----------------------------------------------------------------*/

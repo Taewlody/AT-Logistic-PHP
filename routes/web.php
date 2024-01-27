@@ -33,18 +33,11 @@ use App\Livewire\Page\Marketing\JobOrder\Page as JobOrder;
 use App\Livewire\Page\Marketing\TrailerBooking\Page as TrailerBooking;
 use App\Livewire\Page\Marketing\BillOfLading\Page as BillOfLading;
 use App\Livewire\Page\Customer\AdvancePayment\Page as AdvancePayment;
-use App\Livewire\Page\Shipping\PaymentVoucher\Page as PaymentVoucherShipping;
-use App\Livewire\Page\Shipping\PettyCash\Page as PettyCashShipping;
+use App\Livewire\Page\Shipping\PaymentVoucher\Page as PaymentVoucher;
+use App\Livewire\Page\Shipping\PettyCash\Page as PettyCash;
 use App\Livewire\Page\Shipping\Deposit\Page as Deposit;
 use App\Livewire\Page\Messenger\CalendarBooking\Page as CalendarBooking;
 use App\Livewire\Page\Messenger\MessengerBooking\Page as MessengerBooking;
-use App\Livewire\Page\Account\Invoice\Page as Invoice;
-use App\Livewire\Page\Account\TaxInvoice\Page as TaxInvoice;
-use App\Livewire\Page\Account\PaymentVoucher\Page as PaymentVoucherAccount;
-use App\Livewire\Page\Account\ReceiptVoucher\Page as ReceiptVoucher;
-use App\Livewire\Page\Account\BillingReceipt\Page as BillingReceipt;
-use App\Livewire\Page\Account\PettyCash\Page as PettyCashAccount;
-use App\Livewire\Page\Account\WithholdingTax\Page as WithholdingTax;
 
  Route::group([
     'prefix' => '/AT',
@@ -67,79 +60,53 @@ use App\Livewire\Page\Account\WithholdingTax\Page as WithholdingTax;
         return view('dashboard');
     })->name('dashboard');
 
-    Route::group(['prefix' => '/common',], function() {
-        Route::get('/country', Country::class)->name('country');
+    Route::get('/country', Country::class)->name('country');
 
-        Route::get('/port', Port::class)->name('port');
+    Route::get('/port', Port::class)->name('port');
 
-        Route::get('/customer', Customer::class)->name('customer');
+    Route::get('/customer', Customer::class)->name('customer');
 
-        Route::get('/supplier', Supplier::class)->name('supplier');
+    Route::get('/supplier', Supplier::class)->name('supplier');
 
-        Route::get('/saleman', Saleman::class)->name('saleman');
+    Route::get('/saleman', Saleman::class)->name('saleman');
 
-        Route::get('/feeder', Feeder::class)->name('feeder');
+    Route::get('/feeder', Feeder::class)->name('feeder');
 
-        Route::get('/charges', Charge::class)->name('charges');
+    Route::get('/charges', Charge::class)->name('charges');
 
-        Route::get('/bank-account', BankAccount::class)->name('bank-account');
+    Route::get('/bank-account', BankAccount::class)->name('bank-account');
 
-        Route::get('/charges-type', ChargeType::class)->name('charges-type');
+    Route::get('/charges-type', ChargeType::class)->name('charges-type');
 
-        Route::get('/transport-type', TransportType::class)->name('transport-type');
+    Route::get('/transport-type', TransportType::class)->name('transport-type');
 
-        Route::get('/container-type', ContainerType::class)->name('container-type');
+    Route::get('/container-type', ContainerType::class)->name('container-type');
 
-        Route::get('/container-size', ContainerSize::class)->name('container-size');
+    Route::get('/container-size', ContainerSize::class)->name('container-size');
 
-        Route::get('/place', Place::class)->name('place');
+    Route::get('/place', Place::class)->name('place');
 
-        Route::get('/unit', Unit::class)->name('unit');
+    Route::get('/unit', Unit::class)->name('unit');
 
-        Route::get('/currency', Currency::class)->name('currency');
-    });
-    
-    Route::group(['prefix' => '/marketing',], function() {
-        Route::get('/job-order', JobOrder::class)->name('job-order');
+    Route::get('/currency', Currency::class)->name('currency');
 
-        Route::get('/trailer-booking', TrailerBooking::class)->name('trailer-booking');
-    
-        Route::get('/bill-of-lading', BillOfLading::class)->name('bill-of-lading');
-    });
+    Route::get('/job-order', JobOrder::class)->name('job-order');
 
-    Route::group(['prefix' => '/customer',], function() {
-        Route::get('/advance-payment', AdvancePayment::class)->name('advance-payment');
-    });
+    Route::get('/trailer-booking', TrailerBooking::class)->name('trailer-booking');
 
-    Route::group(['prefix'=> 'shipping',], function() {
-        Route::get('/payment-voucher', PaymentVoucherShipping::class)->name('shipping-payment-voucher');
+    Route::get('/bill-of-lading', BillOfLading::class)->name('bill-of-lading');
 
-        Route::get('/petty-cash', PettyCashShipping::class)->name('shipping-petty-cash');
+    Route::get('/advance-payment', AdvancePayment::class)->name('advance-payment');
 
-        Route::get('/deposit', Deposit::class)->name('deposit');
-    });
-    
-    Route::group(['prefix'=> 'messenger',], function() {
-        Route::get("/calendar-booking", CalendarBooking::class)->name('calendar-booking');
+    Route::get('/payment-voucher', PaymentVoucher::class)->name('payment-voucher');
 
-        Route::get("/messanger-booking", MessengerBooking::class)->name('messanger-booking');
-    });
+    Route::get('/petty-cash', PettyCash::class)->name('petty-cash');
 
-    Route::group(['prefix'=> 'account',], function() {
-        Route::get("/invoice", Invoice::class)->name('invoice')
-        ;
-        Route::get("/tax-invoice", TaxInvoice::class)->name('tax-invoice');
+    Route::get('/deposit', Deposit::class)->name('deposit');
 
-        Route::get("/payment-voucher", PaymentVoucherAccount::class)->name('account-payment-voucher');
+    Route::get("/calendar-booking", CalendarBooking::class)->name('calendar-booking');
 
-        Route::get("/receipt-voucher", ReceiptVoucher::class)->name('receipt-voucher');
-
-        Route::get("/billing-receipt", BillingReceipt::class)->name('billing-receipt');
-
-        Route::get("/petty-cash", PettyCashAccount::class)->name('account-petty-cash');
-
-        Route::get("/withholding-tax", WithholdingTax::class)->name('withholding-tax');
-    });
+    Route::get("/messanger-booking", MessengerBooking::class)->name('messanger-booking');
 
 });
 
