@@ -11,6 +11,6 @@ class Page extends Component
     use WithPagination;
     public function render()
     {
-        return view('livewire.page.common.saleman.page', [ 'data'=> Saleman::paginate(50)])->extends('layouts.main')->section('content');
+        return view('livewire.page.common.saleman.page', [ 'data'=> Saleman::paginate(50)])->extends('theme.layout.master')->section('main-content');
     }
 }
