@@ -1,3 +1,5 @@
+<script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
+
 <script src="js/plugins/fullcalendar/moment.min.js"></script>
 <script src="js/plugins/fullcalendar/fullcalendar.min.js"></script>
 
@@ -12,7 +14,7 @@
 
     <link href="css/style.css" rel="stylesheet">
 
-
+    
 <script>
         $(document).ready(function(){
             
