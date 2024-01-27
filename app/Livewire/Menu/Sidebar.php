@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\Locked;
 
 // #[Lazy]
 class Sidebar extends Component
@@ -13,7 +14,8 @@ class Sidebar extends Component
     #[Locked]
     public $mainMenu = [
         [
-            'name' => 'Dashboards', 
+            'name' => 'Dashboards',
+            'menu_name' => 'dashboard', 
             'icon' => 'fa fa-th-large', 
             'menu' => [
                 ['name' => 'Dashboard', 'route_name' => 'dashboard']
@@ -21,6 +23,7 @@ class Sidebar extends Component
         ],
         [
             'name' => 'Common Data', 
+            'menu_name' => 'common',
             'icon' => 'fa fa-bars', 
             'menu' => [
                 ['name' => 'Country', 'route_name' => 'country'],
@@ -42,6 +45,7 @@ class Sidebar extends Component
          ],
         [
             'name' => 'Marketing',
+            'menu_name' => 'marketing',
             'icon' => 'fa fa-shopping-cart',
             'menu' => [
                 ['name' => 'Job Order', 'route_name' => 'job-order'],
@@ -51,6 +55,7 @@ class Sidebar extends Component
         ],
         [
             'name' => 'Customer',
+            'menu_name' => 'customer',
             'icon' => 'fa fa-user-circle-o',
             'menu' => [
                 ['name' => 'Advance Payment', 'route_name' => 'advance-payment'],
@@ -58,15 +63,17 @@ class Sidebar extends Component
         ],
         [
             'name' => 'Shipping',
+            'menu_name' => 'shipping',
             'icon' => 'fa fa-truck',
             'menu' => [
-                ['name' => 'Payment voucher', 'route_name' => 'payment-voucher'],
-                ['name' => 'Petty Cash', 'route_name' => 'petty-cash'],
+                ['name' => 'Payment voucher', 'route_name' => 'shipping-payment-voucher'],
+                ['name' => 'Petty Cash', 'route_name' => 'shipping-petty-cash'],
                 ['name' => 'Deposit', 'route_name' => 'deposit'],
             ]
         ],
         [
             'name' => 'Messenger',
+            'menu_name' => 'messenger',
             'icon' => 'fa fa-taxi',
             'menu' => [
                 ['name' => 'messenger booking', 'route_name' => 'messanger-booking'],
@@ -75,19 +82,21 @@ class Sidebar extends Component
         ],
        [
             'name' => 'Account',
+            'menu_name' => 'account',
             'icon' => 'fa fa-folder-open',
             'menu' => [
                 ['name' => 'Invoice', 'route_name' => 'invoice'],
                 ['name' => 'Tax Invoice', 'route_name' => 'tax-invoice'],
-                ['name' => 'Payment Voucher', 'route_name' => 'payment-voucher'],
+                ['name' => 'Payment Voucher', 'route_name' => 'account-payment-voucher'],
                 ['name' => 'Receipt Voucher', 'route_name' => 'receipt-voucher'],
                 ['name' => 'billing receipt', 'route_name' => 'billing-receipt'],
-                ['name' => 'Petty cash', 'route_name' => 'petty-cash'],
+                ['name' => 'Petty cash', 'route_name' => 'account-petty-cash'],
                 ['name' => 'Withholding Tax', 'route_name' => 'withholding-tax'],
             ]
         ],
         [
             'name' => 'Report',
+            'menu_name' => 'report',
             'icon' => 'fa fa-line-chart',
             'menu' => [
                 ['name' => 'งานระหว่างทำ', 'route_name' => 'report1'],
@@ -105,6 +114,7 @@ class Sidebar extends Component
         ],
         [
             'name' => 'Administrator',
+            'menu_name' => 'administrator',
             'icon' => 'fa fa-cogs',
             'menu' => [
                 ['name' => 'UserType', 'route_name' => 'user-type'],
