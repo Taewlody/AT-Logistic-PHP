@@ -11,7 +11,7 @@
 
  */
 :root {
-    --theme-default: #275070;
+    --theme-default: #78A3D4;
     --theme-secondary: #955670
 }
 
@@ -15297,13 +15297,13 @@ tr .icon img {
 
 .profile-greeting {
     position: relative;
-    background-color: #275070;
+    /* background-color: #275070; */
     height: 250px;
     border-radius: 20px
 }
 
 .profile-greeting .card-body {
-    background-color: #275070;
+    /* background-color: #275070; */
     border-radius: 20px
 }
 

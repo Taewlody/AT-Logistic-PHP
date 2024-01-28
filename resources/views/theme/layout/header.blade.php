@@ -26,15 +26,12 @@
           </li>
           <li class="profile-nav onhover-dropdown p-0 me-0">
             <div class="d-flex profile-media"><img class="b-r-50" src="{{ asset('assets/images/dashboard/profile.png') }}" alt="">
-              <div class="flex-grow-1"><span>Helen Walter</span>
-                <p class="mb-0 font-roboto">Admin <i class="middle fa fa-angle-down"></i></p>
+              <div class="flex-grow-1"><span>{{ Auth::user()->username }}</span>
+                <p class="mb-0 font-roboto">{{ Auth::user()->userTypecode }} <i class="middle fa fa-angle-down"></i></p>
               </div>
             </div>
             <ul class="profile-dropdown onhover-show-div">
-              <li><a><i data-feather="user"></i><span>Account </span></a></li>
-              <li><a><i data-feather="mail"></i><span>Inbox</span></a></li>
-              <li><a><i data-feather="file-text"></i><span>Taskboard</span></a></li>
-              <li><a><i data-feather="log-in"> </i><span>Log in</span></a></li>
+              <li><a href="{{ route('logout') }}"><i data-feather="log-in"> </i><span>Log Out</span></a></li>
             </ul>
           </li>
         </ul>
