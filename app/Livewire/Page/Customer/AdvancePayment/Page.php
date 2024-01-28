@@ -27,6 +27,6 @@ class Page extends Component
 
     public function render()
     {
-        return view('livewire.page.customer.advance-payment.page', [ 'data'=> AdvancePayment::paginate(50)])->extends('theme.layout.master')->section('main-content');
+        return view('livewire.page.customer.advance-payment.page', [ 'data'=> AdvancePayment::paginate(50)])->extends('layouts.main')->section('content');
     }
 }

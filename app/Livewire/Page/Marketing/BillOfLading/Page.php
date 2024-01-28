@@ -30,6 +30,6 @@ class Page extends Component
 
     public function render()
     {
-        return view('livewire.page.marketing.bill-of-lading.page', [ 'data'=> BillOfLading::paginate(50)])->extends('theme.layout.master')->section('main-content');
+        return view('livewire.page.marketing.bill-of-lading.page', [ 'data'=> BillOfLading::paginate(50)])->extends('layouts.main')->section('content');
     }
 }
