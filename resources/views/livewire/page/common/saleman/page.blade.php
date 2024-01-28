@@ -1,62 +1,72 @@
+@section('css')
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/datatables.css') }}">
+    <style>
+    tr {
+        background-color: #ffffff !important;
+    }
+    </style>
+
+@endsection
 <div>
     <livewire:component.page-heading title_main="Saleman" title_sub="พนักงานขาย" breadcrumb_title="Common Data" breadcrumb_page="Saleman" />
 
-    <div class="wrapper wrapper-content animated fadeInRight">
-
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="ibox ">
-                    <div class="ibox-title">
-                        <h5>Saleman List</h5>
-                        <div class="ibox-tools"> <a href="country_form?action=add" class="btn btn-primary btn-xs"><i
-                                    class="fa fa-plus "> </i> Create new </a> </div>
+    <div class="container-fluid">
+        <!-- State saving Starts-->
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header pb-0 row">
+                    <div class="col-6">
+                        
                     </div>
-                    <div class="ibox-content">
-                        <div class="table-responsive">
-                            <input type="text" class="form-control form-control-sm m-b-xs"
-                                id="filter"placeholder="Search in table">
-
-                            {{-- <table></table> --}}
-                            {{-- <livewire:page.common.country.table :data="$countries"/> --}}
-
-                            <table class="footable table table-stripped toggle-arrow-tiny"
-                                data-page-size="{{ $data->total() }}" data-filter=#filter>
-                                <thead>
+                    <div class="col-6" style="justify-content: flex-end; display: flex">
+                        <a href="country_form?action=add" class="btn btn-primary">
+                            <i class="fa fa-plus "> </i> Create new 
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table" id="basic-1" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Employee Code</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th data-hide="phone">Update By</th>
+                                    <th data-hide="phone,tablet">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data as $item)
                                     <tr>
-                                        <th style="width:5%">No.</th>
-                                        <th style="width:10%">Employee Code</th>
-                                        <th style="width:40%">Name</th>
-                                        <th  style="width:10%">Status</th>
-                                        <th data-hide="phone"  style="width:10%">Update By</th>
-                                        <th data-hide="phone,tablet"  style="width:10%">Action</th>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->empCode }}</td>
+                                        <td>{{ $item->empName }}</td>
+                                        <td class="center"><span @class(['badge', 'label-primary' => $item->isActive])>{{ $item->isActive ? 'Active' : 'Disable' }}</span></td>
+                                        <td class="center">{{ $item->editBy != null? $item->editBy->username : '' }}</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button class="btn btn-success btn-xs" onClick="location.href='port_form?action=view&portCode={{ $item->portCode }}">View</button>
+                                                <button class="btn btn-info btn-xs" onClick="location.href='port_form?action=edit&portCode={{ $item->portCode }}">Edit</button>
+                                                <button class="btn btn-danger btn-xs" onClick="return confirmDel('{{ $item->portCode }}','port_action.php');">Delete</button>
+                                            </div>
+                                        </td>
                                     </tr>
-                                  </thead>
-                                    <tbody>
-                                        @foreach ($data as $item)
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $item->empCode }}</td>
-                                            <td>{{ $item->empName }}</td>
-                                            <td class="center"><span @class(['label', 'label-primary' => $item->isActive])>{{ $item->isActive ? 'Active' : 'Disable' }}</span></td>
-                                            <td class="center">{{ $item->editBy != null? $item->editBy->username : '' }}</td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <button class="btn-white btn btn-xs" onClick="location.href='port_form?action=view&portCode={{ $item->empCode }}">View</button>
-                                                    <button class="btn-white btn btn-xs" onClick="location.href='port_form?action=edit&portCode={{ $item->empCode }}">Edit</button>
-                                                    <button class="btn-white btn btn-xs" onClick="return confirmDel('{{ $item->empCode }}','port_action.php');">Delete</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                            </table>
-                            {{ $data->appends(['sort'])->links() }}
-
-
-                        </div>
+                                @endforeach
+                            </tbody>
+                            
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- State saving Ends-->
     </div>
 </div>
 
+@section('scripts')
+    <script src="{{ asset('assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatables/datatable.custom.js') }}"></script>
+@endsection
