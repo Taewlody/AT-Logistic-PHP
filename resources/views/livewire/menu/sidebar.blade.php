@@ -41,41 +41,10 @@
 {{-- @push('script') --}}
 @script
     <script>
-        // $wire.$on('click', (menu) => {
-        //     console.log("click", menu);
-
-        // });
-
-        // Livewire.hook('component.init', ({
-        //     component,
-        //     cleanup
-        // }) => {
-        //     console.log("component.init", component);
-        // });
-
         Alpine.data('activeMenu', () => ({
-            // var pathArray = window.location.pathname.split('/');
-            // console.log("pathArray:", pathArray);
-            // return {
-            //     activeMenu: pathArray[2],
-            //     update(menu) {
-            //         if(this.activeMenu == menu){
-            //             this.activeMenu = '';
-            //             return;
-            //         }
-            //         this.activeMenu = menu;
-            //         // console.log("update", menu);
-            //     }
-            // }
             listeners: [],
             init() {
                 this.activeMenu = window.location.pathname.split('/')[2];
-                // this.$watch('activeMenu', (value) => {
-                //     this.$dispatch('activeMenu', value);
-                // });
-                // this.$on('activeMenu', (value) => {
-                //     this.activeMenu = value;
-                // });
                 console.log("init", this.activeMenu);
             },
             update(menu) {
@@ -84,7 +53,6 @@
                     return;
                 }
                 this.activeMenu = menu;
-                // console.log("update", menu);
             }
         }));
     </script>
