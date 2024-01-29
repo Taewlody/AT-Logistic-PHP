@@ -27,6 +27,6 @@ class Page extends Component
     }
     public function render()
     {
-        return view('livewire.page.shipping.petty-cash.page', [ 'data'=> PettyCashShipping::paginate(50)])->extends('layouts.main')->section('content');
+        return view('livewire.page.shipping.petty-cash.page', [ 'data'=> PettyCashShipping::paginate(50)])->extends('layouts.main')->section('main-content');
     }
 }

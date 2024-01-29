@@ -1,41 +1,60 @@
-<html>
-
-@push('css')
-    <link rel="stylesheet" href="{{ asset('assets/font-awesome/css/font-awesome.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/plugins/iCheck/custom.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/plugins/select2/select2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css') }}">
-    @livewireStyles
-@endpush
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
+    <!-- All meta and title start-->
+    @include('layouts.themes.layout.head')
+    <!-- meta and title end-->
 
-    <meta charset="utf-8">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}">
-
-    {{-- <title>@yield('title')</title> --}}
-    <title>AT Logistic Management System</title>
+    <!-- css start-->
+    @include('layouts.themes.layout.css')
     @stack('css')
-    @stack('scripts')
+    <!-- css end-->
 
 </head>
-<body class="pace-done">
-    <div class="pace pace-inactive">
+
+<body>
+    <!-- tap on top starts-->
+    <div class="tap-top"><i data-feather="chevrons-up"></i></div>
+    <!-- tap on tap ends-->
+
+    <!-- Loader starts-->
+    <div class="loader-wrapper">
+        <div class="loader"></div>
     </div>
-    <div id="wrapper">
-        <livewire:menu.sidebar />
-        <div id="page-wrapper" class="gray-bg">
-            <livewire:menu.navbar />
-            @yield('content')
+    <!-- Loader ends-->
+
+    <!-- page-wrapper Start-->
+    <div class="page-wrapper compact-wrapper" id="pageWrapper" >
+
+        <!-- Page Header Start-->
+        {{-- @include('themes.layout.header') --}}
+        <livewire:menu.navbar />
+        <!-- Page Header Ends -->
+
+        <!-- Page Body Start-->
+        <div class="page-body-wrapper">
+
+            <!-- Page Sidebar Start-->
+            {{-- @include('theme.layout.sidebar') --}}
+            <livewire:menu.sidebar />
+            <!-- Page Sidebar Ends-->
+
+            <div class="page-body" style="margin-top: 65px;">
+
+                {{-- main body content --}}
+                @yield('main-content')
+
+            </div>
+            <!-- footer start-->
+            @include('layouts.themes.layout.footer')
+            <!-- footer end-->
         </div>
     </div>
-    @livewireScripts
+    <!-- scripts start-->
+    @include('layouts.themes.layout.script')
+    @stack('scripts')
+    <!-- scripts end-->
 </body>
 
 </html>

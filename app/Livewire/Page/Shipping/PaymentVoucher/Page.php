@@ -27,6 +27,6 @@ class Page extends Component
 
     public function render()
     {
-        return view('livewire.page.shipping.payment-voucher.page', [ 'data'=> PaymentVoucher::paginate(50)])->extends('layouts.main')->section('content');
+        return view('livewire.page.shipping.payment-voucher.page', [ 'data'=> PaymentVoucher::paginate(50)])->extends('layouts.main')->section('main-content');
     }
 }

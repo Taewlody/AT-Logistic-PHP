@@ -26,6 +26,6 @@ class Page extends Component
 
     public function render()
     {
-        return view('livewire.page.shipping.deposit.page', [ 'data'=> Deposit::paginate(50)])->extends('layouts.main')->section('content');
+        return view('livewire.page.shipping.deposit.page', [ 'data'=> Deposit::paginate(50)])->extends('layouts.main')->section('main-content');
     }
 }

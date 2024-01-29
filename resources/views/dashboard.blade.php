@@ -2,7 +2,7 @@
 
 @section('title', 'dashboard')
 
-@section('content')
+@section('main-content')
     <div>
         dashboard
     </div>
