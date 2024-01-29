@@ -11,6 +11,6 @@ class Page extends Component
     use WithPagination;
     public function render()
     {
-        return view('livewire.page.common.supplier.page', [ 'data'=> Supplier::paginate(50)])->extends('theme.layout.master')->section('main-content');
+        return view('livewire.page.common.supplier.page', [ 'data'=> Supplier::paginate(50)])->extends('layouts.main')->section('main-content');
     }
 }

@@ -145,7 +145,6 @@ class Sidebar extends Component
 
     public function render()
     {
-        // return view('livewire.menu.sidebar');
-        return view('theme.layout.sidebar');
+        return view('livewire.menu.sidebar');
     }
 }

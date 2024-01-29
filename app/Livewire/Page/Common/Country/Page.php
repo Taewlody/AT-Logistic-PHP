@@ -19,6 +19,6 @@ class Page extends Component
 
     public function render()
     {
-        return view('livewire.page.common.country.page',[ 'data'=> Country::paginate(50)])->extends('theme.layout.master')->section('main-content');
+        return view('livewire.page.common.country.page',[ 'data'=> Country::paginate(50)])->extends('layouts.main')->section('main-content');
     }
 }

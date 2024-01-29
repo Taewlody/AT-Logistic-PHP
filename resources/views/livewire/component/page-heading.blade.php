@@ -1,16 +1,12 @@
-<div class="container-fluid">
-    <div class="page-title">
-        <div class="row">
-            <div class="col-6">
-                <h3>{{$title_main}} @if ($title_sub != "") / {{$title_sub}} @endif</h3>
-            </div>
-            <div class="col-6">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}"><i data-feather="home"></i></a></li>
-                    <li class="breadcrumb-item">{{$breadcrumb_title}}</li>
-                    <li class="breadcrumb-item active">{{$breadcrumb_page}}</li>
-                </ol>
-            </div>
-        </div>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+       
+        <h2>{{$title_main}}  @if ($title_sub != "") / {{$title_sub}} @endif </h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"> <a>{{$breadcrumb_main}}</a></li>
+            <li class="breadcrumb-item"> <a>{{$breadcrumb_title}}</a></li>
+            <li class="breadcrumb-item"> <a>{{$breadcrumb_page}}</a> </li>
+        </ol>
     </div>
+    <div class="col-lg-2"> </div>
 </div>

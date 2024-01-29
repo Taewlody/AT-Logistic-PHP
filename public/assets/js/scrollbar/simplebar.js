@@ -5448,7 +5448,7 @@
 	  classNames: {
 	    contentEl: 'simplebar-content',
 	    contentWrapper: 'simplebar-content-wrapper',
-	    offset: 'simplebar-offset',
+	    // offset: 'simplebar-offset',
 	    mask: 'simplebar-mask',
 	    wrapper: 'simplebar-wrapper',
 	    placeholder: 'simplebar-placeholder',

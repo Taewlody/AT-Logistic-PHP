@@ -31,6 +31,6 @@ class Page extends Component
 
     public function render()
     {
-        return view('livewire.page.marketing.trailer-booking.page', [ 'data'=> TrailerBooking::paginate(50)])->extends('theme.layout.master')->section('main-content');
+        return view('livewire.page.marketing.trailer-booking.page', [ 'data'=> TrailerBooking::paginate(50)])->extends('layouts.main')->section('main-content');
     }
 }
