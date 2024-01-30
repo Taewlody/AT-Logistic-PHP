@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Page\Common\Country;
 
+use Livewire\Attributes\Url;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use \App\Models\Common\Country;
@@ -19,6 +20,6 @@ class Page extends Component
 
     public function render()
     {
-        return view('livewire.page.common.country.page',[ 'data'=> Country::paginate(50)])->extends('layouts.main')->section('main-content');
+        return view('livewire.page.common.country.page',[ 'data'=> Country::paginate(50)->withQueryString()])->extends('layouts.main')->section('main-content');
     }
 }

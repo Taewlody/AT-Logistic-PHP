@@ -40,7 +40,7 @@
             <livewire:menu.sidebar />
             <!-- Page Sidebar Ends-->
 
-            <div class="page-body" style="margin-top: 65px;">
+            <div class="page-body" style="margin-top: 65px; min-height: calc(100vh - 127.09px);">
 
                 {{-- main body content --}}
                 @yield('main-content')

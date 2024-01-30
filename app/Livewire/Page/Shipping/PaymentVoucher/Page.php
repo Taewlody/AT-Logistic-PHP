@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Page\Shipping\PaymentVoucher;
 
+use Livewire\Attributes\On;
 use App\Models\Common\Supplier;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -18,6 +19,7 @@ class Page extends Component
     public $supplierSearch = "";
     public $documentNo = "";
     public $jobNo = "";
+    public $query = [];
 
     public function mount(){
         $this->dateStart = Carbon::now()->subYear()->format('d/m/Y');
@@ -25,8 +27,36 @@ class Page extends Component
         $this->supplierList = Supplier::all()->sortBy('supNameEN');
     }
 
+    
+    public function updating($property, $value) {
+
+        // if($property == 'documentNo') {
+        //     $this->query = $this->query('documentID', 'like', '%'.$value.'%');
+        // }
+        
+    }
+
+    #[On('post-search')] 
+    public function search() {
+        $this->query = [];
+        if($this->dateStart != null && $this->dateEnd != null) {
+            $this->query[] = ['documentDate', '>=', Carbon::createFromFormat('d/m/Y', $this->dateStart)->format('Y-m-d')];
+            $this->query[] = ['documentDate', '<=', Carbon::createFromFormat('d/m/Y', $this->dateEnd)->format('Y-m-d')];
+        }
+        if($this->supplierSearch != null) {
+            $this->query[] = ['supID', '=', $this->supplierSearch];
+        }
+        if($this->documentNo != null) {
+            $this->query[] = ['documentID', 'like', '%'.$this->documentNo.'%'];
+        }
+        if($this->jobNo != null) {
+            $this->query[] = ['jobNo', 'like', '%'.$this->jobNo.'%'];
+        }
+    }
+
+
     public function render()
     {
-        return view('livewire.page.shipping.payment-voucher.page', [ 'data'=> PaymentVoucher::paginate(50)])->extends('layouts.main')->section('main-content');
+        return view('livewire.page.shipping.payment-voucher.page', [ 'data'=> PaymentVoucher::where($this->query)->orderBy('documentDate', 'desc')->paginate(50)])->extends('layouts.main')->section('main-content');
     }
 }
