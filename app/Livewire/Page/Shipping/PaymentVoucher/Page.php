@@ -44,7 +44,7 @@ class Page extends Component
             $this->query[] = ['documentDate', '<=', Carbon::createFromFormat('d/m/Y', $this->dateEnd)->format('Y-m-d')];
         }
         if($this->supplierSearch != null) {
-            $this->query[] = ['supID', '=', $this->supplierSearch];
+            $this->query[] = ['supCode', '=', $this->supplierSearch];
         }
         if($this->documentNo != null) {
             $this->query[] = ['documentID', 'like', '%'.$this->documentNo.'%'];

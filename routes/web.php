@@ -45,6 +45,17 @@ use App\Livewire\Page\Account\ReceiptVoucher\Page as ReceiptVoucher;
 use App\Livewire\Page\Account\BillingReceipt\Page as BillingReceipt;
 use App\Livewire\Page\Account\PettyCash\Page as PettyCashAccount;
 use App\Livewire\Page\Account\WithholdingTax\Page as WithholdingTax;
+use App\Livewire\Page\Report\ReportJob\Page as ReportJob;
+use App\Livewire\Page\Report\ReportProfitAndLossJob\Page as ReportProfitAndLossJob;
+use App\Livewire\Page\Report\ReportSaleInvoice\Page as ReportSaleInvoice;
+use App\Livewire\Page\Report\ReportSaleTaxInvoice\Page as ReportSaleTaxInvoice;
+use App\Livewire\Page\Report\ReportInvoiceOverdue\Page as ReportInvoiceOverdue;
+use App\Livewire\Page\Report\PaymentVoucherItems\Page as ReportPaymentVoucherItems;
+use App\Livewire\Page\Report\ReceiptVoucher\Page as ReportReceiptVoucher;
+use App\Livewire\Page\Report\TaxInvoice\Page as ReportTaxInvoice;
+use App\Livewire\Page\Report\PaymentVoucher\Page as ReportPaymentVoucher;
+use App\Livewire\Page\Administrator\User\Page as Users;
+use App\Livewire\Page\Administrator\UserType\Page as UserType;
 
  Route::group([
     'prefix' => '/AT',
@@ -139,6 +150,32 @@ use App\Livewire\Page\Account\WithholdingTax\Page as WithholdingTax;
         Route::get("/petty-cash", PettyCashAccount::class)->name('account-petty-cash');
 
         Route::get("/withholding-tax", WithholdingTax::class)->name('withholding-tax');
+    });
+
+    Route::group(['prefix'=> 'report',], function() {
+        Route::get("/report-job", ReportJob::class)->name('report-job');
+
+        Route::get("/report-profit-and-loss-job", ReportProfitAndLossJob::class)->name('report-profit-and-loss-job');
+
+        Route::get("/report-sale-invoice", ReportSaleInvoice::class)->name('report-sale-invoice');
+
+        Route::get("/report-sale-tax-invoice", ReportSaleTaxInvoice::class)->name('report-sale-tax-invoice');
+
+        Route::get("/report-invoice-overdue", ReportInvoiceOverdue::class)->name('report-invoice-overdue');
+
+        Route::get("/report-payment-voucher-items", ReportPaymentVoucherItems::class)->name('report-payment-voucher-items');
+
+        Route::get("/report-receipt-voucher", ReportReceiptVoucher::class)->name('report-receipt-voucher');
+
+        Route::get("/report-tax-invoice", ReportTaxInvoice::class)->name('report-tax-invoice');
+
+        Route::get("/report-payment-voucher", ReportPaymentVoucher::class)->name('report-payment-voucher');
+    });
+
+    Route::group(['prefix'=> 'administrator',], function() {
+        Route::get("/users", Users::class)->name('users');
+
+        Route::get("/user-type", UserType::class)->name('user-type');
     });
 
 });

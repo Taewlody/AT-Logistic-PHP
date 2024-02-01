@@ -65,7 +65,7 @@
                                         name="cusCode" id="cusCode" wire:model="supplierSearch">
                                         <option value="">- select -</option>
                                         @foreach ($supplierList as $supplier)
-                                            <option value="{{ $supplier->cusCode }}">
+                                            <option value="{{ $supplier->supCode }}">
                                                 {{ $supplier->supNameEN }}</option>
                                         @endforeach
                                     </select>
