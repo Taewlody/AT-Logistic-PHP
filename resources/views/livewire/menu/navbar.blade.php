@@ -7,7 +7,7 @@
       </ul>
 </nav> --}}
 <div class="page-header">
-    <div class="header-wrapper row m-0">
+    <div class="header-wrapper row m-0" style="height: 80px;">
       <form class="form-inline search-full col" action="#" method="get">
         <div class="form-group w-100">
           <div class="Typeahead Typeahead--twitterUsers">
@@ -20,7 +20,7 @@
         </div>
       </form>
       <div class="header-logo-wrapper col-auto p-0">
-        <div class="logo-wrapper"><a><img class="img-fluid for-light" src="{{ asset('assets/images/logo/logo.png') }}" alt=""><img class="img-fluid for-dark" src="{{ asset('assets/images/logo/logo-dark.png') }}" alt=""></a></div>
+        <div class="logo-wrapper"><a><img class="img-fluid for-light" src="{{ asset('assets/images/logo/at-logo.png') }}" alt=""></a></div>
         <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="align-center"></i></div>
       </div>
       <div class="left-header col horizontal-wrapper ps-0">

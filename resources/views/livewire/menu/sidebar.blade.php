@@ -39,9 +39,7 @@
     <div>
         <div class="logo-wrapper">
             <a href="{{ route('dashboard') }}">
-                <img class="img-fluid for-light" src="{{ asset('assets/images/logoNew.jpg') }}" alt=""
-                    style="width: 96px; height: 35px;">
-                <img class="img-fluid for-dark" src="{{ asset('assets/images/logoNew.jpg') }}" alt=""
+                <img class="img-fluid for-light" src="{{ asset('assets/images/logo/at-logo.png') }}" alt=""
                     style="width: 96px; height: 35px;">
             </a>
             <div class="back-btn">
@@ -113,7 +111,7 @@
                     
                 @endforeach --}}
 
-                    <li class="back-btn">
+                    {{-- <li class="back-btn">
                         <a href="{{ route('dashboard') }}"><img class="img-fluid for-light"
                                 src="{{ asset('assets/images/logo/logo-icon.png') }}" alt="">
                             <img class="img-fluid for-dark" src="{{ asset('assets/images/logo/logo-icon-dark.png') }}"
@@ -123,7 +121,7 @@
                             <span>Back</span>
                             <i class="fa fa-angle-right ps-2" aria-hidden="true"></i>
                         </div>
-                    </li>
+                    </li> --}}
 
                     @foreach ($mainMenu as $menu)
                         <li class="sidebar-list">
