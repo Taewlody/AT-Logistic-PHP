@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 // use Illuminate\Contracts\Auth\Authenticatable;
 
+use App\Models\UserType;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
 class User extends Authenticatable {
 
     use HasApiTokens;
@@ -69,6 +72,21 @@ class User extends Authenticatable {
         'editID' => 'string',
         'editTime' => 'datetime:Y-m-d H:M',
     ];
+
+    public function UserType(): HasOne
+    {
+        return $this->hasOne(UserType::class, 'userTypecode', 'userTypecode');
+    }
+
+    public function createBy(): HasOne
+    {
+        return $this->hasOne(User::class, 'userCode', 'createID');
+    }
+
+    public function editBy(): HasOne
+    {
+        return $this->hasOne(User::class, 'userCode', 'editID');
+    }
 
     public function getAuthIdentifier() {
         return $this->usercode;

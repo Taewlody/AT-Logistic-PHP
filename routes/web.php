@@ -173,7 +173,7 @@ use App\Livewire\Page\Administrator\UserType\Page as UserType;
     });
 
     Route::group(['prefix'=> 'administrator',], function() {
-        Route::get("/users", Users::class)->name('users');
+        Route::get("/users", Users::class)->name('user');
 
         Route::get("/user-type", UserType::class)->name('user-type');
     });
