@@ -21,9 +21,9 @@
             </div>
         </div>
 
-        <form wire:submit="search">
-            <div class="ibox-content m-b-sm border-bottom">
-                {{-- <form id="form" name="form" method="get"> --}}
+        {{-- <form wire:submit="search"> --}}
+        <div class="ibox-content m-b-sm border-bottom">
+            <form wire:submit="search">
                 <div class="row m-b-sm m-t-sm">
                     <div class="col-md-11">
                         <div class="input-group">
@@ -80,77 +80,77 @@
                         </div>
                     </div>
                 </div>
-                {{-- </form> --}}
-            </div>
+            </form>
+        </div>
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="ibox">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox">
 
-                        <div class="ibox-content">
+                    <div class="ibox-content">
 
-                            <div wire:loading class="loader-wrapper">
-                                <div class="loader"></div>
-                            </div>
-                            <table wire:loading.remove class="footable table table-stripped toggle-arrow-tiny"
-                                data-page-size="{{ $data->total() }}" data-filter=#filter>
-                                <thead>
-                                    <tr>
-                                        <th width="5%">No.</th>
-                                        <th data-toggle="true" width="10%">Document  No.</th>
-                                        <th data-hide="phone" width="15%">Document Date</th>
-                                        <th data-hide="phone,tablet" width="10%">Job No.</th>
-                                        <th data-toggle="true" width="35%">Customer</th>
-                                        <th data-hide="phone,tablet" width="10%">Amount</th>
-                                        <th width="10%">Status</th>
-                                        <th data-hide="phone,tablet" data-sort-ignore="true" width="15%">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($data as $item)
-                                        <tr>
-                                            <td>{{ $loop->iteration + ($data->currentPage() - 1) * $data->perPage() }}
-                                            </td>
-                                            <td>{{ $item->documentID }}</td>
-                                            <td>{{ $item->documentDate }}</td>
-                                            <td>{{ $item->refJobNo }}</td>
-                                            <td>{{ $item->supplier != null ? $item->supplier->supNameTH : '' }}</td>
-                                            <td>{{ $item->sumTotal }}</td>
-                                            @if ($item->docStatus != null)
-                                                <td class="center"><span
-                                                        @class([
-                                                            'label',
-                                                            'label-primary' => $item->docStatus->status_code == 'A',
-                                                            'label-danger' => $item->docStatus->status_code == 'D',
-                                                            'label-warning' => $item->docStatus->status_code == 'P',
-                                                        ])>{{ $item->docStatus->status_name }}</span>
-                                                </td>
-                                            @else
-                                                <td class="center"><span @class(['label'])>Disabled</span>
-                                                </td>
-                                            @endif
-
-                                            {{-- <td class="center">{{ $item->editBy != null ? $item->editBy->username : '' }}
-                                        </td> --}}
-                                            <td>
-                                                <div class="btn-group">
-                                                    <button class="btn-white btn btn-xs"
-                                                        onClick="location.href='port_form?action=view&portCode={{ $item->fCode }}">View</button>
-                                                    <button class="btn-white btn btn-xs"
-                                                        onClick="location.href='port_form?action=edit&portCode={{ $item->fCode }}">Edit</button>
-                                                    <button class="btn-white btn btn-xs"
-                                                        onClick="return confirmDel('{{ $item->fCode }}','port_action.php');">Delete</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                            </table>
-                            {{ $data->withQueryString()->links('layouts.themes.layout.custom-pagination-links') }}
+                        <div wire:loading class="loader-wrapper">
+                            <div class="loader"></div>
                         </div>
+                        <table wire:loading.remove class="footable table table-stripped toggle-arrow-tiny"
+                            data-page-size="{{ $data->total() }}" data-filter=#filter>
+                            <thead>
+                                <tr>
+                                    <th width="5%">No.</th>
+                                    <th data-toggle="true" width="10%">Document  No.</th>
+                                    <th data-hide="phone" width="15%">Document Date</th>
+                                    <th data-hide="phone,tablet" width="10%">Job No.</th>
+                                    <th data-toggle="true" width="35%">Customer</th>
+                                    <th data-hide="phone,tablet" width="10%">Amount</th>
+                                    <th width="10%">Status</th>
+                                    <th data-hide="phone,tablet" data-sort-ignore="true" width="15%">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data as $item)
+                                    <tr>
+                                        <td>{{ $loop->iteration + ($data->currentPage() - 1) * $data->perPage() }}
+                                        </td>
+                                        <td>{{ $item->documentID }}</td>
+                                        <td>{{ $item->documentDate }}</td>
+                                        <td>{{ $item->refJobNo }}</td>
+                                        <td>{{ $item->supplier != null ? $item->supplier->supNameTH : '' }}</td>
+                                        <td>{{ $item->sumTotal }}</td>
+                                        @if ($item->docStatus != null)
+                                            <td class="center"><span
+                                                    @class([
+                                                        'label',
+                                                        'label-primary' => $item->docStatus->status_code == 'A',
+                                                        'label-danger' => $item->docStatus->status_code == 'D',
+                                                        'label-warning' => $item->docStatus->status_code == 'P',
+                                                    ])>{{ $item->docStatus->status_name }}</span>
+                                            </td>
+                                        @else
+                                            <td class="center"><span @class(['label'])>Disabled</span>
+                                            </td>
+                                        @endif
+
+                                        {{-- <td class="center">{{ $item->editBy != null ? $item->editBy->username : '' }}
+                                        </td> --}}
+                                        <td>
+                                            <div class="btn-group">
+                                                <button class="btn-white btn btn-xs"
+                                                    onClick="location.href='port_form?action=view&portCode={{ $item->fCode }}">View</button>
+                                                <button class="btn-white btn btn-xs"
+                                                    onClick="location.href='port_form?action=edit&portCode={{ $item->fCode }}">Edit</button>
+                                                <button class="btn-white btn btn-xs"
+                                                    onClick="return confirmDel('{{ $item->fCode }}','port_action.php');">Delete</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                        </table>
+                        {{ $data->withQueryString()->links('layouts.themes.layout.custom-pagination-links') }}
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
+        {{-- </form> --}}
     </div>
 </div>
 

@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 
+
+use App\Models\Common\Customer;
+use App\Models\Common\Saleman;
+use App\Models\Common\TransportType;
+use App\Models\Status\RefDocumentStatus;
+use App\Models\User;
+
 class TaxInvoice extends Model
 {
     use HasFactory;
@@ -75,4 +82,32 @@ class TaxInvoice extends Model
         'dueTime' => 'time: H:M',
         'accountCode' => 'string',
     ];
+
+    public function customer(): HasOne
+    {
+        return $this->hasOne(Customer::class, 'cusCode', 'cusCode');
+    }
+
+    public function salemanRef(): HasOne
+    {
+        return $this->hasOne(Saleman::class, 'userCode', 'saleman');
+    }
+
+    public function transport(): HasOne{
+        return $this->hasOne(TransportType::class, 'transportCode', 'freight');
+    }
+
+    public function user(): HasOne{
+        return $this->hasOne(User::class, 'userCode', 'createID');
+    }
+
+    public function docStatus(): HasOne
+    {
+        return $this->hasOne(RefDocumentStatus::class, 'status_code', 'documentstatus');
+    }
+
+    public function editBy(): HasOne
+    {
+        return $this->hasOne(User::class, 'usercode', 'editID');
+    }
 }

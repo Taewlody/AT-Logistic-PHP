@@ -2,10 +2,16 @@
 
 namespace App\Models\Account;
 
+use App\Models\Common\Supplier;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Common\Customer;
+use App\Models\Common\Saleman;
+use App\Models\Common\TransportType;
+use App\Models\Status\RefDocumentStatus;
+use App\Models\User;
 class PaymentVoucher extends Model
 {
     use HasFactory;
@@ -69,4 +75,28 @@ class PaymentVoucher extends Model
         'grandTotal' => 'float',
         'purchasevat' => 'integer',
     ];
+
+    public function customer(): HasOne
+    {
+        return $this->hasOne(Customer::class, 'cusCode', 'cusCode');
+    }
+
+    public function supplier(): HasOne
+    {
+        return $this->hasOne(Supplier::class, 'supCode', 'supCode');
+    }
+
+    public function user(): HasOne{
+        return $this->hasOne(User::class, 'userCode', 'createID');
+    }
+
+    public function docStatus(): HasOne
+    {
+        return $this->hasOne(RefDocumentStatus::class, 'status_code', 'documentstatus');
+    }
+
+    public function editBy(): HasOne
+    {
+        return $this->hasOne(User::class, 'usercode', 'editID');
+    }
 }

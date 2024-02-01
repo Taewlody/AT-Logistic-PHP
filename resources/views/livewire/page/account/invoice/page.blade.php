@@ -12,7 +12,7 @@
         </div>
 
         <div class="ibox-content m-b-sm border-bottom">
-            <form id="form" name="form" method="post">
+            <form wire:submit="search">
                 <div class="row m-b-sm m-t-sm">
                     <div class="col-md-11">
                         <div class="input-group">
@@ -21,76 +21,58 @@
                                 <div class="input-group date"> <span class="input-group-addon"><i
                                             class="fa fa-calendar"></i></span>
                                     <input type="text" name="dateStart" class="form-control"
-                                        wire:model.live="dateStart" autocomplete="off">
+                                        wire:model="dateStart" autocomplete="off">
                                 </div>
                             </div>
                             <div class="form-group col-margin0 " id="dateEnd" style="width: 150px;">
                                 <label class="font-normal">To</label>
                                 <div class="input-group date"> <span class="input-group-addon"><i
                                             class="fa fa-calendar"></i></span>
-                                    <input type="text" name="dateEnd" class="form-control " wire:model.live="dateEnd"
+                                    <input type="text" name="dateEnd" class="form-control " wire:model="dateEnd"
                                         autocomplete="off">
                                 </div>
                             </div>
                             <div class="form-group" >
                                 <label class="font-normal">Invoice  No.</label>
                                 <div class="input-group">
-                                  <input type="text" id="invoiceID" name="invoiceID" class="form-control" wire:model.live="invoiceID">
+                                  <input type="text" id="invoiceID" name="invoiceID" class="form-control" wire:model="invoiceNo">
                                 </div>
                               </div>
                                 
                           <div class="form-group" >
                                 <label class="font-normal">Job No.</label>
                                 <div class="input-group">
-                                  <input type="text" id="refJobNo" name="refJobNo" class="form-control" wire:model.live="jobNo">
+                                  <input type="text" id="refJobNo" name="refJobNo" class="form-control" wire:model="jobNo">
                                 </div>
                               </div>
                             <div class="form-group col-margin0">
                                 <label class="font-normal">Customer</label>
                                 <div>
                                     <select class="select2_single form-control select2" style="width:300px;"
-                                        name="cusCode" id="cusCode" wire:model.live="customerSearch">
+                                        name="cusCode" id="cusCode" wire:model="customerSearch">
                                         <option value="">- select -</option>
                                         @foreach ($customerList as $customer)
                                             <option value="{{ $customer->cusCode }}">
-                                                {{ $customer->cusNameEN }}</option>
+                                                {{ $customer->custNameEN }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                            {{-- <div class="form-group col-margin0">
+                            <div class="form-group col-margin0">
                                 <label class="font-normal">Sale</label>
                                 <div class="input-group">
                                     <div class="">
                                         <select class="select2_single form-control select2" style="width: 200px;"
-                                            name="saleman" id="saleman" wire:model.live="salemanSearch">
+                                            name="saleman" id="saleman" wire:model="salemanSearch">
                                             <option value="">- select -</option>
                                             @foreach ($salemanList as $saleman)
-                                                <option value="{{ $saleman->empCode }}">
+                                                <option value="{{ $saleman->userCode }}">
                                                     {{ $saleman->empName }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
-                            </div> --}}
-                            {{-- <div class="form-group col-margin0">
-                                <label class="font-normal">เลขที่ JOB</label>
-                                <div class="input-group">
-                                    <div class="">
-                                        <input type='text' name='documentID' class='form-control' id="documentID"
-                                            wire:model.live="documentID">
-                                    </div>
-                                </div>
                             </div>
-                            <div class="form-group col-margin0">
-                                <label class="font-normal">Invoice</label>
-                                <div class="input-group">
-                                    <div class="">
-                                        <input type='text' name='invNo' class='form-control' id="invNo"
-                                            wire:mode.live="invNo">
-                                    </div>
-                                </div>
-                            </div> --}}
                             <div class="form-group">
                                 <label class="font-normal" style="color: wheat">.</label>
                                 <div class="input-group">
@@ -107,19 +89,22 @@
             <div class="col-lg-12">
                 <div class="ibox">
 
+                    <div wire:loading class="loader-wrapper">
+                        <div class="loader"></div>
+                    </div>
+
                     <div class="ibox-content">
-
-
-                        <table class="footable table table-stripped toggle-arrow-tiny"
+                        <table wire:loading.remove class="footable table table-stripped toggle-arrow-tiny"
                             data-page-size="{{ $data->total() }}" data-filter=#filter>
                             <thead>
                                 <tr>
                                     <th width="5%">No.</th>
-                                    <th data-toggle="true" width="10%">Document  No.</th>
-                                    <th data-hide="phone" width="15%">Document Date</th>
+                                    <th data-toggle="true" width="10%">Document No.</th>
+                                    <th data-hide="phone" width="15%">Job Date</th>
                                     <th data-toggle="true" width="35%">Customer</th>
                                     <th data-hide="phone,tablet" width="10%">Job No.</th>
-                                    <th data-hide="phone,tablet" width="10%">Amount</th>
+                                    <th data-hide="phone,tablet" width="10%">Tax Invoice</th>
+                                    <th data-hide="phone,tablet" width="10%">Sale</th>
                                     <th  width="10%">Status</th>
                                     <th data-hide="phone,tablet"  data-sort-ignore="true" width="15%">Action</th>                                
                                 </tr>
@@ -130,12 +115,10 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->documentID }}</td>
                                         <td>{{ $item->documentDate }}</td>
-                                        <td>{{ $item->supplier != null ? $item->supplier->supNameTH : '' }}</td>
-                                        {{-- <td><a href="job_form?action=view&documentID={{$item->ref_jobID}}" target="blank">{{$item->ref_jobID}}</a></td> --}}
-                                        {{-- <td>{{ $item->jobOrder != null && $item->jobOrder->salemanRef != null ? $item->jobOrder->salemanRef->empName : '' }}</td> --}}
-
-                                        <td>{{ $item->refJobNo }}</td>
-                                        <td>{{ $item->sumTotal }}</td>
+                                        <td>{{ $item->customer != null ? $item->customer->custNameTH : '' }}</td>
+                                        <td>{{ $item->ref_jobNo }}</td>
+                                        <td>{{ $item->taxivRef }}</td>
+                                        <td>{{ $item->salemanRef != null ? $item->salemanRef->empName : '' }}</td>
                                         @if ($item->docStatus != null)
                                             <td class="center"><span
                                                     @class([
@@ -148,12 +131,12 @@
                                         @else
                                             <td class="center"><span
                                                     @class([
-                                                        'label'
+                                                        'label' 
                                                     ])>Disabled</span>
                                             </td>
                                         @endif
 
-                                        <td class="center">{{ $item->editBy != null ? $item->editBy->username : '' }}
+                                        {{-- <td class="center">{{ $item->editBy != null ? $item->editBy->username : '' }} --}}
                                         </td>
                                         <td>
                                             <div class="btn-group">
@@ -168,7 +151,7 @@
                                     </tr>
                                 @endforeach
                         </table>
-                        {{ $data->appends(['sort'])->links() }}
+                        {{ $data->withQueryString()->links('layouts.themes.layout.custom-pagination-links') }}
                     </div>
                 </div>
             </div>

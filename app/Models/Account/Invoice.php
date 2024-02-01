@@ -8,11 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Common\Customer;
 use App\Models\Common\Saleman;
 use App\Models\Common\TransportType;
+use App\Models\Status\RefDocumentStatus;
 use App\Models\User;
 
 class Invoice extends Model
 {
     use HasFactory;
+
 
     protected $table = 'invoice';
 
@@ -93,9 +95,9 @@ class Invoice extends Model
         return $this->hasOne(Customer::class, 'cusCode', 'cusCode');
     }
 
-    public function saleman(): HasOne
+    public function salemanRef(): HasOne
     {
-        return $this->hasOne(Saleman::class, 'empCode', 'saleman');
+        return $this->hasOne(Saleman::class, 'userCode', 'saleman');
     }
 
     public function transport(): HasOne{
@@ -104,5 +106,17 @@ class Invoice extends Model
 
     public function user(): HasOne{
         return $this->hasOne(User::class, 'userCode', 'createID');
+    }
+
+    public function docStatus(): HasOne
+    {
+        // ...
+
+        return $this->hasOne(RefDocumentStatus::class, 'status_code', 'documentstatus');
+    }
+
+    public function editBy(): HasOne
+    {
+        return $this->hasOne(User::class, 'usercode', 'editID');
     }
 }
