@@ -57,6 +57,6 @@ class Page extends Component
 
     public function render()
     {
-        return view('livewire.page.shipping.payment-voucher.page', [ 'data'=> PaymentVoucher::where($this->query)->orderBy('documentDate', 'desc')->paginate(50)])->extends('layouts.main')->section('main-content');
+        return view('livewire.page.shipping.payment-voucher.page', [ 'data'=> PaymentVoucher::where($this->query)->orderBy('documentDate', 'desc')->paginate(20)])->extends('layouts.main')->section('main-content');
     }
 }
