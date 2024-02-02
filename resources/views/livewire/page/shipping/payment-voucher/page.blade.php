@@ -68,7 +68,7 @@
                                     <div class="form-group col-margin0" id="dateStart">
                                         <label class="font-normal">Date Range</label>
                                         <div class="input-group date"> 
-                                            <input class="form-control digits" name="dateStart" wire:model="dateStart" autocomplete="off" type="datetime-local">
+                                            <input class="form-control digits" name="dateStart" wire:model="dateStart" autocomplete="off" type="date">
                                         </div>
                                     </div>
                                 </div>
@@ -76,7 +76,7 @@
                                     <div class="form-group col-margin0 " id="dateEnd">
                                         <label class="font-normal">To</label>
                                         <div class="input-group date"> 
-                                            <input class="form-control digits" name="dateEnd" wire:model="dateEnd" autocomplete="off" type="datetime-local">
+                                            <input class="form-control digits" name="dateEnd" wire:model="dateEnd" autocomplete="off" type="date">
                                         </div>
                                     </div>
                                 </div>

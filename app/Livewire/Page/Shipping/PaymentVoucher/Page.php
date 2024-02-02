@@ -22,8 +22,8 @@ class Page extends Component
     public $query = [];
 
     public function mount(){
-        $this->dateStart = Carbon::now()->subYear()->format('d/m/Y');
-        $this->dateEnd = Carbon::now()->format('d/m/Y');
+        $this->dateStart = null;
+        $this->dateEnd = null;
         $this->supplierList = Supplier::all()->sortBy('supNameEN');
     }
 
@@ -39,9 +39,11 @@ class Page extends Component
     #[On('post-search')] 
     public function search() {
         $this->query = [];
-        if($this->dateStart != null && $this->dateEnd != null) {
-            $this->query[] = ['documentDate', '>=', Carbon::createFromFormat('d/m/Y', $this->dateStart)->format('Y-m-d')];
-            $this->query[] = ['documentDate', '<=', Carbon::createFromFormat('d/m/Y', $this->dateEnd)->format('Y-m-d')];
+        if($this->dateStart != null) {
+            $this->query[] = ['documentDate', '>=', $this->dateStart];
+        }
+        if($this->dateEnd != null) {
+            $this->query[] = ['documentDate', '<=', $this->dateEnd];
         }
         if($this->supplierSearch != null) {
             $this->query[] = ['supCode', '=', $this->supplierSearch];
