@@ -9,8 +9,12 @@ use Livewire\WithPagination;
 class Page extends Component
 {
     use WithPagination;
+    public $searchText = "";
+
     public function render()
     {
-        return view('livewire.page.common.port.page',[ 'data'=> Port::paginate(50)])->extends('layouts.main')->section('main-content');
+        return view('livewire.page.common.port.page',[ 
+            'data'=> Port::where('portCode', 'like', '%'.$this->searchText.'%')->orWhere('portNameTH', 'like', '%'.$this->searchText.'%')->paginate(20)
+            ])->extends('layouts.main')->section('main-content');
     }
 }
