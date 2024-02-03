@@ -40,7 +40,7 @@
                                     <td>{{ $item->transportCode }}</td>
                                     <td>{{ $item->transportName }}</td>
                                     <td class="center"><span
-                                            @class(['label', 'label-primary' => $item->isActive])>{{ $item->isActive ? 'Active' : 'Disable' }}</span>
+                                            @class(['badge', 'label-primary' => $item->isActive])>{{ $item->isActive ? 'Active' : 'Disable' }}</span>
                                     </td>
                                     <td class="center">{{ $item->editBy != null? $item->editBy->username : '' }}</td>
                                     <td>
