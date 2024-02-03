@@ -11,15 +11,21 @@ use Livewire\WithPagination;
 class Page extends Component
 {
     use WithPagination;
-    // public $countries;
+    public $searchText = "";
 
-    // public function mount()
-    // {
-    //     $this->countries;
-    // }
-
+    public function mount()
+    {
+        // $country = new Country;
+        // $column = $country->getTableColumns();
+        // dd($column);
+    }
     public function render()
     {
-        return view('livewire.page.common.country.page',[ 'data'=> Country::paginate(50)->withQueryString()])->extends('layouts.main')->section('main-content');
+        return view('livewire.page.common.country.page',[ 
+            'data'=> Country::where('countryCode', 'like', '%'.$this->searchText.'%')
+            ->orWhere('countryNameTH', 'like', '%'.$this->searchText.'%')
+            ->paginate(20)
+            ]
+            )->extends('layouts.main')->section('main-content');
     }
 }

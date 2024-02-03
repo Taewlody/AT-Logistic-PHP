@@ -61,5 +61,7 @@ class Country extends Model
     {
         return $this->hasOne(User::class, 'userCode','editID');
     }
-
+    public function getTableColumns() {
+        return $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable());
+    }
 }
