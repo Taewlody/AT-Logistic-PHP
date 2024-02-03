@@ -39,7 +39,7 @@
                                     <div class="form-group col-margin0">
                                         <label class="font-normal">Customer</label>
                                         <div>
-                                            <select class="select2_single form-control select2" style="width:300px;"
+                                            <select class="select2_single form-control select2" 
                                                 name="cusCode" id="cusCode" wire:model="customerSearch">
                                                 <option value="">- select -</option>
                                                 @foreach ($customerList as $customer)
