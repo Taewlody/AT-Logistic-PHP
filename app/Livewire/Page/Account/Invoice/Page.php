@@ -26,8 +26,8 @@ class Page extends Component
     public $query = [];
 
     public function mount(){
-        $this->dateStart = Carbon::now()->subYear()->format('d/m/Y');
-        $this->dateEnd = Carbon::now()->format('d/m/Y');
+        $this->dateStart = null;
+        $this->dateEnd = null;
         $this->customerList = Customer::all()->sortBy('cusNameEN');
         $this->salemanList = Saleman::all()->sortBy('salemanNameEN');
     }
@@ -55,6 +55,6 @@ class Page extends Component
 
     public function render()
     {
-        return view('livewire.page.account.invoice.page', [ 'data'=> Invoice::where($this->query)->orderBy('documentDate', 'desc')->paginate(50)])->extends('layouts.main')->section('main-content');
+        return view('livewire.page.account.invoice.page', [ 'data'=> Invoice::where($this->query)->orderBy('documentDate', 'desc')->paginate(20)])->extends('layouts.main')->section('main-content');
     }
 }
