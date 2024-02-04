@@ -25,17 +25,19 @@ class Page extends Component
     public $query = [];
 
     public function mount(){
-        $this->dateStart = Carbon::now()->subYear()->format('d/m/Y');
-        $this->dateEnd = Carbon::now()->format('d/m/Y');
+        $this->dateStart = null;
+        $this->dateEnd = null;
         $this->customerList = Customer::all()->sortBy('cusNameEN');
     }
 
     #[On('post-search')] 
     public function search() {
         $this->query = [];
-        if($this->dateStart != null && $this->dateEnd != null) {
-            $this->query[] = ['documentDate', '>=', Carbon::createFromFormat('d/m/Y', $this->dateStart)->format('Y-m-d')];
-            $this->query[] = ['documentDate', '<=', Carbon::createFromFormat('d/m/Y', $this->dateEnd)->format('Y-m-d')];
+        if($this->dateStart != null) {
+            $this->query[] = ['documentDate', '>=', $this->dateStart];
+        }
+        if($this->dateEnd != null) {
+            $this->query[] = ['documentDate', '<=', $this->dateEnd];
         }
         if($this->customerSearch != null) {
             $this->query[] = ['cusCode', '=', $this->customerSearch];
@@ -43,13 +45,10 @@ class Page extends Component
         if($this->documentNo != null) {
             $this->query[] = ['documentID', 'like', '%'.$this->documentNo.'%'];
         }
-        if($this->jobNo != null) {
-            $this->query[] = ['ref_jobNo', 'like', '%'.$this->jobNo.'%'];
-        }
     }
 
     public function render()
     {
-        return view('livewire.page.account.tax-invoice.page', [ 'data'=> TaxInvoice::where($this->query)->orderBy('documentDate', 'desc')->paginate(50)])->extends('layouts.main')->section('main-content');
+        return view('livewire.page.account.tax-invoice.page', [ 'data'=> TaxInvoice::where($this->query)->orderBy('documentDate', 'desc')->paginate(20)])->extends('layouts.main')->section('main-content');
     }
 }

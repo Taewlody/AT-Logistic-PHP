@@ -81,7 +81,7 @@
                                         <label class="font-normal">Invoice No</label>
                                         <div>
                                             <input type='text' name='invNo' class='form-control' id="invNo"
-                                                wire:mode="invNo">
+                                                wire:model="invNo">
                                         </div>
                                     </div>
                                 </div>
