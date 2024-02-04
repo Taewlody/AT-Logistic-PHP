@@ -13,7 +13,7 @@ class CustomDateTime implements CastsAttributes {
         return $value == "0000-00-00 00:00:00" ? Carbon::createFromTimestamp(0)->setTimezone('UTC')->format('Y-m-d H:i:s') : Carbon::parse($value)->setTimezone('UTC')->format('Y-m-d H:i:s');
     }
     public function set(Model $model, string $key, mixed $value, array $attributes) {
-        Log::debug("set value date [".gettype($value)."]: $value");
+        // Log::debug("set value date [".gettype($value)."]: $value");
         return $value == "0000-00-00 00:00:00" ? Carbon::createFromTimestamp(0)->setTimezone('UTC')->format('Y-m-d H:i:s') : Carbon::parse($value)->setTimezone('UTC')->format('Y-m-d H:i:s');
     }
 }
