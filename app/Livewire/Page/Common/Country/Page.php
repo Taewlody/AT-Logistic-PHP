@@ -18,6 +18,11 @@ class Page extends Component
     //     $this->countries;
     // }
 
+    public function delete($countryCode)
+    {
+        Country::find($countryCode)->delete();
+    }
+
     public function render()
     {
         return view('livewire.page.common.country.page',[ 'data'=> Country::paginate(50)->withQueryString()])->extends('layouts.main')->section('main-content');

@@ -92,8 +92,8 @@ class ContractPerson extends Model
         'note' => 'string',
         'IsActive' => BooleanString::class,
         'createID' => 'string',
-        'createTime' => 'datetime:Y-m-d H:M',
+        'createTime' => 'datetime:Y-m-d H:i',
         'editID' => 'string',
-        'editTime' => 'datetime:Y-m-d H:M',
+        'editTime' => 'datetime:Y-m-d H:i',
     ];
 }

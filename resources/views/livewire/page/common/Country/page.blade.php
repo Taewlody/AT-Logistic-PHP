@@ -19,7 +19,7 @@
                         
                     </div>
                     <div class="col-6" style="justify-content: flex-end; display: flex">
-                        <a href="country_form?action=add" class="btn btn-primary">
+                        <a href="{{ route('country.form', ['action' => 'create']) }}" class="btn btn-primary">
                             <i class="fa fa-plus "> </i> Create new 
                         </a>
                     </div>
@@ -48,9 +48,9 @@
                                         <td class="center">{{ $item->editBy != null? $item->editBy->username : '' }}</td>
                                         <td>
                                             <div class="btn-group">
-                                                <button class="btn btn-success btn-xs" onClick="location.href='port_form?action=view&portCode={{ $item->portCode }}">View</button>
-                                                <button class="btn btn-info btn-xs" onClick="location.href='port_form?action=edit&portCode={{ $item->portCode }}">Edit</button>
-                                                <button class="btn btn-danger btn-xs" onClick="return confirmDel('{{ $item->portCode }}','port_action.php');">Delete</button>
+                                                <a type="button" class="btn btn-success btn-xs" href="{{ route('country.form', ['countryCode' => $item->countryCode ]) }}">View</a>
+                                                <a type="button" class="btn btn-info btn-xs" href="{{ route('country.form', ['action' => 'edit', 'countryCode' => $item->countryCode ]) }}">Edit</a>
+                                                <a type="button" class="btn btn-danger btn-xs" wire:ckick="delete({{$item->countryCode}})">Delete</a>
                                             </div>
                                         </td>
                                     </tr>
@@ -70,7 +70,7 @@
     <script src="{{ asset('assets/js/datatable/datatables/datatable.custom.js') }}"></script>
 @endpush
 
-@script
+{{-- @script
 <script>
     setInterval(() => {
         // console.log("wire:", $wire.get('page'));
@@ -78,4 +78,4 @@
     }, 2000);
 </script>
 
-@endscript
+@endscript --}}

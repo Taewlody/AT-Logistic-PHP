@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
 use App\Livewire\Page\Common\Country\Page as Country;
+use App\Livewire\Page\Common\Country\Form as CountryForm;
 use App\Livewire\Page\Common\Port\Page as Port;
 use App\Livewire\Page\Common\Customer\Page as Customer;
 use App\Livewire\Page\Common\Supplier\Page as Supplier;
@@ -79,7 +80,10 @@ use App\Livewire\Page\Administrator\UserType\Page as UserType;
     })->name('dashboard');
 
     Route::group(['prefix' => '/common',], function() {
+
         Route::get('/country', Country::class)->name('country');
+        
+        Route::get('/country/form', CountryForm::class)->name('country.form');
 
         Route::get('/port', Port::class)->name('port');
 

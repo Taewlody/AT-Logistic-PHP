@@ -9,6 +9,9 @@
                     <li class="breadcrumb-item"> <a>{{$breadcrumb_main}}</a></li>
                     <li class="breadcrumb-item"> <a>{{$breadcrumb_title}}</a></li>
                     <li class="breadcrumb-item"> <a>{{$breadcrumb_page}}</a> </li>
+                    @if ($breadcrumb_page_title != "")
+                        <li class="breadcrumb-item"> <a>{{$breadcrumb_page_title}}</a> </li>
+                    @endif
                 </ol>
             </div>
         </div>
