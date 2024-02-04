@@ -9,8 +9,13 @@ use App\Models\Common\ChargesType;
 class Page extends Component
 {
     use WithPagination;
+    public $searchText = "";
+    
     public function render()
     {
-        return view('livewire.page.common.charges-type.page', [ 'data'=> ChargesType::paginate(50)])->extends('layouts.main')->section('main-content');
+        return view('livewire.page.common.charges-type.page', [ 
+            'data'=> ChargesType::where('typeCode', 'like', '%'.$this->searchText.'%')->orWhere('typeName', 'like', '%'.$this->searchText.'%')
+            ->paginate(20)
+            ])->extends('layouts.main')->section('main-content');
     }
 }

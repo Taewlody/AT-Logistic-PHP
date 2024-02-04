@@ -9,8 +9,14 @@ use App\Models\Common\TransportType;
 class Page extends Component
 {
     use WithPagination;
+    public $searchText = "";
+
     public function render()
     {
-        return view('livewire.page.common.transport-type.page', [ 'data'=> TransportType::paginate(50)])->extends('layouts.main')->section('main-content');
+        return view('livewire.page.common.transport-type.page', [ 
+            'data'=> TransportType::where('transportCode', 'like', '%'.$this->searchText.'%')
+            ->orWhere('transportName', 'like', '%'.$this->searchText.'%')
+            ->paginate(20)
+            ])->extends('layouts.main')->section('main-content');
     }
 }

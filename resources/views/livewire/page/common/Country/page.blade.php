@@ -11,23 +11,26 @@
     <livewire:component.page-heading title_main="Country" title_sub="ประเทศ" breadcrumb_title="Common Data" breadcrumb_page="Country" />
 
     <div class="container-fluid">
-        <!-- State saving Starts-->
-        <div class="col-sm-12">
+        {{-- <form wire:submit="search"> --}}
+        
             <div class="card">
-                <div class="card-header pb-0 row">
-                    <div class="col-6">
-                        
-                    </div>
-                    <div class="col-6" style="justify-content: flex-end; display: flex">
-                        <a href="{{ route('country.form', ['action' => 'create']) }}" class="btn btn-primary">
-                            <i class="fa fa-plus "> </i> Create new 
-                        </a>
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-7"></div>
+                        <div class="col-3">
+                            <input type="text" id="search" name="search" class="form-control" wire:model.live="searchText" placeholder="Search in table">
+                        </div>
+                        <div class="col-2" style="justify-content: flex-end; display: flex">
+                            <a href="{{ route('country.form', ['action' => 'create']) }}" class="btn btn-primary">
+                                <i class="fa fa-plus "> </i> Create new 
+                            </a>
+                        </div>
                     </div>
                 </div>
                 
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table" id="basic-1" data-page-size="{{ $data->total() }}">
+                        <table class="table" data-page-size="{{ $data->total() }}">
                             <thead>
                                 <tr>
                                     <th style="width:5%">No.</th>
@@ -57,12 +60,22 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{ $data->appends(['sort' => 'countryCode'])->links() }}
+                        
+                        <br/>
+
+                                <div class="row">
+                                    <div class="col-4">
+                                        {{ $data->withQueryString()->links('layouts.themes.layout.custom-pagination-info') }}
+                                    </div>
+                                    <div class="col-8"> 
+                                        {{ $data->withQueryString()->links('layouts.themes.layout.custom-pagination-links') }}
+                                    </div>
+                                </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- State saving Ends-->
+        
+        {{-- </form> --}}
     </div>
 </div>
 @push('scripts')

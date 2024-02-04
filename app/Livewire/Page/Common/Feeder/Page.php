@@ -9,8 +9,14 @@ use App\Models\Common\Feeder;
 class Page extends Component
 {
     use WithPagination;
+    public $searchText = "";
+
     public function render()
     {
-        return view('livewire.page.common.feeder.page', [ 'data'=> Feeder::paginate(50)])->extends('layouts.main')->section('main-content');
+        return view('livewire.page.common.feeder.page', [ 
+            'data'=> Feeder::where('fCode', 'like', '%'.$this->searchText.'%')
+            ->orWhere('fName', 'like', '%'.$this->searchText.'%')
+            ->paginate(20)
+            ])->extends('layouts.main')->section('main-content');
     }
 }

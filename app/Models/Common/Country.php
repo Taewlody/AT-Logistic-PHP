@@ -108,5 +108,7 @@ class Country extends Model implements Wireable
     {
         return $this->hasOne(User::class, 'userCode', 'editID');
     }
-
+    public function getTableColumns() {
+        return $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable());
+    }
 }

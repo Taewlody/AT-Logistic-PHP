@@ -9,8 +9,14 @@ use App\Models\Common\Supplier;
 class Page extends Component
 {
     use WithPagination;
+    public $searchText = "";
+
     public function render()
     {
-        return view('livewire.page.common.supplier.page', [ 'data'=> Supplier::paginate(50)])->extends('layouts.main')->section('main-content');
+        return view('livewire.page.common.supplier.page', [ 
+            'data'=> Supplier::where('supCode', 'like', '%'.$this->searchText.'%')
+            ->orWhere('supNameTH', 'like', '%'.$this->searchText.'%')
+            ->paginate(20)
+            ])->extends('layouts.main')->section('main-content');
     }
 }

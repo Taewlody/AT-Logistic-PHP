@@ -9,8 +9,14 @@ use App\Models\Common\Saleman;
 class Page extends Component
 {
     use WithPagination;
+    public $searchText = "";
+
     public function render()
     {
-        return view('livewire.page.common.saleman.page', [ 'data'=> Saleman::paginate(50)])->extends('layouts.main')->section('main-content');
+        return view('livewire.page.common.saleman.page', [ 
+            'data'=> Saleman::where('empCode', 'like', '%'.$this->searchText.'%')
+            ->orWhere('empName', 'like', '%'.$this->searchText.'%')
+            ->paginate(20)
+            ])->extends('layouts.main')->section('main-content');
     }
 }

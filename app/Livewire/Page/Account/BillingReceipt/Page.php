@@ -12,8 +12,18 @@ use Carbon\Carbon;
 
 class Page extends Component
 {
+    use WithPagination;
+
+    public $dateStart;
+    public $dateEnd;
+    public $customerList = [];
+    public $customerSearch = "";
+    public $documentNo = "";
+    public $jobNo = "";
+    public $query = [];
+
     public function render()
     {
-        return view('livewire.page.account.billing-receipt.page', [ 'data'=> ReceiptVoucher::where($this->query)->orderBy('documentDate', 'desc')->paginate(50)])->extends('layouts.main');
+        return view('livewire.page.account.billing-receipt.page', [ 'data'=> ReceiptVoucher::where($this->query)->orderBy('documentDate', 'desc')->paginate(20)])->extends('layouts.main');
     }
 }

@@ -9,8 +9,14 @@ use App\Models\Common\Unit;
 class Page extends Component
 {
     use WithPagination;
+    public $searchText = "";
+
     public function render()
     {
-        return view('livewire.page.common.unit.page', [ 'data'=> Unit::paginate(50)])->extends('layouts.main')->section('main-content');
+        return view('livewire.page.common.unit.page', [ 
+            'data'=> Unit::where('unitCode', 'like', '%'.$this->searchText.'%')
+            ->orWhere('unitName', 'like', '%'.$this->searchText.'%')
+            ->paginate(20)
+            ])->extends('layouts.main')->section('main-content');
     }
 }
