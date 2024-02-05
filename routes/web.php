@@ -17,7 +17,9 @@ use App\Http\Controllers\AuthController;
 use App\Livewire\Page\Common\Country\Page as Country;
 use App\Livewire\Page\Common\Country\Form as CountryForm;
 use App\Livewire\Page\Common\Port\Page as Port;
+use App\Livewire\Page\Common\Port\Form as PortForm;
 use App\Livewire\Page\Common\Customer\Page as Customer;
+use App\Livewire\Page\Common\Customer\Form as CustomerForm;
 use App\Livewire\Page\Common\Supplier\Page as Supplier;
 use App\Livewire\Page\Common\Saleman\Page as Saleman;
 use App\Livewire\Page\Common\Feeder\Page as Feeder;
@@ -87,7 +89,11 @@ use App\Livewire\Page\Administrator\UserType\Page as UserType;
 
         Route::get('/port', Port::class)->name('port');
 
+        Route::get('/port/form', PortForm::class)->name('port.form');
+
         Route::get('/customer', Customer::class)->name('customer');
+
+        Route::get('/customer/form', CustomerForm::class)->name('customer.form');
 
         Route::get('/supplier', Supplier::class)->name('supplier');
 

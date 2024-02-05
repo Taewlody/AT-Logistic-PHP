@@ -1,5 +1,5 @@
 <div>
-    <livewire:component.page-heading title_main="Customer" title_sub="ลูกค้า" breadcrumb_title="Common Data" breadcrumb_page="Cusotmer" />
+    <livewire:component.page-heading title_main="Customer" title_sub="ลูกค้า" breadcrumb_title="Common Data" breadcrumb_page="Customer" />
 
     <div class="container-fluid">
 
@@ -11,7 +11,7 @@
                             <input type="text" id="search" name="search" class="form-control" wire:model.live="searchText" placeholder="Search in table">
                         </div>
                         <div class="col-2" style="justify-content: flex-end; display: flex">
-                            <a href="country_form?action=add" class="btn btn-primary">
+                            <a href="{{route('customer.form', ['action' => 'create'])}}" class="btn btn-primary">
                                 <i class="fa fa-plus "> </i> Create new 
                             </a>
                         </div>
@@ -44,8 +44,8 @@
                                     <td class="center">{{  $item->editBy != null? $item->editBy->username : '' }}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <button class="btn btn-xs btn-success" onClick="location.href='port_form?action=view&portCode={{ $item->cusCode }}">View</button>
-                                            <button class="btn btn-xs btn-primary" onClick="location.href='port_form?action=edit&portCode={{ $item->cusCode }}">Edit</button>
+                                            <a class="btn btn-xs btn-success" href="{{route('customer.form', ['action' => 'view', 'id' => $item->cusCode])}}">View</a>
+                                            <a class="btn btn-xs btn-primary" href="{{route('customer.form', ['action' => 'edit', 'id' => $item->cusCode])}}">Edit</a>
                                             <button class="btn btn-xs btn-danger" onClick="return confirmDel('{{ $item->cusCode }}','port_action.php');">Delete</button>
                                         </div>
                                     </td>

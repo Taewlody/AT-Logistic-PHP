@@ -1,0 +1,23 @@
+.form-body {
+    input:disabled {
+        border: none;
+        background: none;
+        color: black;
+        padding: 0;
+    }
+    input[type="radio"]:disabled:not(:checked) + label {
+        display: none;
+    }
+    input[type="radio"]:disabled:not(:checked) {
+        display: none;
+    }
+    input[type="radio"]:disabled:checked {
+        display: none;
+    }
+    select:disabled {
+        border: none;
+        background: none;
+        color: black;
+        padding: 0;
+    }
+}

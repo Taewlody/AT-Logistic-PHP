@@ -2,6 +2,7 @@
 
 namespace App\Models\Common;
 
+use App\Casts\CustomDateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Casts\BooleanString;
@@ -33,8 +34,8 @@ class CreditTerm extends Model
         'creditName' => 'string',
         'isActive' => BooleanString::class,
         'createID' => 'string',
-        'createTime' => 'datetime:Y-m-d H:M',
+        'createTime' => CustomDateTime::class,
         'editID' => 'string',
-        'editTime' => 'datetime:Y-m-d H:M',
+        'editTime' => CustomDateTime::class,
     ];
 }

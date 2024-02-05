@@ -1,4 +1,4 @@
-@push('css')
+{{-- @push('css')
     <style>
         .form-body input[type='text']:disabled {
             border: none;
@@ -12,11 +12,11 @@
         .form-body input[type='radio']:disabled + label {
             visibility: hidden;
         }
-        .form-body input[type='radio']:disabled:checked {
+        /* .form-body input[type='radio']:disabled:checked {
             visibility: hidden;
-        }
+        } */
     </style>
-@endpush
+@endpush --}}
 
 <div>
     <livewire:component.page-heading title_main="Country" title_sub="ประเทศ" breadcrumb_title="Common Data"

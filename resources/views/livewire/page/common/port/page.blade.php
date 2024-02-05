@@ -8,10 +8,10 @@
                 <div class="row">
                     <div class="col-7"></div>
                         <div class="col-3">
-                            <input type="text" id="search" name="search" class="form-control" wire:model.live="searchText" placeholder="Search in table">
+                            <input type="text" id="search" name="search" class="form-control" wire:model="searchText" wire:keyup="$refresh" placeholder="Search in table">
                         </div>
                         <div class="col-2" style="justify-content: flex-end; display: flex">
-                            <a href="country_form?action=add" class="btn btn-primary">
+                            <a href="{{ route('port.form', ['action' => 'create'])}}" class="btn btn-primary">
                                 <i class="fa fa-plus "> </i> Create new 
                             </a>
                         </div>
@@ -36,7 +36,7 @@
                             <tbody>
                                 @foreach ($data as $item)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $loop->iteration + (($data->currentPage() - 1) * $data->perPage()) }}</td>
                                     <td>{{ $item->portCode }}</td>
                                     <td>{{ $item->portNameTH }}</td>
                                     <td>{{ $item->country->countryNameTH }}</td>
@@ -44,9 +44,9 @@
                                     <td class="center">{{ $item->editBy != null? $item->editBy->username : '' }}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <button class="btn btn-xs btn-success" onClick="location.href='port_form?action=view&portCode={{ $item->portCode }}">View</button>
-                                            <button class="btn btn-xs btn-primary" onClick="location.href='port_form?action=edit&portCode={{ $item->portCode }}">Edit</button>
-                                            <button class="btn btn-xs btn-danger" onClick="return confirmDel('{{ $item->portCode }}','port_action.php');">Delete</button>
+                                            <a class="btn btn-xs btn-success" href="{{ route('port.form', ['action' => 'view', 'portCode' => $item->portCode])}}">View</a>
+                                            <a class="btn btn-xs btn-primary" href="{{ route('port.form', ['action' => 'edit', 'portCode' => $item->portCode])}}">Edit</a>
+                                            <button class="btn btn-xs btn-danger" wire:confirm="Are you sure want to delete {{$item->portNameTH}}" wire:click="delete('{{$item->portCode}}')">Delete</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -57,10 +57,10 @@
 
                     <div class="row">
                         <div class="col-4">
-                            {{ $data->withQueryString()->links('layouts.themes.layout.custom-pagination-info') }}
+                            {{ $data->links('layouts.themes.layout.custom-pagination-info') }}
                         </div>
                         <div class="col-8"> 
-                            {{ $data->withQueryString()->links('layouts.themes.layout.custom-pagination-links') }}
+                            {{ $data->links('layouts.themes.layout.custom-pagination-links') }}
                         </div>
                     </div>
                 </div>

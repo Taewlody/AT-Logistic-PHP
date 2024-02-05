@@ -85,7 +85,6 @@ class Country extends Model implements Wireable
 
     public function toLivewire()
     {
-        Log::debug("date: ".$this->createTime);
         return [
             'comCode' => $this->comCode,
             'countryCode' => $this->countryCode,
