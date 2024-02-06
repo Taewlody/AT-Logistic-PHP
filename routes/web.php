@@ -14,51 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 use App\Http\Controllers\AuthController;
-use App\Livewire\Page\Common\Country\Page as Country;
-use App\Livewire\Page\Common\Country\Form as CountryForm;
-use App\Livewire\Page\Common\Port\Page as Port;
-use App\Livewire\Page\Common\Port\Form as PortForm;
-use App\Livewire\Page\Common\Customer\Page as Customer;
-use App\Livewire\Page\Common\Customer\Form as CustomerForm;
-use App\Livewire\Page\Common\Supplier\Page as Supplier;
-use App\Livewire\Page\Common\Saleman\Page as Saleman;
-use App\Livewire\Page\Common\Feeder\Page as Feeder;
-use App\Livewire\Page\Common\Charges\Page as Charge;
-use App\Livewire\Page\Common\BankAccount\Page as BankAccount;
-use App\Livewire\Page\Common\ChargesType\Page as ChargeType;
-use App\Livewire\Page\Common\TransportType\Page as TransportType;
-use App\Livewire\Page\Common\ContainerType\Page as ContainerType;
-use App\Livewire\Page\Common\ContainerSize\Page as ContainerSize;
-use App\Livewire\Page\Common\Place\Page as Place;
-use App\Livewire\Page\Common\Unit\Page as Unit;
-use App\Livewire\Page\Common\Currency\Page as Currency;
-use App\Livewire\Page\Marketing\JobOrder\Page as JobOrder;
-use App\Livewire\Page\Marketing\TrailerBooking\Page as TrailerBooking;
-use App\Livewire\Page\Marketing\BillOfLading\Page as BillOfLading;
-use App\Livewire\Page\Customer\AdvancePayment\Page as AdvancePayment;
-use App\Livewire\Page\Shipping\PaymentVoucher\Page as PaymentVoucherShipping;
-use App\Livewire\Page\Shipping\PettyCash\Page as PettyCashShipping;
-use App\Livewire\Page\Shipping\Deposit\Page as Deposit;
-use App\Livewire\Page\Messenger\CalendarBooking\Page as CalendarBooking;
-use App\Livewire\Page\Messenger\MessengerBooking\Page as MessengerBooking;
-use App\Livewire\Page\Account\Invoice\Page as Invoice;
-use App\Livewire\Page\Account\TaxInvoice\Page as TaxInvoice;
-use App\Livewire\Page\Account\PaymentVoucher\Page as PaymentVoucherAccount;
-use App\Livewire\Page\Account\ReceiptVoucher\Page as ReceiptVoucher;
-use App\Livewire\Page\Account\BillingReceipt\Page as BillingReceipt;
-use App\Livewire\Page\Account\PettyCash\Page as PettyCashAccount;
-use App\Livewire\Page\Account\WithholdingTax\Page as WithholdingTax;
-use App\Livewire\Page\Report\ReportJob\Page as ReportJob;
-use App\Livewire\Page\Report\ReportProfitAndLossJob\Page as ReportProfitAndLossJob;
-use App\Livewire\Page\Report\ReportSaleInvoice\Page as ReportSaleInvoice;
-use App\Livewire\Page\Report\ReportSaleTaxInvoice\Page as ReportSaleTaxInvoice;
-use App\Livewire\Page\Report\ReportInvoiceOverdue\Page as ReportInvoiceOverdue;
-use App\Livewire\Page\Report\PaymentVoucherItems\Page as ReportPaymentVoucherItems;
-use App\Livewire\Page\Report\ReceiptVoucher\Page as ReportReceiptVoucher;
-use App\Livewire\Page\Report\TaxInvoice\Page as ReportTaxInvoice;
-use App\Livewire\Page\Report\PaymentVoucher\Page as ReportPaymentVoucher;
-use App\Livewire\Page\Administrator\User\Page as Users;
-use App\Livewire\Page\Administrator\UserType\Page as UserType;
 
  Route::group([
     'prefix' => '/AT',
@@ -74,119 +29,29 @@ use App\Livewire\Page\Administrator\UserType\Page as UserType;
     
     Route::post('/login', [AuthController::class,'authenticate'])->withoutMiddleware(['auth', 'auth.session', 'session.timeout'])->Middleware('guest');
 
-    // Route::get('/logout', 'AuthController@logout')->name('logout');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 
-    Route::group(['prefix' => '/common',], function() {
-
-        Route::get('/country', Country::class)->name('country');
-        
-        Route::get('/country/form', CountryForm::class)->name('country.form');
-
-        Route::get('/port', Port::class)->name('port');
-
-        Route::get('/port/form', PortForm::class)->name('port.form');
-
-        Route::get('/customer', Customer::class)->name('customer');
-
-        Route::get('/customer/form', CustomerForm::class)->name('customer.form');
-
-        Route::get('/supplier', Supplier::class)->name('supplier');
-
-        Route::get('/saleman', Saleman::class)->name('saleman');
-
-        Route::get('/feeder', Feeder::class)->name('feeder');
-
-        Route::get('/charges', Charge::class)->name('charges');
-
-        Route::get('/bank-account', BankAccount::class)->name('bank-account');
-
-        Route::get('/charges-type', ChargeType::class)->name('charges-type');
-
-        Route::get('/transport-type', TransportType::class)->name('transport-type');
-
-        Route::get('/container-type', ContainerType::class)->name('container-type');
-
-        Route::get('/container-size', ContainerSize::class)->name('container-size');
-
-        Route::get('/place', Place::class)->name('place');
-
-        Route::get('/unit', Unit::class)->name('unit');
-
-        Route::get('/currency', Currency::class)->name('currency');
-    });
+    require __DIR__.'/common/route.php';
     
-    Route::group(['prefix' => '/marketing',], function() {
-        Route::get('/job-order', JobOrder::class)->name('job-order');
+    require __DIR__.'/marketing/route.php';
 
-        Route::get('/trailer-booking', TrailerBooking::class)->name('trailer-booking');
-    
-        Route::get('/bill-of-lading', BillOfLading::class)->name('bill-of-lading');
-    });
+    require __DIR__.'/customer/route.php';
 
-    Route::group(['prefix' => '/customer',], function() {
-        Route::get('/advance-payment', AdvancePayment::class)->name('advance-payment');
-    });
+    require __DIR__.'/shipping/route.php';
 
-    Route::group(['prefix'=> 'shipping',], function() {
-        Route::get('/payment-voucher', PaymentVoucherShipping::class)->name('shipping-payment-voucher');
+    require __DIR__.'/messenger/route.php';
 
-        Route::get('/petty-cash', PettyCashShipping::class)->name('shipping-petty-cash');
+    require __DIR__.'/account/route.php';
 
-        Route::get('/deposit', Deposit::class)->name('deposit');
-    });
-    
-    Route::group(['prefix'=> 'messenger',], function() {
-        Route::get("/calendar-booking", CalendarBooking::class)->name('calendar-booking');
+    require __DIR__.'/report/route.php';
 
-        Route::get("/messanger-booking", MessengerBooking::class)->name('messanger-booking');
-    });
+    require __DIR__.'/administrator/route.php';
 
-    Route::group(['prefix'=> 'account',], function() {
-        Route::get("/invoice", Invoice::class)->name('invoice')
-        ;
-        Route::get("/tax-invoice", TaxInvoice::class)->name('tax-invoice');
-
-        Route::get("/payment-voucher", PaymentVoucherAccount::class)->name('account-payment-voucher');
-
-        Route::get("/receipt-voucher", ReceiptVoucher::class)->name('receipt-voucher');
-
-        Route::get("/billing-receipt", BillingReceipt::class)->name('billing-receipt');
-
-        Route::get("/petty-cash", PettyCashAccount::class)->name('account-petty-cash');
-
-        Route::get("/withholding-tax", WithholdingTax::class)->name('withholding-tax');
-    });
-
-    Route::group(['prefix'=> 'report',], function() {
-        Route::get("/report-job", ReportJob::class)->name('report-job');
-
-        Route::get("/report-profit-and-loss-job", ReportProfitAndLossJob::class)->name('report-profit-and-loss-job');
-
-        Route::get("/report-sale-invoice", ReportSaleInvoice::class)->name('report-sale-invoice');
-
-        Route::get("/report-sale-tax-invoice", ReportSaleTaxInvoice::class)->name('report-sale-tax-invoice');
-
-        Route::get("/report-invoice-overdue", ReportInvoiceOverdue::class)->name('report-invoice-overdue');
-
-        Route::get("/report-payment-voucher-items", ReportPaymentVoucherItems::class)->name('report-payment-voucher-items');
-
-        Route::get("/report-receipt-voucher", ReportReceiptVoucher::class)->name('report-receipt-voucher');
-
-        Route::get("/report-tax-invoice", ReportTaxInvoice::class)->name('report-tax-invoice');
-
-        Route::get("/report-payment-voucher", ReportPaymentVoucher::class)->name('report-payment-voucher');
-    });
-
-    Route::group(['prefix'=> 'administrator',], function() {
-        Route::get("/users", Users::class)->name('user');
-
-        Route::get("/user-type", UserType::class)->name('user-type');
-    });
+   
 
 });
 
