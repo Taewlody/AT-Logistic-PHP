@@ -11,7 +11,7 @@
                             <input type="text" id="search" name="search" class="form-control" wire:model.live="searchText" placeholder="Search in table">
                         </div>
                         <div class="col-2" style="justify-content: flex-end; display: flex">
-                            <a href="country_form?action=add" class="btn btn-primary">
+                            <a href="{{ route('saleman.form', ['action' => 'create']) }}" class="btn btn-primary">
                                 <i class="fa fa-plus "> </i> Create new 
                             </a>
                         </div>
@@ -42,9 +42,9 @@
                                     <td class="center">{{ $item->editBy != null? $item->editBy->username : '' }}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <button class="btn btn-xs btn-success" onClick="location.href='port_form?action=view&portCode={{ $item->empCode }}">View</button>
-                                            <button class="btn btn-xs btn-primary" onClick="location.href='port_form?action=edit&portCode={{ $item->empCode }}">Edit</button>
-                                            <button class="btn btn-xs btn-danger" onClick="return confirmDel('{{ $item->empCode }}','port_action.php');">Delete</button>
+                                            <a class="btn btn-xs btn-success" href="{{ route('saleman.form', ['action' => 'view', 'id' => $item->empCode]) }}">View</a>
+                                            <a class="btn btn-xs btn-primary" href="{{ route('saleman.form', ['action' => 'edit', 'id' => $item->empCode]) }}">Edit</a>
+                                            <button class="btn btn-xs btn-danger" wire:confirm="Are you sure want to delete {{$item->empName}}" wire:click="delete('{{$item->empCode}}')">Delete</button>
                                         </div>
                                     </td>
                                 </tr>

@@ -11,6 +11,12 @@ class Page extends Component
     use WithPagination;
     public $searchText = "";
 
+    public function delete($id)
+    {
+        Feeder::find($id)->delete();
+        redirect()->route('feeder');
+    }
+
     public function render()
     {
         return view('livewire.page.common.feeder.page', [ 

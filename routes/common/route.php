@@ -10,8 +10,11 @@ use App\Livewire\Page\Common\Customer\Form as CustomerForm;
 use App\Livewire\Page\Common\Supplier\Page as Supplier;
 use App\Livewire\Page\Common\Supplier\Form as SupplierForm;
 use App\Livewire\Page\Common\Saleman\Page as Saleman;
+use App\Livewire\Page\Common\Saleman\Form as SalemanForm;
 use App\Livewire\Page\Common\Feeder\Page as Feeder;
+use App\Livewire\Page\Common\Feeder\Form as FeederForm;
 use App\Livewire\Page\Common\Charges\Page as Charge;
+use App\Livewire\Page\Common\Charges\Form as ChargeForm;
 use App\Livewire\Page\Common\BankAccount\Page as BankAccount;
 use App\Livewire\Page\Common\ChargesType\Page as ChargeType;
 use App\Livewire\Page\Common\TransportType\Page as TransportType;
@@ -41,9 +44,15 @@ Route::group(['prefix' => '/common',], function() {
 
     Route::get('/saleman', Saleman::class)->name('saleman');
 
+    Route::get('/saleman/form', SalemanForm::class)->name('saleman.form');
+
     Route::get('/feeder', Feeder::class)->name('feeder');
 
+    Route::get('/feeder/form', FeederForm::class)->name('feeder.form');
+
     Route::get('/charges', Charge::class)->name('charges');
+
+    Route::get('/charges/form', ChargeForm::class)->name('charges.form');
 
     Route::get('/bank-account', BankAccount::class)->name('bank-account');
 

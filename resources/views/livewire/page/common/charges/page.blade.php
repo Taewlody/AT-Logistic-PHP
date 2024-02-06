@@ -12,7 +12,7 @@
                             <input type="text" id="search" name="search" class="form-control" wire:model.live="searchText" placeholder="Search in table">
                         </div>
                         <div class="col-2" style="justify-content: flex-end; display: flex">
-                            <a href="country_form?action=add" class="btn btn-primary">
+                            <a href="{{ route('charges.form', ['action' => 'create']) }}" class="btn btn-primary">
                                 <i class="fa fa-plus "> </i> Create new 
                             </a>
                         </div>
@@ -47,12 +47,12 @@
                                     <td class="center">{{ $item->editBy != null? $item->editBy->username : '' }}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <button class="btn btn-xs btn-success"
-                                                onClick="location.href='port_form?action=view&portCode={{ $item->chargeCode }}">View</button>
-                                            <button class="btn btn-xs btn-primary"
-                                                onClick="location.href='port_form?action=edit&portCode={{ $item->chargeCode }}">Edit</button>
+                                            <a class="btn btn-xs btn-success"
+                                                href="{{ route('charges.form', ['action' => 'view', 'id' => $item->chargeCode]) }}">View</a>
+                                            <a class="btn btn-xs btn-primary"
+                                                href="{{ route('charges.form', ['action' => 'edit', 'id' => $item->chargeCode]) }}">Edit</a>
                                             <button class="btn btn-xs btn-danger"
-                                                onClick="return confirmDel('{{ $item->chargeCode }}','port_action.php');">Delete</button>
+                                            wire:confirm="Are you sure want to delete {{$item->chargeName}}" wire:click="delete('{{$item->chargeCode}}')">Delete</button>
                                         </div>
                                     </td>
                                 </tr>
