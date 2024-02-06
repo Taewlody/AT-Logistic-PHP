@@ -8,6 +8,7 @@ use App\Livewire\Page\Common\Port\Form as PortForm;
 use App\Livewire\Page\Common\Customer\Page as Customer;
 use App\Livewire\Page\Common\Customer\Form as CustomerForm;
 use App\Livewire\Page\Common\Supplier\Page as Supplier;
+use App\Livewire\Page\Common\Supplier\Form as SupplierForm;
 use App\Livewire\Page\Common\Saleman\Page as Saleman;
 use App\Livewire\Page\Common\Feeder\Page as Feeder;
 use App\Livewire\Page\Common\Charges\Page as Charge;
@@ -35,6 +36,8 @@ Route::group(['prefix' => '/common',], function() {
     Route::get('/customer/form', CustomerForm::class)->name('customer.form');
 
     Route::get('/supplier', Supplier::class)->name('supplier');
+
+    Route::get('/supplier/form', SupplierForm::class)->name('supplier.form');
 
     Route::get('/saleman', Saleman::class)->name('saleman');
 

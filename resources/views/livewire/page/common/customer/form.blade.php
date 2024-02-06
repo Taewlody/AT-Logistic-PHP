@@ -201,13 +201,12 @@
                                 <label class="col-sm-2 col-form-label">Status</label>
                                 <div class="col-sm-10">
                                     
-                                        <input id="activeRadio" type="radio" name="isActive" value="true"
-                                            wire:model="data.isActive" @disabled($action != 'create' && $action != 'edit')>
-                                            <label for="activeRadio" class="checkbox-inline i-checks"> Active </label>
-                                    
-                                        <input id="inactiveRadio" type="radio" name="isActive" value="false"
-                                            wire:model="data.isActive" @disabled($action != 'create' && $action != 'edit')>
-                                            <label for="inactiveRadio" class="i-checks"> Inactive</label>
+                                    <input id="radio-active" type="radio" wire:model.boolean="data.isActive" value="true" @disabled($action != 'create' && $action != 'edit')>
+                                    <label for="radio-active" class="checkbox-inline i-checks">Active </label>
+
+                                    <input id="radio-inactive" type="radio" wire:model.boolean="data.isActive" value="false" @disabled($action != 'create' && $action != 'edit')>
+                                    <label for="radio-inactive" class="i-checks">Inactive</label>
+ 
                                 </div>
                             </div>
                             @if ($action != 'create')

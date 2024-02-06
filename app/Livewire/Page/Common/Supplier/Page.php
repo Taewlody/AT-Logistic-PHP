@@ -11,6 +11,12 @@ class Page extends Component
     use WithPagination;
     public $searchText = "";
 
+    public function delete($id)
+    {
+        Supplier::find($id)->delete();
+        redirect()->route('supplier');
+    }
+
     public function render()
     {
         return view('livewire.page.common.supplier.page', [ 

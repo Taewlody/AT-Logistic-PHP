@@ -13,7 +13,7 @@
             <div class="col-lg-12">
                 <div class="ibox ">
                     <div class="ibox-content">
-                        <form wire:submit="save">
+                        <form class="form-body" wire:submit="save">
                             <div class="form-group  row">
                                 <label class="col-sm-2 col-form-label">
                                     <h3>Supplier info</h3>
@@ -42,13 +42,13 @@
                             <div class="form-group  row">
                                 <label class="col-sm-2 col-form-label">Supplier Name</label>
                                 <div class="col-md-4">
-                                    <input type="text" name="custNameTH" id="custNameTH" wire:model="data.custNameTH"
+                                    <input type="text" name="custNameTH" id="custNameTH" wire:model="data.supNameTH"
                                         autocomplete="empty" placeholder="Name (TH)" class="form-control"
                                         @disabled($action != 'create' && $action != 'edit')>
                                 </div>
 
                                 <div class="col-md-4">
-                                    <input type="text" name="custNameEN" id="custNameEN" wire:model="data.custNameEN"
+                                    <input type="text" name="custNameEN" id="custNameEN" wire:model="data.supNameEN"
                                         placeholder="Name (EN)" class="form-control" @disabled($action != 'create' && $action != 'edit')>
                                 </div>
                             </div>
@@ -109,7 +109,7 @@
                                         wire:model="data.countryCode" id="countryCode" @disabled($action != 'create' && $action != 'edit')>
                                         <option value="">- select -</option>
                                         @foreach ($countryList as $country)
-                                            <option value="{{ $country->countryCode }}">{{ $country->countryName }}
+                                            <option value="{{ $country->countryCode }}">{{ $country->countryNameTH }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -180,13 +180,12 @@
                                 <label class="col-sm-2 col-form-label">Status</label>
                                 <div class="col-sm-10">
 
-                                    <input id="activeRadio" type="radio" name="isActive" value="true"
-                                        wire:model="data.isActive" @disabled($action != 'create' && $action != 'edit')>
-                                    <label for="activeRadio" class="checkbox-inline i-checks">Active </label>
+                                    <input id="radio-active" type="radio" wire:model.boolean="data.isActive" value="true" @disabled($action != 'create' && $action != 'edit')>
+                                    <label for="radio-active" class="checkbox-inline i-checks">Active </label>
 
-                                    <input id="inactiveRadio" type="radio" name="isActive" value="false"
-                                        wire:model="data.isActive" @disabled($action != 'create' && $action != 'edit')>
-                                    <label for="inactiveRadio" class="i-checks">Inactive</label>
+                                    <input id="radio-inactive" type="radio" wire:model.boolean="data.isActive" value="false" @disabled($action != 'create' && $action != 'edit')>
+                                    <label for="radio-inactive" class="i-checks">Inactive</label>
+ 
                                 </div>
                             </div>
                             @if ($action != 'create')
