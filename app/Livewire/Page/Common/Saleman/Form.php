@@ -50,7 +50,7 @@ class Form extends Component
         }
         // Saleman::upsert(['empCode'=>$this->data->empCode], $this->data->toArray());
         Saleman::upsert([$this->data->toArray()], ['empCode']);
-        return redirect()->route('saleman');
+        return $this->redirect(Page::class);
     }
     public function render()
     {

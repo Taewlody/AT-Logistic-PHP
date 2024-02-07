@@ -16,13 +16,21 @@ use App\Livewire\Page\Common\Feeder\Form as FeederForm;
 use App\Livewire\Page\Common\Charges\Page as Charge;
 use App\Livewire\Page\Common\Charges\Form as ChargeForm;
 use App\Livewire\Page\Common\BankAccount\Page as BankAccount;
+use App\Livewire\Page\Common\BankAccount\Form as BankAccountForm;
 use App\Livewire\Page\Common\ChargesType\Page as ChargeType;
+use App\Livewire\Page\Common\ChargesType\Form as ChargeTypeForm;
 use App\Livewire\Page\Common\TransportType\Page as TransportType;
+use App\Livewire\Page\Common\TransportType\Form as TransportTypeForm;
 use App\Livewire\Page\Common\ContainerType\Page as ContainerType;
+use App\Livewire\Page\Common\ContainerType\Form as ContainerTypeForm;
 use App\Livewire\Page\Common\ContainerSize\Page as ContainerSize;
+use App\Livewire\Page\Common\ContainerSize\Form as ContainerSizeForm;
 use App\Livewire\Page\Common\Place\Page as Place;
+use App\Livewire\Page\Common\Place\Form as PlaceForm;
 use App\Livewire\Page\Common\Unit\Page as Unit;
+use App\Livewire\Page\Common\Unit\Form as UnitForm;
 use App\Livewire\Page\Common\Currency\Page as Currency;
+use App\Livewire\Page\Common\Currency\Form as CurrencyForm;
 
 Route::group(['prefix' => '/common',], function() {
 
@@ -56,17 +64,33 @@ Route::group(['prefix' => '/common',], function() {
 
     Route::get('/bank-account', BankAccount::class)->name('bank-account');
 
+    Route::get('/bank-account/form', BankAccountForm::class)->name('bank-account.form');
+
     Route::get('/charges-type', ChargeType::class)->name('charges-type');
+
+    Route::get('/charges-type/form', ChargeTypeForm::class)->name('charges-type.form');
 
     Route::get('/transport-type', TransportType::class)->name('transport-type');
 
+    Route::get('/transport-type/form', TransportTypeForm::class)->name('transport-type.form');
+
     Route::get('/container-type', ContainerType::class)->name('container-type');
+
+    Route::get('/container-type/form', ContainerTypeForm::class)->name('container-type.form');
 
     Route::get('/container-size', ContainerSize::class)->name('container-size');
 
+    Route::get('/container-size/form', ContainerSizeForm::class)->name('container-size.form');
+
     Route::get('/place', Place::class)->name('place');
+
+    Route::get('/place/form', PlaceForm::class)->name('place.form');
 
     Route::get('/unit', Unit::class)->name('unit');
 
+    Route::get('/unit/form', UnitForm::class)->name('unit.form');
+
     Route::get('/currency', Currency::class)->name('currency');
+
+    Route::get('/currency/form', CurrencyForm::class)->name('currency.form');
 });

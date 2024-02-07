@@ -44,7 +44,7 @@ class Form extends Component
             $this->data->editTime = Carbon::now()->format('Y-m-d H:i:s');
         }
         Feeder::upsert([$this->data->toArray()], ['fCode']);
-        return redirect()->route('feeder');
+        return $this->redirect(Page::class);
     }
 
     public function render()

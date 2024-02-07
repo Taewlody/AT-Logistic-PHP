@@ -60,7 +60,7 @@ class Form extends Component
             $this->data->editTime = Carbon::now()->format('Y-m-d H:i:s');
         }
         Customer::updateOrCreate(['cusCode'=>$this->data->cusCode], $this->data->toArray());
-        return redirect()->route('customer');
+        return $this->redirect(Page::class);
     }
     public function render()
     {

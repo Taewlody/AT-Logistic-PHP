@@ -44,7 +44,7 @@
                                         <div class="btn-group">
                                             <a class="btn btn-xs btn-success" href="{{ route('feeder.form', ['action' => 'view', 'id' => $item->fCode]) }}">View</a>
                                             <a class="btn btn-xs btn-primary" href="{{ route('feeder.form', ['action' => 'edit', 'id' => $item->fCode]) }}">Edit</a>
-                                            <button class="btn btn-xs btn-danger" wire:confirm="Are you sure want to delete {{$item->fName}}" wire:click="delete('{{$item->fCode}}')">Delete</button>
+                                            <button class="btn btn-xs btn-danger" wire:confirm="Are you sure want to delete {{$item->fName}}" wire:click="delete('{{$item->fCode}}')" wire:refresh="$refresh">Delete</button>
                                         </div>
                                     </td>
                                 </tr>

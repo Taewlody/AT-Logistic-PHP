@@ -27,12 +27,7 @@ class Page extends Component
     public function delete($countryCode)
     {
         Country::find($countryCode)->delete();
-        $this->refreshComponent();
-    }
-
-    protected function refreshComponent()
-    {
-        redirect()->route('country');
+        $this->dispatch('refresh');
     }
 
     public function render()

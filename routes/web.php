@@ -35,23 +35,21 @@ use App\Http\Controllers\AuthController;
         return view('dashboard');
     })->name('dashboard');
 
-    require __DIR__.'/common/route.php';
+    require_once(__DIR__.'/common/route.php');
     
-    require __DIR__.'/marketing/route.php';
+    require_once(__DIR__.'/marketing/route.php');
 
-    require __DIR__.'/customer/route.php';
+    require_once(__DIR__.'/customer/route.php');
 
-    require __DIR__.'/shipping/route.php';
+    require_once(__DIR__.'/shipping/route.php');
 
-    require __DIR__.'/messenger/route.php';
+    require_once(__DIR__.'/messenger/route.php');
 
-    require __DIR__.'/account/route.php';
+    require_once(__DIR__.'/account/route.php');
 
-    require __DIR__.'/report/route.php';
+    require_once(__DIR__.'/report/route.php');
 
-    require __DIR__.'/administrator/route.php';
-
-   
+    require_once(__DIR__.'/administrator/route.php');
 
 });
 

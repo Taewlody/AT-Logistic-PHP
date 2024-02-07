@@ -52,7 +52,7 @@ class Form extends Component
             $this->data->editTime = Carbon::now()->format('Y-m-d H:i:s');
         }
         Supplier::updateOrCreate(['supCode'=>$this->data->supCode], $this->data->toArray());
-        return redirect()->route('supplier');
+        return $this->redirect(Page::class);
     }
     
     public function render()

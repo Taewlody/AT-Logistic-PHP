@@ -44,7 +44,7 @@
                                         <div class="btn-group">
                                             <a class="btn btn-xs btn-success" href="{{ route('supplier.form', ['action' => 'view', 'id' => $item->supCode]) }} ">View</a>
                                             <a class="btn btn-xs btn-primary" href="{{ route('supplier.form', ['action' => 'edit', 'id' => $item->supCode]) }} ">Edit</a>
-                                            <button class="btn btn-xs btn-danger" wire:confirm="Are you sure want to delete {{$item->supNameTH}}" wire:click="delete('{{$item->supCode}}')">Delete</button>
+                                            <button class="btn btn-xs btn-danger" wire:confirm="Are you sure want to delete {{$item->supNameTH}}" wire:click="delete('{{$item->supCode}}')" wire:refresh="$refresh">Delete</button>
                                         </div>
                                     </td>
                                 </tr>

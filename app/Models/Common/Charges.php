@@ -61,7 +61,7 @@ class Charges extends Model implements Wireable
 
     public function __construct($attributes = []){
         parent::__construct($attributes);
-        $this->comCode = $attributes['comCode'] ?? '';
+        $this->comCode = $attributes['comCode'] ?? 'C01';
         $this->chargeCode = $attributes['chargeCode'] ?? '';
         $this->chargeName = $attributes['chargeName'] ?? '';
         $this->typeCode = $attributes['typeCode'] ?? '';

@@ -14,7 +14,7 @@ class Page extends Component
     public function delete($id)
     {
         Charges::find($id)->delete();
-        redirect()->route('charges');
+        $this->dispatch('refresh');
     }
 
     public function render()

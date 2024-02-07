@@ -10,6 +10,12 @@ class Page extends Component
 {
     use WithPagination;
     public $searchText = "";
+
+    public function delete($id)
+    {
+        BankAccount::find($id)->delete();
+        $this->dispatch('refresh');
+    }
     
     public function render()
     {

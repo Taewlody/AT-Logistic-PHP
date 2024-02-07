@@ -14,7 +14,7 @@ class Page extends Component
     public function delete($id)
     {
         Customer::find($id)->delete();
-        redirect()->route('customer');
+        $this->dispatch('refresh');
     }
     public function render()
     {

@@ -52,7 +52,7 @@ class Form extends Component
             $this->data->editTime = Carbon::now()->format('Y-m-d H:i:s');
         }
         Port::updateOrCreate(['portCode'=>$this->data->portCode], $this->data->toArray());
-        return redirect()->route('port');
+        return $this->redirect(Page::class);
     }
     public function render()
     {

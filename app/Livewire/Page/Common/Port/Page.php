@@ -14,7 +14,7 @@ class Page extends Component
     public function delete($portCode)
     {
         Port::find($portCode)->delete();
-        redirect()->route('port');
+        $this->dispatch('refresh');
     }
 
     public function render()

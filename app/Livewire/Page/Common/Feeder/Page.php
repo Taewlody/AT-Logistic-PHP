@@ -14,7 +14,7 @@ class Page extends Component
     public function delete($id)
     {
         Feeder::find($id)->delete();
-        redirect()->route('feeder');
+        $this->dispatch('refresh');
     }
 
     public function render()

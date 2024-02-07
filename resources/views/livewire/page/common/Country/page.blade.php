@@ -53,7 +53,7 @@
                                             <div class="btn-group">
                                                 <a type="button" class="btn btn-success btn-xs" href="{{ route('country.form', ['countryCode' => $item->countryCode ]) }}">View</a>
                                                 <a type="button" class="btn btn-info btn-xs" href="{{ route('country.form', ['action' => 'edit', 'countryCode' => $item->countryCode ]) }}">Edit</a>
-                                                <a type="button" class="btn btn-danger btn-xs" wire:confirm="Are you sure want to delete {{$item->countryNameTH}}" wire:click="delete('{{$item->countryCode}}')">Delete</a>
+                                                <a type="button" class="btn btn-danger btn-xs" wire:confirm="Are you sure want to delete {{$item->countryNameTH}}" wire:click="delete('{{$item->countryCode}}')" wire:refresh="$refresh">Delete</a>
                                             </div>
                                         </td>
                                     </tr>

@@ -11,6 +11,13 @@ class Page extends Component
     use WithPagination;
     public $searchText = "";
 
+
+    public function delete($id)
+    {
+        TransportType::find($id)->delete();
+        $this->dispatch('refresh');
+    }
+    
     public function render()
     {
         return view('livewire.page.common.transport-type.page', [ 

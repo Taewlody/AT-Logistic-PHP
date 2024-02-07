@@ -44,7 +44,7 @@
                                         <div class="btn-group">
                                             <a class="btn btn-xs btn-success" href="{{ route('saleman.form', ['action' => 'view', 'id' => $item->empCode]) }}">View</a>
                                             <a class="btn btn-xs btn-primary" href="{{ route('saleman.form', ['action' => 'edit', 'id' => $item->empCode]) }}">Edit</a>
-                                            <button class="btn btn-xs btn-danger" wire:confirm="Are you sure want to delete {{$item->empName}}" wire:click="delete('{{$item->empCode}}')">Delete</button>
+                                            <button class="btn btn-xs btn-danger" wire:confirm="Are you sure want to delete {{$item->empName}}" wire:click="delete('{{$item->empCode}}')" wire:refresh="$refresh">Delete</button>
                                         </div>
                                     </td>
                                 </tr>

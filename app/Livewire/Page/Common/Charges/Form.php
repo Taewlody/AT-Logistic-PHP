@@ -49,7 +49,7 @@ class Form extends Component
             $this->data->editTime = Carbon::now()->format('Y-m-d H:i:s');
         }
         Charges::upsert([$this->data->toArray()], ['chargeCode']);
-        return redirect()->route('charges');
+        return $this->redirect(Page::class);
     }
 
     public function render()

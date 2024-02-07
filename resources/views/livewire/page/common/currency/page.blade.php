@@ -12,7 +12,7 @@
                             <input type="text" id="search" name="search" class="form-control" wire:model.live="searchText" placeholder="Search in table">
                         </div>
                         <div class="col-2" style="justify-content: flex-end; display: flex">
-                            <a href="country_form?action=add" class="btn btn-primary">
+                            <a href="{{ route('currency.form', ['action' => 'create']) }}" class="btn btn-primary">
                                 <i class="fa fa-plus "> </i> Create new 
                             </a>
                         </div>
@@ -47,12 +47,12 @@
                                     <td class="center">{{ $item->editBy != null? $item->editBy->username : ''}}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <button class="btn btn-xs btn-success"
-                                                onClick="location.href='port_form?action=view&portCode={{ $item->fCode }}">View</button>
+                                            <a class="btn btn-xs btn-success"
+                                            href="{{ route('currency.form', ['action' => 'edit', 'id' => $item->currencyCode]) }}">View</a>
                                             <button class="btn btn-xs btn-primary"
-                                                onClick="location.href='port_form?action=edit&portCode={{ $item->fCode }}">Edit</button>
-                                            <button class="btn btn-xs btn-danger"
-                                                onClick="return confirmDel('{{ $item->fCode }}','port_action.php');">Delete</button>
+                                            href="{{ route('currency.form', ['action' => 'edit', 'id' => $item->currencyCode]) }}">Edit</button>
+                                            <a class="btn btn-xs btn-danger"
+                                            wire:confirm="Are you sure want to delete {{$item->currencyName}}" wire:click="delete('{{$item->currencyCode}}')" wire:refresh="$refresh">Delete</a>
                                         </div>
                                     </td>
                                 </tr>

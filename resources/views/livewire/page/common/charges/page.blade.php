@@ -52,7 +52,7 @@
                                             <a class="btn btn-xs btn-primary"
                                                 href="{{ route('charges.form', ['action' => 'edit', 'id' => $item->chargeCode]) }}">Edit</a>
                                             <button class="btn btn-xs btn-danger"
-                                            wire:confirm="Are you sure want to delete {{$item->chargeName}}" wire:click="delete('{{$item->chargeCode}}')">Delete</button>
+                                            wire:confirm="Are you sure want to delete {{$item->chargeName}}" wire:click="delete('{{$item->chargeCode}}')" wire:refresh="$refresh">Delete</button>
                                         </div>
                                     </td>
                                 </tr>

@@ -14,7 +14,7 @@ class Page extends Component
     public function delete($id)
     {
         Supplier::find($id)->delete();
-        redirect()->route('supplier');
+        $this->dispatch('refresh');
     }
 
     public function render()
