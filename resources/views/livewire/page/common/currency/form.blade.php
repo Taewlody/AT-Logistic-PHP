@@ -39,8 +39,10 @@
 
                             <div class="form-group  row">
                                 <label class="col-sm-2 col-form-label"> Exchange rate</label>
-                                <div class="col-sm-3"><input name="exchange_rate" type="number" class="form-control "
-                                        id="exchange_rate" autocomplete="empty" value="<?php echo $exchange_rate; ?>"></div>
+                                <div class="col-sm-3">
+                                    <input name="exchange_rate" type="number" class="form-control" wire:model="data.exchange_rate"
+                                        id="exchange_rate" autocomplete="empty" @disabled($action != 'create' && $action != 'edit')>
+                                </div>
                             </div>
 
                             <div class="form-group row">

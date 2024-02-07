@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 use App\Casts\BooleanString;
 use App\Models\User;
+use Livewire\Wireable;
 
-class Unit extends Model
+class Unit extends Model implements Wireable
 {
     use HasFactory;
 
