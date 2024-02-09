@@ -1,4 +1,19 @@
 .form-body {
+
+    .accordion-button{
+        background-color: #fff;
+        border: none;
+        color: #78A3D4 !important;
+    }
+
+    .input-group{
+        align-items: center;
+
+        .input-group-addon {
+            margin: 0 12px !important;
+        }
+    }
+    
     input:disabled {
         border: none;
         background: none;

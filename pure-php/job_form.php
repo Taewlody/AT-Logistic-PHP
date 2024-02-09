@@ -1,12 +1,12 @@
 <?php
 //session_start();
-unset( $_SESSION[ 'chargeCode' ] );
-require_once( 'class.php' );
-require_once( 'function.php' );
+unset($_SESSION['chargeCode']);
+require_once('class.php');
+require_once('function.php');
 $db = new cl;
-$acton = get( 'action' );
-$documentID = get( 'documentID' );
-$documentDate = date( 'd/m/Y' );
+$acton = get('action');
+$documentID = get('documentID');
+$documentDate = date('d/m/Y');
 $bound = '';
 $freight = '';
 $port_of_landing = '';
@@ -17,11 +17,11 @@ $co = '';
 $paperless = '';
 $bill_of_landing = '';
 $import_entry = '';
-$etdDate = date( 'd/m/Y' );
-$etaDate = date( 'd/m/Y' );
-$closingDate = date( 'd/m/Y' );
+$etdDate = date('d/m/Y');
+$etaDate = date('d/m/Y');
+$closingDate = date('d/m/Y');
 $freetime = 0;
-$freetimeEXP = date( 'd/m/Y' );
+$freetimeEXP = date('d/m/Y');
 $documentstatus = '';
 $feederVOY = "";
 $vesselVOY = "";
@@ -31,7 +31,7 @@ $invNo = '';
 $bill = '';
 $bookingNo = '';
 $deliveryType = '';
-$saleman = '';//$_SESSION['userID'];
+$saleman = ''; //$_SESSION['userID'];
 $cusCode = '';
 $cusContact = '';
 $agentCode = '';
@@ -52,9 +52,9 @@ $rtn_contact = '';
 $rtn_mobile = '';
 $rtn_date = '';
 $createID = '';
-$createTime = date( 'd/m/Y' );
+$createTime = date('d/m/Y');
 $editID = '';
-$editTime = date( 'd/m/Y' );
+$editTime = date('d/m/Y');
 $billOfladingNo = '';
 $trailer_bookingNO = '';
 $invoiceNo = '';
@@ -63,7 +63,7 @@ $good_total_num_package = '';
 $good_commodity = '';
 
 
-if ( $acton == 'view' ) {
+if ($acton == 'view') {
   $disabled = 'disabled';
 } else {
   $disabled = '';
@@ -128,95 +128,95 @@ c.createTime,
 c.editID,
 c.editTime
 FROM $db->dbname.joborder AS c WHERE c.comCode='$db->comCode' AND c.documentID='$documentID' ";
-if ( $r = $db->fetch( $sql ) ) {
-  $documentID = $r[ 'documentID' ];
-  $documentDate = date_slash( $r[ 'documentDate' ] );
+if ($r = $db->fetch($sql)) {
+  $documentID = $r['documentID'];
+  $documentDate = date_slash($r['documentDate']);
 
 
-  if ( $acton == 'copy' ) {
+  if ($acton == 'copy') {
     $documentID = '';
-    $documentDate = date( 'd/m/Y' );
+    $documentDate = date('d/m/Y');
 
   }
 
 
-  $bound = $r[ 'bound' ];
+  $bound = $r['bound'];
 
-  if ( $bound == 1 ) {
+  if ($bound == 1) {
     $textboundType = 'Free Time Expire';
   } else {
     $textboundType = 'First return';
   }
 
 
-  $freight = $r[ 'freight' ];
-  $port_of_landing = $r[ 'port_of_landing' ];
-  $port_of_discharge = $r[ 'port_of_discharge' ];
-  $mbl = $r[ 'mbl' ];
-  $hbl = $r[ 'hbl' ];
-  $co = $r[ 'co' ];
-  $paperless = $r[ 'paperless' ];
-  $bill_of_landing = $r[ 'bill_of_landing' ];
-  $import_entry = $r[ 'import_entry' ];
-  $etdDate = date_slash( $r[ 'etdDate' ] );
-  $etaDate = date_slash( $r[ 'etaDate' ] );
-  $closingDate = date_slash( $r[ 'closingDate' ] );
-  $closingTime = $r[ 'closingTime' ];
-  $invNo = $r[ 'invNo' ];
-  $bill = $r[ 'bill' ];
-  $feederVOY = $r[ 'feederVOY' ];
-  $vesselVOY = $r[ 'vesselVOY' ];
-  $bookingNo = $r[ 'bookingNo' ];
+  $freight = $r['freight'];
+  $port_of_landing = $r['port_of_landing'];
+  $port_of_discharge = $r['port_of_discharge'];
+  $mbl = $r['mbl'];
+  $hbl = $r['hbl'];
+  $co = $r['co'];
+  $paperless = $r['paperless'];
+  $bill_of_landing = $r['bill_of_landing'];
+  $import_entry = $r['import_entry'];
+  $etdDate = date_slash($r['etdDate']);
+  $etaDate = date_slash($r['etaDate']);
+  $closingDate = date_slash($r['closingDate']);
+  $closingTime = $r['closingTime'];
+  $invNo = $r['invNo'];
+  $bill = $r['bill'];
+  $feederVOY = $r['feederVOY'];
+  $vesselVOY = $r['vesselVOY'];
+  $bookingNo = $r['bookingNo'];
 
-  if ( $acton == 'copy' ) {
+  if ($acton == 'copy') {
     $bookingNo = '';
     $invNo = '';
 
   }
 
 
-  $deliveryType = $r[ 'deliveryType' ];
-  $saleman = $r[ 'saleman' ];
-  $cusCode = $r[ 'cusCode' ];
-  $cusContact = $r[ 'cusContact' ];
-  $agentCode = $r[ 'agentCode' ];
-  $agentContact = $r[ 'agentContact' ];
-  $feeder = $r[ 'feeder' ];
-  $vessel = $r[ 'vessel' ];
-  $note = $r[ 'note' ];
-  $stu_location = $r[ 'stu_location' ];
-  $stu_contact = $r[ 'stu_contact' ];
-  $stu_mobile = $r[ 'stu_mobile' ];
-  $stu_date = date_slash( $r[ 'stu_date' ] );
-  $cy_location = $r[ 'cy_location' ];
-  $cy_contact = $r[ 'cy_contact' ];
-  $cy_mobile = $r[ 'cy_mobile' ];
-  $cy_date = date_slash( $r[ 'cy_date' ] );
-  $rtn_location = $r[ 'rtn_location' ];
-  $rtn_contact = $r[ 'rtn_contact' ];
-  $rtn_mobile = $r[ 'rtn_mobile' ];
-  $rtn_date = date_slash( $r[ 'rtn_date' ] );
-  $documentstatus = $r[ 'documentstatus' ];
-  $freetime = $r[ 'freetime' ];
-  $freetimeEXP = date_slash( $r[ 'freetimeEXP' ] );
+  $deliveryType = $r['deliveryType'];
+  $saleman = $r['saleman'];
+  $cusCode = $r['cusCode'];
+  $cusContact = $r['cusContact'];
+  $agentCode = $r['agentCode'];
+  $agentContact = $r['agentContact'];
+  $feeder = $r['feeder'];
+  $vessel = $r['vessel'];
+  $note = $r['note'];
+  $stu_location = $r['stu_location'];
+  $stu_contact = $r['stu_contact'];
+  $stu_mobile = $r['stu_mobile'];
+  $stu_date = date_slash($r['stu_date']);
+  $cy_location = $r['cy_location'];
+  $cy_contact = $r['cy_contact'];
+  $cy_mobile = $r['cy_mobile'];
+  $cy_date = date_slash($r['cy_date']);
+  $rtn_location = $r['rtn_location'];
+  $rtn_contact = $r['rtn_contact'];
+  $rtn_mobile = $r['rtn_mobile'];
+  $rtn_date = date_slash($r['rtn_date']);
+  $documentstatus = $r['documentstatus'];
+  $freetime = $r['freetime'];
+  $freetimeEXP = date_slash($r['freetimeEXP']);
 
 
-  if ( $documentstatus == 'A' ) {
+  if ($documentstatus == 'A') {
 
     $disabled = 'disabled';
   }
 
-  $createID = $r[ 'createID' ];
-  $createTime = $r[ 'createTime' ];
-  $editID = $r[ 'editID' ];
-  $editTime = $r[ 'editTime' ];
-  $good_total_num_package = $r[ 'good_total_num_package' ];
-  $good_commodity = $r[ 'good_commodity' ];
-  $fob = $r[ 'fob' ];
-  $place_receive = $r[ 'place_receive' ];
-  $billOfladingNo = $r[ 'billOfladingNo' ];
-  $trailer_bookingNO = $r[ 'trailer_bookingNO' ];
-  $invoiceNo = $r[ 'invoiceNo' ];
+  $createID = $r['createID'];
+  $createTime = $r['createTime'];
+  $editID = $r['editID'];
+  $editTime = $r['editTime'];
+  $good_total_num_package = $r['good_total_num_package'];
+  $good_commodity = $r['good_commodity'];
+  $fob = $r['fob'];
+  $place_receive = $r['place_receive'];
+  $billOfladingNo = $r['billOfladingNo'];
+  $trailer_bookingNO = $r['trailer_bookingNO'];
+  $invoiceNo = $r['invoiceNo'];
 }
 
 
@@ -414,44 +414,44 @@ $('#form').on('keyup keypress', function(e) {
 
  $("#cusCode").change(function() {
        
-  					var jsonObj={
-						cusCode: $("#cusCode").val()
-					}; 
-					$.ajax({
-					   	type: "POST",
-					   	url: "loadcustomerContact.php",
-					   	data: jsonObj,
-					   	success: function(result) {
+            var jsonObj={
+            cusCode: $("#cusCode").val()
+          }; 
+          $.ajax({
+               type: "POST",
+               url: "loadcustomerContact.php",
+               data: jsonObj,
+               success: function(result) {
                             console.log(result);
-					       var obj = jQuery.parseJSON(result);
+                 var obj = jQuery.parseJSON(result);
                              $("#cusContact").val(obj.cusContact);
-							 $("#saleman").val(obj.salemanID);
-							
-							
-					   } 
-					 }); 
+               $("#saleman").val(obj.salemanID);
+              
+              
+             } 
+           }); 
     });     
-	  
-	  
-	  
-	  
+    
+    
+    
+    
       
       
  $("#agentCode").change(function() {
        
-  					var jsonObj={
-						supCode: $("#agentCode").val()
-					}; 
-					$.ajax({
-					   	type: "POST",
-					   	url: "loadSupContact.php",
-					   	data: jsonObj,
-					   	success: function(result) {
+            var jsonObj={
+            supCode: $("#agentCode").val()
+          }; 
+          $.ajax({
+               type: "POST",
+               url: "loadSupContact.php",
+               data: jsonObj,
+               success: function(result) {
                             console.log(result);
-					       var obj = jQuery.parseJSON(result);
+                 var obj = jQuery.parseJSON(result);
                              $("#agentContact").val(obj.contactName);   
-					   } 
-					 }); 
+             } 
+           }); 
     });       
 $( "#stu_location" ).keyup(function() {
       if($( "#stu_location" ).val()!=''){
@@ -791,7 +791,7 @@ $( "#stu_location" ).keyup(function() {
         data.append("CustomField", "This is some extra data, testing");
         // disabled the submit button
         $("#save").prop("disabled", true);
-		  
+      
         $.ajax({
           type: "POST",
           enctype: 'multipart/form-data',
@@ -814,13 +814,13 @@ $( "#stu_location" ).keyup(function() {
                  $("#Approve").prop("disabled", false); 
               msgSuccess();
             } else if(dataresult == 'error_duplicateIV') {
-				 //msgDuplicate();
-				  //msgError();
-			}else{
-				
-				
+         //msgDuplicate();
+          //msgError();
+      }else{
+        
+        
              msgError();
-				
+        
             }
             console.log("SUCCESS : ", dataresult);
             $("#save").prop("disabled", false);
@@ -853,7 +853,7 @@ $( "#stu_location" ).keyup(function() {
         data.append("CustomField", "This is some extra data, testing");
         // disabled the submit button
         $("#save").prop("disabled", true);
-		$("#Approve").prop("disabled", true);  
+    $("#Approve").prop("disabled", true);  
         $.ajax({
           type: "POST",
           enctype: 'multipart/form-data',
@@ -872,7 +872,7 @@ $( "#stu_location" ).keyup(function() {
             var dataresult = obj.result;
             if (dataresult == 'success') {
               $("#documentID").val(obj.documentID);
-			  $("#invoiceNo").val(obj.invoiceNo);
+        $("#invoiceNo").val(obj.invoiceNo);
               $("#action").val('approve');
               msgSuccess();
               $("#save").prop("disabled", false);
@@ -1125,21 +1125,27 @@ function call_exchange(indexRow){
   <div class="col-lg-6">
     <div class="file-box">
       <div class="file"> <a id="invoice">
-        <div class="icon"> <i class="fa fa-file-text <?php if($invoiceNo!=''){ echo "text-navy";}?> "></i> </div>
-        <div class="file-name text-navy"> Invoice <small><?php echo $invoiceNo;?></small> </div>
+        <div class="icon"> <i class="fa fa-file-text <?php if ($invoiceNo != '') {
+          echo "text-navy";
+        } ?> "></i> </div>
+        <div class="file-name text-navy"> Invoice <small><?php echo $invoiceNo; ?></small> </div>
         </a> </div>
     </div>
     <div class="file-box">
       <div class="file"> <a id="btnbill_of_lading">
-        <div class="icon"> <i class="fa fa-file-text  <?php if($billOfladingNo!=''){ echo "text-navy";}?> "></i> </div>
-        <div class="file-name text-navy"> Bill of landing <small><?php echo $billOfladingNo;?></small> </div>
+        <div class="icon"> <i class="fa fa-file-text  <?php if ($billOfladingNo != '') {
+          echo "text-navy";
+        } ?> "></i> </div>
+        <div class="file-name text-navy"> Bill of landing <small><?php echo $billOfladingNo; ?></small> </div>
         <input type="hidden" name="billOfladingNo" id="billOfladingNo" value="<?php echo $billOfladingNo; ?>">
         </a> </div>
     </div>
     <div class="file-box">
       <div class="file"> <a id="trailer_booking">
-        <div class="icon"> <i class="fa fa-file-text <?php if($trailer_bookingNO!=''){ echo "text-navy";}?> "></i> </div>
-        <div class="file-name text-navy"> Trailer Booking <small><?php echo $trailer_bookingNO;?></small> </div>
+        <div class="icon"> <i class="fa fa-file-text <?php if ($trailer_bookingNO != '') {
+          echo "text-navy";
+        } ?> "></i> </div>
+        <div class="file-name text-navy"> Trailer Booking <small><?php echo $trailer_bookingNO; ?></small> </div>
         <input type="hidden" name="trailer_bookingNO" id="trailer_bookingNO" value="<?php echo $trailer_bookingNO; ?>">
         </a> </div>
     </div>
@@ -1160,12 +1166,12 @@ function call_exchange(indexRow){
           <div class="form-group row">
             <label class="col-lg-2 col-form-label">Document No.</label>
             <div class="col-md-4">
-              <input name="documentID" type="text" class="form-control" id="documentID" value="<?php echo $documentID;?>" readonly="readonly">
+              <input name="documentID" type="text" class="form-control" id="documentID" value="<?php echo $documentID; ?>" readonly="readonly">
             </div>
             <input type="hidden" name="invoiceNo" id="invoiceNo" value="<?php echo $invoiceNo; ?>">
-		
-			  
-			  
+    
+        
+        
             <div class="col-md-2">
               <label class="col-form-label" style="padding-top: 5px;">Document Date</label>
             </div>
@@ -1179,8 +1185,12 @@ function call_exchange(indexRow){
             <label class="col-sm-2 col-form-label">Bound</label>
             <div class="col-md-4">
               <select name="bound" class="select2_single form-control select2" id="bound">
-                <option value="1" <?php if($bound=='1'){echo'selected';} ?>  >IN BOUND</option>
-                <option value="2" <?php if($bound=='2'){echo'selected';} ?>  >OUT BOUND</option>
+                <option value="1" <?php if ($bound == '1') {
+                  echo 'selected';
+                } ?>  >IN BOUND</option>
+                <option value="2" <?php if ($bound == '2') {
+                  echo 'selected';
+                } ?>  >OUT BOUND</option>
               </select>
             </div>
             <div class="col-md-2">
@@ -1211,7 +1221,7 @@ function call_exchange(indexRow){
           <div class="form-group row">
             <label class="col-lg-2 col-form-label">M B/L</label>
             <div class="col-md-4">
-              <input type="text" name="mbl" class="form-control" id="mbl" value="<?php echo $mbl;?>">
+              <input type="text" name="mbl" class="form-control" id="mbl" value="<?php echo $mbl; ?>">
             </div>
             <div class="col-md-2">
               <label class="col-form-label" style="padding-top: 5px;">H B/L</label>
@@ -1296,8 +1306,12 @@ function call_exchange(indexRow){
             </div>
             <div class="col-md-4">
               <select name="deliveryType" class="select2_single form-control select2" id="deliveryType">
-                <option value="FCL"  <?php if($deliveryType=='FCL'){echo'selected';}?> >FCL</option>
-                <option value="LCL" <?php if($deliveryType=='LCL'){echo'selected';}?>>LCL</option>
+                <option value="FCL"  <?php if ($deliveryType == 'FCL') {
+                  echo 'selected';
+                } ?> >FCL</option>
+                <option value="LCL" <?php if ($deliveryType == 'LCL') {
+                  echo 'selected';
+                } ?>>LCL</option>
               </select>
             </div>
           </div>
@@ -1305,7 +1319,7 @@ function call_exchange(indexRow){
             <label class="col-lg-2 col-form-label">FOB AT</label>
             <div class="col-md-4">
               <select name="fob" class="select2_single form-control select2" id="fob">
-                <?php $db->s_place($fob);?>
+                <?php $db->s_place($fob); ?>
               </select>
             </div>
             <div class="col-md-2">
@@ -1313,17 +1327,17 @@ function call_exchange(indexRow){
             </div>
             <div class="col-md-4">
               <select name="place_receive" class="select2_single form-control select2" id="place_receive"  >
-                <?php $db->s_place($place_receive);?>
+                <?php $db->s_place($place_receive); ?>
               </select>
             </div>
           </div>
           <div class="form-group row">
             <label class="col-lg-2 col-form-label">Free Time</label>
             <div class="col-md-4">
-              <input type="number" name="freetime" class="form-control" id="freetime" value="<?php echo $freetime;?>">
+              <input type="number" name="freetime" class="form-control" id="freetime" value="<?php echo $freetime; ?>">
             </div>
             <div class="col-md-2">
-              <label class="col-form-label" style="padding-top: 5px;"><span id="textboundType"><?php echo $textboundType;?></span></label>
+              <label class="col-form-label" style="padding-top: 5px;"><span id="textboundType"><?php echo $textboundType; ?></span></label>
             </div>
             <div class="col-md-4">
               <div class="input-group date"> <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
@@ -1353,21 +1367,21 @@ function call_exchange(indexRow){
             <label class="col-sm-2 col-form-label">Sales</label>
             <div class="col-md-10">
              <!--
-				<select name="saleman" class="select2_single form-control select2" id="saleman" required>
+        <select name="saleman" class="select2_single form-control select2" id="saleman" required>
                 <?php $db->s_saleman($saleman); ?>
               </select>
-				
-				-->
-				<input name="saleman" type="text" required class="form-control" id="saleman" placeholder="" value="<?php echo $saleman; ?>" readonly="readonly">
+        
+        -->
+        <input name="saleman" type="text" required class="form-control" id="saleman" placeholder="" value="<?php echo $saleman; ?>" readonly="readonly">
 
-				
-				
+        
+        
             </div>
           </div>
           <div class="form-group row">
             <label class="col-lg-2 col-form-label">Contact</label>
             <div class="col-md-10">
-              <input type="text" name="cusContact" class="form-control" id="cusContact" value="<?php echo $cusContact;?>">
+              <input type="text" name="cusContact" class="form-control" id="cusContact" value="<?php echo $cusContact; ?>">
             </div>
           </div>
           <div class="form-group  row">
@@ -1381,7 +1395,7 @@ function call_exchange(indexRow){
           <div class="form-group row">
             <label class="col-lg-2 col-form-label">Contact</label>
             <div class="col-md-10">
-              <input type="text" name="agentContact" class="form-control" id="agentContact" value="<?php echo $agentContact;?>">
+              <input type="text" name="agentContact" class="form-control" id="agentContact" value="<?php echo $agentContact; ?>">
             </div>
           </div>
           <div class="form-group row">
@@ -1415,7 +1429,7 @@ function call_exchange(indexRow){
           <div class="form-group row">
             <label class="col-lg-2 col-form-label">Note</label>
             <div class="col-md-10">
-              <textarea name="note" rows="4" class="form-control" id="note"><?php echo $note;?></textarea>
+              <textarea name="note" rows="4" class="form-control" id="note"><?php echo $note; ?></textarea>
             </div>
           </div>
           <div class="form-group row">
@@ -1532,49 +1546,51 @@ function call_exchange(indexRow){
                 <tbody>
                   <?php
                   $sql = "SELECT
-c.items,
-c.comCode,
-c.documentID,
-c.containerType,
-c.containerSize,
-c.containerNo,
-c.containerSealNo,
-c.containerGW,
-c.containerGW_unit,
-c.containerNW,
-c.containerNW_Unit,
-c.containerTareweight
-FROM
-joborder_container AS c
-WHERE c.comCode='$db->comCode' AND c.documentID='$documentID' AND  c.documentID<>'' ";
-                  $result = $db->query( $sql );
+                  c.items,
+                  c.comCode,
+                  c.documentID,
+                  c.containerType,
+                  c.containerSize,
+                  c.containerNo,
+                  c.containerSealNo,
+                  c.containerGW,
+                  c.containerGW_unit,
+                  c.containerNW,
+                  c.containerNW_Unit,
+                  c.containerTareweight
+                  FROM
+                  joborder_container AS c
+                  WHERE c.comCode='$db->comCode' AND c.documentID='$documentID' AND  c.documentID<>'' ";
+                  $result = $db->query($sql);
                   $i_container = 1;
                   $i = 1;
-                  while ( $r = mysqli_fetch_array( $result ) ) {
+                  while ($r = mysqli_fetch_array($result)) {
                     ?>
-                  <tr id="tr<?php echo $i; ?>">
-                    <td>&nbsp;&nbsp;<?php echo $i; ?></td>
-                    <td><select name="containerType[]" class="select2_single form-control select2" id="containerType<?php echo $i_container; ?>" style="width: 100%">
-                        <?php $db->s_containerType($r['containerType']); ?>
-                      </select></td>
-                    <td><select name="containerSize[]" id="containerSize<?php echo $i_container; ?>" class="select2_single form-control select2" style="width: 100%">
-                        <?php $db->s_containerSize($r['containerSize']); ?>
-                      </select></td>
-                    <td><input type="text" name="containerNo[]" id="containerNo<?php echo $i_container; ?>" class="form-control" value="<?php echo $r['containerNo'];?>"></td>
-                    <td class="center"><input type="text" name="containerSealNo[]" id="containerSealNo<?php echo $i_container; ?>" class="form-control" value="<?php echo $r['containerSealNo'];?>"></td>
-                    <td class="center"><input type="number" name="containerGW[]" id="containerGW<?php echo $i_container; ?>" class="form-control" value="<?php echo $r['containerGW'];?>"></td>
-                    <td class="center"><select name="containerGW_unit[]" id="containerGW_unit<?php echo $i_container; ?>" class="select2_single form-control select2" style="width: 100%">
-                        <?php $db->s_unitContainer($r['containerGW_unit']); ?>
-                      </select></td>
-                    <td class="center"><input type="text" name="containerNW[]" id="containerNW<?php echo $i_container; ?>" class="form-control" value="<?php echo $r['containerNW'];?>"></td>
-                    <td class="center"><select name="containerNW_Unit[]" id="containerNW_Unit<?php echo $i_container; ?>" class="select2_single form-control select2" style="width: 100%">
-                        <?php $db->s_unitContainer($r['containerNW_Unit']); ?>
-                      </select></td>
-                    <td class="center"><input type="text" name="containerTareweight[]" id="containerTareweight<?php echo $i_container; ?>" class="form-control" value="<?php echo $r['containerTareweight'];?>"></td>
-                    <td class="center"><button type="button" class="btn-white btn btn-xs" onClick="return FN_Remove_Table('<?php echo $i; ?>');">Remove</button></td>
-                  </tr>
-                  <?php $i++; $i_container++;} ?>
-                <input type="hidden" name="rowIdx_ctQty" id="rowIdx_ctQty" value="<?php echo $i;?>">
+                    <tr id="tr<?php echo $i; ?>">
+                      <td>&nbsp;&nbsp;<?php echo $i; ?></td>
+                      <td><select name="containerType[]" class="select2_single form-control select2" id="containerType<?php echo $i_container; ?>" style="width: 100%">
+                          <?php $db->s_containerType($r['containerType']); ?>
+                        </select></td>
+                      <td><select name="containerSize[]" id="containerSize<?php echo $i_container; ?>" class="select2_single form-control select2" style="width: 100%">
+                          <?php $db->s_containerSize($r['containerSize']); ?>
+                        </select></td>
+                      <td><input type="text" name="containerNo[]" id="containerNo<?php echo $i_container; ?>" class="form-control" value="<?php echo $r['containerNo']; ?>"></td>
+                      <td class="center"><input type="text" name="containerSealNo[]" id="containerSealNo<?php echo $i_container; ?>" class="form-control" value="<?php echo $r['containerSealNo']; ?>"></td>
+                      <td class="center"><input type="number" name="containerGW[]" id="containerGW<?php echo $i_container; ?>" class="form-control" value="<?php echo $r['containerGW']; ?>"></td>
+                      <td class="center"><select name="containerGW_unit[]" id="containerGW_unit<?php echo $i_container; ?>" class="select2_single form-control select2" style="width: 100%">
+                          <?php $db->s_unitContainer($r['containerGW_unit']); ?>
+                        </select></td>
+                      <td class="center"><input type="text" name="containerNW[]" id="containerNW<?php echo $i_container; ?>" class="form-control" value="<?php echo $r['containerNW']; ?>"></td>
+                      <td class="center"><select name="containerNW_Unit[]" id="containerNW_Unit<?php echo $i_container; ?>" class="select2_single form-control select2" style="width: 100%">
+                          <?php $db->s_unitContainer($r['containerNW_Unit']); ?>
+                        </select></td>
+                      <td class="center"><input type="text" name="containerTareweight[]" id="containerTareweight<?php echo $i_container; ?>" class="form-control" value="<?php echo $r['containerTareweight']; ?>"></td>
+                      <td class="center"><button type="button" class="btn-white btn btn-xs" onClick="return FN_Remove_Table('<?php echo $i; ?>');">Remove</button></td>
+                    </tr>
+                    <?php $i++;
+                    $i_container++;
+                  } ?>
+                <input type="hidden" name="rowIdx_ctQty" id="rowIdx_ctQty" value="<?php echo $i; ?>">
                 </tbody>
                 
               </table>
@@ -1611,75 +1627,76 @@ WHERE c.comCode='$db->comCode' AND c.documentID='$documentID' AND  c.documentID<
                 <tbody>
                   <?php
                   $sql = "SELECT
-t.items,
-t.comCode,
-t.documentID,
-t.packaed_width,
-t.packaed_length,
-t.packaed_height,
-t.packaed_qty,
-t.packaed_weight,
-t.packaed_unit,
-round(t.packaed_totalCBM,2) as packaed_totalCBM,
-round(t.packaed_totalWeight,2) as  packaed_totalWeight
-FROM
-joborder_packed AS t
-WHERE t.comCode='$db->comCode' AND t.documentID='$documentID' ";
-                  $result = $db->query( $sql );
+                  t.items,
+                  t.comCode,
+                  t.documentID,
+                  t.packaed_width,
+                  t.packaed_length,
+                  t.packaed_height,
+                  t.packaed_qty,
+                  t.packaed_weight,
+                  t.packaed_unit,
+                  round(t.packaed_totalCBM,2) as packaed_totalCBM,
+                  round(t.packaed_totalWeight,2) as  packaed_totalWeight
+                  FROM
+                  joborder_packed AS t
+                  WHERE t.comCode='$db->comCode' AND t.documentID='$documentID' ";
+                  $result = $db->query($sql);
                   $i_container = 1;
                   $i = 1;
-                  while ( $r = mysqli_fetch_array( $result ) ) {
+                  while ($r = mysqli_fetch_array($result)) {
                     ?>
-                  <tr class="gradeX" id="tr<?php echo $i;?>">
-                    <td><?php echo $i; ?></td>
-                    <td><span class="center">
-                      <input type="number" name="packaed_width[]" class="form-control" value="<?php echo $r['packaed_width'];?>" id="packaed_width<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');">
-                      </span></td>
-                    <td><span class="center">
-                      <input type="number" name="packaed_length[]" class="form-control" value="<?php echo $r['packaed_length'];?>" id="packaed_length<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');">
-                      </span></td>
-                    <td><input type="number" name="packaed_height[]" class="form-control" value="<?php echo $r['packaed_height'];?>" id="packaed_height<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');"></td>
-                    <td class="center"><input type="number" name="packaed_qty[]" class="form-control" value="<?php echo $r['packaed_qty'];?>" id="packaed_qty<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');"></td>
-                    <td class="center"><input type="number" name="packaed_weight[]" class="form-control" value="<?php echo $r['packaed_weight'];?>" id="packaed_weight<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');"></td>
-                    <td class="center"><select name="packaed_unit[]" class="select2_single form-control select2" style="width: 100%" id="packaed_unit<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');">
-                        <?php $db->s_unitContainer($r['packaed_unit']); ?>
-                      </select></td>
-                    <td class="center"><input type="number"  name="packaed_totalCBM[]" class="form-control" value="<?php echo n2(0);?>" id="packaed_totalCBM<?php echo $i; ?>"></td>
-                    <td class="center"><input type="number"  name="packaed_totalWeight[]" class="form-control" value="<?php echo n2($r['packaed_totalWeight']);?>" id="packaed_totalWeight<?php echo $i; ?>"></td>
-                    <td class="center"><button type="button" class="btn-white btn btn-xs" onClick="return FN_Remove_Table('<?php echo $i; ?>');">Remove</button></td>
-                  </tr>
-                  <?php $i++; }  ?>
+                    <tr class="gradeX" id="tr<?php echo $i; ?>">
+                      <td><?php echo $i; ?></td>
+                      <td><span class="center">
+                        <input type="number" name="packaed_width[]" class="form-control" value="<?php echo $r['packaed_width']; ?>" id="packaed_width<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');">
+                        </span></td>
+                      <td><span class="center">
+                        <input type="number" name="packaed_length[]" class="form-control" value="<?php echo $r['packaed_length']; ?>" id="packaed_length<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');">
+                        </span></td>
+                      <td><input type="number" name="packaed_height[]" class="form-control" value="<?php echo $r['packaed_height']; ?>" id="packaed_height<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');"></td>
+                      <td class="center"><input type="number" name="packaed_qty[]" class="form-control" value="<?php echo $r['packaed_qty']; ?>" id="packaed_qty<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');"></td>
+                      <td class="center"><input type="number" name="packaed_weight[]" class="form-control" value="<?php echo $r['packaed_weight']; ?>" id="packaed_weight<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');"></td>
+                      <td class="center"><select name="packaed_unit[]" class="select2_single form-control select2" style="width: 100%" id="packaed_unit<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');">
+                          <?php $db->s_unitContainer($r['packaed_unit']); ?>
+                        </select></td>
+                      <td class="center"><input type="number"  name="packaed_totalCBM[]" class="form-control" value="<?php echo n2(0); ?>" id="packaed_totalCBM<?php echo $i; ?>"></td>
+                      <td class="center"><input type="number"  name="packaed_totalWeight[]" class="form-control" value="<?php echo n2($r['packaed_totalWeight']); ?>" id="packaed_totalWeight<?php echo $i; ?>"></td>
+                      <td class="center"><button type="button" class="btn-white btn btn-xs" onClick="return FN_Remove_Table('<?php echo $i; ?>');">Remove</button></td>
+                    </tr>
+                    <?php $i++;
+                  } ?>
                   <?php
                   //$i = 1;
-                  while ( $i <= 1 ) {
+                  while ($i <= 1) {
                     ?>
-                  <tr class="gradeX" id="tr<?php echo $i;?>">
-                    <td><?php echo $i; ?></td>
-                    <td><span class="center">
-                      <input type="number" name="packaed_width[]" class="form-control" value="" id="packaed_width<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');">
-                      </span></td>
-                    <td><span class="center">
-                      <input type="number" name="packaed_length[]" class="form-control" value="" id="packaed_length<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');">
-                      </span></td>
-                    <td><input type="number" name="packaed_height[]" class="form-control" value="" id="packaed_height<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');"></td>
-                    <td class="center"><input type="number" name="packaed_qty[]" class="form-control" value="" id="packaed_qty<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');"></td>
-                    <td class="center"><input type="number" name="packaed_weight[]" class="form-control" value="" id="packaed_weight<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');"></td>
-                    <td class="center"><select name="packaed_unit[]" class="select2_single form-control select2" style="width: 100%" id="packaed_unit<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');">
-                        <?php $db->s_unitContainer(); ?>
-                      </select></td>
-                    <td class="center"><input type="number"  name="packaed_totalCBM[]" class="form-control" value="" id="packaed_totalCBM<?php echo $i; ?>"></td>
-                    <td class="center"><input type="number"  name="packaed_totalWeight[]" class="form-control" value="" id="packaed_totalWeight<?php echo $i; ?>"></td>
-                    <td class="center"><button type="button" class="btn-white btn btn-xs" onClick="return FN_Remove_Table('<?php echo $i; ?>');">Remove</button></td>
-                  </tr>
-                  <?php
-                  $i++;
+                    <tr class="gradeX" id="tr<?php echo $i; ?>">
+                      <td><?php echo $i; ?></td>
+                      <td><span class="center">
+                        <input type="number" name="packaed_width[]" class="form-control" value="" id="packaed_width<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');">
+                        </span></td>
+                      <td><span class="center">
+                        <input type="number" name="packaed_length[]" class="form-control" value="" id="packaed_length<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');">
+                        </span></td>
+                      <td><input type="number" name="packaed_height[]" class="form-control" value="" id="packaed_height<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');"></td>
+                      <td class="center"><input type="number" name="packaed_qty[]" class="form-control" value="" id="packaed_qty<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');"></td>
+                      <td class="center"><input type="number" name="packaed_weight[]" class="form-control" value="" id="packaed_weight<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');"></td>
+                      <td class="center"><select name="packaed_unit[]" class="select2_single form-control select2" style="width: 100%" id="packaed_unit<?php echo $i; ?>" onchange="return FN_CalPacked('<?php echo $i; ?>');">
+                          <?php $db->s_unitContainer(); ?>
+                        </select></td>
+                      <td class="center"><input type="number"  name="packaed_totalCBM[]" class="form-control" value="" id="packaed_totalCBM<?php echo $i; ?>"></td>
+                      <td class="center"><input type="number"  name="packaed_totalWeight[]" class="form-control" value="" id="packaed_totalWeight<?php echo $i; ?>"></td>
+                      <td class="center"><button type="button" class="btn-white btn btn-xs" onClick="return FN_Remove_Table('<?php echo $i; ?>');">Remove</button></td>
+                    </tr>
+                    <?php
+                    $i++;
                   }
                   ?>
                 </tbody>
               </table>
             </div>
             <a  class="btn btn-white btn-xs"  id="addpacked"><i class="fa fa-plus "> </i> Add New Row </a>
-            <input type="hidden" name="rowIdxpacked" id="rowIdxpacked" value="<?php echo $i;?>">
+            <input type="hidden" name="rowIdxpacked" id="rowIdxpacked" value="<?php echo $i; ?>">
           </div>
         </div>
       </div>
@@ -1709,54 +1726,55 @@ WHERE t.comCode='$db->comCode' AND t.documentID='$documentID' ";
                 <tbody>
                   <?php
                   $sql = "SELECT
-t.items,
-t.comCode,
-t.documentID,
-t.goodNo,
-t.goodDec,
-t.goodWeight,
-t.good_unit,
-t.goodSize,
-t.goodKind
-FROM
-joborder_goods AS t
-WHERE t.comCode='$db->comCode' AND t.documentID='$documentID' ";
-                  $result = $db->query( $sql );
+                  t.items,
+                  t.comCode,
+                  t.documentID,
+                  t.goodNo,
+                  t.goodDec,
+                  t.goodWeight,
+                  t.good_unit,
+                  t.goodSize,
+                  t.goodKind
+                  FROM
+                  joborder_goods AS t
+                  WHERE t.comCode='$db->comCode' AND t.documentID='$documentID' ";
+                  $result = $db->query($sql);
                   $i_container = 1;
                   $i = 1;
-                  while ( $r = mysqli_fetch_array( $result ) ) {
+                  while ($r = mysqli_fetch_array($result)) {
                     ?>
-                  <tr class="gradeX" id="tr<?php echo $i; ?>">
-                    <td><?php echo $i; ?></td>
-                    <td><input type="text" name="goodNo[]" class="form-control" value="<?php echo $r['goodNo'];?>" id="goodNo<?php echo $i; ?>"></td>
-                    <td><input type="text" name="goodDec[]" class="form-control" value="<?php echo $r['goodDec'];?>" id="goodDec<?php echo $i; ?>"></td>
-                    <td><input type="number" name="goodWeight[]" class="form-control" value="<?php echo $r['goodWeight'];?>" id="goodWeight<?php echo $i; ?>"></td>
-                    <td><select name="good_unit[]" class="select2_single form-control select2" style="width: 100%" id="good_unit<?php echo $i; ?>">
-                        <?php $db->s_unit($r['good_unit']); ?>
-                      </select></td>
-                    <td class="center"><input type="text" name="goodSize[]" class="form-control" value="<?php echo $r['goodSize'];?>" id="goodSize<?php echo $i; ?>"></td>
-                    <td class="center"><input type="text" name="goodKind[]" class="form-control" value="<?php echo $r['goodKind'];?>" id="goodKind<?php echo $i; ?>"></td>
-                    <td class="center"><button type="button" class="btn-white btn btn-xs" onClick="return FN_Remove_Table('<?php echo $i; ?>');">Remove</button></td>
-                  </tr>
-                  <?php $i++; } ?>
+                    <tr class="gradeX" id="tr<?php echo $i; ?>">
+                      <td><?php echo $i; ?></td>
+                      <td><input type="text" name="goodNo[]" class="form-control" value="<?php echo $r['goodNo']; ?>" id="goodNo<?php echo $i; ?>"></td>
+                      <td><input type="text" name="goodDec[]" class="form-control" value="<?php echo $r['goodDec']; ?>" id="goodDec<?php echo $i; ?>"></td>
+                      <td><input type="number" name="goodWeight[]" class="form-control" value="<?php echo $r['goodWeight']; ?>" id="goodWeight<?php echo $i; ?>"></td>
+                      <td><select name="good_unit[]" class="select2_single form-control select2" style="width: 100%" id="good_unit<?php echo $i; ?>">
+                          <?php $db->s_unit($r['good_unit']); ?>
+                        </select></td>
+                      <td class="center"><input type="text" name="goodSize[]" class="form-control" value="<?php echo $r['goodSize']; ?>" id="goodSize<?php echo $i; ?>"></td>
+                      <td class="center"><input type="text" name="goodKind[]" class="form-control" value="<?php echo $r['goodKind']; ?>" id="goodKind<?php echo $i; ?>"></td>
+                      <td class="center"><button type="button" class="btn-white btn btn-xs" onClick="return FN_Remove_Table('<?php echo $i; ?>');">Remove</button></td>
+                    </tr>
+                    <?php $i++;
+                  } ?>
                   <?php
 
-                  while ( $i <= 1 ) {
+                  while ($i <= 1) {
                     ?>
-                  <tr class="gradeX" id="tr<?php echo $i; ?>">
-                    <td><?php echo $i; ?></td>
-                    <td><input type="text" name="goodNo[]" class="form-control" value="" id="goodNo<?php echo $i; ?>"></td>
-                    <td><input type="text" name="goodDec[]" class="form-control" value="" id="goodDec<?php echo $i; ?>"></td>
-                    <td><input type="number" name="goodWeight[]" class="form-control" value="" id="goodWeight<?php echo $i; ?>"></td>
-                    <td><select name="good_unit[]" class="select2_single form-control select2" style="width: 100%" id="good_unit<?php echo $i; ?>">
-                        <?php $db->s_unit(); ?>
-                      </select></td>
-                    <td class="center"><input type="text" name="goodSize[]" class="form-control" value="" id="goodSize<?php echo $i; ?>"></td>
-                    <td class="center"><input type="text" name="goodKind[]" class="form-control" value="" id="goodKind<?php echo $i; ?>"></td>
-                    <td class="center"><button type="button" class="btn-white btn btn-xs" onClick="return FN_Remove_Table('<?php echo $i; ?>');">Remove</button></td>
-                  </tr>
-                  <?php
-                  $i++;
+                    <tr class="gradeX" id="tr<?php echo $i; ?>">
+                      <td><?php echo $i; ?></td>
+                      <td><input type="text" name="goodNo[]" class="form-control" value="" id="goodNo<?php echo $i; ?>"></td>
+                      <td><input type="text" name="goodDec[]" class="form-control" value="" id="goodDec<?php echo $i; ?>"></td>
+                      <td><input type="number" name="goodWeight[]" class="form-control" value="" id="goodWeight<?php echo $i; ?>"></td>
+                      <td><select name="good_unit[]" class="select2_single form-control select2" style="width: 100%" id="good_unit<?php echo $i; ?>">
+                          <?php $db->s_unit(); ?>
+                        </select></td>
+                      <td class="center"><input type="text" name="goodSize[]" class="form-control" value="" id="goodSize<?php echo $i; ?>"></td>
+                      <td class="center"><input type="text" name="goodKind[]" class="form-control" value="" id="goodKind<?php echo $i; ?>"></td>
+                      <td class="center"><button type="button" class="btn-white btn btn-xs" onClick="return FN_Remove_Table('<?php echo $i; ?>');">Remove</button></td>
+                    </tr>
+                    <?php
+                    $i++;
                   }
                   ?>
                 </tbody>
@@ -1765,18 +1783,18 @@ WHERE t.comCode='$db->comCode' AND t.documentID='$documentID' ";
               </table>
             </div>
             <a  class="btn btn-white btn-xs"  id="addproduct"><i class="fa fa-plus "> </i> Add New Row </a>
-            <input type="hidden" name="rowIdxproduct" id="rowIdxproduct" value="<?php echo $i;?>">
+            <input type="hidden" name="rowIdxproduct" id="rowIdxproduct" value="<?php echo $i; ?>">
           </div>
           <div class="form-group row">
             <label class="col-lg-2 col-form-label">Total Number of Package (in words)</label>
             <div class="col-md-4">
-              <input type="text" name="good_total_num_package" class="form-control" id="good_total_num_package" value="<?php echo $good_total_num_package;?>">
+              <input type="text" name="good_total_num_package" class="form-control" id="good_total_num_package" value="<?php echo $good_total_num_package; ?>">
             </div>
             <div class="col-md-1">
               <label style="padding-top: 5px;">Commodity</label>
             </div>
             <div class="col-md-4">
-              <input type="text" name="good_commodity" class="form-control" id="good_commodity" value="<?php echo $good_commodity;?>">
+              <input type="text" name="good_commodity" class="form-control" id="good_commodity" value="<?php echo $good_commodity; ?>">
             </div>
           </div>
         </div>
@@ -1818,135 +1836,138 @@ WHERE t.comCode='$db->comCode' AND t.documentID='$documentID' ";
                 <tbody>
                   <?php
                   $rowIdx = 1;
-                  if ( $acton != 'add' && $acton != 'copy' ) {
+                  if ($acton != 'add' && $acton != 'copy') {
                     $sql = "
-SELECT * from 
-(SELECT
-j.comCode,
-j.ref_paymentCode,
-j.chargeCode,
-j.detail as chartDetail,
-j.chargesCost,
-j.chargesReceive,
-j.chargesbillReceive
-FROM
-joborder_charge AS j
-WHERE j.comCode='$db->comCode' AND j.documentID='$documentID' 
-UNION ALL
-SELECT
-i.comCode,
-i.documentID as ref_paymentCode,
-i.chargeCode,
-i.chartDetail,
-i.amount as chargesCost,
-0 as chargesReceive,
-0 as chargesbillReceive
-FROM  $db->dbname.payment_voucher AS m
-INNER JOIN $db->dbname.payment_voucher_items AS i ON m.comCode = i.comCode AND m.documentID = i.documentID
-WHERE m.comCode='$db->comCode' AND m.refJobNo='$documentID' AND m.documentstatus='A'
-UNION ALL
-SELECT
-pm.comCode,
-pm.documentID AS ref_paymentCode,
-pd.chargeCode,
-pd.chartDetail,
-pd.amount as chargesCost,
-0 as chargesReceive,
-0 as chargesbillReceive
-FROM $db->dbname.petty_cash AS pm
-INNER JOIN $db->dbname.petty_cash_items AS pd ON pm.comCode = pd.comCode AND pm.documentID = pd.documentID
-WHERE pm.comCode='$db->comCode' AND pm.refJobNo='$documentID' AND pm.documentstatus='A'
-UNION ALL
-SELECT
-pm.comCode,
-pm.documentID AS ref_paymentCode,
-pd.chargeCode,
-pd.chartDetail,
-pd.amount as chargesCost,
-0 as chargesReceive,
-0 as chargesbillReceive
-FROM $db->dbname.petty_cashshiping AS pm
-INNER JOIN $db->dbname.petty_cashshiping_items AS pd ON pm.comCode = pd.comCode AND pm.documentID = pd.documentID
-WHERE pm.comCode='$db->comCode' AND pm.refJobNo='$documentID' AND pm.documentstatus='A'
-UNION ALL
-SELECT
-pm.comCode,
-pm.documentID AS ref_paymentCode,
-pd.chargeCode,
-pd.chartDetail,
-pd.amount as chargesCost,
-0 as chargesReceive,
-0 as chargesbillReceive
-FROM $db->dbname.shiping_payment_voucher AS pm
-INNER JOIN $db->dbname.shiping_payment_voucher_items AS pd ON pm.comCode = pd.comCode AND pm.documentID = pd.documentID
-WHERE pm.comCode='$db->comCode' AND pm.refJobNo='$documentID' AND pm.documentstatus='A'
+                      SELECT * from 
+                      (SELECT
+                      j.comCode,
+                      j.ref_paymentCode,
+                      j.chargeCode,
+                      j.detail as chartDetail,
+                      j.chargesCost,
+                      j.chargesReceive,
+                      j.chargesbillReceive
+                      FROM
+                      joborder_charge AS j
+                      WHERE j.comCode='$db->comCode' AND j.documentID='$documentID' 
+                      UNION ALL
+                      SELECT
+                      i.comCode,
+                      i.documentID as ref_paymentCode,
+                      i.chargeCode,
+                      i.chartDetail,
+                      i.amount as chargesCost,
+                      0 as chargesReceive,
+                      0 as chargesbillReceive
+                      FROM  $db->dbname.payment_voucher AS m
+                      INNER JOIN $db->dbname.payment_voucher_items AS i ON m.comCode = i.comCode AND m.documentID = i.documentID
+                      WHERE m.comCode='$db->comCode' AND m.refJobNo='$documentID' AND m.documentstatus='A'
+                      UNION ALL
+                      SELECT
+                      pm.comCode,
+                      pm.documentID AS ref_paymentCode,
+                      pd.chargeCode,
+                      pd.chartDetail,
+                      pd.amount as chargesCost,
+                      0 as chargesReceive,
+                      0 as chargesbillReceive
+                      FROM $db->dbname.petty_cash AS pm
+                      INNER JOIN $db->dbname.petty_cash_items AS pd ON pm.comCode = pd.comCode AND pm.documentID = pd.documentID
+                      WHERE pm.comCode='$db->comCode' AND pm.refJobNo='$documentID' AND pm.documentstatus='A'
+                      UNION ALL
+                      SELECT
+                      pm.comCode,
+                      pm.documentID AS ref_paymentCode,
+                      pd.chargeCode,
+                      pd.chartDetail,
+                      pd.amount as chargesCost,
+                      0 as chargesReceive,
+                      0 as chargesbillReceive
+                      FROM $db->dbname.petty_cashshiping AS pm
+                      INNER JOIN $db->dbname.petty_cashshiping_items AS pd ON pm.comCode = pd.comCode AND pm.documentID = pd.documentID
+                      WHERE pm.comCode='$db->comCode' AND pm.refJobNo='$documentID' AND pm.documentstatus='A'
+                      UNION ALL
+                      SELECT
+                      pm.comCode,
+                      pm.documentID AS ref_paymentCode,
+                      pd.chargeCode,
+                      pd.chartDetail,
+                      pd.amount as chargesCost,
+                      0 as chargesReceive,
+                      0 as chargesbillReceive
+                      FROM $db->dbname.shiping_payment_voucher AS pm
+                      INNER JOIN $db->dbname.shiping_payment_voucher_items AS pd ON pm.comCode = pd.comCode AND pm.documentID = pd.documentID
+                      WHERE pm.comCode='$db->comCode' AND pm.refJobNo='$documentID' AND pm.documentstatus='A'
 
-) as t
-GROUP BY  t.comCode,t.chargeCode,t.ref_paymentCode,t.chartDetail    ";
+                      ) as t
+                      GROUP BY  t.comCode,t.chargeCode,t.ref_paymentCode,t.chartDetail    ";
 
 
-                    $result = $db->query( $sql );
+                    $result = $db->query($sql);
                     $i = 1;
 
-                    while ( $r = mysqli_fetch_array( $result ) ) {
+                    while ($r = mysqli_fetch_array($result)) {
                       ?>
-                  <tr class='gradeX' id='trCharge<?php echo $rowIdx;?>'>
-                    <td><?php echo $rowIdx;?>
-                      <input type="hidden" name="chargeitems[]"   value="<?php echo $r["chargeCode"];?>" id="chargeitems<?php echo $rowIdx;?>">
-                      <input type="hidden" name="ref_paymentCode[]"   value="<?php echo $r["ref_paymentCode"];?>" id="ref_paymentCode<?php echo $rowIdx;?>"></td>
-                    <td><input type="text" name="chargesDetail[]" class="form-control" value="<?php echo $r["chartDetail"];?>" id="chargesDetail<?php echo $rowIdx;?>"></td>
-                    <td class="center"><input type="number" name="price<?php echo $rowIdx;?>"  onkeyup="call_price(),call_exchange(<?php echo $rowIdx;?>)" class="form-control full" value="1" id="price<?php echo $rowIdx;?>"></td>
-                    <td class="center"><input type="number" name="volum<?php echo $rowIdx;?>"   onkeyup="call_price(),call_exchange(<?php echo $rowIdx;?>)" class="form-control full" value="1" id="volum<?php echo $rowIdx;?>"></td>
-                    <td class="center"><input type="number" name="exchange<?php echo $rowIdx;?>"  onkeyup="call_price(),call_exchange(<?php echo $rowIdx;?>)" class="form-control full" value="1" id="exchange<?php echo $rowIdx;?>"></td>
-                    <td class="center"><input type="number" name="chargesCost[]" <?php if($r["ref_paymentCode"]!=''){echo"readonly";};?>  onkeyup="call_price()" class="form-control full" value="<?php echo $r["chargesCost"];?>" id="chargesCost<?php echo $rowIdx;?>"></td>
-                    <td class="center"><input type="number" name="chargesReceive[]" onkeyup="call_price()"  class="form-control full" value="<?php echo $r["chargesReceive"];?>" id="chargesReceive<?php echo $rowIdx;?>"></td>
-                    <td class="center"><input type="number" name="chargesbillReceive[]" onkeyup="call_price()"  class="form-control full" value="<?php echo $r["chargesbillReceive"];?>" id="chargesbillReceive<?php echo $rowIdx;?>"></td>
-                    <td class='center'><button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("Charge<?php echo $rowIdx;?>")'>Remove</button></td>
-                  </tr>
-                  <?php
-                  $rowIdx++;
-                  }
+                      <tr class='gradeX' id='trCharge<?php echo $rowIdx; ?>'>
+                        <td><?php echo $rowIdx; ?>
+                          <input type="hidden" name="chargeitems[]"   value="<?php echo $r["chargeCode"]; ?>" id="chargeitems<?php echo $rowIdx; ?>">
+                          <input type="hidden" name="ref_paymentCode[]"   value="<?php echo $r["ref_paymentCode"]; ?>" id="ref_paymentCode<?php echo $rowIdx; ?>"></td>
+                        <td><input type="text" name="chargesDetail[]" class="form-control" value="<?php echo $r["chartDetail"]; ?>" id="chargesDetail<?php echo $rowIdx; ?>"></td>
+                        <td class="center"><input type="number" name="price<?php echo $rowIdx; ?>"  onkeyup="call_price(),call_exchange(<?php echo $rowIdx; ?>)" class="form-control full" value="1" id="price<?php echo $rowIdx; ?>"></td>
+                        <td class="center"><input type="number" name="volum<?php echo $rowIdx; ?>"   onkeyup="call_price(),call_exchange(<?php echo $rowIdx; ?>)" class="form-control full" value="1" id="volum<?php echo $rowIdx; ?>"></td>
+                        <td class="center"><input type="number" name="exchange<?php echo $rowIdx; ?>"  onkeyup="call_price(),call_exchange(<?php echo $rowIdx; ?>)" class="form-control full" value="1" id="exchange<?php echo $rowIdx; ?>"></td>
+                        <td class="center"><input type="number" name="chargesCost[]" <?php if ($r["ref_paymentCode"] != '') {
+                          echo "readonly";
+                        }
+                        ; ?>  onkeyup="call_price()" class="form-control full" value="<?php echo $r["chargesCost"]; ?>" id="chargesCost<?php echo $rowIdx; ?>"></td>
+                        <td class="center"><input type="number" name="chargesReceive[]" onkeyup="call_price()"  class="form-control full" value="<?php echo $r["chargesReceive"]; ?>" id="chargesReceive<?php echo $rowIdx; ?>"></td>
+                        <td class="center"><input type="number" name="chargesbillReceive[]" onkeyup="call_price()"  class="form-control full" value="<?php echo $r["chargesbillReceive"]; ?>" id="chargesbillReceive<?php echo $rowIdx; ?>"></td>
+                        <td class='center'><button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("Charge<?php echo $rowIdx; ?>")'>Remove</button></td>
+                      </tr>
+                      <?php
+                      $rowIdx++;
+                    }
 
                   }
 
 
                   $sqlContrainner = " SELECT 
-GROUP_CONCAT(t.qty) as ct
-from(
-SELECT
-concat(count(s.containersizeName),'x',(s.containersizeName))as qty
-FROM
-joborder_container AS j
-INNER JOIN common_containertype AS c ON j.comCode = c.comCode AND j.containerType = c.containertypeCode
-INNER JOIN common_containersize AS s ON j.comCode = s.comCode AND j.containerSize = s.containersizeCode
-WHERE j.documentID='$documentID'  and j.documentID<>'' 
-GROUP BY containersizeCode) as t ";
-                  $rcon = $db->fetch( $sqlContrainner );
+                  GROUP_CONCAT(t.qty) as ct
+                  from(
+                  SELECT
+                  concat(count(s.containersizeName),'x',(s.containersizeName))as qty
+                  FROM
+                  joborder_container AS j
+                  INNER JOIN common_containertype AS c ON j.comCode = c.comCode AND j.containerType = c.containertypeCode
+                  INNER JOIN common_containersize AS s ON j.comCode = s.comCode AND j.containerSize = s.containersizeCode
+                  WHERE j.documentID='$documentID'  and j.documentID<>'' 
+                  GROUP BY containersizeCode) as t ";
+                                    $rcon = $db->fetch($sqlContrainner);
 
-                  $sqlpacked = " 
-SELECT
-concat(round(sum(j.packaed_totalCBM),2),' CBM') as qtyCBM
-FROM
-joborder_packed AS j
-WHERE j.documentID='$documentID' and j.documentID<>'' ";
-                  $rpacked = $db->fetch( $sqlpacked );
+                                    $sqlpacked = " 
+                  SELECT
+                  concat(round(sum(j.packaed_totalCBM),2),' CBM') as qtyCBM
+                  FROM
+                  joborder_packed AS j
+                  WHERE j.documentID='$documentID' and j.documentID<>'' ";
+                  $rpacked = $db->fetch($sqlpacked);
 
-                  if ( $rcon[ 'ct' ] != "" ) {
-                    $showCBM = $rcon[ 'ct' ];
+                  if ($rcon['ct'] != "") {
+                    $showCBM = $rcon['ct'];
                   } else {
 
-                    $showCBM = $rpacked[ 'qtyCBM' ];
+                    $showCBM = $rpacked['qtyCBM'];
                   }
 
 
                   ?>
-                <input    type="hidden" name="rowIdx" id="rowIdx" value="<?php echo $rowIdx;?>">
+                <input    type="hidden" name="rowIdx" id="rowIdx" value="<?php echo $rowIdx; ?>">
                 </tbody>
                 
                 <tfoot>
                   <tr>
                     <td style="width:5%"></td>
-                    <td style="width:50%;"><strong>Volum : <?php echo $showCBM;?></strong></td>
+                    <td style="width:50%;"><strong>Volum : <?php echo $showCBM; ?></strong></td>
                     <td style="width:10%">&nbsp;</td>
                     <td style="width:10%">&nbsp;</td>
                     <td style="width:10%"><span style="width:50%; text-align: right;">Vat 7%</span></td>
@@ -1956,8 +1977,7 @@ WHERE j.documentID='$documentID' and j.documentID<>'' ";
                     <td style="width:5%"></td>
                   </tr>
                   <tr>
-                    <td style="
-      width:5%"></td>
+                    <td style="width:5%"></td>
                     <td style="width:50%; text-align: right;">&nbsp;</td>
                     <td style="width:10%">&nbsp;</td>
                     <td style="width:10%">&nbsp;</td>
@@ -1996,15 +2016,15 @@ WHERE j.documentID='$documentID' and j.documentID<>'' ";
                     <td><strong>ลูกค้าสำรองจ่าย</strong></td>
                     <?php
                     $sql = "SELECT
-sum(av.sumTotal) as sumTotal
-FROM
-advance_payment AS av
-WHERE av.refJobNo='$documentID' and av.documentstatus='A' ";
-                    $result = $db->fetch( $sql );
-                    $h_cus_paid = $result[ 'sumTotal' ];
+                    sum(av.sumTotal) as sumTotal
+                    FROM
+                    advance_payment AS av
+                    WHERE av.refJobNo='$documentID' and av.documentstatus='A' ";
+                    $result = $db->fetch($sql);
+                    $h_cus_paid = $result['sumTotal'];
                     ?>
-                    <td><span id="cus_paid"><?php echo n2($h_cus_paid)?></span>
-                      <input type="hidden" id="h_cus_paid" name="h_cus_paid" value="<?php echo n2($h_cus_paid)?>"></td>
+                    <td><span id="cus_paid"><?php echo n2($h_cus_paid) ?></span>
+                      <input type="hidden" id="h_cus_paid" name="h_cus_paid" value="<?php echo n2($h_cus_paid) ?>"></td>
                   </tr>
                   <tr>
                     <td><strong>คงเหลือจ่ายจริง</strong></td>
@@ -2040,28 +2060,28 @@ WHERE av.refJobNo='$documentID' and av.documentstatus='A' ";
               <tbody>
                 <?php
                 $sql = "SELECT
-m.documentID,
-m.documentDate,
-m.refJobNo,
-i.chartDetail,
-i.amount,
-a.fileDetail,
-a.fileName,
-m.cusCode,
-rf.status_name,
-m.documentstatus
-FROM
-advance_payment AS m
-INNER JOIN $db->dbname.ref_documentstatus AS rf ON m.comCode = rf.comCode AND m.documentstatus = rf.status_code
-INNER JOIN advance_payment_items AS i ON m.comCode = i.comCode AND m.documentID = i.documentID
-LEFT JOIN advance_payment_attach AS a ON m.comCode = a.comCode AND m.documentID = a.documentID
-WHERE m.refJobNo='$documentID'  ";
-                $result = $db->query( $sql );
+                m.documentID,
+                m.documentDate,
+                m.refJobNo,
+                i.chartDetail,
+                i.amount,
+                a.fileDetail,
+                a.fileName,
+                m.cusCode,
+                rf.status_name,
+                m.documentstatus
+                FROM
+                advance_payment AS m
+                INNER JOIN $db->dbname.ref_documentstatus AS rf ON m.comCode = rf.comCode AND m.documentstatus = rf.status_code
+                INNER JOIN advance_payment_items AS i ON m.comCode = i.comCode AND m.documentID = i.documentID
+                LEFT JOIN advance_payment_attach AS a ON m.comCode = a.comCode AND m.documentID = a.documentID
+                WHERE m.refJobNo='$documentID'  ";
+                $result = $db->query($sql);
                 $i_container = 1;
                 $i = 1;
                 $isActiveStype = "";
-                while ( $r = mysqli_fetch_array( $result ) ) {
-                  switch ( $r[ 'documentstatus' ] ) {
+                while ($r = mysqli_fetch_array($result)) {
+                  switch ($r['documentstatus']) {
                     case 'A':
                       $isActiveStype = 'primary';
                       break;
@@ -2076,17 +2096,18 @@ WHERE m.refJobNo='$documentID'  ";
                       break;
                   }
                   ?>
-              <td><?php echo $i; ?></td>
-                <td><a href="advance_payment_form?action=edit&documentID=<?php echo $r['documentID']; ?>" target="_blank"><?php echo $r['documentID']; ?></a></td>
-                <td><?php echo $r['chartDetail']; ?></td>
-                <td><?php echo $r['amount']; ?></td>
-                <td><?php if($r['fileName']!=''){?>
-                  <a href="customer_path/<?php echo $r['cusCode']; ?>/<?php echo $r['fileName']; ?>" target="_blank">View</a>
-                  <?php }else{?>
-                  No File
-                  <?php }?></td>
-                <td><span class="label label-<?php echo $isActiveStype;?>"><?php echo $r['status_name']; ?></span></td>
-                <?php $i++; } ?>
+                <td><?php echo $i; ?></td>
+                  <td><a href="advance_payment_form?action=edit&documentID=<?php echo $r['documentID']; ?>" target="_blank"><?php echo $r['documentID']; ?></a></td>
+                  <td><?php echo $r['chartDetail']; ?></td>
+                  <td><?php echo $r['amount']; ?></td>
+                  <td><?php if ($r['fileName'] != '') { ?>
+                      <a href="customer_path/<?php echo $r['cusCode']; ?>/<?php echo $r['fileName']; ?>" target="_blank">View</a>
+                    <?php } else { ?>
+                      No File
+                    <?php } ?></td>
+                  <td><span class="label label-<?php echo $isActiveStype; ?>"><?php echo $r['status_name']; ?></span></td>
+                  <?php $i++;
+                } ?>
                 </tbody>
               <tfoot>
               </tfoot>
@@ -2114,112 +2135,120 @@ WHERE m.refJobNo='$documentID'  ";
               <tbody>
                 <?php
                 $sql = "SELECT
-t.items,
-t.comCode,
-t.documentID,
-t.cusCode,
-t.fileDetail,
-t.fileName
-FROM
-joborder_attach AS t
-WHERE t.comCode='$db->comCode' AND t.documentID='$documentID' ";
-                $result = $db->query( $sql );
+                t.items,
+                t.comCode,
+                t.documentID,
+                t.cusCode,
+                t.fileDetail,
+                t.fileName
+                FROM
+                joborder_attach AS t
+                WHERE t.comCode='$db->comCode' AND t.documentID='$documentID' ";
+                $result = $db->query($sql);
                 $i_container = 1;
                 $i = 99;
 
-                if ( $acton != 'add' && $acton != 'copy' ) {
-                  while ( $r = mysqli_fetch_array( $result ) ) {
+                if ($acton != 'add' && $acton != 'copy') {
+                  while ($r = mysqli_fetch_array($result)) {
 
                     ?>
-                <tr class='gradeX' id='tr<?php echo $i;?>'>
-                  <td><?php echo $r['documentID'];?></td>
-                  <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i;?>'>
-                    <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail'];?>' id='fileName<?php echo $i;?>'></td>
-                  <td class='center'><a class='btn-white btn btn-xs' href='customer_path/<?php echo $r['cusCode'].'/'. $r['fileName'];?>' target='_blank'>View</a>
-                    </button>
-                    &nbsp;
-                    <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i;?>")'>Remove</button></td>
-                </tr>
-                <?php $i++; } } ?>
+                    <tr class='gradeX' id='tr<?php echo $i; ?>'>
+                      <td><?php echo $r['documentID']; ?></td>
+                      <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i; ?>'>
+                        <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail']; ?>' id='fileName<?php echo $i; ?>'></td>
+                      <td class='center'><a class='btn-white btn btn-xs' href='customer_path/<?php echo $r['cusCode'] . '/' . $r['fileName']; ?>' target='_blank'>View</a>
+                        </button>
+                        &nbsp;
+                        <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i; ?>")'>Remove</button></td>
+                    </tr>
+                    <?php $i++;
+                  }
+                } ?>
                 <?php
 
                 $sql = "SELECT
-t.documentID,
-f.supCode,
-t.refJobNo,
-f.fileDetail,
-f.fileName
-FROM
-payment_voucher AS t
-INNER JOIN payment_voucher_attach AS f ON t.comCode = f.comCode AND t.documentID = f.documentID
-WHERE t.comCode='$db->comCode' AND t.refJobNo='$documentID' AND t.documentstatus='A' ";
-                $result = $db->query( $sql );
-                if ( $acton != 'add' && $acton != 'copy' ) {
-                  while ( $r = mysqli_fetch_array( $result ) ) {
+                t.documentID,
+                f.supCode,
+                t.refJobNo,
+                f.fileDetail,
+                f.fileName
+                FROM
+                payment_voucher AS t
+                INNER JOIN payment_voucher_attach AS f ON t.comCode = f.comCode AND t.documentID = f.documentID
+                WHERE t.comCode='$db->comCode' AND t.refJobNo='$documentID' AND t.documentstatus='A' ";
+                $result = $db->query($sql);
+                if ($acton != 'add' && $acton != 'copy') {
+                  while ($r = mysqli_fetch_array($result)) {
 
                     ?>
-                <tr class='gradeX' id='tr<?php echo $i;?>'>
-                  <td><?php echo $r['documentID'];?></td>
-                  <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i;?>'>
-                    <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail'];?>' id='fileName<?php echo $i;?>'></td>
-                  <td class='center'><a class='btn-white btn btn-xs' href='supplier_path/<?php echo $r['supCode'].'/'. $r['fileName'];?>' target='_blank'>View</a>
-                    </button>
-                    &nbsp;
-                    <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i;?>")'>Remove</button></td>
-                </tr>
-                <?php $i++; }} ?>
+                    <tr class='gradeX' id='tr<?php echo $i; ?>'>
+                      <td><?php echo $r['documentID']; ?></td>
+                      <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i; ?>'>
+                        <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail']; ?>' id='fileName<?php echo $i; ?>'></td>
+                      <td class='center'><a class='btn-white btn btn-xs' href='supplier_path/<?php echo $r['supCode'] . '/' . $r['fileName']; ?>' target='_blank'>View</a>
+                        </button>
+                        &nbsp;
+                        <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i; ?>")'>Remove</button></td>
+                    </tr>
+                    <?php $i++;
+                  }
+                } ?>
                 <?php
                 $sql = "SELECT
-t.documentID,
-f.cusCode,
-t.refJobNo,
-f.fileDetail,
-f.fileName
-FROM
-advance_payment AS t
-INNER JOIN advance_payment_attach AS f ON t.comCode = f.comCode AND t.documentID = f.documentID
-WHERE t.comCode='$db->comCode' AND t.refJobNo='$documentID' AND t.documentstatus='A'  ";
-                $result = $db->query( $sql );
-                if ( $acton != 'add' && $acton != 'copy' ) {
-                  while ( $r = mysqli_fetch_array( $result ) ) {
+                t.documentID,
+                f.cusCode,
+                t.refJobNo,
+                f.fileDetail,
+                f.fileName
+                FROM
+                advance_payment AS t
+                INNER JOIN advance_payment_attach AS f ON t.comCode = f.comCode AND t.documentID = f.documentID
+                WHERE t.comCode='$db->comCode' AND t.refJobNo='$documentID' AND t.documentstatus='A'  ";
+                $result = $db->query($sql);
+                if ($acton != 'add' && $acton != 'copy') {
+                  while ($r = mysqli_fetch_array($result)) {
 
                     ?>
-                <tr class='gradeX' id='tr<?php echo $i;?>'>
-                  <td><?php echo $r['documentID'];?></td>
-                  <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i;?>'>
-                    <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail'];?>' id='fileName<?php echo $i;?>'></td>
-                  <td class='center'><a class='btn-white btn btn-xs' href='customer_path/<?php echo $r['cusCode'].'/'. $r['fileName'];?>' target='_blank'>View</a>
-                    </button>
-                    &nbsp;
-                    <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i;?>")'>Remove</button></td>
-                </tr>
-                <?php $i++; }} ?>
+                    <tr class='gradeX' id='tr<?php echo $i; ?>'>
+                      <td><?php echo $r['documentID']; ?></td>
+                      <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i; ?>'>
+                        <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail']; ?>' id='fileName<?php echo $i; ?>'></td>
+                      <td class='center'><a class='btn-white btn btn-xs' href='customer_path/<?php echo $r['cusCode'] . '/' . $r['fileName']; ?>' target='_blank'>View</a>
+                        </button>
+                        &nbsp;
+                        <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i; ?>")'>Remove</button></td>
+                    </tr>
+                    <?php $i++;
+                  }
+                } ?>
                 <?php
                 $sql = "SELECT
-t.documentID,
-f.cusCode,
-t.refJobNo,
-f.fileDetail,
-f.fileName
-FROM
-deposit AS t
-INNER JOIN deposit_attach AS f ON t.comCode = f.comCode AND t.documentID = f.documentID
-WHERE t.comCode='$db->comCode' AND t.refJobNo='$documentID' AND t.documentstatus='A'  ";
-                $result = $db->query( $sql );
-                if ( $acton != 'add' && $acton != 'copy' ) {
-                  while ( $r = mysqli_fetch_array( $result ) ) {
+                t.documentID,
+                f.cusCode,
+                t.refJobNo,
+                f.fileDetail,
+                f.fileName
+                FROM
+                deposit AS t
+                INNER JOIN deposit_attach AS f ON t.comCode = f.comCode AND t.documentID = f.documentID
+                WHERE t.comCode='$db->comCode' AND t.refJobNo='$documentID' AND t.documentstatus='A'  ";
+                $result = $db->query($sql);
+                if ($acton != 'add' && $acton != 'copy') {
+                  while ($r = mysqli_fetch_array($result)) {
 
                     ?>
-                <tr class='gradeX' id='tr<?php echo $i;?>'>
-                  <td><?php echo $r['documentID'];?></td>
-                  <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i;?>'>
-                    <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail'];?>' id='fileName<?php echo $i;?>'></td>
-                  <td class='center'><a class='btn-white btn btn-xs' href='customer_path/<?php echo $r['cusCode'].'/'. $r['fileName'];?>' target='_blank'>View</a>
-                    </button>
-                    &nbsp;
-                    <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i;?>")'>Remove</button></td>
-                </tr>
-                <?php $i++; }} ?>
+                    <tr class='gradeX' id='tr<?php echo $i; ?>'>
+                      <td><?php echo $r['documentID']; ?></td>
+                      <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i; ?>'>
+                        <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail']; ?>' id='fileName<?php echo $i; ?>'></td>
+                      <td class='center'><a class='btn-white btn btn-xs' href='customer_path/<?php echo $r['cusCode'] . '/' . $r['fileName']; ?>' target='_blank'>View</a>
+                        </button>
+                        &nbsp;
+                        <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i; ?>")'>Remove</button></td>
+                    </tr>
+                    <?php $i++;
+                  }
+                } ?>
               </tbody>
               <tfoot>
               </tfoot>
@@ -2265,23 +2294,24 @@ WHERE t.comCode='$db->comCode' AND t.refJobNo='$documentID' AND t.documentstatus
               <div class="col-sm-10 col-sm-offset-2">
                 <button name="back" class="btn btn-white" type="button" onclick="window.location='job'"><i class="fa fa-reply"></i> Back</button>
                 <?php
-                if ( $_SESSION[ 'userTypecode' ] == '1' ) {
+                if ($_SESSION['userTypecode'] == '1') {
                   $disabled = '';
                 }
 
-                if ( $acton != 'view' ) {
-                  if ( $documentstatus != 'A' ) {
+                if ($acton != 'view') {
+                  if ($documentstatus != 'A') {
                     ?>
-                <button name="save" id="save" class="btn btn-primary" type="button" <?php echo $disabled; ?>><i class="fa fa-save"></i> Save</button>
-                <?php
-                }
-                if ( $_SESSION[ 'userTypecode' ] == '1' ) {
-                  ?>
-                <button name="Approve" id="Approve" class="btn btn-primary" type="button" <?php echo $disabled; ?>><i class="fa fa-save"></i> Approve</button>
-                <?php }} ?>
-                <button class="btn btn-white " type="button" onclick="openInNewTab('<?php echo 'job_pdf';?>');" ><i class="fa fa-print"></i> Job</button>
-                <button class="btn btn-white " type="button" onclick="openInNewTab('<?php echo 'booking_confirm_pdf';?>');" ><i class="fa fa-print"></i> Booking confirm</button>
-                <button class="btn btn-white " type="button" onclick="openInNewTab('<?php echo 'trailerbooking_pdf';?>');" ><i class="fa fa-print"></i> Trailer booking</button>
+                    <button name="save" id="save" class="btn btn-primary" type="button" <?php echo $disabled; ?>><i class="fa fa-save"></i> Save</button>
+                    <?php
+                  }
+                  if ($_SESSION['userTypecode'] == '1') {
+                    ?>
+                    <button name="Approve" id="Approve" class="btn btn-primary" type="button" <?php echo $disabled; ?>><i class="fa fa-save"></i> Approve</button>
+                  <?php }
+                } ?>
+                <button class="btn btn-white " type="button" onclick="openInNewTab('<?php echo 'job_pdf'; ?>');" ><i class="fa fa-print"></i> Job</button>
+                <button class="btn btn-white " type="button" onclick="openInNewTab('<?php echo 'booking_confirm_pdf'; ?>');" ><i class="fa fa-print"></i> Booking confirm</button>
+                <button class="btn btn-white " type="button" onclick="openInNewTab('<?php echo 'trailerbooking_pdf'; ?>');" ><i class="fa fa-print"></i> Trailer booking</button>
                 <input type="hidden" name="action" id="action" value="<?php echo $acton; ?>">
               </div>
             </div>

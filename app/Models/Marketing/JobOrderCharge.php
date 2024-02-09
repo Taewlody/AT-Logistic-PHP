@@ -2,7 +2,9 @@
 
 namespace App\Models\Marketing;
 
+use App\Models\Shipping\PaymentVoucher;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Common\Charges;
@@ -39,6 +41,11 @@ class JobOrderCharge extends Model
         'chargesReceive' => 'float',
         'chargesbillReceive' => 'float',
     ];
+
+    public function payment(): HasMany
+    {
+        return $this->hasMany(PaymentVoucher::class, 'documentID', 'ref_paymentCode');
+    }
 
     public function charges(): HasOne
     {

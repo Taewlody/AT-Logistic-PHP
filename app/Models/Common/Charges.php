@@ -61,58 +61,17 @@ class Charges extends Model implements Wireable
 
     public function __construct($attributes = []){
         parent::__construct($attributes);
-        $this->comCode = $attributes['comCode'] ?? 'C01';
-        $this->chargeCode = $attributes['chargeCode'] ?? '';
-        $this->chargeName = $attributes['chargeName'] ?? '';
-        $this->typeCode = $attributes['typeCode'] ?? '';
-        $this->isActive = $attributes['isActive'] ?? '';
-        $this->createID = $attributes['createID'] ?? '';
-        $this->createTime = $attributes['createTime'] ?? '';
-        $this->editID = $attributes['editID'] ?? '';
-        $this->editTime = $attributes['editTime'] ?? '';
-        $this->purchaseVat = $attributes['purchaseVat'] ?? '';
+        $this->fill($attributes);
     }
 
     public static function fromLivewire($value)
     {
-        $comCode = $value['comCode'];
-        $chargeCode = $value['chargeCode'];
-        $chargeName = $value['chargeName'];
-        $typeCode = $value['typeCode'];
-        $isActive = $value['isActive'];
-        $createID = $value['createID'];
-        $createTime = $value['createTime'] != '' ? Carbon::parse($value['createTime']) : Carbon::minValue();
-        $editID = $value['editID'];
-        $editTime = $value['editTime'] != '' ? Carbon::parse($value['editTime']) : Carbon::minValue();
-        $purchaseVat = $value['purchaseVat'];
-        return new static([
-            'comCode' => $comCode,
-            'chargeCode' => $chargeCode,
-            'chargeName' => $chargeName,
-            'typeCode' => $typeCode,
-            'isActive' => $isActive,
-            'createID' => $createID,
-            'createTime' => $createTime,
-            'editID' => $editID,
-            'editTime' => $editTime,
-            'purchaseVat' => $purchaseVat,
-        ]);
+        return new static($value);
     }
 
     public function toLivewire()
     {
-        return [
-            'comCode' => $this->comCode,
-            'chargeCode' => $this->chargeCode,
-            'chargeName' => $this->chargeName,
-            'typeCode' => $this->typeCode,
-            'isActive' => $this->isActive,
-            'createID' => $this->createID,
-            'createTime' => $this->createTime,
-            'editID' => $this->editID,
-            'editTime' => $this->editTime,
-            'purchaseVat' => $this->purchaseVat,
-        ];
+        return $this->toArray();
     }
 
     public function createBy(): HasOne

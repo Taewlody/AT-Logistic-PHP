@@ -2,11 +2,13 @@
 
 namespace App\Models\Marketing;
 
+use App\Models\Common\UnitContainer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
+use Livewire\Wireable;
 
-class JobOrderGoods extends Model
+class JobOrderGoods extends Model implements Wireable
 {
     use HasFactory;
 
@@ -39,4 +41,24 @@ class JobOrderGoods extends Model
         'goodSize' => 'string',
         'goodKind' => 'string',
     ];
+
+    public function __construct($attributes = []){
+        parent::__construct($attributes);
+        $this->fill($attributes);
+    }
+
+    public static function fromLivewire($value)
+    {
+        return new static($value);
+    }
+
+    public function toLivewire()
+    {
+        return $this->toArray();
+    }
+
+    public function unit(): HasOne
+    {
+        return $this->hasOne(UnitContainer::class, 'unitCode', 'good_unit');
+    }
 }

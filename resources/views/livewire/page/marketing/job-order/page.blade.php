@@ -14,7 +14,9 @@
                                 </div>
 
                                 <div class="col-6 text-end">
-                                    <a href="job_form?action=add" class="btn btn-primary"><i class="fa fa-plus "> </i> Create new </a>
+                                    <a href="{{ route('job-order.form', ['action' => 'create']) }}" class="btn btn-primary" wire:navigate>
+                                        <i class="fa fa-plus "></i> Create new 
+                                    </a>
                                 </div>
                             </div>
                             <br/><br/>
@@ -123,8 +125,8 @@
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->documentID }}</td>
                                                 <td>{{ $item->documentDate }}</td>
-                                                <td>{{ $item->customer != null ? $item->customer->custNameEN : '' }}</td>
-                                                <td>{{ $item->salemanRef != null ? $item->salemanRef->empName : '' }}</td>
+                                                <td>{{ $item->customerRefer != null ? $item->customerRefer->custNameEN : '' }}</td>
+                                                <td>{{ $item->salemanRefer != null ? $item->salemanRefer->empName : '' }}</td>
         
                                                 @if ($item->docStatus != null)
                                                     <td class="center"><span
@@ -147,12 +149,12 @@
                                                 </td>
                                                 <td>
                                                     <div class="btn-group">
-                                                        <button class="btn btn-xs btn-success"
-                                                            onClick="location.href='port_form?action=view&portCode={{ $item->fCode }}">View</button>
-                                                        <button class="btn btn-xs btn-primary"
-                                                            onClick="location.href='port_form?action=edit&portCode={{ $item->fCode }}">Edit</button>
+                                                        <a class="btn btn-xs btn-success"
+                                                            href="{{ route('job-order.form', ['action' => 'view', 'id' => $item->documentID]) }}" wire:navigate>View</a>
+                                                        <a class="btn btn-xs btn-primary"
+                                                            href="{{ route('job-order.form', ['action' => 'edit', 'id' => $item->documentID]) }}" wire:navigate>Edit</a>
                                                         <button class="btn btn-xs btn-danger"
-                                                            onClick="return confirmDel('{{ $item->fCode }}','port_action.php');">Delete</button>
+                                                        wire:confirm="Are you sure want to delete {{$item->documentID}}" wire:click="delete('{{$item->documentID}}')" wire:refresh="$refresh">Delete</button>
                                                     </div>
                                                 </td>
                                             </tr>

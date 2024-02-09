@@ -2,8 +2,16 @@
 
 namespace App\Models\Marketing;
 
+use App\Casts\CustomDate;
+use App\Casts\CustomDateTime;
+use App\Models\Account\PaymentVoucher;
+use App\Models\Common\Feeder;
+use App\Models\Common\Place;
 use App\Models\Common\Saleman;
+use App\Models\Common\Supplier;
+use App\Models\Shipping\PaymentVoucher as paymentVoucherShipping;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
@@ -11,8 +19,10 @@ use App\Models\Common\TransportType;
 use App\Models\Common\Port;
 use App\Models\Common\Customer;
 use App\Models\Status\RefDocumentStatus;
+use App\Models\Account\Invoice;
+use Livewire\Wireable;
 
-class JobOrder extends Model
+class JobOrder extends Model implements Wireable
 {
     use HasFactory;
 
@@ -21,6 +31,11 @@ class JobOrder extends Model
     public $incrementing = false;
     protected $keyType = 'string';
     protected $primaryKey = 'documentID';
+
+    protected $dateFormat = 'y-m-d H:i:s';
+
+    const CREATED_AT = 'createTime';
+    const UPDATED_AT = 'editTime';
 
     protected $fillable = [
         'comCode',
@@ -91,7 +106,7 @@ class JobOrder extends Model
     protected $casts = [
         'comCode' => 'string',
         'documentID' => 'string',
-        'documentDate' => 'date:Y-m-d',
+        'documentDate' => CustomDate::class,
         'bound' => 'string',
         'freight' => 'string',
         'port_of_landing' => 'string',
@@ -102,10 +117,10 @@ class JobOrder extends Model
         'paperless' => 'string',
         'bill_of_landing' => 'string',
         'import_entry' => 'string',
-        'etdDate' => 'date:Y-m-d',
-        'etaDate' => 'date:Y-m-d',
-        'closingDate' => 'date:Y-m-d',
-        'closingTime' => 'time: H:M',
+        'etdDate' => CustomDate::class,
+        'etaDate' => CustomDate::class,
+        'closingDate' => CustomDate::class,
+        'closingTime' => 'string',
         'invNo' => 'string',
         'bill' => 'string',
         'bookingNo' => 'string',
@@ -121,15 +136,15 @@ class JobOrder extends Model
         'stu_location' => 'string',
         'stu_contact' => 'string',
         'stu_mobile' => 'string',
-        'stu_date' => 'date:Y-m-d',
+        'stu_date' => CustomDate::class,
         'cy_location' => 'string',
         'cy_contact' => 'string',
         'cy_mobile' => 'string',
-        'cy_date' => 'date:Y-m-d',
+        'cy_date' => CustomDate::class,
         'rtn_location' => 'string',
         'rtn_contact' => 'string',
         'rtn_mobile' => 'string',
-        'rtn_date' => 'date:Y-m-d',
+        'rtn_date' => CustomDate::class,
         'good_total_num_package' => 'string',
         'good_commodity' => 'string',
         'billOfladingNo' => 'string',
@@ -145,48 +160,141 @@ class JobOrder extends Model
         'total_netamt' => 'float',
         'documentstatus' => 'string',
         'createID' => 'string',
-        'createTime' => 'datetime:Y-m-d H:M',
+        'createTime' => CustomDateTime::class,
         'editID' => 'string',
-        'editTime' => 'datetime:Y-m-d H:M',
+        'editTime' => CustomDateTime::class,
         'freetime' => 'string',
-        'freetimeEXP' => 'date:Y-m-d',
+        'freetimeEXP' => CustomDate::class,
         'feederVOY' => 'string',
         'vesselVOY' => 'string',
     ];
 
-    public function portLanding(): HasOne
+    protected $attributes = [
+        // 'containerList' => [],
+    ];
+
+    public function __construct($attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->fill($attributes);
+    }
+
+    public static function fromLivewire($value)
+    {
+        new static($value);
+    }
+
+    public function toLiveWire()
+    {
+        return $this->toArray();
+    }
+
+    public function containerList(): HasMany
+    {
+        return $this->hasMany(JobOrderContainer::class, 'documentID', 'documentID');
+    }
+
+    public function addContainer(JobOrderContainer $container)
+    {
+        $this->containerList->push($container);
+    }
+
+    public function packedList(): HasMany
+    {
+        return $this->hasMany(JobOrderPacked::class, 'documentID', 'documentID');
+    }
+
+    public function addPacked(JobOrderPacked $packed)
+    {
+        $this->packedList->push($packed);
+    }
+
+    public function goodsList(): HasMany
+    {
+        return $this->hasMany(JobOrderGoods::class, 'documentID', 'documentID');
+    }
+
+    public function paymentVoucherShipping(): HasMany
+    {
+        return $this->hasMany(paymentVoucherShipping::class, 'refJobNo', 'documentID');
+    }
+
+    public function paymentVoucherAccount(): HasOne
+    {
+        return $this->hasOne(PaymentVoucher::class, 'refJobNo', 'documentID');
+    }
+
+    public function landingPort(): HasOne
     {
         return $this->hasOne(Port::class, 'portCode', 'port_of_landing');
     }
 
+    public function trailerBooking(): HasOne
+    {
+        return $this->hasOne(TrailerBooking::class, 'documentID', 'trailer_bookingNO');
+    }
 
-    public function portDischarge(): HasOne
+    public function dischargePort(): HasOne
     {
         return $this->hasOne(Port::class, 'portCode', 'port_of_discharge');
     }
 
-    public function freightRef(): HasOne
+    public function transportType(): HasOne
     {
         return $this->hasOne(TransportType::class, 'transportCode', 'freight');
     }
 
-    // public function bill_of_landing(): HasOne {
-
-    // }
-
-    public function docStatus(): HasOne
+    public function billLanding(): HasOne
     {
-        return $this->hasOne(RefDocumentStatus::class, 'status_code', 'documentstatus');
+        return $this->hasOne(BillOfLading::class, 'documentID', 'bill_of_landing');
     }
 
-    public function customer(): HasOne
+    public function deliveryTypeRefer(): HasOne
+    {
+        return $this->hasOne(RefDocumentStatus::class, 'status_code', 'deliveryType');
+    }
+
+    public function agentRefer(): HasOne
+    {
+        return $this->hasOne(Supplier::class, 'supCode', 'agentCode');
+    }
+
+    public function referFeeder(): HasOne
+    {
+        return $this->hasOne(Feeder::class, 'feederCode', 'feeder');
+    }
+    public function vesselFeeder(): HasOne
+    {
+        return $this->hasOne(Feeder::class, 'feederCode', 'feeder');
+    }
+
+    public function invoice(): HasOne
+    {
+        return $this->hasOne(Invoice::class, 'documentID', 'invoiceNo');
+    }
+
+    public function PlaceFOB(): HasOne
+    {
+        return $this->hasOne(Place::class, 'pCode', 'fob');
+    }
+    public function receivePlace(): HasOne
+    {
+        return $this->hasOne(Place::class, 'pCode', 'place_receive');
+    }
+
+    public function customerRefer(): HasOne
     {
         return $this->hasOne(Customer::class, 'cusCode', 'cusCode');
     }
 
-    public function salemanRef(): HasOne
+    public function salemanRefer(): HasOne
     {
         return $this->hasOne(Saleman::class, 'usercode', 'saleman');
+    }
+
+    public function docStatus(): HasOne
+    {
+        return $this->hasOne(RefDocumentStatus::class, 'status_code', 'documentstatus');
     }
 
     public function createBy(): HasOne

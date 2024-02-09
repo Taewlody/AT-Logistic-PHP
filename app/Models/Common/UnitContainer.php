@@ -10,7 +10,7 @@ class UnitContainer extends Model
 {
     use HasFactory;
 
-    protected $table = 'common_unit_container';
+    protected $table = 'common_unit_containner';
 
     public $incrementing = false;
     protected $keyType = 'string';

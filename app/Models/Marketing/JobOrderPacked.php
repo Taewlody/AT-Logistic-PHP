@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Common\Unit;
+use Livewire\Wireable;
 
-class JobOrderPacked extends Model
+class JobOrderPacked extends Model implements Wireable
 {
     use HasFactory;
 
@@ -44,6 +45,21 @@ class JobOrderPacked extends Model
         'packaed_totalCBM' => 'float',
         'packaed_totalWeight' => 'float',
     ];
+
+    public function __construct($attributes = []){
+        parent::__construct($attributes);
+        $this->fill($attributes);
+    }
+
+    public static function fromLivewire($value)
+    {
+        return new static($value);
+    }
+
+    public function toLivewire()
+    {
+        return $this->toArray();
+    }
 
     public function unit() : HasOne
     {

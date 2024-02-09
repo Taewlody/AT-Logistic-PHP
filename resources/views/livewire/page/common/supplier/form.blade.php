@@ -24,7 +24,7 @@
                                 <label class="col-sm-2 col-form-label">Code</label>
                                 <div class="col-md-2">
                                     <input type="text" name="supCode" id="supCode" class="form-control"
-                                        wire.model="data.supCode" @disabled($action != 'create')>
+                                        wire:model="data.supCode" @disabled($action != 'create')>
                                 </div>
                             </div>
                             <div class="form-group  row">
