@@ -47,12 +47,9 @@
                                     <td class="center">{{ $item->editBy != null? $item->editBy->username : ''}}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <a class="btn btn-xs btn-success"
-                                            href="{{ route('currency.form', ['action' => 'edit', 'id' => $item->currencyCode]) }}">View</a>
-                                            <button class="btn btn-xs btn-primary"
-                                            href="{{ route('currency.form', ['action' => 'edit', 'id' => $item->currencyCode]) }}">Edit</button>
-                                            <a class="btn btn-xs btn-danger"
-                                            wire:confirm="Are you sure want to delete {{$item->currencyName}}" wire:click="delete('{{$item->currencyCode}}')" wire:refresh="$refresh">Delete</a>
+                                            <a class="btn btn-xs btn-success" href="{{route('currency.form', ['action' => 'view', 'id' => $item->currencyCode])}}">View</a>
+                                            <a class="btn btn-xs btn-primary" href="{{route('currency.form', ['action' => 'edit', 'id' => $item->currencyCode])}}">Edit</a>
+                                            <button class="btn btn-xs btn-danger" wire:confirm="Are you sure want to delete {{$item->currencyName}}" wire:click="delete('{{$item->currencyCode}}')" wire:refresh="$refresh">Delete</button>
                                         </div>
                                     </td>
                                 </tr>

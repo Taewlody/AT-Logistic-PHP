@@ -42,8 +42,8 @@
                                     <td class="center">{{ $item->editBy != null? $item->editBy->username : '' }}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <a class="btn btn-xs btn-success" href="{{ route('transport-type.form', ['action' => 'view', 'id' => $item->containertypeCode]) }}">View</a>
-                                            <a class="btn btn-xs btn-primary" href="{{ route('transport-type.form', ['action' => 'edit', 'id' => $item->containertypeCode]) }}">Edit</a>
+                                            <a class="btn btn-xs btn-success" href="{{ route('container-type.form', ['action' => 'view', 'id' => $item->containertypeCode]) }}">View</a>
+                                            <a class="btn btn-xs btn-primary" href="{{ route('container-type.form', ['action' => 'edit', 'id' => $item->containertypeCode]) }}">Edit</a>
                                             <button class="btn btn-xs btn-danger" wire:confirm="Are you sure want to delete {{$item->containertypeName}}" wire:click="delete('{{$item->containertypeCode}}')" wire:refresh="$refresh">Delete</button>
                                         </div>
                                     </td>
