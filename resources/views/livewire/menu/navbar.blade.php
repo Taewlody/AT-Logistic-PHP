@@ -29,9 +29,9 @@
       <div class="nav-right col-6 pull-right right-header p-0">
         <ul class="nav-menus">
           
-          <li>
+          {{-- <li>
             <div class="mode"><i data-feather="moon"></i></div>
-          </li>
+          </li> --}}
           <li class="profile-nav onhover-dropdown p-0 me-0">
             <div class="d-flex profile-media"><img class="b-r-50" src="{{ asset('assets/images/dashboard/profile.png') }}" alt="">
               <div class="flex-grow-1"><span>{{ Auth::user()->username }}</span>
