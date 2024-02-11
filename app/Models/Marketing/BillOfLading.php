@@ -2,6 +2,8 @@
 
 namespace App\Models\Marketing;
 
+use App\Casts\CustomDate;
+use App\Casts\CustomDateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
@@ -9,8 +11,9 @@ use App\Models\User;
 use App\Models\Common\Customer;
 use App\Models\Common\Feeder;
 use App\Models\Status\RefDocumentStatus;
+use Livewire\Wireable;
 
-class BillOfLading extends Model
+class BillOfLading extends Model implements Wireable
 {
     use HasFactory;
 
@@ -44,7 +47,7 @@ class BillOfLading extends Model
     protected $casts = [
         'comCode' => 'string',
         'documentID' => 'string',
-        'documentDate' => 'date: Y-m-d',
+        'documentDate' => CustomDate::class,
         'ref_jobID' => 'string',
         'cusCode' => 'string',
         'shipperCode' => 'string',
@@ -57,10 +60,26 @@ class BillOfLading extends Model
         'collerct' => 'string',
         'documentstatus' => 'string',
         'createID' => 'string',
-        'createTime' => 'datetime:Y-m-d H:M',
+        'createTime' => CustomDateTime::class,
         'editID' => 'string',
-        'editTime' => 'datetime:Y-m-d H:M',
+        'editTime' => CustomDateTime::class,
     ];
+
+    public function __construct($attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->fill($attributes);
+    }
+
+    public static function fromLiveWire($value): BillOfLading
+    {
+        return new static($value);
+    }
+
+    public function toLivewire(): array
+    {
+        return $this->toArray();
+    }
 
     public function customer(): HasOne
     {
@@ -80,6 +99,11 @@ class BillOfLading extends Model
     public function docStatus(): HasOne
     {
         return $this->hasOne(RefDocumentStatus::class, 'status_code', 'documentstatus');
+    }
+
+    public function createBy(): HasOne
+    {
+        return $this->hasOne(User::class, 'usercode', 'createID');
     }
 
     public function editBy(): HasOne

@@ -7,7 +7,7 @@ use App\Models\Common\Supplier;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Carbon\Carbon;
-use App\Models\Shipping\PaymentVoucher;
+use App\Models\Payment\PaymentVoucher;
 
 class Page extends Component
 {

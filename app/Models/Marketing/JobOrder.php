@@ -4,12 +4,12 @@ namespace App\Models\Marketing;
 
 use App\Casts\CustomDate;
 use App\Casts\CustomDateTime;
-use App\Models\Account\PaymentVoucher;
 use App\Models\Common\Feeder;
 use App\Models\Common\Place;
 use App\Models\Common\Saleman;
 use App\Models\Common\Supplier;
-use App\Models\Shipping\PaymentVoucher as paymentVoucherShipping;
+use App\Models\Payment\PaymentVoucher;
+use App\Models\Payment\ShipingPaymentVoucher;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -31,6 +31,8 @@ class JobOrder extends Model implements Wireable
     public $incrementing = false;
     protected $keyType = 'string';
     protected $primaryKey = 'documentID';
+
+    // public $timestamps = false;
 
     protected $dateFormat = 'y-m-d H:i:s';
 
@@ -179,9 +181,9 @@ class JobOrder extends Model implements Wireable
         $this->fill($attributes);
     }
 
-    public static function fromLivewire($value)
+    public static function fromLivewire($value): JobOrder
     {
-        new static($value);
+        return new static($value);
     }
 
     public function toLiveWire()
@@ -214,14 +216,19 @@ class JobOrder extends Model implements Wireable
         return $this->hasMany(JobOrderGoods::class, 'documentID', 'documentID');
     }
 
-    public function paymentVoucherShipping(): HasMany
-    {
-        return $this->hasMany(paymentVoucherShipping::class, 'refJobNo', 'documentID');
-    }
+    // public function paymentVoucherShipping(): HasMany
+    // {
+    //     return $this->hasMany(ShipingPaymentVoucher::class, 'refJobNo', 'documentID');
+    // }
 
-    public function paymentVoucherAccount(): HasOne
+    // public function paymentVoucher(): HasMany
+    // {
+    //     return $this->hasMany(PaymentVoucher::class, 'refJobNo', 'documentID');
+    // }
+
+    public function charge(): HasMany
     {
-        return $this->hasOne(PaymentVoucher::class, 'refJobNo', 'documentID');
+        return $this->hasMany(JobOrderCharge::class, 'documentID', 'documentID');
     }
 
     public function landingPort(): HasOne

@@ -1,21 +1,18 @@
 <?php
 
-namespace App\Models\Marketing;
+namespace App\Models\Payment;
 
-use App\Models\Common\UnitContainer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Wireable;
 
-class JobOrderGoods extends Model implements Wireable
+class AdvancePaymentAttach extends Model implements Wireable
 {
     use HasFactory;
 
-    protected $table = 'joborder_goods';
+    protected $table = 'advance_payment_attach';
 
-    // public $incrementing = false;
-    // protected $keyType = 'string';
     protected $primaryKey = 'items';
 
     public $timestamps = false;
@@ -24,24 +21,18 @@ class JobOrderGoods extends Model implements Wireable
         'items',
         'comCode',
         'documentID',
-        'goodNo',
-        'goodDec',
-        'goodWeight',
-        'good_unit',
-        'goodSize',
-        'goodKind',
+        'cusCode',
+        'fileDetail',
+        'fileName',
     ];
 
     protected $casts = [
         'items' => 'integer',
         'comCode' => 'string',
         'documentID' => 'string',
-        'goodNo' => 'string',
-        'goodDec' => 'string',
-        'goodWeight' => 'float',
-        'good_unit' => 'string',
-        'goodSize' => 'string',
-        'goodKind' => 'string',
+        'cusCode' => 'string',
+        'fileDetail' => 'string',
+        'fileName' => 'string',
     ];
 
     public function __construct($attributes = []){
@@ -57,10 +48,5 @@ class JobOrderGoods extends Model implements Wireable
     public function toLivewire()
     {
         return $this->toArray();
-    }
-
-    public function unit(): HasOne
-    {
-        return $this->hasOne(UnitContainer::class, 'unitCode', 'good_unit');
     }
 }
