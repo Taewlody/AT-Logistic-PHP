@@ -83,7 +83,7 @@
                     <div class="login-card">
                         <div>
                             <div class="logo"><img class="img-fluid for-light"
-                                src="{{ asset('assets/images/logo/at-logo.png') }}" alt="logo image" width="20px" height="20"></div>
+                                src="{{ asset('assets/images/logo/at-logo.png') }}" alt="logo image" width="200px" height="200px"></div>
                             <div class="login-main">
                                 <form class="theme-form" method="post" action="" enctype="multipart/form-data">
                                     <h4 class="text-center">Logistic Management System</h4>
