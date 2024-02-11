@@ -83,7 +83,7 @@ class AdvancePayment extends Model implements Wireable
         $this->fill($attributes);
     }
 
-    public static function formLiveWire($attributes = []): AdvancePayment
+    public static function fromLivewire($attributes = []): AdvancePayment
     {
         return new static($attributes);
     }
