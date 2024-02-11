@@ -30891,7 +30891,7 @@ footer {
 }
 
 .page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .simplebar-offset {
-    height: calc(100vh - 340px)
+    /* height: calc(100vh - 340px) */
 }
 
 .page-wrapper.compact-wrapper .page-body-wrapper .mega-box.col {
