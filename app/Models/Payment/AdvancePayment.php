@@ -2,6 +2,8 @@
 
 namespace App\Models\Payment;
 
+use App\Casts\CustomDate;
+use App\Casts\CustomDateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -57,7 +59,7 @@ class AdvancePayment extends Model implements Wireable
     protected $casts = [
         'comCode' => 'string',
         'documentID' => 'string',
-        'documentDate' => 'date: Y-m-d',
+        'documentDate' => CustomDate::class,
         'refJobNo' => 'string',
         'cusCode' => 'string',
         'payType' => 'string',
@@ -69,9 +71,9 @@ class AdvancePayment extends Model implements Wireable
         'remark' => 'string',
         'documentstatus' => 'string',
         'createID' => 'string',
-        'createTime' => 'datetime:Y-m-d H:M',
+        'createTime' => CustomDateTime::class,
         'editID' => 'string',
-        'editTime' => 'datetime:Y-m-d H:M',
+        'editTime' => CustomDateTime::class,
         'sumTotal' => 'float',
         'accountCode' => 'string',
         'dueTime' => 'string'

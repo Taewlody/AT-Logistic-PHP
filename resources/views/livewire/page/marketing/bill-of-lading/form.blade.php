@@ -105,7 +105,7 @@
                         </div>
                     </div>
 
-                    
+                    {{-- Section 2 --}}
                 <div class="col-lg-6">
 
                     <div id="accordion-2" class="default-according">
@@ -165,56 +165,53 @@
                             </div>
                         </div>
                     </div>
+            </div>
+            <br>
+            <div class="col-lg-12">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h2>Action</h2>
+                    </div>
+                    <div class="ibox-content">
 
-
-                    <div class="col-lg-12">
-                        <div class="ibox ">
-                            <div class="ibox-title">
-                                <h2>Action</h2>
-                            </div>
-                            <div class="ibox-content">
-    
-                                @if ($action != 'edit' && $action != 'create')
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label">Create By</label>
-                                        <div class="col-sm-10">
-                                            <label>{{ $data->createBy->username }} {{ $data->createTime ?? '' }}</label>
-                                        </div>
-                                    </div>
-    
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label">Update By</label>
-                                        <div class="col-sm-10">
-                                            <label>{{ $data->editBy->username }} {{ $data->editTime ?? '' }}</label>
-                                        </div>
-                                    </div>
-                                @endif
-    
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group row">
-    
-                                    <div class="col-sm-10 col-sm-offset-2">
-    
-    
-                                        <button name="save" id="save" class="btn btn-primary" type="button"
-                                            @disabled($data->documentstatus != 'A')>
-                                            <i class="fa fa-save"></i> Save</button>
-                                        <button name="approve" id="approve" class="btn btn-success " type="button"
-                                            @disabled($data->documentstatus == 'A')>
-                                            <i class="fa fa-check"></i> Approve</button>
-    
-    
-                                        <button class="btn btn-white " type="button" onclick=""><i
-                                                class="fa fa-print"></i>
-                                            Print</button>
-                                    </div>
+                        @if ($action != 'edit' && $action != 'create')
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Create By</label>
+                                <div class="col-sm-10">
+                                    <label>{{ $data->createBy->username }} {{ $data->createTime ?? '' }}</label>
                                 </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Update By</label>
+                                <div class="col-sm-10">
+                                    <label>{{ $data->editBy->username }} {{ $data->editTime ?? '' }}</label>
+                                </div>
+                            </div>
+                        @endif
+
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group row">
+
+                            <div class="col-sm-10 col-sm-offset-2">
+
+
+                                <button name="save" id="save" class="btn btn-primary" type="button"
+                                    @disabled($data->documentstatus != 'A')>
+                                    <i class="fa fa-save"></i> Save</button>
+                                <button name="approve" id="approve" class="btn btn-success " type="button"
+                                    @disabled($data->documentstatus == 'A')>
+                                    <i class="fa fa-check"></i> Approve</button>
+
+
+                                <button class="btn btn-white " type="button" onclick=""><i
+                                        class="fa fa-print"></i>
+                                    Print</button>
                             </div>
                         </div>
                     </div>
-
+                </div>
             </div>
-            <br>
 
 
         </form>
