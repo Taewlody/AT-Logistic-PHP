@@ -949,11 +949,17 @@
                             <div id="collapseCharges" role="tabpanel" class="collapse"
                                 aria-labelledby="headingCharges" data-bs-parent="#accordion-7">
                                 <div class="card-body">
-                                    {{-- <div class="form-group  row">
+                                    <div class="form-group  row">
                                         <div class="col-md-6">
                                             <select class="select2_single form-control select2" style="width: 100%;"
-                                                id="chargeCode">
-                                                <?php $db->s_charge(''); ?>
+                                                id="chargeCode" wire:model="chargeCode">
+                                                <option value="">- select -</option>
+                                                @foreach ($chargesList as $charge)
+                                                    <option value="{{ $charge->chargeCode }}">
+                                                        {{ $charge->chargeName }}
+                                                    </option>
+                                                @endforeach
+                                                
                                             </select>
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
@@ -979,171 +985,80 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <?php
-                                              $rowIdx = 1;
-                                              if ($acton != 'add' && $acton != 'copy') {
-                                                $sql = "
-                                                SELECT * from 
-                                                (SELECT
-                                                j.comCode,
-                                                j.ref_paymentCode,
-                                                j.chargeCode,
-                                                j.detail as chartDetail,
-                                                j.chargesCost,
-                                                j.chargesReceive,
-                                                j.chargesbillReceive
-                                                FROM
-                                                joborder_charge AS j
-                                                WHERE j.comCode='$db->comCode' AND j.documentID='$documentID' 
-                                                UNION ALL
-                                                SELECT
-                                                i.comCode,
-                                                i.documentID as ref_paymentCode,
-                                                i.chargeCode,
-                                                i.chartDetail,
-                                                i.amount as chargesCost,
-                                                0 as chargesReceive,
-                                                0 as chargesbillReceive
-                                                FROM  $db->dbname.payment_voucher AS m
-                                                INNER JOIN $db->dbname.payment_voucher_items AS i ON m.comCode = i.comCode AND m.documentID = i.documentID
-                                                WHERE m.comCode='$db->comCode' AND m.refJobNo='$documentID' AND m.documentstatus='A'
-                                                UNION ALL
-                                                SELECT
-                                                pm.comCode,
-                                                pm.documentID AS ref_paymentCode,
-                                                pd.chargeCode,
-                                                pd.chartDetail,
-                                                pd.amount as chargesCost,
-                                                0 as chargesReceive,
-                                                0 as chargesbillReceive
-                                                FROM $db->dbname.petty_cash AS pm
-                                                INNER JOIN $db->dbname.petty_cash_items AS pd ON pm.comCode = pd.comCode AND pm.documentID = pd.documentID
-                                                WHERE pm.comCode='$db->comCode' AND pm.refJobNo='$documentID' AND pm.documentstatus='A'
-                                                UNION ALL
-                                                SELECT
-                                                pm.comCode,
-                                                pm.documentID AS ref_paymentCode,
-                                                pd.chargeCode,
-                                                pd.chartDetail,
-                                                pd.amount as chargesCost,
-                                                0 as chargesReceive,
-                                                0 as chargesbillReceive
-                                                FROM $db->dbname.petty_cashshiping AS pm
-                                                INNER JOIN $db->dbname.petty_cashshiping_items AS pd ON pm.comCode = pd.comCode AND pm.documentID = pd.documentID
-                                                WHERE pm.comCode='$db->comCode' AND pm.refJobNo='$documentID' AND pm.documentstatus='A'
-                                                UNION ALL
-                                                SELECT
-                                                pm.comCode,
-                                                pm.documentID AS ref_paymentCode,
-                                                pd.chargeCode,
-                                                pd.chartDetail,
-                                                pd.amount as chargesCost,
-                                                0 as chargesReceive,
-                                                0 as chargesbillReceive
-                                                FROM $db->dbname.shiping_payment_voucher AS pm
-                                                INNER JOIN $db->dbname.shiping_payment_voucher_items AS pd ON pm.comCode = pd.comCode AND pm.documentID = pd.documentID
-                                                WHERE pm.comCode='$db->comCode' AND pm.refJobNo='$documentID' AND pm.documentstatus='A'
-                          
-                                                ) as t
-                                                GROUP BY  t.comCode,t.chargeCode,t.ref_paymentCode,t.chartDetail    ";
-                          
-                          
-                                                $result = $db->query($sql);
-                                                $i = 1;
-                          
-                                                while ($r = mysqli_fetch_array($result)) {
-                                                  ?>
-                                                    <tr class='gradeX' id='trCharge<?php echo $rowIdx; ?>'>
+                                                    @foreach ($data->charge as $charge)
+                                                    <tr class='gradeX' wire:key="charge-field-{{$charge->item}}">
                                                         <td>
-                                                            <?php echo $rowIdx; ?>
-                                                            <input type="hidden" name="chargeitems[]"
-                                                                value="<?php echo $r['chargeCode']; ?>"
-                                                                id="chargeitems<?php echo $rowIdx; ?>">
-                                                            <input type="hidden" name="ref_paymentCode[]"
-                                                                value="<?php echo $r['ref_paymentCode']; ?>"
-                                                                id="ref_paymentCode<?php echo $rowIdx; ?>">
+                                                            {{ $loop->iteration }}
+                                                            <input type="hidden" 
+                                                                wire:model="data.charge.{{ $loop->index }}.chargeCode">
+                                                            <input type="hidden"
+                                                                wire:model="data.charge.{{ $loop->index }}.ref_paymentCode">
                                                         </td>
-                                                        <td><input type="text" name="chargesDetail[]"
-                                                                class="form-control" value="<?php echo $r['chartDetail']; ?>"
-                                                                id="chargesDetail<?php echo $rowIdx; ?>"></td>
-                                                        <td class="center"><input type="number"
-                                                                name="price<?php echo $rowIdx; ?>"
+                                                        <td>
+                                                            <input type="text" class="form-control"
+                                                                wire:model="data.charge.{{ $loop->index }}.detail">
+                                                        </td>
+                                                        <td class="center">
+                                                            <input type="number" class="form-control full"
+                                                                {{-- name="price<?php echo $rowIdx; ?>"
                                                                 onkeyup="call_price(),call_exchange(<?php echo $rowIdx; ?>)"
                                                                 class="form-control full" value="1"
-                                                                id="price<?php echo $rowIdx; ?>"></td>
-                                                        <td class="center"><input type="number"
-                                                                name="volum<?php echo $rowIdx; ?>"
+                                                                id="price<?php echo $rowIdx; ?>"> --}}
+                                                                wire:model="data.charge.{{ $loop->index }}.price">
+                                                        </td>
+                                                        <td class="center">
+                                                            <input type="number" class="form-control full"
+                                                                {{-- name="volum<?php echo $rowIdx; ?>"
                                                                 onkeyup="call_price(),call_exchange(<?php echo $rowIdx; ?>)"
                                                                 class="form-control full" value="1"
-                                                                id="volum<?php echo $rowIdx; ?>"></td>
-                                                        <td class="center"><input type="number"
-                                                                name="exchange<?php echo $rowIdx; ?>"
+                                                                id="volum<?php echo $rowIdx; ?>"> --}}
+                                                                wire:model="data.charge.{{ $loop->index }}.volum">
+                                                        </td>
+                                                        <td class="center">
+                                                            <input type="number" class="form-control full"
+                                                                {{-- name="exchange<?php echo $rowIdx; ?>"
                                                                 onkeyup="call_price(),call_exchange(<?php echo $rowIdx; ?>)"
                                                                 class="form-control full" value="1"
-                                                                id="exchange<?php echo $rowIdx; ?>"></td>
-                                                        <td class="center"><input type="number" name="chargesCost[]"
+                                                                id="exchange<?php echo $rowIdx; ?>"> --}}
+                                                                wire:model="data.charge.{{ $loop->index }}.exchange">
+                                                        </td>
+                                                        <td class="center">
+                                                            <input type="number" class="form-control full"
+                                                                {{-- name="chargesCost[]"
                                                                 <?php if ($r['ref_paymentCode'] != '') {
                                                                     echo 'readonly';
                                                                 }
                                                                 ?> onkeyup="call_price()"
                                                                 class="form-control full" value="<?php echo $r['chargesCost']; ?>"
-                                                                id="chargesCost<?php echo $rowIdx; ?>"></td>
-                                                        <td class="center"><input type="number"
-                                                                name="chargesReceive[]" onkeyup="call_price()"
+                                                                id="chargesCost<?php echo $rowIdx; ?>"> --}}
+                                                                wire:model="data.charge.{{ $loop->index }}.chargesCost">
+                                                        </td>
+                                                        <td class="center">
+                                                            <input type="number" class="form-control full"
+                                                                {{-- name="chargesReceive[]" onkeyup="call_price()"
                                                                 class="form-control full" value="<?php echo $r['chargesReceive']; ?>"
-                                                                id="chargesReceive<?php echo $rowIdx; ?>"></td>
-                                                        <td class="center"><input type="number"
-                                                                name="chargesbillReceive[]" onkeyup="call_price()"
+                                                                id="chargesReceive<?php echo $rowIdx; ?>"> --}}
+                                                                wire:model="data.charge.{{ $loop->index }}.chargesReceive">
+                                                        </td>
+                                                        <td class="center">
+                                                            <input type="number" class="form-control full"
+                                                                {{-- name="chargesbillReceive[]" onkeyup="call_price()"
                                                                 class="form-control full" value="<?php echo $r['chargesbillReceive']; ?>"
-                                                                id="chargesbillReceive<?php echo $rowIdx; ?>"></td>
-                                                        <td class='center'><button type='button'
+                                                                id="chargesbillReceive<?php echo $rowIdx; ?>"> --}}
+                                                                wire:model="data.charge.{{ $loop->index }}.chargesbillReceive">
+                                                        </td>
+                                                        <td class='center'
+                                                        ><button type='button'
                                                                 class='btn-white btn btn-xs'
-                                                                onClick='return FN_Remove_Table("Charge<?php echo $rowIdx; ?>")'>Remove</button>
+                                                                wire:click="removeCharge('{{$charge->items}}')">Remove</button>
                                                         </td>
                                                     </tr>
-                                                    <?php
-                                                  $rowIdx++;
-                                                }
-                          
-                                              }
-                          
-                          
-                                              $sqlContrainner = " SELECT 
-                                            GROUP_CONCAT(t.qty) as ct
-                                            from(
-                                            SELECT
-                                            concat(count(s.containersizeName),'x',(s.containersizeName))as qty
-                                            FROM
-                                            joborder_container AS j
-                                            INNER JOIN common_containertype AS c ON j.comCode = c.comCode AND j.containerType = c.containertypeCode
-                                            INNER JOIN common_containersize AS s ON j.comCode = s.comCode AND j.containerSize = s.containersizeCode
-                                            WHERE j.documentID='$documentID'  and j.documentID<>'' 
-                                            GROUP BY containersizeCode) as t ";
-                                              $rcon = $db->fetch($sqlContrainner);
-                          
-                                              $sqlpacked = " 
-                                            SELECT
-                                            concat(round(sum(j.packaed_totalCBM),2),' CBM') as qtyCBM
-                                            FROM
-                                            joborder_packed AS j
-                                            WHERE j.documentID='$documentID' and j.documentID<>'' ";
-                                              $rpacked = $db->fetch($sqlpacked);
-                          
-                                              if ($rcon['ct'] != "") {
-                                                $showCBM = $rcon['ct'];
-                                              } else {
-                          
-                                                $showCBM = $rpacked['qtyCBM'];
-                                              }
-                          
-                          
-                                              ?>
-                                                    <input type="hidden" name="rowIdx" id="rowIdx"
-                                                        value="<?php echo $rowIdx; ?>">
+                                                    @endforeach
+                                                   
                                                 </tbody>
 
                                                 <tfoot>
-                                                    <tr>
+                                                    {{-- <tr>
                                                         <td style="width:5%"></td>
                                                         <td style="width:50%;"><strong>Volum :
                                                                 <?php echo $showCBM; ?>
@@ -1192,13 +1107,13 @@
                                                                 class="form-control" value=""
                                                                 id="total_chargesbillReceive"></td>
                                                         <td style="width:5%"></td>
-                                                    </tr>
+                                                    </tr> --}}
                                                 </tfoot>
                                             </table>
                                             <table class="table invoice-total">
                                                 <tbody>
                                                     <tr>
-                                                        <td><strong>รวม  :</strong></td>
+                                                        <td><strong>รวม :</strong></td>
                                                         <td><span id="total">0</span>
                                                             <input type="hidden" id="h_total" name="h_total"
                                                                 value="">
@@ -1227,20 +1142,11 @@
                                                     </tr>
                                                     <tr>
                                                         <td><strong>ลูกค้าสำรองจ่าย</strong></td>
-                                                        <?php
-                                                        $sql = "SELECT
-                                                                                                      sum(av.sumTotal) as sumTotal
-                                                                                                      FROM
-                                                                                                      advance_payment AS av
-                                                                                                      WHERE av.refJobNo='$documentID' and av.documentstatus='A' ";
-                                                        $result = $db->fetch($sql);
-                                                        $h_cus_paid = $result['sumTotal'];
-                                                        ?>
                                                         <td><span id="cus_paid">
-                                                                <?php echo n2($h_cus_paid); ?>
+                                                                {{-- <?php echo n2($h_cus_paid); ?> --}}
                                                             </span>
-                                                            <input type="hidden" id="h_cus_paid" name="h_cus_paid"
-                                                                value="<?php echo n2($h_cus_paid); ?>">
+                                                            {{-- <input type="hidden" id="h_cus_paid" name="h_cus_paid"
+                                                                value="<?php echo n2($h_cus_paid); ?>"> --}}
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -1253,7 +1159,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                    </div> --}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1276,6 +1182,34 @@
                             <div id="collapseCustomerPayment" role="tabpanel" class="collapse"
                                 aria-labelledby="headingCustomerPayment" data-bs-parent="#accordion-8">
                                 <div class="card-body">
+                                    <div class="form-group">
+                                        <table class="table" width="100%" name="table_cash" id="table_cash">
+                                          <thead>
+                                            <tr>
+                                              <th style="width:5%">No.</th>
+                                              <th style="width:10%">documentID</th>
+                                              <th style="width:30%">detail</th>
+                                              <th style="width:20%">Amount</th>
+                                              <th style="width:10%">View</th>
+                                              <th style="width:10%">Status</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                          {{-- <td><?php echo $i; ?></td>
+                                            <td><a href="advance_payment_form?action=edit&documentID=<?php echo $r['documentID']; ?>" target="_blank"><?php echo $r['documentID']; ?></a></td>
+                                            <td><?php echo $r['chartDetail']; ?></td>
+                                            <td><?php echo $r['amount']; ?></td>
+                                            <td><?php if($r['fileName']!=''){?>
+                                              <a href="customer_path/<?php echo $r['cusCode']; ?>/<?php echo $r['fileName']; ?>" target="_blank">View</a>
+                                              <?php }else{?>
+                                              No File
+                                              <?php }?></td>
+                                            <td><span class="label label-<?php echo $isActiveStype;?>"><?php echo $r['status_name']; ?></span></td> --}}
+                                            </tbody>
+                                          <tfoot>
+                                          </tfoot>
+                                        </table>
+                                      </div>
                                 </div>
                             </div>
                         </div>
@@ -1298,11 +1232,183 @@
                             <div id="collapseAttachment" role="tabpanel" class="collapse"
                                 aria-labelledby="headingAttachment" data-bs-parent="#accordion-9">
                                 <div class="card-body">
+                                    <div class="form-group">
+                                        <table class="table" width="100%" name="table_attach" id="table_attach">
+                                          <thead>
+                                            <tr>
+                                              <th style="width:10%">document</th>
+                                              <th style="width:50%">File Name</th>
+                                              <th style="width:10%">Action</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            {{-- <?php
+                                            $sql = "SELECT
+                                              t.items,
+                                              t.comCode,
+                                              t.documentID,
+                                              t.cusCode,
+                                              t.fileDetail,
+                                              t.fileName
+                                              FROM
+                                              joborder_attach AS t
+                                              WHERE t.comCode='$db->comCode' AND t.documentID='$documentID' ";
+                                            $result = $db->query( $sql );
+                                            $i_container = 1;
+                                            $i = 99;
+                            
+                                            if ( $acton != 'add' && $acton != 'copy' ) {
+                                              while ( $r = mysqli_fetch_array( $result ) ) {
+                            
+                                                ?>
+                                            <tr class='gradeX' id='tr<?php echo $i;?>'>
+                                              <td><?php echo $r['documentID'];?></td>
+                                              <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i;?>'>
+                                                <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail'];?>' id='fileName<?php echo $i;?>'></td>
+                                              <td class='center'><a class='btn-white btn btn-xs' href='customer_path/<?php echo $r['cusCode'].'/'. $r['fileName'];?>' target='_blank'>View</a>
+                                                </button>
+                                                &nbsp;
+                                                <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i;?>")'>Remove</button></td>
+                                            </tr>
+                                            <?php $i++; } } ?>
+                                            <?php
+                            
+                                            $sql = "SELECT
+                                              t.documentID,
+                                              f.supCode,
+                                              t.refJobNo,
+                                              f.fileDetail,
+                                              f.fileName
+                                              FROM
+                                              payment_voucher AS t
+                                              INNER JOIN payment_voucher_attach AS f ON t.comCode = f.comCode AND t.documentID = f.documentID
+                                              WHERE t.comCode='$db->comCode' AND t.refJobNo='$documentID' AND t.documentstatus='A' ";
+                                            $result = $db->query( $sql );
+                                            if ( $acton != 'add' && $acton != 'copy' ) {
+                                              while ( $r = mysqli_fetch_array( $result ) ) {
+                            
+                                                ?>
+                                            <tr class='gradeX' id='tr<?php echo $i;?>'>
+                                              <td><?php echo $r['documentID'];?></td>
+                                              <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i;?>'>
+                                                <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail'];?>' id='fileName<?php echo $i;?>'></td>
+                                              <td class='center'><a class='btn-white btn btn-xs' href='supplier_path/<?php echo $r['supCode'].'/'. $r['fileName'];?>' target='_blank'>View</a>
+                                                </button>
+                                                &nbsp;
+                                                <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i;?>")'>Remove</button></td>
+                                            </tr>
+                                            <?php $i++; }} ?>
+                                            <?php
+                                            $sql = "SELECT
+                                              t.documentID,
+                                              f.cusCode,
+                                              t.refJobNo,
+                                              f.fileDetail,
+                                              f.fileName
+                                              FROM
+                                              advance_payment AS t
+                                              INNER JOIN advance_payment_attach AS f ON t.comCode = f.comCode AND t.documentID = f.documentID
+                                              WHERE t.comCode='$db->comCode' AND t.refJobNo='$documentID' AND t.documentstatus='A'  ";
+                                            $result = $db->query( $sql );
+                                            if ( $acton != 'add' && $acton != 'copy' ) {
+                                              while ( $r = mysqli_fetch_array( $result ) ) {
+                            
+                                                ?>
+                                            <tr class='gradeX' id='tr<?php echo $i;?>'>
+                                              <td><?php echo $r['documentID'];?></td>
+                                              <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i;?>'>
+                                                <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail'];?>' id='fileName<?php echo $i;?>'></td>
+                                              <td class='center'><a class='btn-white btn btn-xs' href='customer_path/<?php echo $r['cusCode'].'/'. $r['fileName'];?>' target='_blank'>View</a>
+                                                </button>
+                                                &nbsp;
+                                                <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i;?>")'>Remove</button></td>
+                                            </tr>
+                                            <?php $i++; }} ?>
+                                            <?php
+                                            $sql = "SELECT
+                                              t.documentID,
+                                              f.cusCode,
+                                              t.refJobNo,
+                                              f.fileDetail,
+                                              f.fileName
+                                              FROM
+                                              deposit AS t
+                                              INNER JOIN deposit_attach AS f ON t.comCode = f.comCode AND t.documentID = f.documentID
+                                              WHERE t.comCode='$db->comCode' AND t.refJobNo='$documentID' AND t.documentstatus='A'  ";
+                                            $result = $db->query( $sql );
+                                            if ( $acton != 'add' && $acton != 'copy' ) {
+                                              while ( $r = mysqli_fetch_array( $result ) ) {
+                            
+                                                ?>
+                                            <tr class='gradeX' id='tr<?php echo $i;?>'>
+                                              <td><?php echo $r['documentID'];?></td>
+                                              <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i;?>'>
+                                                <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail'];?>' id='fileName<?php echo $i;?>'></td>
+                                              <td class='center'><a class='btn-white btn btn-xs' href='customer_path/<?php echo $r['cusCode'].'/'. $r['fileName'];?>' target='_blank'>View</a>
+                                                </button>
+                                                &nbsp;
+                                                <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i;?>")'>Remove</button></td>
+                                            </tr>
+                                            <?php $i++; }} ?> --}}
+                                          </tbody>
+                                          <tfoot>
+                                          </tfoot>
+                                        </table>
+                                        <div class="form-group row">
+                                          <label class="col-lg-2 col-form-label">File Name</label>
+                                          <div class="col-md-4">
+                                            <input type="text" name="attach_name" class="form-control" id="attach_name">
+                                          </div>
+                                          <div id="container_attach" class="fileinput fileinput-new" data-provides="fileinput"> <span class="btn btn-primary btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span>
+                                            <input type="file" name="attach_file" id="attach_file">
+                                            </span> <span class="fileinput-filename"></span> <a  href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a> </div>
+                                        </div>
+                                        <div class="form-group row">
+                                          <label class="col-lg-2 col-form-label">Action</label>
+                                          <div class="col-md-4">
+                                            <button class="btn btn-primary " type="button" name="btnUpload" id="btnUpload"><i class="fa fa-save"></i> Upload File</button>
+                                          </div>
+                                        </div>
+                                      </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                {{-- Section Action --}}
+                <div class="col-lg-12">
+                    <div class="ibox ">
+                      <div class="ibox-title">
+                        <h2>Action</h2>
+                      </div>
+                      <div class="ibox-content">
+                        <div class="form-group  row">
+                          <label class="col-sm-2 col-form-label">Create By</label>
+                          <div class="col-sm-10">
+                            <label>admin 1/1/2021 : 03:12:20</label>
+                          </div>
+                        </div>
+                        <div class="form-group  row">
+                          <label class="col-sm-2 col-form-label">Update By</label>
+                          <div class="col-sm-10">
+                            <label>admin 1/1/2021 : 03:12:20</label>
+                          </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group row">
+                          <div class="col-sm-10 col-sm-offset-2">
+                            <button name="back" class="btn btn-white" type="button" onclick="window.location='job'"><i class="fa fa-reply"></i> Back</button>
+                            
+                            <button name="Approve" id="Approve" class="btn btn-primary" type="button" ><i class="fa fa-save"></i> Approve</button>
+                            <button class="btn btn-white " type="button" onclick="" ><i class="fa fa-print"></i> Job</button>
+                            <button class="btn btn-white " type="button" onclick="" ><i class="fa fa-print"></i> Booking confirm</button>
+                            <button class="btn btn-white " type="button" onclick="" ><i class="fa fa-print"></i> Trailer booking</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
             </div>
         </div>

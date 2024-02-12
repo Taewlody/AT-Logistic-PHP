@@ -3,7 +3,7 @@
 namespace App\Livewire\page\Account\PaymentVoucher;
 
 use Livewire\Attributes\On;
-use App\Models\Account\PaymentVoucher;
+use App\Models\Payment\PaymentVoucher;
 use App\Models\Common\Supplier;
 use Livewire\Component;
 use Livewire\WithPagination;

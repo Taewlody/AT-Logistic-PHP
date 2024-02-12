@@ -14,9 +14,11 @@ class JobOrderGoods extends Model implements Wireable
 
     protected $table = 'joborder_goods';
 
-    public $incrementing = false;
-    protected $keyType = 'string';
-    protected $primaryKey = 'documentID';
+    // public $incrementing = false;
+    // protected $keyType = 'string';
+    protected $primaryKey = 'items';
+
+    public $timestamps = false;
 
     protected $fillable = [
         'items',

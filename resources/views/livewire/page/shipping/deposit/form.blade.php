@@ -1,0 +1,16 @@
+<div>
+    <livewire:component.page-heading title_main="Bill of lading" title_sub="ใบตราส่งสินค้า" breadcrumb_title="Marketing"
+        breadcrumb_page="Bill of lading" breadcrumb_page_title="Bill of lading Form" />
+
+        <div class="wrapper wrapper-content animated fadeInRight">
+
+            {{-- loading --}}
+            <div wire:loading.block class="loader-wrapper">
+                <div class="loader"></div>
+            </div>
+    
+            <form class="form-body" wire:submit="save">
+                
+            </form>
+        </div>
+</div>

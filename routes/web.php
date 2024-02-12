@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Livewire\Page\Dashboard\Page as Dashboard;
 
+use App\Livewire\Page\Test;
+
  Route::group([
     'prefix' => '/AT',
     'middleware' => ['auth', 'auth.session', 'session.timeout',]
@@ -23,6 +25,8 @@ use App\Livewire\Page\Dashboard\Page as Dashboard;
     Route::get('/', function() {
         return redirect('/login');
     });
+
+    Route::get('/test', Test::class)->name('test');
     
     Route::get('/login', function () {
         return view('login');

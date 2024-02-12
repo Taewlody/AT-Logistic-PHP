@@ -1,3 +1,0 @@
-User-agent: * 
-Disallow: /customer_path/
-Disallow : *.pdf

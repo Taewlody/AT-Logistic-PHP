@@ -8,7 +8,7 @@ use Livewire\WithPagination;
 use Carbon\Carbon;
 
 use App\Models\Common\Customer;
-use App\Models\Shipping\PettyCashShipping;
+use App\Models\PettyCash\PettyCashShipping;
 
 
 class Page extends Component

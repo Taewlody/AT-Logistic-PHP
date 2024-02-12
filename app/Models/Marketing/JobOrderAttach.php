@@ -11,9 +11,11 @@ class JobOrderAttach extends Model
 
     protected $table = 'joborder_attach';
 
-    public $incrementing = false;
-    protected $keyType = 'string';
-    protected $primaryKey = 'documentID';
+    // public $incrementing = false;
+    // protected $keyType = 'string';
+    protected $primaryKey = 'items';
+
+    public $timestamps = false;
     
     protected $fillable = [
         'items',

@@ -43,9 +43,13 @@ class Form extends Component
     public $containerUnitList = [];
     public $chargesList = [];
 
+
+
     public $typeContainer = '';
     public $sizeContainer = '';
     public $quantityContainer = 1;
+
+    public $chargeCode = '';
 
     public function boot()
     {
@@ -87,7 +91,6 @@ class Form extends Component
     }
     public function mount()
     {
-        
     }
 
     public function updateSection(int $section)

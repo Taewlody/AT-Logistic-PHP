@@ -3,7 +3,7 @@
 namespace App\Livewire\Page\Customer\AdvancePayment;
 
 use App\Models\Common\Customer;
-use App\Models\Customer\AdvancePayment;
+use App\Models\Payment\AdvancePayment;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Carbon\Carbon;

@@ -2,6 +2,8 @@
 
 namespace App\Models\Marketing;
 
+use App\Casts\CustomDate;
+use App\Casts\CustomDateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
@@ -12,8 +14,9 @@ use App\Models\Common\Supplier;
 use App\Models\Marketing\JobOrder;
 use App\Models\Status\RefDocumentStatus;
 use App\Models\User;
+use Livewire\Wireable;
 
-class TrailerBooking extends Model
+class TrailerBooking extends Model implements Wireable
 {
     use HasFactory;
 
@@ -48,7 +51,7 @@ class TrailerBooking extends Model
     protected $casts = [
         'comCode' => 'string',
         'documentID' => 'string',
-        'documentDate' => 'date: Y-m-d',
+        'documentDate' => CustomDate::class,
         'ref_jobID' => 'string',
         'cusCode' => 'string',
         'feeder' => 'string',
@@ -62,10 +65,26 @@ class TrailerBooking extends Model
         'contact' => 'string',
         'documentstatus' => 'string',
         'createID' => 'string',
-        'createTime' => 'datetime:Y-m-d H:M',
+        'createTime' => CustomDateTime::class,
         'editID' => 'string',
-        'editTime' => 'datetime:Y-m-d H:M',
+        'editTime' => CustomDateTime::class,
     ];
+
+    public function __construct($attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->fill($attributes);
+    }
+
+    public static function fromLivewire($value): TrailerBooking
+    {
+        return new static($value);
+    }
+
+    public function toLivewire(): array
+    {
+        return $this->toArray();
+    }
 
     public function customer(): HasOne
     {
@@ -90,6 +109,11 @@ class TrailerBooking extends Model
     public function docStatus(): HasOne
     {
         return $this->hasOne(RefDocumentStatus::class, 'status_code', 'documentstatus');
+    }
+
+    public function createBy(): HasOne
+    {
+        return $this->hasOne(User::class, 'usercode', 'createID');
     }
 
     public function editBy(): HasOne

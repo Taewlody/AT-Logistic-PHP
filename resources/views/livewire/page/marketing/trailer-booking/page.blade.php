@@ -14,7 +14,7 @@
                                 </div>
 
                                 <div class="col-6 text-end">
-                                    <a href="job_form?action=add" class="btn btn-primary"><i class="fa fa-plus "> </i> Create new </a>
+                                    <a href="{{ route('trailer-booking.form', ['action' => 'create']) }}" class="btn btn-primary"><i class="fa fa-plus "> </i> Create new </a>
                                 </div>
                             </div>
                             <br/><br/>
@@ -131,12 +131,12 @@
                                                 </td>
                                                 <td>
                                                     <div class="btn-group">
-                                                        <button class="btn btn-xs btn-success"
-                                                            onClick="location.href='port_form?action=view&portCode={{ $item->fCode }}">View</button>
-                                                        <button class="btn btn-xs btn-primary"
-                                                            onClick="location.href='port_form?action=edit&portCode={{ $item->fCode }}">Edit</button>
+                                                        <a class="btn btn-xs btn-success"
+                                                            href="{{ route('trailer-booking.form', ['action' => 'view', 'id' => $item->documentID]) }}">View</a>
+                                                        <a class="btn btn-xs btn-primary"
+                                                            href="{{ route('trailer-booking.form', ['action' => 'edit', 'id' => $item->documentID]) }}">Edit</a>
                                                         <button class="btn btn-xs btn-danger"
-                                                            onClick="return confirmDel('{{ $item->fCode }}','port_action.php');">Delete</button>
+                                                        wire:confirm="Are you sure want to delete {{$item->documentID}}" wire:click="delete('{{$item->documentID}}')" wire:refresh="$refresh">Delete</button>
                                                     </div>
                                                 </td>
                                             </tr>
