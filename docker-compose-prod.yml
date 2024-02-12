@@ -4,8 +4,8 @@ name: at-logi-laravel
 services:
     laravel:
         build:
-            context: ./vendor/laravel/sail/runtimes/8.2
-            dockerfile: Dockerfile
+            context: .
+            dockerfile: Dockerfile.prod
             args:
                 WWWGROUP: '${WWWGROUP}'
         image: notheart/at-logistic
@@ -20,8 +20,8 @@ services:
             XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
             XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
             IGNITION_LOCAL_SITES_PATH: '${PWD}'
-        volumes:
-            - '.:/var/www/html'
+        # volumes:
+        #     - '.:/var/www/html'
         networks:
             - laravel
         depends_on:
