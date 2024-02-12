@@ -8,6 +8,6 @@ class Form extends Component
 {
     public function render()
     {
-        return view('livewire.page.administrator.user.form');
+        return view('livewire.page.administrator.user.form')->extends('layouts.main')->section('main-content');
     }
 }
