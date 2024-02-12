@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 use App\Http\Controllers\AuthController;
+use App\Livewire\Page\Dashboard\Page as Dashboard;
 
  Route::group([
     'prefix' => '/AT',
@@ -31,9 +32,11 @@ use App\Http\Controllers\AuthController;
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    // Route::get('/dashboard', function () {
+    //     return view('dashboard');
+    // })->name('dashboard');
+
+    Route::get("/dashboard", Dashboard::class)->name('dashboard');
 
     require_once(__DIR__.'/common/route.php');
     

@@ -10,6 +10,7 @@ use App\Models\Common\Saleman;
 use App\Models\Common\TransportType;
 use App\Models\Status\RefDocumentStatus;
 use App\Models\User;
+use App\Models\Account\TaxInvoiceItems;
 
 class Invoice extends Model
 {
@@ -118,5 +119,11 @@ class Invoice extends Model
     public function editBy(): HasOne
     {
         return $this->hasOne(User::class, 'usercode', 'editID');
+    }
+
+    public function taxInvoiceItems()
+    {
+        return $this->hasMany(TaxInvoiceItems::class, 'comCode', 'comCode')
+        ->whereColumn('invoice.documentID', 'tax_invoice_items.invNo');
     }
 }
