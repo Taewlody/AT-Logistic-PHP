@@ -3,7 +3,7 @@
 namespace App\Livewire\page\Account\PettyCash;
 
 use Livewire\Attributes\On;
-use App\Models\Payment\PettyCash;
+use App\Models\PettyCash\PettyCash;
 use App\Models\Common\Customer;
 use App\Models\Common\Saleman;
 use Livewire\Component;
