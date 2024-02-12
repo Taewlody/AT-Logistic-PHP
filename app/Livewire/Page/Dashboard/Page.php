@@ -8,9 +8,9 @@ use Carbon\Carbon;
 
 use App\Models\Account\Invoice;
 use App\Models\Account\TaxInvoice;
-use App\Models\Account\PettyCash;
-use App\Models\Account\PaymentVoucher;
-use App\Models\Customer\AdvancePayment;
+use App\Models\PettyCash\PettyCash;
+use App\Models\Payment\PaymentVoucher;
+use App\Models\Payment\AdvancePayment;
 
 class Page extends Component
 {
