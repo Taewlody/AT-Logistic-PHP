@@ -35,7 +35,7 @@
           <li class="profile-nav onhover-dropdown p-0 me-0">
             <div class="d-flex profile-media"><img class="b-r-50" src="{{ asset('assets/images/dashboard/profile.png') }}" alt="">
               <div class="flex-grow-1"><span>{{ Auth::user()->username }}</span>
-                <p class="mb-0 font-roboto">{{ Auth::user()->userTypecode }} <i class="middle fa fa-angle-down"></i></p>
+                <p class="mb-0 font-roboto">{{ Auth::user()->UserType->userTypeName }} <i class="middle fa fa-angle-down"></i></p>
               </div>
             </div>
             <ul class="profile-dropdown onhover-show-div">
