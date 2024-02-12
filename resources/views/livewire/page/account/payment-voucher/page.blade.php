@@ -1,6 +1,6 @@
 <div>
-    <livewire:component.page-heading title_main="Invoice" title_sub="ใบแจ้งหนี้" title_sub="ใบสำคัญจ่าย" breadcrumb_title="Account"
-        breadcrumb_page="Invoice" />
+    <livewire:component.page-heading title_main="Payment Voucher" title_sub="ใบสำคัญจ่าย" breadcrumb_title="Account"
+        breadcrumb_page="Payment Voucher" />
 
     <div class="container-fluid">
         <form wire:submit="search">
