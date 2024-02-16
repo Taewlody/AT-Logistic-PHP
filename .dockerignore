@@ -20,10 +20,10 @@ vendor/**/Tests*
 # *.env*
 # composer.json
 
-*.config.js
+# *.config.js
 ?ulpfile.js
 ?untfile.js
-package.json
+# package.json
 phpunit.xml
 readme.md
 phpspec.yml

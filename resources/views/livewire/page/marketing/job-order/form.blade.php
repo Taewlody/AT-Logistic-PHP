@@ -959,7 +959,7 @@
                                                         {{ $charge->chargeName }}
                                                     </option>
                                                 @endforeach
-                                                
+
                                             </select>
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
@@ -986,75 +986,75 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($data->charge as $charge)
-                                                    <tr class='gradeX' wire:key="charge-field-{{$charge->item}}">
-                                                        <td>
-                                                            {{ $loop->iteration }}
-                                                            <input type="hidden" 
-                                                                wire:model="data.charge.{{ $loop->index }}.chargeCode">
-                                                            <input type="hidden"
-                                                                wire:model="data.charge.{{ $loop->index }}.ref_paymentCode">
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" class="form-control"
-                                                                wire:model="data.charge.{{ $loop->index }}.detail">
-                                                        </td>
-                                                        <td class="center">
-                                                            <input type="number" class="form-control full"
-                                                                {{-- name="price<?php echo $rowIdx; ?>"
+                                                        <tr class='gradeX'
+                                                            wire:key="charge-field-{{ $charge->item }}">
+                                                            <td>
+                                                                {{ $loop->iteration }}
+                                                                <input type="hidden"
+                                                                    wire:model="data.charge.{{ $loop->index }}.chargeCode">
+                                                                <input type="hidden"
+                                                                    wire:model="data.charge.{{ $loop->index }}.ref_paymentCode">
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control"
+                                                                    wire:model="data.charge.{{ $loop->index }}.detail">
+                                                            </td>
+                                                            <td class="center">
+                                                                <input type="number" class="form-control full"
+                                                                    {{-- name="price<?php echo $rowIdx; ?>"
                                                                 onkeyup="call_price(),call_exchange(<?php echo $rowIdx; ?>)"
                                                                 class="form-control full" value="1"
                                                                 id="price<?php echo $rowIdx; ?>"> --}}
-                                                                wire:model="data.charge.{{ $loop->index }}.price">
-                                                        </td>
-                                                        <td class="center">
-                                                            <input type="number" class="form-control full"
-                                                                {{-- name="volum<?php echo $rowIdx; ?>"
+                                                                    wire:model="data.charge.{{ $loop->index }}.price">
+                                                            </td>
+                                                            <td class="center">
+                                                                <input type="number" class="form-control full"
+                                                                    {{-- name="volum<?php echo $rowIdx; ?>"
                                                                 onkeyup="call_price(),call_exchange(<?php echo $rowIdx; ?>)"
                                                                 class="form-control full" value="1"
                                                                 id="volum<?php echo $rowIdx; ?>"> --}}
-                                                                wire:model="data.charge.{{ $loop->index }}.volum">
-                                                        </td>
-                                                        <td class="center">
-                                                            <input type="number" class="form-control full"
-                                                                {{-- name="exchange<?php echo $rowIdx; ?>"
+                                                                    wire:model="data.charge.{{ $loop->index }}.volum">
+                                                            </td>
+                                                            <td class="center">
+                                                                <input type="number" class="form-control full"
+                                                                    {{-- name="exchange<?php echo $rowIdx; ?>"
                                                                 onkeyup="call_price(),call_exchange(<?php echo $rowIdx; ?>)"
                                                                 class="form-control full" value="1"
                                                                 id="exchange<?php echo $rowIdx; ?>"> --}}
-                                                                wire:model="data.charge.{{ $loop->index }}.exchange">
-                                                        </td>
-                                                        <td class="center">
-                                                            <input type="number" class="form-control full"
-                                                                {{-- name="chargesCost[]"
+                                                                    wire:model="data.charge.{{ $loop->index }}.exchange">
+                                                            </td>
+                                                            <td class="center">
+                                                                <input type="number" class="form-control full"
+                                                                    {{-- name="chargesCost[]"
                                                                 <?php if ($r['ref_paymentCode'] != '') {
                                                                     echo 'readonly';
                                                                 }
                                                                 ?> onkeyup="call_price()"
                                                                 class="form-control full" value="<?php echo $r['chargesCost']; ?>"
                                                                 id="chargesCost<?php echo $rowIdx; ?>"> --}}
-                                                                wire:model="data.charge.{{ $loop->index }}.chargesCost">
-                                                        </td>
-                                                        <td class="center">
-                                                            <input type="number" class="form-control full"
-                                                                {{-- name="chargesReceive[]" onkeyup="call_price()"
+                                                                    wire:model="data.charge.{{ $loop->index }}.chargesCost">
+                                                            </td>
+                                                            <td class="center">
+                                                                <input type="number" class="form-control full"
+                                                                    {{-- name="chargesReceive[]" onkeyup="call_price()"
                                                                 class="form-control full" value="<?php echo $r['chargesReceive']; ?>"
                                                                 id="chargesReceive<?php echo $rowIdx; ?>"> --}}
-                                                                wire:model="data.charge.{{ $loop->index }}.chargesReceive">
-                                                        </td>
-                                                        <td class="center">
-                                                            <input type="number" class="form-control full"
-                                                                {{-- name="chargesbillReceive[]" onkeyup="call_price()"
+                                                                    wire:model="data.charge.{{ $loop->index }}.chargesReceive">
+                                                            </td>
+                                                            <td class="center">
+                                                                <input type="number" class="form-control full"
+                                                                    {{-- name="chargesbillReceive[]" onkeyup="call_price()"
                                                                 class="form-control full" value="<?php echo $r['chargesbillReceive']; ?>"
                                                                 id="chargesbillReceive<?php echo $rowIdx; ?>"> --}}
-                                                                wire:model="data.charge.{{ $loop->index }}.chargesbillReceive">
-                                                        </td>
-                                                        <td class='center'
-                                                        ><button type='button'
-                                                                class='btn-white btn btn-xs'
-                                                                wire:click="removeCharge('{{$charge->items}}')">Remove</button>
-                                                        </td>
-                                                    </tr>
+                                                                    wire:model="data.charge.{{ $loop->index }}.chargesbillReceive">
+                                                            </td>
+                                                            <td class='center'><button type='button'
+                                                                    class='btn-white btn btn-xs'
+                                                                    wire:click="removeCharge('{{ $charge->items }}')">Remove</button>
+                                                            </td>
+                                                        </tr>
                                                     @endforeach
-                                                   
+
                                                 </tbody>
 
                                                 <tfoot>
@@ -1184,18 +1184,18 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <table class="table" width="100%" name="table_cash" id="table_cash">
-                                          <thead>
-                                            <tr>
-                                              <th style="width:5%">No.</th>
-                                              <th style="width:10%">documentID</th>
-                                              <th style="width:30%">detail</th>
-                                              <th style="width:20%">Amount</th>
-                                              <th style="width:10%">View</th>
-                                              <th style="width:10%">Status</th>
-                                            </tr>
-                                          </thead>
-                                          <tbody>
-                                          {{-- <td><?php echo $i; ?></td>
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:5%">No.</th>
+                                                    <th style="width:10%">documentID</th>
+                                                    <th style="width:30%">detail</th>
+                                                    <th style="width:20%">Amount</th>
+                                                    <th style="width:10%">View</th>
+                                                    <th style="width:10%">Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {{-- <td><?php echo $i; ?></td>
                                             <td><a href="advance_payment_form?action=edit&documentID=<?php echo $r['documentID']; ?>" target="_blank"><?php echo $r['documentID']; ?></a></td>
                                             <td><?php echo $r['chartDetail']; ?></td>
                                             <td><?php echo $r['amount']; ?></td>
@@ -1204,12 +1204,12 @@
                                               <?php }else{?>
                                               No File
                                               <?php }?></td>
-                                            <td><span class="label label-<?php echo $isActiveStype;?>"><?php echo $r['status_name']; ?></span></td> --}}
+                                            <td><span class="label label-<?php echo $isActiveStype; ?>"><?php echo $r['status_name']; ?></span></td> --}}
                                             </tbody>
-                                          <tfoot>
-                                          </tfoot>
+                                            <tfoot>
+                                            </tfoot>
                                         </table>
-                                      </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1234,15 +1234,15 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <table class="table" width="100%" name="table_attach" id="table_attach">
-                                          <thead>
-                                            <tr>
-                                              <th style="width:10%">document</th>
-                                              <th style="width:50%">File Name</th>
-                                              <th style="width:10%">Action</th>
-                                            </tr>
-                                          </thead>
-                                          <tbody>
-                                            {{-- <?php
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:10%">document</th>
+                                                    <th style="width:50%">File Name</th>
+                                                    <th style="width:10%">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {{-- <?php
                                             $sql = "SELECT
                                               t.items,
                                               t.comCode,
@@ -1261,14 +1261,14 @@
                                               while ( $r = mysqli_fetch_array( $result ) ) {
                             
                                                 ?>
-                                            <tr class='gradeX' id='tr<?php echo $i;?>'>
-                                              <td><?php echo $r['documentID'];?></td>
-                                              <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i;?>'>
-                                                <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail'];?>' id='fileName<?php echo $i;?>'></td>
-                                              <td class='center'><a class='btn-white btn btn-xs' href='customer_path/<?php echo $r['cusCode'].'/'. $r['fileName'];?>' target='_blank'>View</a>
+                                            <tr class='gradeX' id='tr<?php echo $i; ?>'>
+                                              <td><?php echo $r['documentID']; ?></td>
+                                              <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i; ?>'>
+                                                <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail']; ?>' id='fileName<?php echo $i; ?>'></td>
+                                              <td class='center'><a class='btn-white btn btn-xs' href='customer_path/<?php echo $r['cusCode'] . '/' . $r['fileName']; ?>' target='_blank'>View</a>
                                                 </button>
                                                 &nbsp;
-                                                <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i;?>")'>Remove</button></td>
+                                                <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i; ?>")'>Remove</button></td>
                                             </tr>
                                             <?php $i++; } } ?>
                                             <?php
@@ -1288,14 +1288,14 @@
                                               while ( $r = mysqli_fetch_array( $result ) ) {
                             
                                                 ?>
-                                            <tr class='gradeX' id='tr<?php echo $i;?>'>
-                                              <td><?php echo $r['documentID'];?></td>
-                                              <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i;?>'>
-                                                <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail'];?>' id='fileName<?php echo $i;?>'></td>
-                                              <td class='center'><a class='btn-white btn btn-xs' href='supplier_path/<?php echo $r['supCode'].'/'. $r['fileName'];?>' target='_blank'>View</a>
+                                            <tr class='gradeX' id='tr<?php echo $i; ?>'>
+                                              <td><?php echo $r['documentID']; ?></td>
+                                              <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i; ?>'>
+                                                <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail']; ?>' id='fileName<?php echo $i; ?>'></td>
+                                              <td class='center'><a class='btn-white btn btn-xs' href='supplier_path/<?php echo $r['supCode'] . '/' . $r['fileName']; ?>' target='_blank'>View</a>
                                                 </button>
                                                 &nbsp;
-                                                <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i;?>")'>Remove</button></td>
+                                                <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i; ?>")'>Remove</button></td>
                                             </tr>
                                             <?php $i++; }} ?>
                                             <?php
@@ -1314,14 +1314,14 @@
                                               while ( $r = mysqli_fetch_array( $result ) ) {
                             
                                                 ?>
-                                            <tr class='gradeX' id='tr<?php echo $i;?>'>
-                                              <td><?php echo $r['documentID'];?></td>
-                                              <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i;?>'>
-                                                <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail'];?>' id='fileName<?php echo $i;?>'></td>
-                                              <td class='center'><a class='btn-white btn btn-xs' href='customer_path/<?php echo $r['cusCode'].'/'. $r['fileName'];?>' target='_blank'>View</a>
+                                            <tr class='gradeX' id='tr<?php echo $i; ?>'>
+                                              <td><?php echo $r['documentID']; ?></td>
+                                              <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i; ?>'>
+                                                <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail']; ?>' id='fileName<?php echo $i; ?>'></td>
+                                              <td class='center'><a class='btn-white btn btn-xs' href='customer_path/<?php echo $r['cusCode'] . '/' . $r['fileName']; ?>' target='_blank'>View</a>
                                                 </button>
                                                 &nbsp;
-                                                <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i;?>")'>Remove</button></td>
+                                                <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i; ?>")'>Remove</button></td>
                                             </tr>
                                             <?php $i++; }} ?>
                                             <?php
@@ -1340,36 +1340,44 @@
                                               while ( $r = mysqli_fetch_array( $result ) ) {
                             
                                                 ?>
-                                            <tr class='gradeX' id='tr<?php echo $i;?>'>
-                                              <td><?php echo $r['documentID'];?></td>
-                                              <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i;?>'>
-                                                <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail'];?>' id='fileName<?php echo $i;?>'></td>
-                                              <td class='center'><a class='btn-white btn btn-xs' href='customer_path/<?php echo $r['cusCode'].'/'. $r['fileName'];?>' target='_blank'>View</a>
+                                            <tr class='gradeX' id='tr<?php echo $i; ?>'>
+                                              <td><?php echo $r['documentID']; ?></td>
+                                              <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i; ?>'>
+                                                <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail']; ?>' id='fileName<?php echo $i; ?>'></td>
+                                              <td class='center'><a class='btn-white btn btn-xs' href='customer_path/<?php echo $r['cusCode'] . '/' . $r['fileName']; ?>' target='_blank'>View</a>
                                                 </button>
                                                 &nbsp;
-                                                <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i;?>")'>Remove</button></td>
+                                                <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i; ?>")'>Remove</button></td>
                                             </tr>
                                             <?php $i++; }} ?> --}}
-                                          </tbody>
-                                          <tfoot>
-                                          </tfoot>
+                                            </tbody>
+                                            <tfoot>
+                                            </tfoot>
                                         </table>
                                         <div class="form-group row">
-                                          <label class="col-lg-2 col-form-label">File Name</label>
-                                          <div class="col-md-4">
-                                            <input type="text" name="attach_name" class="form-control" id="attach_name">
-                                          </div>
-                                          <div id="container_attach" class="fileinput fileinput-new" data-provides="fileinput"> <span class="btn btn-primary btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span>
-                                            <input type="file" name="attach_file" id="attach_file">
-                                            </span> <span class="fileinput-filename"></span> <a  href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a> </div>
+                                            <label class="col-lg-2 col-form-label">File Name</label>
+                                            <div class="col-md-4">
+                                                <input type="text" name="attach_name" class="form-control"
+                                                    id="attach_name">
+                                            </div>
+                                            <div id="container_attach" class="fileinput fileinput-new"
+                                                data-provides="fileinput"> <span
+                                                    class="btn btn-primary btn-file"><span
+                                                        class="fileinput-new">Select file</span><span
+                                                        class="fileinput-exists">Change</span>
+                                                    <input type="file" name="attach_file" id="attach_file">
+                                                </span> <span class="fileinput-filename"></span> <a href="#"
+                                                    class="close fileinput-exists" data-dismiss="fileinput"
+                                                    style="float: none">&times;</a> </div>
                                         </div>
                                         <div class="form-group row">
-                                          <label class="col-lg-2 col-form-label">Action</label>
-                                          <div class="col-md-4">
-                                            <button class="btn btn-primary " type="button" name="btnUpload" id="btnUpload"><i class="fa fa-save"></i> Upload File</button>
-                                          </div>
+                                            <label class="col-lg-2 col-form-label">Action</label>
+                                            <div class="col-md-4">
+                                                <button class="btn btn-primary " type="button" name="btnUpload"
+                                                    id="btnUpload"><i class="fa fa-save"></i> Upload File</button>
+                                            </div>
                                         </div>
-                                      </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1379,36 +1387,44 @@
                 {{-- Section Action --}}
                 <div class="col-lg-12">
                     <div class="ibox ">
-                      <div class="ibox-title">
-                        <h2>Action</h2>
-                      </div>
-                      <div class="ibox-content">
-                        <div class="form-group  row">
-                          <label class="col-sm-2 col-form-label">Create By</label>
-                          <div class="col-sm-10">
-                            <label>admin 1/1/2021 : 03:12:20</label>
-                          </div>
+                        <div class="ibox-title">
+                            <h2>Action</h2>
                         </div>
-                        <div class="form-group  row">
-                          <label class="col-sm-2 col-form-label">Update By</label>
-                          <div class="col-sm-10">
-                            <label>admin 1/1/2021 : 03:12:20</label>
-                          </div>
+                        <div class="ibox-content">
+                            @if ($action != 'create')
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Create By</label>
+                                    <div class="col-sm-10">
+                                        <label>{{ $data->createBy->username }} {{ $data->createTime ?? '' }}</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Update By</label>
+                                    <div class="col-sm-10">
+                                        <label>{{ $data->editBy->username }} {{ $data->editTime ?? '' }}</label>
+                                    </div>
+                                </div>
+                            @endif
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group row">
+                                <div class="col-sm-10 col-sm-offset-2">
+                                    <button name="back" class="btn btn-white" type="button"
+                                        onclick="window.location='job'"><i class="fa fa-reply"></i> Back</button>
+
+                                    <button name="Approve" id="Approve" class="btn btn-primary" type="button"><i
+                                            class="fa fa-save"></i> Approve</button>
+                                    <button class="btn btn-white " type="button" onclick=""><i
+                                            class="fa fa-print"></i> Job</button>
+                                    <button class="btn btn-white " type="button" onclick=""><i
+                                            class="fa fa-print"></i> Booking confirm</button>
+                                    <button class="btn btn-white " type="button" onclick=""><i
+                                            class="fa fa-print"></i> Trailer booking</button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group row">
-                          <div class="col-sm-10 col-sm-offset-2">
-                            <button name="back" class="btn btn-white" type="button" onclick="window.location='job'"><i class="fa fa-reply"></i> Back</button>
-                            
-                            <button name="Approve" id="Approve" class="btn btn-primary" type="button" ><i class="fa fa-save"></i> Approve</button>
-                            <button class="btn btn-white " type="button" onclick="" ><i class="fa fa-print"></i> Job</button>
-                            <button class="btn btn-white " type="button" onclick="" ><i class="fa fa-print"></i> Booking confirm</button>
-                            <button class="btn btn-white " type="button" onclick="" ><i class="fa fa-print"></i> Trailer booking</button>
-                          </div>
-                        </div>
-                      </div>
                     </div>
-                  </div>
+                </div>
 
             </div>
         </div>

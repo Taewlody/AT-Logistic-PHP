@@ -17,9 +17,14 @@ class Customer extends Model implements Wireable
 
     protected $table = 'common_customer';
 
-    public $incrementing = false;
+    // public $incrementing = false;
     protected $keyType = 'string';
     protected $primaryKey = 'cusCode';
+
+    protected $dateFormat = 'y-m-d H:i:s';
+
+    const CREATED_AT = 'createTime';
+    const UPDATED_AT = 'editTime';
 
     protected $fillable = [
         'comCode',
@@ -82,95 +87,44 @@ class Customer extends Model implements Wireable
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->comCode = $attributes['comCode'] ?? 'C01';
-        $this->cusCode = $attributes['cusCode'] ?? '';
-        $this->businessType = $attributes['businessType'] ?? '';
-        $this->custNameTH = $attributes['custNameTH'] ?? '';
-        $this->custNameEN = $attributes['custNameEN'] ?? '';
-        $this->branchCode = $attributes['branchCode'] ?? '';
-        $this->branchTH = $attributes['branchTH'] ?? '';
-        $this->branchEN = $attributes['branchEN'] ?? '';
-        $this->creditDay = $attributes['creditDay'] ?? 0;
-        $this->taxID = $attributes['taxID'] ?? '';
-        $this->salemanID = $attributes['salemanID'] ?? '';
-        $this->addressTH = $attributes['addressTH'] ?? '';
-        $this->addressEN = $attributes['addressEN'] ?? '';
-        $this->zipCode = $attributes['zipCode'] ?? '';
-        $this->countryCode = $attributes['countryCode'] ?? '';
-        $this->tel = $attributes['tel'] ?? '';
-        $this->fax = $attributes['fax'] ?? '';
-        $this->mobile = $attributes['mobile'] ?? '';
-        $this->isActive = $attributes['isActive'] ?? true;
-        $this->contactName = $attributes['contactName'] ?? '';
-        $this->contactMobile = $attributes['contactMobile'] ?? '';
-        $this->contactEmail = $attributes['contactEmail'] ?? '';
-        $this->createID = $attributes['createID'] ?? '';
-        $this->createTime = $attributes['createTime'] ?? '';
-        $this->editID = $attributes['editID'] ?? '';
-        $this->editTime = $attributes['editTime'] ?? '';
+        $this->fill($attributes);
     }
 
-    public static function fromLivewire($value)
+    public static function fromLivewire($value): self
     {
-        $comCode = $value['comCode'];
-        $cusCode = $value['cusCode'];
-        $businessType = $value['businessType'];
-        $custNameTH = $value['custNameTH'];
-        $custNameEN = $value['custNameEN'];
-        $branchCode = $value['branchCode'];
-        $branchTH = $value['branchTH'];
-        $branchEN = $value['branchEN'];
-        $creditDay = $value['creditDay'];
-        $taxID = $value['taxID'];
-        $salemanID = $value['salemanID'];
-        $addressTH = $value['addressTH'];
-        $addressEN = $value['addressEN'];
-        $zipCode = $value['zipCode'];
-        $countryCode = $value['countryCode'];
-        $tel = $value['tel'];
-        $fax = $value['fax'];
-        $mobile = $value['mobile'];
-        $isActive = $value['isActive'];
-        $contactName = $value['contactName'];
-        $contactMobile = $value['contactMobile'];
-        $contactEmail = $value['contactEmail'];
-        $createID = $value['createID'];
-        $createTime = $value['createTime'] != '' ? Carbon::parse($value['createTime']) : Carbon::minValue();
-        $editID = $value['editID'];
-        $editTime = $value['editTime'] != '' ? Carbon::parse($value['editTime']) : Carbon::minValue();
-        return new static(['comCode' => $comCode, 'cusCode' => $cusCode, 'businessType' => $businessType, 'custNameTH' => $custNameTH, 'custNameEN' => $custNameEN, 'branchCode' => $branchCode, 'branchTH' => $branchTH, 'branchEN' => $branchEN, 'creditDay' => $creditDay, 'taxID' => $taxID, 'salemanID' => $salemanID, 'addressTH' => $addressTH, 'addressEN' => $addressEN, 'zipCode' => $zipCode, 'countryCode' => $countryCode, 'tel' => $tel, 'fax' => $fax, 'mobile' => $mobile, 'isActive' => $isActive, 'contactName' => $contactName, 'contactMobile' => $contactMobile, 'contactEmail' => $contactEmail, 'createID' => $createID, 'createTime' => $createTime, 'editID' => $editID, 'editTime' => $editTime]);
+        return new static($value);
+        // $comCode = $value['comCode'];
+        // $cusCode = $value['cusCode'];
+        // $businessType = $value['businessType'];
+        // $custNameTH = $value['custNameTH'];
+        // $custNameEN = $value['custNameEN'];
+        // $branchCode = $value['branchCode'];
+        // $branchTH = $value['branchTH'];
+        // $branchEN = $value['branchEN'];
+        // $creditDay = $value['creditDay'];
+        // $taxID = $value['taxID'];
+        // $salemanID = $value['salemanID'];
+        // $addressTH = $value['addressTH'];
+        // $addressEN = $value['addressEN'];
+        // $zipCode = $value['zipCode'];
+        // $countryCode = $value['countryCode'];
+        // $tel = $value['tel'];
+        // $fax = $value['fax'];
+        // $mobile = $value['mobile'];
+        // $isActive = $value['isActive'];
+        // $contactName = $value['contactName'];
+        // $contactMobile = $value['contactMobile'];
+        // $contactEmail = $value['contactEmail'];
+        // $createID = $value['createID'];
+        // $createTime = $value['createTime'] != '' ? Carbon::parse($value['createTime']) : Carbon::minValue();
+        // $editID = $value['editID'];
+        // $editTime = $value['editTime'] != '' ? Carbon::parse($value['editTime']) : Carbon::minValue();
+        // return new static(['comCode' => $comCode, 'cusCode' => $cusCode, 'businessType' => $businessType, 'custNameTH' => $custNameTH, 'custNameEN' => $custNameEN, 'branchCode' => $branchCode, 'branchTH' => $branchTH, 'branchEN' => $branchEN, 'creditDay' => $creditDay, 'taxID' => $taxID, 'salemanID' => $salemanID, 'addressTH' => $addressTH, 'addressEN' => $addressEN, 'zipCode' => $zipCode, 'countryCode' => $countryCode, 'tel' => $tel, 'fax' => $fax, 'mobile' => $mobile, 'isActive' => $isActive, 'contactName' => $contactName, 'contactMobile' => $contactMobile, 'contactEmail' => $contactEmail, 'createID' => $createID, 'createTime' => $createTime, 'editID' => $editID, 'editTime' => $editTime]);
     }
 
-    public function toLivewire()
+    public function toLivewire(): array
     {
-        return [
-            'comCode' => $this->comCode,
-            'cusCode' => $this->cusCode,
-            'businessType' => $this->businessType,
-            'custNameTH' => $this->custNameTH,
-            'custNameEN' => $this->custNameEN,
-            'branchCode' => $this->branchCode,
-            'branchTH' => $this->branchTH,
-            'branchEN' => $this->branchEN,
-            'creditDay' => $this->creditDay,
-            'taxID' => $this->taxID,
-            'salemanID' => $this->salemanID,
-            'addressTH' => $this->addressTH,
-            'addressEN' => $this->addressEN,
-            'zipCode' => $this->zipCode,
-            'countryCode' => $this->countryCode,
-            'tel' => $this->tel,
-            'fax' => $this->fax,
-            'mobile' => $this->mobile,
-            'isActive' => $this->isActive,
-            'contactName' => $this->contactName,
-            'contactMobile' => $this->contactMobile,
-            'contactEmail' => $this->contactEmail,
-            'createID' => $this->createID,
-            'createTime' => $this->createTime,
-            'editID' => $this->editID,
-            'editTime' => $this->editTime
-        ];
+        return $this->toArray();
     }
 
     public function country(): HasOne
