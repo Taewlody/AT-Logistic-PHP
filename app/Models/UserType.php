@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Casts\CustomDateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 use App\Casts\BooleanString;
 use App\Models\User;
+use Livewire\Wireable;
 
-class UserType extends Model
+class UserType extends Model implements Wireable
 {
     use HasFactory;
 
@@ -35,10 +37,26 @@ class UserType extends Model
         'userTypeName' => 'string',
         'isActive' => BooleanString::class,
         'createID' => 'string',
-        'createTime' => 'datetime:Y-m-d H:M',
+        'createTime' => CustomDateTime::class,
         'editID' => 'string',
-        'editTime' => 'datetime:Y-m-d H:M',
+        'editTime' => CustomDateTime::class,
     ];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->fill($attributes);
+    }
+
+    public static function fromLiveWire($value): self
+    {
+        return new static($value);
+    }
+
+    public function toLiveWire(): array
+    {
+        return $this->toArray();
+    }
 
     public function createBy(): HasOne
     {
