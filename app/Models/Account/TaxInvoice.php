@@ -2,7 +2,10 @@
 
 namespace App\Models\Account;
 
+use App\Casts\CustomDate;
+use App\Casts\CustomDateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,8 +15,9 @@ use App\Models\Common\Saleman;
 use App\Models\Common\TransportType;
 use App\Models\Status\RefDocumentStatus;
 use App\Models\User;
+use Livewire\Wireable;
 
-class TaxInvoice extends Model
+class TaxInvoice extends Model implements Wireable
 {
     use HasFactory;
 
@@ -22,6 +26,11 @@ class TaxInvoice extends Model
     public $incrementing = false;
     protected $keyType = 'string';
     protected $primaryKey = 'documentID';
+
+    protected $dateFormat = 'y-m-d H:i:s';
+
+    const CREATED_AT = 'createTime';
+    const UPDATED_AT = 'editTime';
 
     protected $fillable = [
         'comCode',
@@ -56,7 +65,7 @@ class TaxInvoice extends Model
     protected $casts = [
         'comCode' => 'string',
         'documentID' => 'string',
-        'documentDate' => 'date: Y-m-d',
+        'documentDate' => CustomDate::class,
         'cusCode' => 'string',
         'cus_address' => 'string',
         'saleman' => 'string',
@@ -65,9 +74,9 @@ class TaxInvoice extends Model
         'remark' => 'string',
         'documentstatus' => 'string',
         'createID' => 'string',
-        'createTime' => 'datetime:Y-m-d H:M',
+        'createTime' => CustomDateTime::class,
         'editID' => 'string',
-        'editTime' => 'datetime:Y-m-d H:M',
+        'editTime' => CustomDateTime::class,
         'total_amt' => 'float',
         'total_vat' => 'float',
         'tax3' => 'float',
@@ -78,10 +87,30 @@ class TaxInvoice extends Model
         'payTypeOther' => 'string',
         'branch' => 'string',
         'chequeNo' => 'string',
-        'dueDate' => 'date: Y-m-d',
-        'dueTime' => 'time: H:M',
+        'dueDate' => CustomDate::class,
+        'dueTime' => 'string',
         'accountCode' => 'string',
     ];
+
+    public function __construct(array $attributes = []){
+        parent::__construct($attributes);
+        $this->fill($attributes);
+    }
+
+    public static function fromLiveWire($value): self
+    {
+        return new static($value);
+    }
+
+    public function toLiveWire(): array
+    {
+        return $this->toArray();
+    }
+
+    public function items(): HasMany
+    {
+        return $this->hasMany(TaxInvoiceItems::class, 'documentID', 'documentID');
+    }
 
     public function customer(): HasOne
     {
@@ -104,6 +133,12 @@ class TaxInvoice extends Model
     public function docStatus(): HasOne
     {
         return $this->hasOne(RefDocumentStatus::class, 'status_code', 'documentstatus');
+    }
+
+
+    public function createBy(): HasOne
+    {
+        return $this->hasOne(User::class, 'usercode', 'createID');
     }
 
     public function editBy(): HasOne

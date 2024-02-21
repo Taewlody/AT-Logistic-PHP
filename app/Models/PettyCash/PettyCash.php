@@ -15,8 +15,9 @@ use App\Models\Common\Saleman;
 use App\Models\Common\TransportType;
 use App\Models\Status\RefDocumentStatus;
 use App\Models\User;
+use Livewire\Wireable;
 
-class PettyCash extends Model
+class PettyCash extends Model implements Wireable
 {
     use HasFactory;
 
@@ -72,6 +73,21 @@ class PettyCash extends Model
         'sumTax7' => 'float',
         'grandTotal' => 'float',
     ];
+    public function __construct($attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->fill($attributes);
+    }
+
+    public static function fromLivewire($attributes = []): self
+    {
+        return new static($attributes);
+    }
+
+    public function toLiveWire()
+    {
+        return $this->toArray();
+    }
 
     public function items(): HasMany
     {
