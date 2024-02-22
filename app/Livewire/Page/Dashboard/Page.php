@@ -11,6 +11,7 @@ use App\Models\Account\TaxInvoice;
 use App\Models\PettyCash\PettyCash;
 use App\Models\Payment\PaymentVoucher;
 use App\Models\Payment\AdvancePayment;
+use App\Models\Marketing\JobOrder;
 
 class Page extends Component
 {
@@ -71,9 +72,27 @@ class Page extends Component
             $total_pv += $item->pv;
         }
         $this->data_total_balance = $this->data_total_income - ($total_pc+$total_pv);
+        // end account balance
+
     }
     public function render()
     {
-        return view('livewire.page.dashboard.page')->extends('layouts.main')->section('main-content');
+        $d = AdvancePayment::select('advance_payment.cusCode')
+        ->selectRaw('sum(advance_payment.sumTotal) as sumTotal')
+        ->with(['jobOrder'])->whereHas('jobOrder', function($q) {
+            return $q->with('invoice')->whereHas('invoice');
+        })->groupBy('advance_payment.cusCode')->get();
+        // dd($d);
+        return view('livewire.page.dashboard.page',[ 
+            'data_job_inprocess'=> JobOrder::where('documentstatus', 'P')->paginate(20),
+            'data_advance_pyment_table' => AdvancePayment::select('advance_payment.cusCode')
+            ->selectRaw('sum(advance_payment.sumTotal) as sumTotal')
+            ->with(['jobOrder'])->whereHas('jobOrder', function($q) {
+                return $q->with('invoice')->whereHas('invoice', function ($query) {
+                    return $query->whereNull('invoice.documentID');
+                });
+            })->groupBy('advance_payment.cusCode')->paginate(20)
+            ]
+            )->extends('layouts.main')->section('main-content');
     }
 }

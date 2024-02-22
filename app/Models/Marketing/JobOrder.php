@@ -280,6 +280,11 @@ class JobOrder extends Model implements Wireable
         return $this->hasOne(Invoice::class, 'documentID', 'invoiceNo');
     }
 
+    public function referInvoice(): HasOne
+    {
+        return $this->hasOne(Invoice::class, 'ref_jobNo', 'documentID');
+    }
+
     public function PlaceFOB(): HasOne
     {
         return $this->hasOne(Place::class, 'pCode', 'fob');

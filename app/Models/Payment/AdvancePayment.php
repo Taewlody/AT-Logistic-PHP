@@ -105,9 +105,9 @@ class AdvancePayment extends Model implements Wireable
         return $this->hasMany(AdvancePaymentAttach::class, 'documentID', 'documentID');
     }
 
-    public function jobOrder(): HasOne
+    public function jobOrder()
     {
-        return $this->hasOne(JobOrder::class, 'documentID', 'refJobNo');
+        return $this->hasMany(JobOrder::class, 'documentID', 'refJobNo');
     }
 
     public function customer(): HasOne
