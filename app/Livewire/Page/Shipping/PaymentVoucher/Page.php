@@ -7,7 +7,7 @@ use App\Models\Common\Supplier;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Carbon\Carbon;
-use App\Models\Payment\PaymentVoucher;
+use App\Models\Payment\ShipingPaymentVoucher;
 
 class Page extends Component
 {
@@ -59,6 +59,6 @@ class Page extends Component
 
     public function render()
     {
-        return view('livewire.page.shipping.payment-voucher.page', [ 'data'=> PaymentVoucher::where($this->query)->orderBy('documentDate', 'desc')->paginate(20)])->extends('layouts.main')->section('main-content');
+        return view('livewire.page.shipping.payment-voucher.page', [ 'data'=> ShipingPaymentVoucher::where($this->query)->orderBy('documentDate', 'desc')->paginate(20)])->extends('layouts.main')->section('main-content');
     }
 }

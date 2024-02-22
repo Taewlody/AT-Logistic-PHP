@@ -19,7 +19,7 @@
                         
                     </div>
                     <div class="col-6" style="justify-content: flex-end; display: flex">
-                        <a href="country_form?action=add" class="btn btn-primary">
+                        <a href="{{ route('user.form', ['action' => 'create']) }}" class="btn btn-primary">
                             <i class="fa fa-plus "> </i> Create new 
                         </a>
                     </div>
@@ -50,16 +50,16 @@
                                         <td class="center">{{ $item->editBy != null? $item->editBy->username : '' }}</td>
                                         <td>
                                             <div class="btn-group">
-                                                <button class="btn btn-success btn-xs" onClick="location.href='port_form?action=view&portCode={{ $item->portCode }}">View</button>
-                                                <button class="btn btn-info btn-xs" onClick="location.href='port_form?action=edit&portCode={{ $item->portCode }}">Edit</button>
-                                                <button class="btn btn-danger btn-xs" onClick="return confirmDel('{{ $item->portCode }}','port_action.php');">Delete</button>
+                                                <a class="btn btn-success btn-xs" href="{{ route('user.form', ['action' => 'view', 'id' => $item->usercode ]) }}">View</a>
+                                                <a class="btn btn-info btn-xs" href="{{ route('user.form', ['action' => 'edit', 'id' => $item->username ]) }}">Edit</a>
+                                                <button class="btn btn-danger btn-xs" wire:confirm="Are you sure want to delete {{$item->username}}" wire:click="delete('{{$item->usercode}}')" wire:refresh="$refresh">Delete</button>
                                             </div>
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        {{ $data->appends(['sort' => 'countryCode'])->links() }}
+                        {{ $data->links() }}
                     </div>
                 </div>
             </div>

@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Common\Charges;
+use Livewire\Wireable;
 
-class InvoiceItems extends Model
+class InvoiceItems extends Model implements Wireable
 {
     use HasFactory;
 
@@ -42,5 +43,21 @@ class InvoiceItems extends Model
     public function charges(): HasOne
     {
         return $this->hasOne(Charges::class, 'chargeCode', 'chargeCode');
+    }
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->fill($attributes);
+    }
+
+    public static function fromLiveWire($value): self
+    {
+        return new static($value);
+    }
+
+    public function toLiveWire(): array
+    {
+        return $this->toArray();
     }
 }

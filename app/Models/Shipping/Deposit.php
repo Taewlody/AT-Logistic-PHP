@@ -2,7 +2,11 @@
 
 namespace App\Models\Shipping;
 
+use App\Casts\CustomDate;
+use App\Casts\CustomDateTime;
+use App\Models\Common\Supplier;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,12 +14,24 @@ use App\Models\User;
 use App\Models\Common\Customer;
 use App\Models\Status\RefDocumentStatus;
 use App\Models\Marketing\JobOrder;
+use Livewire\Wireable;
 
-class Deposit extends Model
+class Deposit extends Model implements Wireable
 {
     use HasFactory;
 
     protected $table = 'deposit';
+
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'documentID';
+
+    // public $timestamps = false;
+
+    protected $dateFormat = 'y-m-d H:i:s';
+
+    const CREATED_AT = 'createTime';
+    const UPDATED_AT = 'editTime';
 
     protected $fillable = [
         'comCode',
@@ -44,7 +60,7 @@ class Deposit extends Model
     protected $casts = [
         'comCode' => 'string',
         'documentID' => 'string',
-        'documentDate' => 'date: Y-m-d',
+        'documentDate' => CustomDate::class,
         'refJobNo' => 'string',
         'agentCode' => 'string',
         'cusCode' => 'string',
@@ -52,18 +68,44 @@ class Deposit extends Model
         'payTypeOther' => 'string',
         'branch' => 'string',
         'chequeNo' => 'string',
-        'dueDate' => 'date: Y-m-d',
+        'dueDate' => CustomDate::class,
         'note' => 'string',
         'remark' => 'string',
         'documentstatus' => 'string',
         'createID' => 'string',
-        'createTime' => 'datetime:Y-m-d H:M',
+        'createTime' => CustomDateTime::class,
         'editID' => 'string',
-        'editTime' => 'datetime:Y-m-d H:M',
+        'editTime' => CustomDateTime::class,
         'sumTotal' => 'float',
         'accountCode' => 'string',
-        'dueTime' => 'time: H:M',
+        'dueTime' => 'string',
     ];
+
+    public function __construct($attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->fill($attributes);
+    }
+
+    public static function fromLiveWire($value): self
+    {
+        return new static($value);
+    }
+
+    public function toLiveWire(): array
+    {
+        return $this->toArray();
+    }
+
+    public function items(): HasMany
+    {
+        return $this->hasMany(DepositItems::class, 'documentID', 'documentID');
+    }
+
+    public function Attach(): HasMany
+    {
+        return $this->hasMany(DepositAttach::class, 'documentID', 'documentID');
+    }
 
     public function jobOrder(): HasOne
     {
@@ -75,9 +117,18 @@ class Deposit extends Model
         return $this->hasOne(Customer::class,'cusCode', 'cusCode');
     }
 
+    public function supplier(): HasOne{
+        return $this->hasOne(Supplier::class,'supCode', 'agentCode');
+    }
+
     public function docStatus(): HasOne
     {
         return $this->hasOne(RefDocumentStatus::class, 'status_code', 'documentstatus');
+    }
+
+    public function createBy(): HasOne
+    {
+        return $this->hasOne(User::class, 'usercode', 'createID');
     }
 
     public function editBy(): HasOne

@@ -11,8 +11,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use App\Models\UserType;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Livewire\Wireable;
 
-class User extends Authenticatable {
+class User extends Authenticatable implements Wireable {
 
     use HasApiTokens;
     // use Notifiable;
@@ -72,6 +73,22 @@ class User extends Authenticatable {
         'editID' => 'string',
         'editTime' => 'datetime:Y-m-d H:M',
     ];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->fill($attributes);
+    }
+
+    public static function fromLiveWire($value): self
+    {
+        return new static($value);
+    }
+
+    public function toLiveWire(): array
+    {
+        return $this->toArray();
+    }
 
     public function UserType(): HasOne
     {
