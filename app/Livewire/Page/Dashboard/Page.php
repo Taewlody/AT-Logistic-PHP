@@ -77,21 +77,56 @@ class Page extends Component
     }
     public function render()
     {
-        $d = AdvancePayment::select('advance_payment.cusCode')
-        ->selectRaw('sum(advance_payment.sumTotal) as sumTotal')
-        ->with(['jobOrder'])->whereHas('jobOrder', function($q) {
-            return $q->with('invoice')->whereHas('invoice');
-        })->groupBy('advance_payment.cusCode')->get();
-        // dd($d);
+        $data_advance_pyment_table = AdvancePayment::selectRaw('Sum(advance_payment.sumTotal) AS sumTotal, advance_payment.cusCode, common_customer.custNameTH')
+        ->join('joborder', function($join) {
+            $join->on('advance_payment.comCode', 'joborder.comCode');
+            $join->on('advance_payment.refJobNo', 'joborder.documentID');
+        })
+        ->leftJoin('invoice', function($join) {
+            $join->on('joborder.comCode', 'invoice.comCode');
+            $join->on('joborder.documentID', 'invoice.ref_jobNo');
+        })
+        ->join('common_customer', function($join) {
+            $join->on('advance_payment.comCode', 'common_customer.comCode');
+            $join->on('advance_payment.cusCode', 'common_customer.cusCode');
+        })
+        ->whereRaw('invoice.documentID IS NULL')
+        ->groupBy('advance_payment.cusCode', 'common_customer.custNameTH');
+        // ->paginate(10);
+        
+        $data_invoice_table = Invoice::selectRaw('invoice.documentstatus, common_customer.custNameTH, sum(invoice.total_netamt) as total_netamt')
+        ->join('common_customer', function($join) {
+            $join->on('invoice.comCode', 'common_customer.comCode');
+            $join->on('invoice.cusCode', 'common_customer.cusCode');
+        })
+        ->leftJoin('tax_invoice_items', function($join) {
+            $join->on('invoice.comCode', 'tax_invoice_items.comCode');
+            $join->on('invoice.documentID', 'tax_invoice_items.invNo');
+        })
+        ->where('invoice.documentstatus', 'A')
+        ->whereRaw('tax_invoice_items.documentID IS NULL')
+        ->groupBy('invoice.documentstatus', 'common_customer.custNameTH')
+        ->orderBy('total_netamt', 'DESC');
+        
+        $data_invoice_table_total = $data_invoice_table->get();
+        $sum_invoice_total = 0;
+        foreach($data_invoice_table_total as $invoice) {
+            $sum_invoice_total += $invoice['total_netamt'];
+        }
+
+        $data_advance_pyment_table_total = $data_advance_pyment_table->get();
+        $sum_advance_total = 0;
+        foreach($data_advance_pyment_table_total as $advance) {
+            $sum_advance_total += $advance['sumTotal'];
+        }
+        // dd($data_invoice_table->get());
+
         return view('livewire.page.dashboard.page',[ 
-            'data_job_inprocess'=> JobOrder::where('documentstatus', 'P')->paginate(20),
-            'data_advance_pyment_table' => AdvancePayment::select('advance_payment.cusCode')
-            ->selectRaw('sum(advance_payment.sumTotal) as sumTotal')
-            ->with(['jobOrder'])->whereHas('jobOrder', function($q) {
-                return $q->with('invoice')->whereHas('invoice', function ($query) {
-                    return $query->whereNull('invoice.documentID');
-                });
-            })->groupBy('advance_payment.cusCode')->paginate(20)
+                'data_job_inprocess'=> JobOrder::where('documentstatus', 'P')->paginate(10),
+                'data_advance_pyment_table' => $data_advance_pyment_table->paginate(10),
+                'data_invoice_table' => $data_invoice_table->paginate(10),
+                'sum_invoice_total' => $sum_invoice_total,
+                'sum_advance_total' => $sum_advance_total
             ]
             )->extends('layouts.main')->section('main-content');
     }
