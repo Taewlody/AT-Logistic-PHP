@@ -122,7 +122,7 @@
                                             <td>{{ $item->documentDate }}</td>
                                             <td>{{ $item->refJobNo }}</td>
                                             <td>{{ $item->supplier != null ? $item->supplier->supNameTH : '' }}</td>
-                                            <td>{{ $item->sumTotal }}</td>
+                                            <td>{{ number_format($item->sumTotal, 2) }}</td>
                                             @if ($item->docStatus != null)
                                                 <td class="center"><span
                                                         @class([
@@ -133,7 +133,7 @@
                                                         ])>{{ $item->docStatus->status_name }}</span>
                                                 </td>
                                             @else
-                                                <td class="center"><span @class(['label'])>Disabled</span>
+                                                <td class="center"><span @class(['badge'])>Disabled</span>
                                                 </td>
                                             @endif
 

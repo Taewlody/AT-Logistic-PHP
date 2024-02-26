@@ -16,7 +16,7 @@
    <script src="{{ asset('assets/js/script.js') }}"></script>
    <script src="{{ asset('assets/js/theme-customizer/customizer.js') }}"></script>
    <!-- Dashboard -->
-   <script src="{{ asset('assets/js/chart/apex-chart/apex-chart.js') }}"></script>
+   {{-- <script src="{{ asset('assets/js/chart/apex-chart/apex-chart.js') }}"></script>
    <script src="{{ asset('assets/js/chart/apex-chart/stock-prices.js') }}"></script>
    <script src="{{ asset('assets/js/dashboard/dashboard_2.js') }}"></script>
-   <script src="{{ asset('assets/js/dashboard/default.js') }}"></script>
+   <script src="{{ asset('assets/js/dashboard/default.js') }}"></script> --}}

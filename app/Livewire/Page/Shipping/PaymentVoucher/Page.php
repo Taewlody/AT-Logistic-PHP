@@ -7,7 +7,7 @@ use App\Models\Common\Supplier;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Carbon\Carbon;
-use App\Models\Payment\ShipingPaymentVoucher;
+use App\Models\Payment\PaymentVoucher;
 
 class Page extends Component
 {
@@ -22,8 +22,8 @@ class Page extends Component
     public $query = [];
 
     public function mount(){
-        $this->dateStart = null;
-        $this->dateEnd = null;
+        $this->dateStart = date('Y-m-01');
+        $this->dateEnd = date("Y-m-d");
         $this->supplierList = Supplier::all()->sortBy('supNameEN');
     }
 
@@ -59,6 +59,15 @@ class Page extends Component
 
     public function render()
     {
-        return view('livewire.page.shipping.payment-voucher.page', [ 'data'=> ShipingPaymentVoucher::where($this->query)->orderBy('documentDate', 'desc')->paginate(20)])->extends('layouts.main')->section('main-content');
+        $data = PaymentVoucher::with(['supplier', 'docStatus'])
+        ->whereBetween('documentDate', [$this->dateStart, $this->dateEnd] )
+        // ->whereBetween('documentDate', ['2024/2/1', '2024/2/26'] )
+        ->where($this->query)
+        ->orderBy('documentDate', 'desc')->paginate(20);
+        // dd($d);
+
+        return view('livewire.page.shipping.payment-voucher.page', [ 
+            'data'=> $data
+            ])->extends('layouts.main')->section('main-content');
     }
 }

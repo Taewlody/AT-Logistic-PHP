@@ -13,11 +13,11 @@
                                     <div class="icon"><i data-feather="shopping-bag"></i></div>
                                     <div class="sale-content">
                                         <h3>Invoice</h3>
-                                        <p>{{ number_format($data_invoice) }} </p>
+                                        <p>{{ number_format($data_invoice, 2) }} </p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="small-chart-view sales-chart" id="sales-chart"></div>
+                            {{-- <div class="small-chart-view sales-chart" id="sales-chart"></div> --}}
                         </div>
                     </div>
                 </div>
@@ -30,12 +30,12 @@
                                 <div class="sale-detail">
                                     <div class="icon"><i data-feather="dollar-sign"></i></div>
                                     <div class="sale-content">
-                                        <h3>Account<br/> Balance</h3>
-                                        <p>{{ number_format($data_total_balance) }}</p>
+                                        <h3>Account Balance</h3>
+                                        <p>{{ number_format($data_total_balance, 2) }}</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="small-chart-view income-chart" id="income-chart"></div>
+                            {{-- <div class="small-chart-view income-chart" id="income-chart"></div> --}}
                         </div>
                     </div>
                 </div>
@@ -48,12 +48,12 @@
                                 <div class="sale-detail">
                                     <div class="icon"><i data-feather="file-text"></i></div>
                                     <div class="sale-content">
-                                        <h3>Income<br/> this month</h3>
-                                        <p>{{ number_format($data_total_income) }}</p>
+                                        <h3>Income this month</h3>
+                                        <p>{{ number_format($data_total_income, 2) }}</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="small-chart-view order-chart" id="order-chart"></div>
+                            {{-- <div class="small-chart-view order-chart" id="order-chart"></div> --}}
                         </div>
                     </div>
                 </div>
@@ -67,11 +67,11 @@
                                     <div class="icon"><i data-feather="users"></i></div>
                                     <div class="sale-content">
                                         <h3>VAT</h3>
-                                        <p>{{ number_format($data_vat) }}</p>
+                                        <p>{{ number_format($data_vat, 2) }}</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="small-chart-view visitor-chart" id="visitor-chart"></div>
+                            {{-- <div class="small-chart-view visitor-chart" id="visitor-chart"></div> --}}
                         </div>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
                                 <h3>Advance Payment</h3>
                             </div>
                             <div class="col text-end">
-                                <h3>{{ number_format($sum_advance_total) }}</h3>
+                                <h3>{{ number_format($sum_advance_total, 2) }}</h3>
                             </div>
                         </div>
                         
@@ -107,7 +107,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $advance->customer != null ? $advance->customer->custNameTH : '' }}</td>
-                                        <td>{{ number_format($advance->sumTotal) }}</td>
+                                        <td>{{ number_format($advance->sumTotal, 2) }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -132,7 +132,7 @@
                                 <h3>ใบแจ้งหนี้ ค้างชำระ</h3>
                             </div>
                             <div class="col text-end">
-                                <h3>{{ number_format($sum_invoice_total) }}</h3>
+                                <h3>{{ number_format($sum_invoice_total, 2) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -150,7 +150,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $invoice->custNameTH}}</td>
-                                    <td>{{ number_format($invoice->total_netamt) }}</td>
+                                    <td>{{ number_format($invoice->total_netamt, 2) }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
