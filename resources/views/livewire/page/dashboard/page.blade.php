@@ -170,6 +170,71 @@
         </div>
 
         <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">
+                                <h3>ยอดเจ้าหนี้คงค้าง</h3>
+                            </div>
+                            <div class="col text-end">
+                                <h3>{{ number_format($sum_payment_voucher_total, 2) }}</h3>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="card-body">
+                        <table class="table" data-page-size="{{ $data_payment_voucher_table->total() }}">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Supplier Name</th>
+                                    <th style="white-space: nowrap">Total Net</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data_payment_voucher_table as $payment)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $payment->supplier != null ? $payment->supplier->supNameTH : '' }}</td>
+                                        <td>{{ number_format($payment->sumTotal, 2) }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <br/>
+                        <div class="row">
+                            <div class="col-auto">
+                                {{ $data_payment_voucher_table->withQueryString()->links('layouts.themes.layout.custom-pagination-info') }}
+                            </div>
+                            <div class="col"> 
+                                {{ $data_payment_voucher_table->withQueryString()->links('layouts.themes.layout.custom-pagination-links') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">
+                                <h3></h3>
+                            </div>
+                            <div class="col text-end">
+                                <h3></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
