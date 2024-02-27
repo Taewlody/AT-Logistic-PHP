@@ -9,9 +9,15 @@
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
 
 
-<link id="color" rel="stylesheet" href="{{ asset('assets/css/color-2.css') }}" media="screen">
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/responsive.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/bootstrap.css') }}">
+    <link id="color" rel="stylesheet" href="{{ asset('assets/css/color-2.css') }}" media="screen">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/responsive.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/bootstrap.css') }}">
+
+    <style>
+        .login-card {
+            background: url("/assets/images/bg.jpg") no-repeat center center;
+        }
+    </style>
 @endpush
 
 @push('script')
