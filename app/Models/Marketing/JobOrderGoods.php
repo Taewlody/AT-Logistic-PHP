@@ -44,12 +44,16 @@ class JobOrderGoods extends Model implements Wireable
         'goodKind' => 'string',
     ];
 
+    public function id(){
+        return $this->items;
+    }
+
     public function __construct($attributes = []){
         parent::__construct($attributes);
         $this->fill($attributes);
     }
 
-    public static function fromLivewire($value)
+    public static function fromLivewire($value) : self
     {
         return new static($value);
     }

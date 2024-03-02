@@ -60,7 +60,7 @@
                         <label class="col-sm-2 col-form-label">E-Mail</label>
                         <div class="col-md-3">
                             <input type="text" class="form-control" name="email" id="email"
-                                autocomplete="empty" wire.model="data.email" @disabled($action != 'create' && $action != 'edit')>
+                                autocomplete="empty" wire:model="data.email" @disabled($action != 'create' && $action != 'edit')>
                         </div>
                     </div>
 

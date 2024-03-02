@@ -5,6 +5,7 @@ namespace App\Models\Common;
 use App\Casts\BooleanStringChar;
 use App\Casts\CustomDateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 use App\Casts\BooleanString;
@@ -64,7 +65,7 @@ class Charges extends Model implements Wireable
         $this->fill($attributes);
     }
 
-    public static function fromLivewire($value)
+    public static function fromLivewire($value): self
     {
         return new static($value);
     }
@@ -74,18 +75,18 @@ class Charges extends Model implements Wireable
         return $this->toArray();
     }
 
-    public function createBy(): HasOne
+    public function createBy(): BelongsTo
     {
-        return $this->hasOne(User::class, 'userCode','createID');
+        return $this->belongsTo(User::class, 'userCode','createID');
     }
 
-    public function editBy(): HasOne
+    public function editBy(): BelongsTo
     {
-        return $this->hasOne(User::class, 'userCode','editID');
+        return $this->belongsTo(User::class, 'userCode','editID');
     }
 
-    public function chargesType(): HasOne
+    public function chargesType(): BelongsTo
     {
-        return $this->hasOne(ChargesType::class, 'typeCode','typeCode');
+        return $this->belongsTo(ChargesType::class, 'typeCode','typeCode');
     }
 }

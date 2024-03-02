@@ -51,6 +51,10 @@ class JobOrderContainer extends Model implements Wireable
         'containerTareweight' => 'string',
     ];
 
+    public function id(){
+        return $this->items;
+    }
+    
     public function __construct($attributes = []){
         parent::__construct($attributes);
         $this->fill($attributes);
@@ -73,7 +77,7 @@ class JobOrderContainer extends Model implements Wireable
 
     public function referContainerSize(): HasOne
     {
-        return $this->hasOne(ContainerSize::class, 'containerSize', 'containerSize');
+        return $this->hasOne(ContainerSize::class, 'containersizeCode', 'containerSize');
     }
 
     public function referGW_Unit(): HasOne

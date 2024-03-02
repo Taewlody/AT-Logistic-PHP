@@ -54,58 +54,17 @@ class ChargesType extends Model implements Wireable
     public function __construct($attributes = [])
     {
         parent::__construct($attributes);
-        $this->comCode = $this->attributes['comCode'] ?? 'C01';
-        $this->typeCode = $this->attributes['typeCode'] ?? '';
-        $this->typeName = $this->attributes['typeName'] ?? '';
-        $this->vatType = $this->attributes['vatType'] ?? '';
-        $this->amount = $this->attributes['amount'] ?? '';
-        $this->isActive = $this->attributes['isActive'] ?? '';
-        $this->createID = $this->attributes['createID'] ?? '';
-        $this->createTime = $this->attributes['createTime'] ?? '';
-        $this->editID = $this->attributes['editID'] ?? '';
-        $this->editTime = $this->attributes['editTime'] ?? '';
+        $this->fill($attributes);
     }
 
-    public static function fromLivewire($value)
+    public static function fromLivewire($value): self
     {
-        $comCode = $value['comCode'] ?? '';
-        $typeCode = $value['typeCode'] ?? '';
-        $typeName = $value['typeName'] ?? '';
-        $vatType = $value['vatType'] ?? '';
-        $amount = $value['amount'] ?? '';
-        $isActive = $value['isActive'] ?? '';
-        $createID = $value['createID'] ?? '';
-        $createTime = $value['createTime'] ?? '';
-        $editID = $value['editID'] ?? '';
-        $editTime = $value['editTime'] ?? '';
-        return new static([
-            'comCode' => $comCode,
-            'typeCode' => $typeCode,
-            'typeName' => $typeName,
-            'vatType' => $vatType,
-            'amount' => $amount,
-            'isActive' => $isActive,
-            'createID' => $createID,
-            'createTime' => $createTime,
-            'editID' => $editID,
-            'editTime' => $editTime,
-        ]);
+        return new static($value);
     }
 
     public function toLivewire()
     {
-        return [
-            'comCode' => $this->comCode,
-            'typeCode' => $this->typeCode,
-            'typeName' => $this->typeName,
-            'vatType' => $this->vatType,
-            'amount' => $this->amount,
-            'isActive' => $this->isActive,
-            'createID' => $this->createID,
-            'createTime' => $this->createTime,
-            'editID' => $this->editID,
-            'editTime' => $this->editTime,
-        ];
+        return $this->toArray();
     }
 
     public function createBy(): HasOne

@@ -8,11 +8,10 @@ use App\Models\Common\Feeder;
 use App\Models\Common\Place;
 use App\Models\Common\Saleman;
 use App\Models\Common\Supplier;
-use App\Models\Payment\PaymentVoucher;
-use App\Models\Payment\ShipingPaymentVoucher;
+use App\Models\Payment\AdvancePayment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Common\TransportType;
@@ -20,6 +19,7 @@ use App\Models\Common\Port;
 use App\Models\Common\Customer;
 use App\Models\Status\RefDocumentStatus;
 use App\Models\Account\Invoice;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Livewire\Wireable;
 
 class JobOrder extends Model implements Wireable
@@ -175,6 +175,10 @@ class JobOrder extends Model implements Wireable
         // 'containerList' => [],
     ];
 
+    public function id(){
+        return $this->documentID;
+    }
+
     public function __construct($attributes = [])
     {
         parent::__construct($attributes);
@@ -216,105 +220,100 @@ class JobOrder extends Model implements Wireable
         return $this->hasMany(JobOrderGoods::class, 'documentID', 'documentID');
     }
 
-    // public function paymentVoucherShipping(): HasMany
-    // {
-    //     return $this->hasMany(ShipingPaymentVoucher::class, 'refJobNo', 'documentID');
-    // }
-
-    // public function paymentVoucher(): HasMany
-    // {
-    //     return $this->hasMany(PaymentVoucher::class, 'refJobNo', 'documentID');
-    // }
+    public function AdvancePayment(): HasMany
+    {
+        return $this->hasMany(AdvancePayment::class, 'refJobNo', 'documentID');
+    }
 
     public function charge(): HasMany
     {
         return $this->hasMany(JobOrderCharge::class, 'documentID', 'documentID');
     }
 
-    public function landingPort(): HasOne
+    public function landingPort(): BelongsTo
     {
-        return $this->hasOne(Port::class, 'portCode', 'port_of_landing');
+        return $this->belongsTo(Port::class, 'portCode', 'port_of_landing');
     }
 
-    public function trailerBooking(): HasOne
+    public function trailerBooking(): BelongsTo
     {
-        return $this->hasOne(TrailerBooking::class, 'documentID', 'trailer_bookingNO');
+        return $this->belongsTo(TrailerBooking::class, 'documentID', 'trailer_bookingNO');
     }
 
-    public function dischargePort(): HasOne
+    public function dischargePort(): BelongsTo
     {
-        return $this->hasOne(Port::class, 'portCode', 'port_of_discharge');
+        return $this->belongsTo(Port::class, 'portCode', 'port_of_discharge');
     }
 
-    public function transportType(): HasOne
+    public function transportType(): BelongsTo
     {
-        return $this->hasOne(TransportType::class, 'transportCode', 'freight');
+        return $this->belongsTo(TransportType::class, 'transportCode', 'freight');
     }
 
-    public function billLanding(): HasOne
+    public function billLanding(): BelongsTo
     {
-        return $this->hasOne(BillOfLading::class, 'documentID', 'bill_of_landing');
+        return $this->belongsTo(BillOfLading::class, 'documentID', 'bill_of_landing');
     }
 
-    public function deliveryTypeRefer(): HasOne
+    public function deliveryTypeRefer(): BelongsTo
     {
-        return $this->hasOne(RefDocumentStatus::class, 'status_code', 'deliveryType');
+        return $this->belongsTo(RefDocumentStatus::class, 'status_code', 'deliveryType');
     }
 
-    public function agentRefer(): HasOne
+    public function agentRefer(): BelongsTo
     {
-        return $this->hasOne(Supplier::class, 'supCode', 'agentCode');
+        return $this->belongsTo(Supplier::class, 'supCode', 'agentCode');
     }
 
-    public function referFeeder(): HasOne
+    public function referFeeder(): BelongsTo
     {
-        return $this->hasOne(Feeder::class, 'feederCode', 'feeder');
+        return $this->belongsTo(Feeder::class, 'feederCode', 'feeder');
     }
-    public function vesselFeeder(): HasOne
+    public function vesselFeeder(): BelongsTo
     {
-        return $this->hasOne(Feeder::class, 'feederCode', 'feeder');
-    }
-
-    public function invoice(): HasOne
-    {
-        return $this->hasOne(Invoice::class, 'documentID', 'invoiceNo');
+        return $this->belongsTo(Feeder::class, 'feederCode', 'feeder');
     }
 
-    public function referInvoice(): HasOne
+    public function invoice(): BelongsTo
     {
-        return $this->hasOne(Invoice::class, 'ref_jobNo', 'documentID');
+        return $this->belongsTo(Invoice::class, 'documentID', 'invoiceNo');
     }
 
-    public function PlaceFOB(): HasOne
+    public function referInvoice(): BelongsTo
     {
-        return $this->hasOne(Place::class, 'pCode', 'fob');
-    }
-    public function receivePlace(): HasOne
-    {
-        return $this->hasOne(Place::class, 'pCode', 'place_receive');
+        return $this->belongsTo(Invoice::class, 'ref_jobNo', 'documentID');
     }
 
-    public function customerRefer(): HasOne
+    public function PlaceFOB(): BelongsTo
     {
-        return $this->hasOne(Customer::class, 'cusCode', 'cusCode');
+        return $this->belongsTo(Place::class, 'pCode', 'fob');
+    }
+    public function receivePlace(): BelongsTo
+    {
+        return $this->belongsTo(Place::class, 'pCode', 'place_receive');
     }
 
-    public function salemanRefer(): HasOne
+    public function customerRefer(): BelongsTo
     {
-        return $this->hasOne(Saleman::class, 'usercode', 'saleman');
+        return $this->belongsTo(Customer::class, 'cusCode', 'cusCode');
     }
 
-    public function docStatus(): HasOne
+    public function salemanRefer(): BelongsTo
     {
-        return $this->hasOne(RefDocumentStatus::class, 'status_code', 'documentstatus');
+        return $this->belongsTo(Saleman::class, 'usercode', 'saleman');
     }
 
-    public function createBy(): HasOne
+    public function docStatus(): BelongsTo
+    {
+        return $this->belongsTo(RefDocumentStatus::class, 'status_code', 'documentstatus');
+    }
+
+    public function userCreate(): HasOne
     {
         return $this->hasOne(User::class, 'userCode', 'createID');
     }
 
-    public function editBy(): HasOne
+    public function userEdit(): HasOne
     {
         return $this->hasOne(User::class, 'usercode', 'editID');
     }

@@ -5,6 +5,7 @@ namespace App\Models\Marketing;
 use App\Models\Payment\PaymentVoucher;
 use App\Models\Payment\ShipingPaymentVoucher;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
@@ -46,15 +47,19 @@ class JobOrderCharge extends Model implements Wireable
         'chargesbillReceive' => 'float',
     ];
 
-    public function __construct($attributes = [])
+    public function id(){
+        return $this->items;
+    }
+
+    public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
         $this->fill($attributes);
     }
 
-    public static function fromLivewire($value)
+    public static function fromLivewire($value): self
     {
-        new static($value);
+        return new static($value);
     }
 
     public function toLiveWire()
@@ -79,8 +84,8 @@ class JobOrderCharge extends Model implements Wireable
         }
     }
 
-    public function charges(): HasOne
+    public function charges(): BelongsTo
     {
-        return $this->hasOne(Charges::class, 'chargeCode', 'chargeCode');
+        return $this->belongsTo(Charges::class, 'chargeCode', 'chargeCode');
     }
 }

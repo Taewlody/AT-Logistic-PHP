@@ -434,7 +434,7 @@ if ($(window).width() <= 1199) {
   $(this).parent().children("ul").toggleClass("d-block").slideToggle();
 }
 // active link
-if($('.simplebar-wrapper .simplebar-content-wrapper') && $('#pageWrapper').hasClass('compact-wrapper')) {
+if($('.simplebar-wrapper .simplebar-content-wrapper') && $('#pageWrapper').hasClass('compact-wrapper') && $('.simplebar-wrapper .simplebar-content-wrapper a.active').offset()) {
   $('.simplebar-wrapper .simplebar-content-wrapper').animate({
   scrollTop: $('.simplebar-wrapper .simplebar-content-wrapper a.active').offset().top - 400
   }, 1000);

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\CustomDateTime;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Casts\BooleanString;
@@ -68,10 +69,10 @@ class User extends Authenticatable implements Wireable {
         'userTypecode' => 'integer',
         'isActive' => BooleanString::class,
         'createID' => 'string',
-        'createTime' => 'datetime:Y-m-d H:M',
+        'createTime' => CustomDateTime::class,
         'img_sinal' => 'string',
         'editID' => 'string',
-        'editTime' => 'datetime:Y-m-d H:M',
+        'editTime' => CustomDateTime::class,
     ];
 
     public function __construct(array $attributes = [])

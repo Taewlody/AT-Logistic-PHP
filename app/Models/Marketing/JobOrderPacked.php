@@ -48,6 +48,10 @@ class JobOrderPacked extends Model implements Wireable
         'packaed_totalWeight' => 'float',
     ];
 
+    public function id(){
+        return $this->items;
+    }
+
     public function __construct($attributes = []){
         parent::__construct($attributes);
         $this->fill($attributes);
