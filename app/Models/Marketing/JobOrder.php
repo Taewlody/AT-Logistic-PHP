@@ -179,10 +179,16 @@ class JobOrder extends Model implements Wireable
         return $this->documentID;
     }
 
+    public static function GenKey(){
+        return self::getDocumentID();
+    }
+
     public function __construct($attributes = [])
     {
         parent::__construct($attributes);
         $this->fill($attributes);
+        $this->exists = $attributes['exists'] ?? false;
+        $this->setConnection($attributes['connection'] ?? 'mysql');
     }
 
     public static function fromLivewire($value): JobOrder
@@ -190,9 +196,14 @@ class JobOrder extends Model implements Wireable
         return new static($value);
     }
 
-    public function toLiveWire()
+    public function toLiveWire() : array
     {
-        return $this->toArray();
+        // return $this->toArray();
+        $arr = $this->toArray();
+        $arr['exists'] = $this->exists;
+        $arr['connection'] = $this->getConnectionName();
+        return $arr;
+
     }
 
     public function containerList(): HasMany

@@ -49,52 +49,26 @@ class Port extends Model implements Wireable
         'editTime' => CustomDateTime::class,
     ];
 
-    public function __construct(array $attributes = [])
+    public function __construct($attributes = [])
     {
         parent::__construct($attributes);
-        $this->comCode = $attributes['comCode'] ?? 'C01';
-        $this->portCode = $attributes['portCode'] ?? '';
-        $this->portNameTH = $attributes['portNameTH'] ?? '';
-        $this->portNameEN = $attributes['portNameEN'] ?? '';
-        $this->countryCode = $attributes['countryCode'] ?? '';
-        $this->isActive = $attributes['isActive'] ?? true;
-        $this->createID = $attributes['createID'] ?? '';
-        $this->createTime = $attributes['createTime'] ?? Carbon::now();
-        $this->editID = $attributes['editID'] ?? '';
-        $this->editTime = $attributes['editTime'] ?? Carbon::now();
+        $this->fill($attributes);
+        $this->exists = $attributes['exists'] ?? false;
+        $this->setConnection($attributes['connection'] ?? 'mysql');
     }
 
-    // Add the missing abstract methods
-    public static function fromLivewire($value)
+    public static function fromLivewire($value): self
     {
-        $comCode = $value['comCode'];
-        $portCode = $value['portCode'];
-        $portNameTH = $value['portNameTH'];
-        $portNameEN = $value['portNameEN'];
-        $countryCode = $value['countryCode'];
-        $isActive = $value['isActive'];
-        $createID = $value['createID'];
-        $createTime = $value['createTime'] != '' ? Carbon::parse($value['createTime']) : Carbon::minValue();
-        $editID = $value['editID'];
-        $editTime = $value['editTime'] != '' ? Carbon::parse($value['editTime']) : Carbon::minValue();
-        return new static(['comCode' => $comCode, 'portCode' => $portCode, 'portNameTH' => $portNameTH, 'portNameEN' => $portNameEN, 'isActive' => $isActive, 'countryCode' => $countryCode, 'createID' => $createID, 'createTime' => $createTime, 'editID' => $editID, 'editTime' => $editTime]);
-
+        return new static($value);
     }
 
-    public function toLivewire()
+    public function toLiveWire() : array
     {
-        return [
-            'comCode' => $this->comCode,
-            'portCode' => $this->portCode,
-            'portNameTH' => $this->portNameTH,
-            'portNameEN' => $this->portNameEN,
-            'countryCode' => $this->countryCode,
-            'isActive' => $this->isActive,
-            'createID' => $this->createID,
-            'createTime' =>  $this->createTime,
-            'editID' => $this->editID,
-            'editTime' => $this->editTime
-        ];
+        // return $this->toArray();
+        $arr = $this->toArray();
+        $arr['exists'] = $this->exists;
+        $arr['connection'] = $this->getConnectionName();
+        return $arr;
     }
 
     public function country(): HasOne

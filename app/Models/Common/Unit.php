@@ -46,42 +46,26 @@ class Unit extends Model implements Wireable
         'editTime' => CustomDateTime::class,
     ];
 
-    public function __construct($attributes = []){
+    public function __construct($attributes = [])
+    {
         parent::__construct($attributes);
-        $this->comCode = $this->attributes['comCode'] ?? 'C01';
-        $this->unitCode = $this->attributes['unitCode'] ?? '';
-        $this->unitName = $this->attributes['unitName'] ?? '';
-        $this->isActive = $this->attributes['isActive'] ?? '';
-        $this->createID = $this->attributes['createID'] ?? '';
-        $this->createTime = $this->attributes['createTime'] ?? '';
-        $this->editID = $this->attributes['editID'] ?? '';
-        $this->editTime = $this->attributes['editTime'] ?? '';
+        $this->fill($attributes);
+        $this->exists = $attributes['exists'] ?? false;
+        $this->setConnection($attributes['connection'] ?? 'mysql');
     }
 
-    public static function fromLivewire($value){
-        return new static([
-            'comCode' => $value['comCode'],
-            'unitCode' => $value['unitCode'],
-            'unitName' => $value['unitName'],
-            'isActive' => $value['isActive'],
-            'createID' => $value['createID'],
-            'createTime' => $value['createTime'],
-            'editID' => $value['editID'],
-            'editTime' => $value['editTime'],
-        ]);
+    public static function fromLivewire($value): self
+    {
+        return new static($value);
     }
 
-    public function toLivewire(){
-        return [
-            'comCode' => $this->comCode,
-            'unitCode' => $this->unitCode,
-            'unitName' => $this->unitName,
-            'isActive' => $this->isActive,
-            'createID' => $this->createID,
-            'createTime' => $this->createTime,
-            'editID' => $this->editID,
-            'editTime' => $this->editTime,
-        ];
+    public function toLiveWire() : array
+    {
+        // return $this->toArray();
+        $arr = $this->toArray();
+        $arr['exists'] = $this->exists;
+        $arr['connection'] = $this->getConnectionName();
+        return $arr;
     }
 
     public function createBy(): HasOne

@@ -63,57 +63,25 @@ class Saleman extends Model implements Wireable
     public function __construct($attributes = [])
     {
         parent::__construct($attributes);
-        $this->comCode = $attributes['comCode'] ?? 'C01';
-        $this->empCode = $attributes['empCode'] ?? '';
-        $this->empName = $attributes['empName'] ?? '';
-        $this->empSurname = $attributes['empSurname'] ?? '';
-        $this->usercode = $attributes['usercode'] ?? '';
-        $this->mobile = $attributes['mobile'] ?? '';
-        $this->phone = $attributes['phone'] ?? '';
-        $this->email = $attributes['email'] ?? '';
-        $this->createID = $attributes['createID'] ?? '';
-        $this->createTime = $attributes['createTime'] ?? '';
-        $this->editID = $attributes['editID'] ?? '';
-        $this->editTime = $attributes['editTime'] ?? '';
-        $this->isActive = $attributes['isActive'] ?? '';
+        $this->fill($attributes);
+        $this->exists = $attributes['exists'] ?? false;
+        $this->setConnection($attributes['connection'] ?? 'mysql');
     }
 
-    public static function fromLivewire($value)
+    public static function fromLivewire($value): self
     {
-        $comCode = $value['comCode'];
-        $empCode = $value['empCode'];
-        $empName = $value['empName'];
-        $empSurname = $value['empSurname'];
-        $usercode = $value['usercode'];
-        $mobile = $value['mobile'];
-        $phone = $value['phone'];
-        $email = $value['email'];
-        $createID = $value['createID'];
-        $createTime = $value['createTime'] != '' ? Carbon::parse($value['createTime']) : Carbon::minValue();
-        $editID = $value['editID'];
-        $editTime = $value['editTime'] != '' ? Carbon::parse($value['editTime']) : Carbon::minValue();
-        $isActive = $value['isActive'];
-        return new static(['comCode' => $comCode, 'empCode' => $empCode, 'empName' => $empName, 'empSurname' => $empSurname, 'usercode' => $usercode, 'mobile' => $mobile, 'phone' => $phone, 'email' => $email, 'createID' => $createID, 'createTime' => $createTime, 'editID' => $editID, 'editTime' => $editTime, 'isActive' => $isActive]);
+        return new static($value);
     }
 
-    public function toLivewire()
+    public function toLiveWire() : array
     {
-        return [
-            'comCode' => $this->comCode,
-            'empCode' => $this->empCode,
-            'empName' => $this->empName,
-            'empSurname' => $this->empSurname,
-            'usercode' => $this->usercode,
-            'mobile' => $this->mobile,
-            'phone' => $this->phone,
-            'email' => $this->email,
-            'createID' => $this->createID,
-            'createTime' => $this->createTime,
-            'editID' => $this->editID,
-            'editTime' => $this->editTime,
-            'isActive' => $this->isActive
-        ];
+        // return $this->toArray();
+        $arr = $this->toArray();
+        $arr['exists'] = $this->exists;
+        $arr['connection'] = $this->getConnectionName();
+        return $arr;
     }
+    
     public function userRefer(): HasOne
     {
         return $this->hasOne(User::class, 'usercode', 'usercode');

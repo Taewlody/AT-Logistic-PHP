@@ -65,60 +65,26 @@ class BankAccount extends Model implements Wireable
     //     });
     // }
 
-    public function __construct($attributes = []){
+    public function __construct($attributes = [])
+    {
         parent::__construct($attributes);
-        $this->comCode = $attributes['comCode'] ?? 'C01';
-        $this->accountCode = $attributes['accountCode'] ?? '';
-        $this->accountName = $attributes['accountName'] ?? '';
-        $this->accountNicname = $attributes['accountNicname'] ?? '';
-        $this->accountID = $attributes['accountID'] ?? '';
-        $this->isActive = $attributes['isActive'] ?? '';
-        $this->createID = $attributes['createID'] ?? '';
-        $this->createTime = $attributes['createTime'] ?? '';
-        $this->editID = $attributes['editID'] ?? '';
-        $this->editTime = $attributes['editTime'] ?? '';
+        $this->fill($attributes);
+        $this->exists = $attributes['exists'] ?? false;
+        $this->setConnection($attributes['connection'] ?? 'mysql');
     }
 
-    public static function fromLivewire($value)
+    public static function fromLivewire($value): self
     {
-        $comCode = $value['comCode'];
-        $accountCode = $value['accountCode'];
-        $accountName = $value['accountName'];
-        $accountNicname = $value['accountNicname'];
-        $accountID = $value['accountID'];
-        $isActive = $value['isActive'];
-        $createID = $value['createID'];
-        $createTime = $value['createTime'] != '' ? Carbon::parse($value['createTime']) : Carbon::minValue();
-        $editID = $value['editID'];
-        $editTime = $value['editTime'] != '' ? Carbon::parse($value['editTime']) : Carbon::minValue();
-        return new static([
-            'comCode' => $comCode,
-            'accountCode' => $accountCode,
-            'accountName' => $accountName,
-            'accountNicname' => $accountNicname,
-            'accountID' => $accountID,
-            'isActive' => $isActive,
-            'createID' => $createID,
-            'createTime' => $createTime,
-            'editID' => $editID,
-            'editTime' => $editTime,
-        ]);
+        return new static($value);
     }
 
-    public function toLivewire()
+    public function toLiveWire() : array
     {
-        return [
-            'comCode' => $this->comCode,
-            'accountCode' => $this->accountCode,
-            'accountName' => $this->accountName,
-            'accountNicname' => $this->accountNicname,
-            'accountID' => $this->accountID,
-            'isActive' => $this->isActive,
-            'createID' => $this->createID,
-            'createTime' => $this->createTime,
-            'editID' => $this->editID,
-            'editTime' => $this->editTime,
-        ];
+        // return $this->toArray();
+        $arr = $this->toArray();
+        $arr['exists'] = $this->exists;
+        $arr['connection'] = $this->getConnectionName();
+        return $arr;
     }
 
     public function createBy(): HasOne

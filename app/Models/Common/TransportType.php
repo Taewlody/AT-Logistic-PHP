@@ -47,52 +47,26 @@ class TransportType extends Model implements Wireable
         'editTime' => CustomDateTime::class,
     ];
 
-    public function __construct($attributes = []){
+    public function __construct($attributes = [])
+    {
         parent::__construct($attributes);
-        $this->comCode = $this->attributes['comCode'] ?? 'C01';
-        $this->transportCode = $this->attributes['transportCode'] ?? '';
-        $this->transportName = $this->attributes['transportName'] ?? '';
-        $this->isActive = $this->attributes['isActive'] ?? '';
-        $this->createID = $this->attributes['createID'] ?? '';
-        $this->createTime = $this->attributes['createTime'] ?? '';
-        $this->editID = $this->attributes['editID'] ?? '';
-        $this->editTime = $this->attributes['editTime'] ?? '';
+        $this->fill($attributes);
+        $this->exists = $attributes['exists'] ?? false;
+        $this->setConnection($attributes['connection'] ?? 'mysql');
     }
 
-    public static function fromLivewire($value)
+    public static function fromLivewire($value): self
     {
-        $comCode = $value['comCode'] ?? '';
-        $transportCode = $value['transportCode'] ?? '';
-        $transportName = $value['transportName'] ?? '';
-        $isActive = $value['isActive'] ?? '';
-        $createID = $value['createID'] ?? '';
-        $createTime = $value['createTime'] ?? '';
-        $editID = $value['editID'] ?? '';
-        $editTime = $value['editTime'] ?? '';
-        return new static([
-            'comCode' => $comCode,
-            'transportCode' => $transportCode,
-            'transportName' => $transportName,
-            'isActive' => $isActive,
-            'createID' => $createID,
-            'createTime' => $createTime,
-            'editID' => $editID,
-            'editTime' => $editTime,
-        ]);
+        return new static($value);
     }
 
-    public function toLivewire()
+    public function toLiveWire() : array
     {
-        return [
-            'comCode' => $this->comCode,
-            'transportCode' => $this->transportCode,
-            'transportName' => $this->transportName,
-            'isActive' => $this->isActive,
-            'createID' => $this->createID,
-            'createTime' => $this->createTime,
-            'editID' => $this->editID,
-            'editTime' => $this->editTime,
-        ];
+        // return $this->toArray();
+        $arr = $this->toArray();
+        $arr['exists'] = $this->exists;
+        $arr['connection'] = $this->getConnectionName();
+        return $arr;
     }
 
     public function createBy(): HasOne

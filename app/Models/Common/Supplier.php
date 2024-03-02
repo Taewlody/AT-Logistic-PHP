@@ -81,91 +81,23 @@ class Supplier extends Model implements Wireable
     public function __construct($attributes = [])
     {
         parent::__construct($attributes);
-        $this->comCode = $attributes['comCode'] ?? 'C01';
-        $this->supCode = $attributes['supCode'] ?? '';
-        $this->businessType = $attributes['businessType'] ?? '';
-        $this->supNameTH = $attributes['supNameTH'] ?? '';
-        $this->supNameEN = $attributes['supNameEN'] ?? '';
-        $this->branchCode = $attributes['branchCode'] ?? '';
-        $this->branchTH = $attributes['branchTH'] ?? '';
-        $this->branchEN = $attributes['branchEN'] ?? '';
-        $this->taxID = $attributes['taxID'] ?? '';
-        $this->addressTH = $attributes['addressTH'] ?? '';
-        $this->addressEN = $attributes['addressEN'] ?? '';
-        $this->zipCode = $attributes['zipCode'] ?? '';
-        $this->countryCode = $attributes['countryCode'] ?? '';
-        $this->tel = $attributes['tel'] ?? '';
-        $this->fax = $attributes['fax'] ?? '';
-        $this->mobile = $attributes['mobile'] ?? '';
-        $this->isActive = $attributes['isActive'] ?? false;
-        $this->contactName = $attributes['contactName'] ?? '';
-        $this->contactMobile = $attributes['contactMobile'] ?? '';
-        $this->contactEmail = $attributes['contactEmail'] ?? '';
-        $this->createID = $attributes['createID'] ?? '';
-        $this->createTime = $attributes['createTime'] ?? '';
-        $this->editID = $attributes['editID'] ?? '';
-        $this->editTime = $attributes['editTime'] ?? '';
-        $this->supType = $attributes['supType'] ?? 'AG';
+        $this->fill($attributes);
+        $this->exists = $attributes['exists'] ?? false;
+        $this->setConnection($attributes['connection'] ?? 'mysql');
     }
 
-    public static function fromLivewire($value) {
-        $comCode = $value['comCode'];
-        $supCode = $value['supCode'];
-        $businessType = $value['businessType'];
-        $supNameTH = $value['supNameTH'];
-        $supNameEN = $value['supNameEN'];
-        $branchCode = $value['branchCode'];
-        $branchTH = $value['branchTH'];
-        $branchEN = $value['branchEN'];
-        $taxID = $value['taxID'];
-        $addressTH = $value['addressTH'];
-        $addressEN = $value['addressEN'];
-        $zipCode = $value['zipCode'];
-        $countryCode = $value['countryCode'];
-        $tel = $value['tel'];
-        $fax = $value['fax'];
-        $mobile = $value['mobile'];
-        $isActive = $value['isActive'];
-        $contactName = $value['contactName'];
-        $contactMobile = $value['contactMobile'];
-        $contactEmail = $value['contactEmail'];
-        $createID = $value['createID'];
-        $createTime = $value['createTime'] != '' ? Carbon::parse($value['createTime']) : Carbon::minValue();
-        $editID = $value['editID'];
-        $editTime = $value['editTime'] != '' ? Carbon::parse($value['editTime']) : Carbon::minValue();
-        $supType = $value['supType'];
-        return new static(['comCode' => $comCode, 'supCode' => $supCode, 'businessType' => $businessType, 'supNameTH' => $supNameTH, 'supNameEN' => $supNameEN, 'branchCode' => $branchCode, 'branchTH' => $branchTH, 'branchEN' => $branchEN, 'taxID' => $taxID, 'addressTH' => $addressTH, 'addressEN' => $addressEN, 'zipCode' => $zipCode, 'countryCode' => $countryCode, 'tel' => $tel, 'fax' => $fax, 'mobile' => $mobile, 'isActive' => $isActive, 'contactName' => $contactName, 'contactMobile' => $contactMobile, 'contactEmail' => $contactEmail, 'createID' => $createID, 'createTime' => $createTime, 'editID' => $editID, 'editTime' => $editTime, 'supType' => $supType]);
-    }
-
-    public function toLivewire()
+    public static function fromLivewire($value): self
     {
-        return [
-            'comCode' => $this->comCode,
-            'supCode' => $this->supCode,
-            'businessType' => $this->businessType,
-            'supNameTH' => $this->supNameTH,
-            'supNameEN' => $this->supNameEN,
-            'branchCode' => $this->branchCode,
-            'branchTH' => $this->branchTH,
-            'branchEN' => $this->branchEN,
-            'taxID' => $this->taxID,
-            'addressTH' => $this->addressTH,
-            'addressEN' => $this->addressEN,
-            'zipCode' => $this->zipCode,
-            'countryCode' => $this->countryCode,
-            'tel' => $this->tel,
-            'fax' => $this->fax,
-            'mobile' => $this->mobile,
-            'isActive' => $this->isActive,
-            'contactName' => $this->contactName,
-            'contactMobile' => $this->contactMobile,
-            'contactEmail' => $this->contactEmail,
-            'createID' => $this->createID,
-            'createTime' =>  $this->createTime,
-            'editID' => $this->editID,
-            'editTime' => $this->editTime,
-            'supType' => $this->supType
-        ];
+        return new static($value);
+    }
+
+    public function toLiveWire() : array
+    {
+        // return $this->toArray();
+        $arr = $this->toArray();
+        $arr['exists'] = $this->exists;
+        $arr['connection'] = $this->getConnectionName();
+        return $arr;
     }
 
     public function country(): HasOne

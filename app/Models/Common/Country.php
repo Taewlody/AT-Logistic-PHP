@@ -53,49 +53,26 @@ class Country extends Model implements Wireable
     //     'editTime'
     // ];
 
-    public function __construct(array $attributes = [])
+    public function __construct($attributes = [])
     {
         parent::__construct($attributes);
-        $this->comCode = $attributes['comCode'] ?? 'C01';
-        $this->countryCode = $attributes['countryCode'] ?? '';
-        $this->countryNameTH = $attributes['countryNameTH'] ?? '';
-        $this->countryNameEN = $attributes['countryNameEN'] ?? '';
-        $this->isActive = $attributes['isActive'] ?? false;
-        $this->createID = $attributes['createID'] ?? '';
-        $this->createTime = $attributes['createTime'] ?? '';
-        $this->editID = $attributes['editID'] ?? '';
-        $this->editTime = $attributes['editTime'] ?? '';
+        $this->fill($attributes);
+        $this->exists = $attributes['exists'] ?? false;
+        $this->setConnection($attributes['connection'] ?? 'mysql');
     }
 
-    // Add the missing abstract methods
-    public static function fromLivewire($value)
+    public static function fromLivewire($value): self
     {
-        $comCode = $value['comCode'];
-        $countryCode = $value['countryCode'];
-        $countryNameTH = $value['countryNameTH'];
-        $countryNameEN = $value['countryNameEN'];
-        $isActive = $value['isActive'];
-        $createID = $value['createID'];
-        $createTime = $value['createTime'] != '' ? Carbon::parse($value['createTime']) : Carbon::minValue();
-        $editID = $value['editID'];
-        $editTime = $value['editTime'] != '' ? Carbon::parse($value['editTime']) : Carbon::minValue();
-        return new static(['comCode' => $comCode, 'countryCode' => $countryCode, 'countryNameTH' => $countryNameTH, 'countryNameEN' => $countryNameEN, 'isActive' => $isActive, 'createID' => $createID, 'createTime' => $createTime, 'editID' => $editID, 'editTime' => $editTime]);
-
+        return new static($value);
     }
 
-    public function toLivewire()
+    public function toLiveWire() : array
     {
-        return [
-            'comCode' => $this->comCode,
-            'countryCode' => $this->countryCode,
-            'countryNameTH' => $this->countryNameTH,
-            'countryNameEN' => $this->countryNameEN,
-            'isActive' => $this->isActive,
-            'createID' => $this->createID,
-            'createTime' =>  $this->createTime,
-            'editID' => $this->editID,
-            'editTime' => $this->editTime
-        ];
+        // return $this->toArray();
+        $arr = $this->toArray();
+        $arr['exists'] = $this->exists;
+        $arr['connection'] = $this->getConnectionName();
+        return $arr;
     }
 
     public function createBy(): HasOne

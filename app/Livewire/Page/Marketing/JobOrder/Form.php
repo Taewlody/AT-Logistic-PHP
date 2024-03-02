@@ -114,7 +114,7 @@ class Form extends Component
         } else {
             $this->action = 'create';
         }
-
+        // dd($this->data, new JobOrder);
         $this->job = $this->data->withoutRelations();
         
         $this->createBy = $this->data->userCreate;
@@ -225,40 +225,44 @@ class Form extends Component
     public function save() {
         // dd($this->job, $this->data);
         // dd($this->job);
-        if($this->action == "edit")
-            $this->job->exists = true;
-        // dd($this->job);
-        // dd($this->chargeList);
-        $this->job->setConnection('mysql');
+        // if($this->action == "edit")
+        //     $this->job->exists = true;
+        // // dd($this->job);
+        // // dd($this->chargeList);
+        // $this->job->setConnection('mysql');
         $this->job->save();
-        $this->job->containerList()->saveMany($this->containerList->map(function($item) {
-            if($item->id() != null){
-                $item->exists = true;
-            }
-            $item->setConnection('mysql');
-            return $item;
-        }));
-        $this->job->packedList()->saveMany($this->packagedList->map(function($item) {
-            if($item->id() != null){
-                $item->exists = true;
-            }
-            $item->setConnection('mysql');
-            return $item;
-        }));
-        $this->job->goodsList()->saveMany($this->goodsList->map(function($item) {
-            if($item->id() != null){
-                $item->exists = true;
-            }
-            $item->setConnection('mysql');
-            return $item;
-        }));
-        $this->job->charge()->saveMany($this->chargeList->map(function($item) {
-            if($item->id() != null){
-                $item->exists = true;
-            }
-            $item->setConnection('mysql');
-            return $item;
-        }));
+        $this->job->containerList()->saveMany($this->containerList);
+        $this->job->packedList()->saveMany($this->packagedList);
+        $this->job->goodsList()->saveMany($this->goodsList);
+        $this->job->charge()->saveMany($this->chargeList);
+        // $this->job->containerList()->saveMany($this->containerList->map(function($item) {
+        //     if($item->id() != null){
+        //         $item->exists = true;
+        //     }
+        //     $item->setConnection('mysql');
+        //     return $item;
+        // }));
+        // $this->job->packedList()->saveMany($this->packagedList->map(function($item) {
+        //     if($item->id() != null){
+        //         $item->exists = true;
+        //     }
+        //     $item->setConnection('mysql');
+        //     return $item;
+        // }));
+        // $this->job->goodsList()->saveMany($this->goodsList->map(function($item) {
+        //     if($item->id() != null){
+        //         $item->exists = true;
+        //     }
+        //     $item->setConnection('mysql');
+        //     return $item;
+        // }));
+        // $this->job->charge()->saveMany($this->chargeList->map(function($item) {
+        //     if($item->id() != null){
+        //         $item->exists = true;
+        //     }
+        //     $item->setConnection('mysql');
+        //     return $item;
+        // }));
         $this->redirectRoute('job-order');
     }
 
