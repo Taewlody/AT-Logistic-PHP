@@ -155,7 +155,7 @@
                                 wire:model="data.salemanID" id="salemanID" @disabled($action != 'create' && $action != 'edit')>
                                 <option value="">Select Sale</option>
                                 @foreach ($salesmanList as $saleman)
-                                    <option value="{{ $saleman->salemanID }}">{{ $saleman->salemanName }}
+                                    <option value="{{ $saleman->usercode }}">{{ $saleman->empName }}
                                     </option>
                                 @endforeach
                             </select>
@@ -211,14 +211,14 @@
                         <div class="form-group  row">
                             <label class="col-sm-2 col-form-label">Create By</label>
                             <div class="col-sm-10">
-                                <label>{{ $data->createBy->username }} {{ $data->createTime ?? '' }}</label>
+                                <label>{{ $data->createBy->username ?? '' }} {{ $data->createTime ?? '' }}</label>
                             </div>
                         </div>
 
                         <div class="form-group  row">
                             <label class="col-sm-2 col-form-label">Update By</label>
                             <div class="col-sm-10">
-                                <label>{{ $data->editBy->username }} {{ $data->editTime ?? '' }}</label>
+                                <label>{{ $data->editBy->username ?? '' }} {{ $data->editTime ?? '' }}</label>
                             </div>
                         </div>
                     @endif

@@ -1,28 +1,3 @@
-{{-- @push('css')
-    <style>
-        .form-body input:disabled {
-            border: none;
-            background: none;
-            color: black;
-            padding: 0;
-        }
-        .form-body input[type='radio']:disabled:not(:checked) + label{
-            display: none;
-        }
-        .form-body input[type='radio']:disabled:not(:checked){
-            display: none;
-        }
-        .form-body input[type='radio']:disabled:checked {
-            display: none;
-        }
-        .form-body select:disabled {
-            border: none;
-            background: none;
-            color: black;
-            padding: 0;
-        }
-    </style>
-@endpush --}}
 <div>
     <livewire:component.page-heading title_main="Port" title_sub="ท่าเรือ" breadcrumb_title="Common Data"
         breadcrumb_page="Port" breadcrumb_page_title="Port Form" />
@@ -72,10 +47,10 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Status</label>
                         <div class="col-sm-10">
-                                <input id="activeRadio" type="radio" name="isActive" value="true" wire:model="data.isActive" @disabled($action != 'create' && $action != 'edit')>
+                                <input id="activeRadio" type="radio" name="isActive" value="true" wire:model.boolean="data.isActive" @disabled($action != 'create' && $action != 'edit')>
                                 <label for="activeRadio" class="checkbox-inline i-checks">Active </label>   
                             
-                                <input id="inactiveRadio" type="radio" name="isActive" value="false" wire:model="data.isActive" @disabled($action != 'create' && $action != 'edit')>
+                                <input id="inactiveRadio" type="radio" name="isActive" value="false" wire:model.boolean="data.isActive" @disabled($action != 'create' && $action != 'edit')>
                                 <label for="inactiveRadio" class="i-checks">Inactive</label>
                         </div>
                     </div>

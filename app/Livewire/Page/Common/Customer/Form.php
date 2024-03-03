@@ -42,7 +42,7 @@ class Form extends Component
             $this->action = 'create';
             $this->data = new Customer();
         }
-        // $this->id;
+        $this->data->isActive = 1;
         
     }
 

@@ -2,7 +2,7 @@
     <livewire:component.page-heading title_main="Transport Type" title_sub="ประเภทการขนส่ง" breadcrumb_title="Common Data"
         breadcrumb_page="Transport Type" />
 
-    <div class="container-fluid">
+    <div class="wrapper wrapper-content animated fadeInRight">
 
         <div class="card">
             <div class="card-header">
@@ -34,13 +34,14 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @if(count($data) > 0)
                             @foreach ($data as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->transportCode }}</td>
                                     <td>{{ $item->transportName }}</td>
                                     <td class="center"><span
-                                            @class(['badge', 'label-primary' => $item->isActive])>{{ $item->isActive ? 'Active' : 'Disable' }}</span>
+                                            @class(['badge', 'label-primary' => $item->isActive, 'label-secondary' => !$item->isActive])>{{ $item->isActive ? 'Active' : 'Disable' }}</span>
                                     </td>
                                     <td class="center">{{ $item->editBy != null? $item->editBy->username : '' }}</td>
                                     <td>
@@ -55,6 +56,12 @@
                                     </td>
                                 </tr>
                             @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="6" class="text-center">Data Not Found</td>
+                                </tr>
+                            @endif
+                        </tbody>
                     </table>
                     <br/>
 
