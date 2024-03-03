@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\CustomDateTime;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Casts\BooleanString;
@@ -68,26 +69,32 @@ class User extends Authenticatable implements Wireable {
         'userTypecode' => 'integer',
         'isActive' => BooleanString::class,
         'createID' => 'string',
-        'createTime' => 'datetime:Y-m-d H:M',
+        'createTime' => CustomDateTime::class,
         'img_sinal' => 'string',
         'editID' => 'string',
-        'editTime' => 'datetime:Y-m-d H:M',
+        'editTime' => CustomDateTime::class,
     ];
 
-    public function __construct(array $attributes = [])
+    public function __construct($attributes = [])
     {
         parent::__construct($attributes);
         $this->fill($attributes);
+        $this->exists = $attributes['exists'] ?? false;
+        $this->setConnection($attributes['connection'] ?? 'mysql');
     }
 
-    public static function fromLiveWire($value): self
+    public static function fromLivewire($value): self
     {
         return new static($value);
     }
 
-    public function toLiveWire(): array
+    public function toLiveWire() : array
     {
-        return $this->toArray();
+        // return $this->toArray();
+        $arr = $this->toArray();
+        $arr['exists'] = $this->exists;
+        $arr['connection'] = $this->getConnectionName();
+        return $arr;
     }
 
     public function UserType(): HasOne

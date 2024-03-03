@@ -48,52 +48,26 @@ class Feeder extends Model implements Wireable
         'isActive' => BooleanString::class
     ];
 
-    public function __construct($attributes = []){
+    public function __construct($attributes = [])
+    {
         parent::__construct($attributes);
-        $this->comCode = $attributes['comCode'] ?? '';
-        $this->fCode = $attributes['fCode'] ?? '';
-        $this->fName = $attributes['fName'] ?? '';
-        $this->createID = $attributes['createID'] ?? '';
-        $this->createTime = $attributes['createTime'] ?? '';
-        $this->editID = $attributes['editID'] ?? '';
-        $this->editTime = $attributes['editTime'] ?? '';
-        $this->isActive = $attributes['isActive'] ?? '';
+        $this->fill($attributes);
+        $this->exists = $attributes['exists'] ?? false;
+        $this->setConnection($attributes['connection'] ?? 'mysql');
     }
 
-    public static function fromLivewire($value)
+    public static function fromLivewire($value): self
     {
-        $comCode = $value['comCode'];
-        $fCode = $value['fCode'];
-        $fName = $value['fName'];
-        $createID = $value['createID'];
-        $createTime = $value['createTime'] != '' ? Carbon::parse($value['createTime']) : Carbon::minValue();
-        $editID = $value['editID'];
-        $editTime = $value['editTime'] != '' ? Carbon::parse($value['editTime']) : Carbon::minValue();
-        $isActive = $value['isActive'];
-        return new static([
-            'comCode' => $comCode,
-            'fCode' => $fCode,
-            'fName' => $fName,
-            'createID' => $createID,
-            'createTime' => $createTime,
-            'editID' => $editID,
-            'editTime' => $editTime,
-            'isActive' => $isActive
-        ]);
+        return new static($value);
     }
 
-    public function toLivewire()
+    public function toLiveWire() : array
     {
-        return [
-            'comCode' => $this->comCode,
-            'fCode' => $this->fCode,
-            'fName' => $this->fName,
-            'createID' => $this->createID,
-            'createTime' => $this->createTime,
-            'editID' => $this->editID,
-            'editTime' => $this->editTime,
-            'isActive' => $this->isActive
-        ];
+        // return $this->toArray();
+        $arr = $this->toArray();
+        $arr['exists'] = $this->exists;
+        $arr['connection'] = $this->getConnectionName();
+        return $arr;
     }
 
     public function createBy(): HasOne
