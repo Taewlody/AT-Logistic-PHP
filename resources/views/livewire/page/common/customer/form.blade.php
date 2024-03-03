@@ -142,7 +142,7 @@
                                 wire:model="data.creditDay" id="creditDay" @disabled($action != 'create' && $action != 'edit')>
                                 <option value="">Select Credit</option>
                                 @foreach ($creditTermList as $creditTerm)
-                                    <option value="{{ $creditTerm->creditDay }}">{{ $creditTerm->creditName }}
+                                    <option value="{{ $creditTerm->creditCode }}">{{ $creditTerm->creditName }}
                                     </option>
                                 @endforeach
                             </select>

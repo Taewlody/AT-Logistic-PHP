@@ -41,9 +41,8 @@ class Form extends Component
         }else{
             $this->action = 'create';
             $this->data = new Customer();
+            $this->data->isActive = 1;
         }
-        $this->data->isActive = 1;
-        
     }
 
     public function save()
@@ -55,10 +54,12 @@ class Form extends Component
             $this->data->createTime = Carbon::now()->format('Y-m-d H:i:s');
             $this->data->editID = Auth::user()->usercode;
             $this->data->editTime = Carbon::now()->format('Y-m-d H:i:s');
+            $this->data->comCode = 'C01';
         }else{
             $this->data->editID = Auth::user()->usercode;
             $this->data->editTime = Carbon::now()->format('Y-m-d H:i:s');
         }
+        // dd($this->data->toArray());
         Customer::updateOrCreate(['cusCode'=>$this->data->cusCode], $this->data->toArray());
         return $this->redirect(Page::class);
     }

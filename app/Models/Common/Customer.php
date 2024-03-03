@@ -17,7 +17,7 @@ class Customer extends Model implements Wireable
 
     protected $table = 'common_customer';
 
-    // public $incrementing = false;
+    public $incrementing = false;
     protected $keyType = 'string';
     protected $primaryKey = 'cusCode';
 
@@ -92,7 +92,7 @@ class Customer extends Model implements Wireable
         $this->setConnection($attributes['connection'] ?? 'mysql');
     }
 
-    public static function fromLivewire($value): self
+    public static function fromLivewire($value): Customer
     {
         return new static($value);
     }
