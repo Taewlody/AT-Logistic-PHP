@@ -47,6 +47,11 @@ class TransportType extends Model implements Wireable
         'editTime' => CustomDateTime::class,
     ];
 
+    protected $attributes = [
+        'comCode' => 'C01',
+        'isActive' => false,
+    ];
+
     public function __construct($attributes = [])
     {
         parent::__construct($attributes);

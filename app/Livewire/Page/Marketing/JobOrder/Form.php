@@ -3,6 +3,7 @@
 namespace App\Livewire\Page\Marketing\JobOrder;
 
 use App\Models\Common\Charges;
+use App\Models\Common\Customer;
 use App\Models\Marketing\JobOrder;
 use App\Models\Marketing\JobOrderCharge;
 use App\Models\Marketing\JobOrderContainer;
@@ -111,6 +112,7 @@ class Form extends Component
             if($this->data == null){
                 $this->data = new JobOrder;
             }
+            dd($this->data);
         } else {
             $this->action = 'create';
             // $this->data->documentID = JobOrder::GenKey();
@@ -226,12 +228,39 @@ class Form extends Component
     }
 
     public function save() {
+        // if($this->job->getKey() == null) {
+        //     dd($this->job);
+        // }
+        // dd($this->job->cusCode);
+        // $customer = Customer::find($this->job->cusCode);
+        // $this->job->customerRefer()->associate($customer);
+        // $this->job->customerRefer()->save($customer);
+        // dd($this->job->customerRefer);
         $this->job->save();
-        dd($this->job);
-        $this->job->containerList()->saveMany($this->containerList);
-        $this->job->packedList()->saveMany($this->packagedList);
-        $this->job->goodsList()->saveMany($this->goodsList);
-        $this->job->charge()->saveMany($this->chargeList);
+        $this->job->containerList()->saveMany($this->containerList->map(function(JobOrderContainer $item) {
+            if($item->documentID == null || $item->documentID == ''){
+                $item->documentID = $this->job->getKey();
+            }
+            return $item;
+        }));
+        $this->job->packedList()->saveMany($this->packagedList->map(function(JobOrderPacked $item) {
+            if($item->documentID == null || $item->documentID == ''){
+                $item->documentID = $this->job->getKey();
+            }
+            return $item;
+        }));
+        $this->job->goodsList()->saveMany($this->goodsList->map(function(JobOrderGoods $item){
+            if( $item->documentID == null || $item->documentID == ''){
+                $item->documentID = $this->job->getKey();
+            }
+            return $item;
+        }));
+        $this->job->charge()->saveMany($this->chargeList->map(function(JobOrderCharge $item) {
+            if( $item->documentID == null || $item->documentID == ''){
+                $item->documentID = $this->job->getKey();
+            }
+            return $item;
+        }));
         $this->redirectRoute('job-order');
     }
 

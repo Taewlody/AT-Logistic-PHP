@@ -33,6 +33,8 @@ class JobOrder extends Model implements Wireable
     protected $keyType = 'string';
     protected $primaryKey = 'documentID';
 
+    protected $connection = 'mysql';
+
     // public $timestamps = false;
 
     protected $dateFormat = 'y-m-d H:i:s';
@@ -174,6 +176,7 @@ class JobOrder extends Model implements Wireable
 
     protected $attributes = [
         // 'containerList' => [],
+        'comCode' => 'C01',
     ];
 
     public static function boot()

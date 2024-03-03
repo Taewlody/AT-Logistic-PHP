@@ -41,6 +41,11 @@ class VatType extends Model implements Wireable
         'editTime' => 'datetime:Y-m-d H:M',
     ];
 
+    protected $attributes = [
+        'comCode' => 'C01',
+        'isActive' => false,
+    ];
+
     public function __construct($attributes = [])
     {
         parent::__construct($attributes);

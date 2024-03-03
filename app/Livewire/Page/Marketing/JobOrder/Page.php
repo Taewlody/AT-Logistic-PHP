@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Page\Marketing\JobOrder;
 
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Carbon\Carbon;
@@ -49,6 +50,11 @@ class Page extends Component
         if($this->invNo != null) {
             $this->query[] = ['invoiceNo', 'like', '%'.$this->invNo.'%'];
         }
+    }
+
+    public function delete($id) {
+        JobOrder::find($id)->delete();
+        $this->render();
     }
 
     public function render()

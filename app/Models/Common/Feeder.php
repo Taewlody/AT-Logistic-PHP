@@ -48,6 +48,11 @@ class Feeder extends Model implements Wireable
         'isActive' => BooleanString::class
     ];
 
+    protected $attributes = [
+        'comCode' => 'C01',
+        'isActive' => false,
+    ];
+
     public function __construct($attributes = [])
     {
         parent::__construct($attributes);
