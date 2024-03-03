@@ -26,13 +26,13 @@ class Goods extends Component
     #[Modelable]
     public Collection $value;
 
-    public string $good_total_num_package = '';
-    public string $good_commodity = '';
+    public String|null $good_total_num_package = '';
+    public String|null $good_commodity = '';
 
-    public function mount($action, $good_total_num_package, $good_commodity){
+    public function mount($action, String|null $good_total_num_package = null, String|null $good_commodity = null){
         $this->action = $action;
-        $this->good_total_num_package = $good_total_num_package;
-        $this->good_commodity = $good_commodity;
+        $this->good_total_num_package = $good_total_num_package ?? '';
+        $this->good_commodity = $good_commodity ?? '';
     }
 
     public function updatedGoodTotalNumPackage($value, $key) {

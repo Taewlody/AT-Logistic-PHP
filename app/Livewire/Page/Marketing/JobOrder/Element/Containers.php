@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Modelable;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Renderless;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 #[Renderless]
@@ -23,11 +24,13 @@ class Containers extends Component
     
     public $typeContainer = '';
     public $sizeContainer = '';
+
+    #[Validate('required|numeric|min:1')]
     public $quantityContainer = 1;
 
     protected array $rules = [
         'value.*'=> 'unique:App\Models\Marketing\JobOrderContainer',
-        'value.*.items'=> 'number',
+        'value.*.items'=> 'integer',
         'value.*.comCode'=> 'string',
         'value.*.documentID'=> 'required|string',
         'value.*.containerType'=> 'string',
@@ -46,35 +49,9 @@ class Containers extends Component
         $this->reset('typeContainer', 'sizeContainer', 'quantityContainer');
     }
 
-    // #[On('Update-Container-List')]
-    // public function editContainer($update) {
-    //     // $this->value = $update;
-    //     $this->render();
-    // }
-        
-
     public function mount($action){
         $this->action = $action;
-        // $this->documentID = $documentID;
-        // if($this->value->isEmpty()){
-        //     $this->value->push(new JobOrderContainer);
-        // }
     }
-
-    // public function addContainer()
-    // {
-    //     // $newContainer = new Collection();
-    //     $dataContainer = new JobOrderContainer;
-    //     $dataContainer->documentID = $this->documentID;
-    //     $dataContainer->comCode = 'C01';
-    //     $dataContainer->containerType = $this->typeContainer;
-    //     $dataContainer->containerSize = $this->sizeContainer;
-    //     for ($i = 1; $i <= $this->quantityContainer; $i++) {
-    //         $this->value->push($dataContainer);
-    //     }
-    //     $this->reset('typeContainer', 'sizeContainer', 'quantityContainer');
-    //     // $this->skipRender();
-    // }
 
     public function render()
     {

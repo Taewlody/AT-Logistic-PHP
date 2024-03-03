@@ -26,12 +26,16 @@
             <label class="col-form-label" style="padding-top: 5px;">จำนวน</label>
             <input name="containQty" type="number" class="form-control" id="containQty"
                 wire:model.live.debounce.500ms="quantityContainer">
+                
         </div>
         <div class="col-md-1" style="display: flex; align-items: flex-end;">
             <button name="btnAddQT" id="btnAddQT" class="btn btn-white" type="button" wire:click="addContainer">
                 <i class="fa fa-plus"></i>Add
             </button>
         </div>
+        @error('quantityContainer')
+            <div class="text-danger m-2">{{ $message }}</div>
+        @enderror
     </div>
     <div class="form-group">
         <div class="table-responsive">

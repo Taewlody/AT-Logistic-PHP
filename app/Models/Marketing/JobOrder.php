@@ -9,6 +9,7 @@ use App\Models\Common\Place;
 use App\Models\Common\Saleman;
 use App\Models\Common\Supplier;
 use App\Models\Payment\AdvancePayment;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -175,12 +176,24 @@ class JobOrder extends Model implements Wireable
         // 'containerList' => [],
     ];
 
-    public function id(){
-        return $this->documentID;
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function($model){
+            $model->documentID = self::genarateKey();
+        });
     }
 
-    public static function GenKey(){
-        return self::getDocumentID();
+    public static function genarateKey(){
+        $prefix = "REF".Carbon::now()->format('ym');
+        $lastKey = self::where('documentID', 'LIKE', $prefix.'%')->max('documentID');
+        if($lastKey != null){
+            $lastKey = intval(explode('-', $lastKey)[1]) + 1;
+        }else{
+            $lastKey = 1;
+        }
+        $index = str_pad($lastKey, 5, '0', STR_PAD_LEFT);
+        return $prefix.'-'.$index;
     }
 
     public function __construct($attributes = [])
@@ -203,7 +216,10 @@ class JobOrder extends Model implements Wireable
         $arr['exists'] = $this->exists;
         $arr['connection'] = $this->getConnectionName();
         return $arr;
+    }
 
+    public function id(){
+        return $this->getKey();
     }
 
     public function containerList(): HasMany

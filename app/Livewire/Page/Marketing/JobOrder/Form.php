@@ -45,7 +45,7 @@ class Form extends Component
     protected array $rules = [
         // 'data.charge.*' => 'unique:App\Models\Marketing\JobOrderCharge',\
         'containerList.*'=> 'unique:App\Models\Marketing\JobOrderContainer',
-        'containerList.*.items'=> 'number',
+        'containerList.*.items'=> 'integer',
         'containerList.*.comCode'=> 'string',
         'containerList.*.documentID'=> 'required|string',
         'containerList.*.containerType'=> 'string',
@@ -58,7 +58,7 @@ class Form extends Component
         'containerList.*.containerNW_Unit'=> 'string',
         'containerList.*.containerTareweight'=> 'string',
         'packagedList.*'=> 'unique:App\Models\Marketing\JobOrderPacked',
-        'packagedList.*.items'=> 'number',
+        'packagedList.*.items'=> 'integer',
         'packagedList.*.comCode'=> 'string',
         'packagedList.*.documentID'=> 'required|string',
         'packagedList.*.packaed_width'=> 'string',
@@ -70,7 +70,7 @@ class Form extends Component
         'packagedList.*.packaed_totalCBM'=> 'string',
         'packagedList.*.packaed_totalWeight'=> 'string',
         'goodsList.*' => 'unique:App\Models\Marketing\JobOrderGoods',
-        'goodsList.*.items'=> 'number',
+        'goodsList.*.items'=> 'integer',
         'goodsList.*.comCode'=> 'string',
         'goodsList.*.documentID'=> 'required|string',
         'goodsList.*.goodNo'=> 'string',
@@ -81,7 +81,7 @@ class Form extends Component
         'goodsList.*.goodSize'=> 'string',
         'goodsList.*.goodKind'=> 'string',
         'chargeList.*' => 'unique:App\Models\Marketing\JobOrderCharge',
-        'chargeList.*.items'=> 'number',
+        'chargeList.*.items'=> 'integer',
         'chargeList.*.comCode'=> 'string',
         'chargeList.*.documentID'=> 'required|string',
         'chargeList.*.ref_paymentCode'=> 'string',
@@ -113,10 +113,13 @@ class Form extends Component
             }
         } else {
             $this->action = 'create';
+            // $this->data->documentID = JobOrder::GenKey();
+            // dd($this->data);
         }
         // dd($this->data, new JobOrder);
         $this->job = $this->data->withoutRelations();
-        
+        // if($this->job->good_total_num_package == null) $this->job->good_total_num_package = '';
+        // if($this->job->good_commodity == null) $this->job->good_commodity = '';
         $this->createBy = $this->data->userCreate;
         $this->editBy = $this->data->userEdit;
         $this->containerList = $this->data->containerList;
@@ -223,46 +226,12 @@ class Form extends Component
     }
 
     public function save() {
-        // dd($this->job, $this->data);
-        // dd($this->job);
-        // if($this->action == "edit")
-        //     $this->job->exists = true;
-        // // dd($this->job);
-        // // dd($this->chargeList);
-        // $this->job->setConnection('mysql');
         $this->job->save();
+        dd($this->job);
         $this->job->containerList()->saveMany($this->containerList);
         $this->job->packedList()->saveMany($this->packagedList);
         $this->job->goodsList()->saveMany($this->goodsList);
         $this->job->charge()->saveMany($this->chargeList);
-        // $this->job->containerList()->saveMany($this->containerList->map(function($item) {
-        //     if($item->id() != null){
-        //         $item->exists = true;
-        //     }
-        //     $item->setConnection('mysql');
-        //     return $item;
-        // }));
-        // $this->job->packedList()->saveMany($this->packagedList->map(function($item) {
-        //     if($item->id() != null){
-        //         $item->exists = true;
-        //     }
-        //     $item->setConnection('mysql');
-        //     return $item;
-        // }));
-        // $this->job->goodsList()->saveMany($this->goodsList->map(function($item) {
-        //     if($item->id() != null){
-        //         $item->exists = true;
-        //     }
-        //     $item->setConnection('mysql');
-        //     return $item;
-        // }));
-        // $this->job->charge()->saveMany($this->chargeList->map(function($item) {
-        //     if($item->id() != null){
-        //         $item->exists = true;
-        //     }
-        //     $item->setConnection('mysql');
-        //     return $item;
-        // }));
         $this->redirectRoute('job-order');
     }
 

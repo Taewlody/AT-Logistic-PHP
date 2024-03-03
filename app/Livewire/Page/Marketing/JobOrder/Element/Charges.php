@@ -25,10 +25,10 @@ class Charges extends Component
 
     // public Collection $container;
 
-    public $chargeCode = '';
+    public String $chargeCode = '';
 
     #[Locked]
-    public string $documentID = '';
+    public String|null $documentID = '';
 
     #[Locked]
     public string $action = '';
@@ -61,10 +61,10 @@ class Charges extends Component
         Log::info('boot');
     }
 
-    public function mount($action, $documentID)
+    public function mount($action, String|null $documentID = null)
     {
         $this->action = $action;
-        $this->documentID = $documentID;
+        $this->documentID = $documentID ?? '';
         $this->customer_piad = CalculatorPrice::cal_customer_piad($this->documentID);
         Log::debug("mount: ".print_r($this->value, true));
     }
