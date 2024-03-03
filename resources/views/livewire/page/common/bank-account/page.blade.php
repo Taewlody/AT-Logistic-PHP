@@ -33,13 +33,14 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @if(count($data) > 0)
                             @foreach ($data as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->accountName }}</td>
                                     <td>{{ $item->accountID }}</td>
                                     <td class="center"><span
-                                            @class(['badge', 'label-primary' => $item->isActive])>{{ $item->isActive ? 'Active' : 'Disable' }}</span>
+                                            @class(['badge', 'label-primary' => $item->isActive, 'label-secondary' => !$item->isActive])>{{ $item->isActive ? 'Active' : 'Disable' }}</span>
                                     </td>
                                     <td class="center">{{ $item->editBy != null? $item->editBy->username : '' }}</td>
                                     <td>
@@ -54,6 +55,11 @@
                                     </td>
                                 </tr>
                             @endforeach
+                            @else
+                            <tr>
+                                <td colspan="6" class="text-center">Data Not Found</td>
+                            </tr>
+                            @endif
                     </table>
                     <br/>
 

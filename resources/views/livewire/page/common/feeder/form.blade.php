@@ -70,7 +70,7 @@
 
                     <div class="form-group row">
                         <div class="col-sm-4 col-sm-offset-2">
-                            <a name="back" class="btn btn-white" type="button" href="{{ route('saleman') }}"
+                            <a name="back" class="btn btn-white" type="button" href="{{ route('feeder') }}"
                                 wire.loading.attr="disabled">
                                 <i class="fa fa-reply"></i> Back
                             </a>

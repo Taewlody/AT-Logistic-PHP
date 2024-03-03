@@ -60,7 +60,7 @@
                         <label class="col-sm-2 col-form-label">E-Mail</label>
                         <div class="col-md-3">
                             <input type="text" class="form-control" name="email" id="email"
-                                autocomplete="empty" wire.model="data.email" @disabled($action != 'create' && $action != 'edit')>
+                                autocomplete="empty" wire:model="data.email" @disabled($action != 'create' && $action != 'edit')>
                         </div>
                     </div>
 
@@ -100,14 +100,14 @@
                         <div class="form-group  row">
                             <label class="col-sm-2 col-form-label">Create By</label>
                             <div class="col-sm-10">
-                                <label>{{ $data->createBy->username }} {{ $data->createTime ?? '' }}</label>
+                                <label>{{ $data->createBy->username ?? '' }} {{ $data->createTime ?? '' }}</label>
                             </div>
                         </div>
 
                         <div class="form-group  row">
                             <label class="col-sm-2 col-form-label">Update By</label>
                             <div class="col-sm-10">
-                                <label>{{ $data->editBy->username }} {{ $data->editTime ?? '' }}</label>
+                                <label>{{ $data->editBy->username ?? '' }} {{ $data->editTime ?? '' }}</label>
                             </div>
                         </div>
                     @endif

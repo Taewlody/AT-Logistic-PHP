@@ -11,7 +11,7 @@
                             <input type="text" id="search" name="search" class="form-control" wire:model.live="searchText" placeholder="Search in table">
                         </div>
                         <div class="col-2" style="justify-content: flex-end; display: flex">
-                            <a href="{{ route('transport-type.form', ['action' => 'create']) }}" class="btn btn-primary">
+                            <a href="{{ route('container-type.form', ['action' => 'create']) }}" class="btn btn-primary">
                                 <i class="fa fa-plus "> </i> Create new 
                             </a>
                         </div>
@@ -33,12 +33,13 @@
                             </tr>
                           </thead>
                             <tbody>
+                                @if(count($data) > 0)
                                 @foreach ($data as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->containertypeCode }}</td>
                                     <td>{{ $item->containertypeName }}</td>
-                                    <td class="center"><span @class(['badge', 'label-primary' => $item->isActive])>{{ $item->isActive ? 'Active' : 'Disable' }}</span></td>
+                                    <td class="center"><span @class(['badge', 'label-primary' => $item->isActive, 'label-secondary' => !$item->isActive])>{{ $item->isActive ? 'Active' : 'Disable' }}</span></td>
                                     <td class="center">{{ $item->editBy != null? $item->editBy->username : '' }}</td>
                                     <td>
                                         <div class="btn-group">
@@ -49,6 +50,11 @@
                                     </td>
                                 </tr>
                                 @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="6" class="text-center">Data Not Found</td>
+                                    </tr>
+                                @endif
                     </table>
                     {{ $data->appends(['sort'])->links() }}
                 </div>

@@ -1,6 +1,6 @@
 <div>
-    <livewire:component.page-heading title_main="Feeder" title_sub="ชื่อเรือ" breadcrumb_title="Common Data"
-        breadcrumb_page="Feeder" breadcrumb_page_title="Feeder Form" />
+    <livewire:component.page-heading title_main="Charges" title_sub="ค่าใช้จ่าย" breadcrumb_title="Common Data"
+        breadcrumb_page="Charges" breadcrumb_page_title="Charges Form" />
 
     <div class="container-fluid">
         <!-- Body-->

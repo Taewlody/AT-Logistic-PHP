@@ -34,23 +34,29 @@
                             </tr>
                           </thead>
                             <tbody>
-                                @foreach ($data as $item)
+                                @if(count($data) > 0)
+                                    @foreach ($data as $item)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->cusCode }}</td>
+                                        <td>{{ $item->custNameEN }}</td>
+                                        <td>{{ $item->custNameTH }}</td>
+                                        <td class="center"><span @class(['badge', 'label-primary' => $item->isActive, 'label-secondary' => !$item->isActive])>{{ $item->isActive ? 'Active' : 'Disable' }}</span></td>
+                                        <td class="center">{{  $item->editBy != null? $item->editBy->username : '' }}</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a class="btn btn-xs btn-success" href="{{route('customer.form', ['action' => 'view', 'id' => $item->cusCode])}}">View</a>
+                                                <a class="btn btn-xs btn-primary" href="{{route('customer.form', ['action' => 'edit', 'id' => $item->cusCode])}}">Edit</a>
+                                                <button class="btn btn-xs btn-danger" wire:confirm="Are you sure want to delete {{$item->custNameEN}}" wire:click="delete('{{$item->cusCode}}')" wire:refresh="$refresh">Delete</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                @else
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->cusCode }}</td>
-                                    <td>{{ $item->custNameEN }}</td>
-                                    <td>{{ $item->custNameTH }}</td>
-                                    <td class="center"><span @class(['badge', 'label-primary' => $item->isActive])>{{ $item->isActive ? 'Active' : 'Disable' }}</span></td>
-                                    <td class="center">{{  $item->editBy != null? $item->editBy->username : '' }}</td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <a class="btn btn-xs btn-success" href="{{route('customer.form', ['action' => 'view', 'id' => $item->cusCode])}}">View</a>
-                                            <a class="btn btn-xs btn-primary" href="{{route('customer.form', ['action' => 'edit', 'id' => $item->cusCode])}}">Edit</a>
-                                            <button class="btn btn-xs btn-danger" wire:confirm="Are you sure want to delete {{$item->custNameEN}}" wire:click="delete('{{$item->cusCode}}')" wire:refresh="$refresh">Delete</button>
-                                        </div>
-                                    </td>
+                                    <td colspan="7" class="text-center">Data Not Found</td>
                                 </tr>
-                                @endforeach
+                                @endif
                     </table>
                     <br/>
 
