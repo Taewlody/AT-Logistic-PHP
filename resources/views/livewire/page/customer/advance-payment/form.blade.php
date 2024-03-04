@@ -4,7 +4,7 @@
 
     <div class="wrapper wrapper-content animated fadeInRight">
         {{-- loading --}}
-        <div wire:loading.block class="loader-wrapper">
+        <div wire:loading.block class="loader-wrapper" wire:target='save'>
             <div class="loader"></div>
         </div>
 
@@ -42,7 +42,7 @@
                                         <div class="col-md-3">
                                             <div class="input-group date"> <span class="input-group-addon"><i
                                                         class="fa fa-calendar"></i></span>
-                                                <input type="text" name="documentDate" class="form-control"
+                                                <input type="date" name="documentDate" class="form-control"
                                                     wire:model="data.documentDate">
                                             </div>
                                         </div>
@@ -58,6 +58,10 @@
                                                     $cusCode = $_SESSION['userID'];
                                                 }
                                                 $db->s_customer_advance($cusCode, $_SESSION['userTypecode']); ?> --}}
+                                                <option>- select -</option>
+                                                @foreach (Service::CustomerSelecter() as $customer)
+                                                    <option value="{{$customer->cusCode}}">{{$customer->custNameEN}}</option>
+                                                @endforeach
                                             </select>
 
                                         </div>
@@ -68,6 +72,10 @@
                                             <select class="select2_single form-control select2" name="refJobNo"
                                                 id="refJobNo" wire:model="data.refJobNo">
                                                 {{-- <?php $db->s_jobref_advance($refJobNo, $cusCode); ?> --}}
+                                                <option>- select -</option>
+                                                @foreach (Service::JobOrderSelecter() as $job)
+                                                    <option value="{{$job->documentID}}">{{$job->documentID}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
 
@@ -109,6 +117,10 @@
                                                 class="select2_single form-control select2"
                                                 wire:model="data.accountCode" style="width: 100%">
                                                 {{-- <?php $db->s_account(''); ?> --}}
+                                                <option>- select -</option>
+                                                @foreach (Service::AccountSelecter() as $account)
+                                                    <option value="{{$account->accountCode}}">{{$account->accountName}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -155,7 +167,7 @@
                                         <div class="col-md-3">
                                             <div class="input-group date"> <span class="input-group-addon"><i
                                                         class="fa fa-calendar"></i></span>
-                                                <input type="text" name="dueDate" class="form-control"
+                                                <input type="date" name="dueDate" class="form-control"
                                                     qire:model="data.dueDate">
                                             </div>
                                         </div>
@@ -189,20 +201,18 @@
                                 </h2>
                             </div>
                             <div id="collapseCustomerPayment" role="tabpanel" class="collapse"
-                                aria-labelledby="headingCustomerPayment" data-bs-parent="#accordion-3">
+                                aria-labelledby="headingCustomerPayment" data-bs-parent="#accordion-3" wire:ignore.self>
                                 <div class="card-body">
                                     <div class="form-group  row">
                                         <div class="col-md-6">
                                             <select class="select2_single form-control select2" style="width: 100%;"
-                                                id="chargeCode">
-                                                {{-- <?php //$db->s_charge('C-032');
-                                                ?> --}}
+                                                wire:model.lazy="chargeCode">
                                                 <option value="C-032">ลูกค้าสำรองจ่าย</option>
                                             </select>
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
-                                            <button class="btn btn-white " type="button" name="addCharge"
-                                                id="addCharge"><i class="fa fa-plus"></i>
+                                            <button class="btn btn-white " type="button" wire:click='addCharge'>
+                                                <i class="fa fa-plus"></i>
                                                 Add</button>
                                         </div>
                                     </div>
@@ -219,43 +229,25 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {{-- <?php
-                                              $sql = "SELECT
-                                                          t.comCode,
-                                                          t.documentID,
-                                                          t.invNo,
-                                                          t.chargeCode,
-                                                          t.chartDetail,
-                                                          t.amount
-                                                          FROM $db->dbname.advance_payment_items AS t  WHERE t.comCode='$db->comCode' AND t.documentID='$documentID' ";
-                                              $result = $db->query($sql);
-                                              $i = 1;
-                                              $isActiveStype = "";
-                                              $rowIdx = 99;
-                                              while ($r = mysqli_fetch_array($result)) {
-                                                ?>
-                                                    <tr class='gradeX' id='tr<?php echo $rowIdx; ?>'>
-                                                        <td><input type='text' name='invNo[]' class='form-control'
-                                                                value='<?php echo $r['invNo']; ?>'
-                                                                id='invNo<?php echo $rowIdx; ?>'>
-                                                            <input type='hidden' name='chargeitems[]'
-                                                                value='<?php echo $r['chargeCode']; ?>'
-                                                                id='chargeitems<?php echo $rowIdx; ?>'>
-                                                        </td>
-                                                        <td><input type='text' name='chargesDetail[]'
-                                                                class='form-control' value='<?php echo $r['chartDetail']; ?>'
-                                                                id='chargesDetail<?php echo $rowIdx; ?>'></td>
-                                                        <td class='center'><input type='number' name='amount[]'
-                                                                onkeyup='call_price()' class='form-control'
-                                                                value='<?php echo $r['amount']; ?>'
-                                                                id='amount<?php echo $rowIdx; ?>'></td>
-                                                        <td class='center'><button type='button'
-                                                                class='btn-white btn btn-xs'
-                                                                onClick='return FN_Remove_Table("<?php echo $rowIdx; ?>")'>Rempove</button>
-                                                        </td>
-                                                    </tr>
-                                                    <?php $rowIdx++;
-                                              } ?> --}}
+                                                @foreach ($items as $payment)
+                                                <tr class='gradeX'>
+                                                    <td>
+                                                        <input type='text' class='form-control'
+                                                            wire:model.live.debounce.500ms='items.{{$loop->index}}.invNo'>
+                                                    </td>
+                                                    <td>
+                                                        <input type='text' class='form-control' wire:model.live.debounce.500ms='items.{{$loop->index}}.chartDetail'>
+                                                    </td>
+                                                    <td class='center'>
+                                                        <input type='number' class='form-control' wire:model.live.debounce.500ms.number='items.{{$loop->index}}.amount'>
+                                                    </td>
+                                                    <td class='center'>
+                                                        <button type='button'
+                                                            class='btn-white btn btn-xs'
+                                                            wire:click='removeCharge({{$loop->index}})'>Remove</button>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
                                                 </tbody>
                                                 <tfoot>
                                                 </tfoot>
@@ -271,12 +263,10 @@
                                                         <tr>
                                                             <td><strong>TOTAL :</strong></td>
                                                             <td><span id="total">
-                                                                    {{$data->sumTotal ?? 0}}
+                                                                    {{ Service::MoneyFormat($data->items->sum('amount') ?? 0) }}
                                                                 </span>
                                                             </td>
                                                         </tr>
-
-
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -463,7 +453,7 @@
                         </div>
                         <div class="ibox-content">
 
-                            @if ($action != 'edit' && $action != 'create')
+                            @if ($action != 'create')
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Create By</label>
                                     <div class="col-sm-10">
@@ -485,7 +475,7 @@
                                 <div class="col-sm-10 col-sm-offset-2">
 
 
-                                    <button name="save" id="save" class="btn btn-primary" type="button"
+                                    <button name="save" id="save" class="btn btn-primary" type="button" wire:click='save'
                                         @disabled($data->documentstatus != 'A')>
                                         <i class="fa fa-save"></i> Save</button>
                                     <button name="approve" id="approve" class="btn btn-success " type="button"

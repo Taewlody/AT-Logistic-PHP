@@ -2,6 +2,7 @@
 
 namespace App\Functions;
 
+use App\Models\Common\BankAccount;
 use App\Models\Common\Charges;
 use App\Models\Common\ContainerSize;
 use App\Models\Common\ContainerType;
@@ -21,6 +22,12 @@ class Service
     public static function MoneyFormat($number)
     {
         return number_format($number, 2,'.', ',');
+    }
+
+    public static function AccountSelecter(){
+        return Cache::remember('account-select', 15, function () {
+            return BankAccount::select('accountCode', 'accountName')->orderBy('accountName')->get();
+        });
     }
 
     public static function TransportTypeSelecter(){

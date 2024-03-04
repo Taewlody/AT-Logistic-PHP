@@ -14,7 +14,7 @@ class AdvancePaymentItems extends Model implements Wireable
 
     protected $table = 'advance_payment_items';
 
-    protected $primaryKey = 'items';
+    protected $primaryKey = 'autoid';
 
     public $timestamps = false;
 
@@ -29,13 +29,17 @@ class AdvancePaymentItems extends Model implements Wireable
     ];
 
     protected $casts = [
-        'items' => 'integer',
+        'autoid' => 'integer',
         'comCode' => 'string',
         'documentID' => 'string',
         'invNo' => 'string',
         'chargeCode' => 'string',
         'chartDetail' => 'string',
         'amount' => 'float',
+    ];
+
+    protected $attributes = [
+        'comCode' => 'C01',
     ];
 
     public function __construct($attributes = [])
@@ -59,8 +63,6 @@ class AdvancePaymentItems extends Model implements Wireable
         $arr['connection'] = $this->getConnectionName();
         return $arr;
     }
-
-    
 
     public function charge(): HasOne
     {
