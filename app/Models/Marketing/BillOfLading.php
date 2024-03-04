@@ -4,6 +4,7 @@ namespace App\Models\Marketing;
 
 use App\Casts\CustomDate;
 use App\Casts\CustomDateTime;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
@@ -22,6 +23,11 @@ class BillOfLading extends Model implements Wireable
     public $incrementing = false;
     protected $keyType = 'string';
     protected $primaryKey = 'documentID';
+
+    protected $dateFormat = 'y-m-d H:i:s';
+
+    const CREATED_AT = 'createTime';
+    const UPDATED_AT = 'editTime';
 
     protected $fillable = [
         'comCode',
@@ -64,6 +70,31 @@ class BillOfLading extends Model implements Wireable
         'editID' => 'string',
         'editTime' => CustomDateTime::class,
     ];
+
+    protected $attributes = [
+        'comCode' => 'C01',
+        'documentstatus' => 'P',
+    ];
+
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function($model){
+            $model->documentID = self::genarateKey();
+        });
+    }
+
+    public static function genarateKey(){
+        $prefix = "B".Carbon::now()->format('ym');
+        $lastKey = self::where('documentID', 'LIKE', $prefix.'%')->max('documentID');
+        if($lastKey != null){
+            $lastKey = intval(explode('-', $lastKey)[1]) + 1;
+        }else{
+            $lastKey = 1;
+        }
+        $index = str_pad($lastKey, 5, '0', STR_PAD_LEFT);
+        return $prefix.'-'.$index;
+    }
 
     public function __construct($attributes = [])
     {

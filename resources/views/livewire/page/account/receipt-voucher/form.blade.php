@@ -156,7 +156,7 @@
                                         <label class="col-sm-3 col-form-label">สาขา Branch</label>
                                         <div class="col-md-9">
                                             <input type="text" name="branch" id="branch" class="form-control"
-                                                wire.model="data.branch">
+                                                wire:model="data.branch">
                                         </div>
                                     </div>
                                     <div class="form-group  row">

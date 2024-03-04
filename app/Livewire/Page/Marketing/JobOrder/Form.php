@@ -8,6 +8,7 @@ use App\Models\Marketing\JobOrder;
 use App\Models\Marketing\JobOrderCharge;
 use App\Models\Marketing\JobOrderContainer;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -112,9 +113,10 @@ class Form extends Component
             if($this->data == null){
                 $this->data = new JobOrder;
             }
-            dd($this->data);
+            // dd($this->data);
         } else {
             $this->action = 'create';
+            $this->data->createID = Auth::user()->usercode;
             // $this->data->documentID = JobOrder::GenKey();
             // dd($this->data);
         }
@@ -228,14 +230,7 @@ class Form extends Component
     }
 
     public function save() {
-        // if($this->job->getKey() == null) {
-        //     dd($this->job);
-        // }
-        // dd($this->job->cusCode);
-        // $customer = Customer::find($this->job->cusCode);
-        // $this->job->customerRefer()->associate($customer);
-        // $this->job->customerRefer()->save($customer);
-        // dd($this->job->customerRefer);
+        $this->job->editID =  Auth::user()->usercode;
         $this->job->save();
         $this->job->containerList()->saveMany($this->containerList->map(function(JobOrderContainer $item) {
             if($item->documentID == null || $item->documentID == ''){

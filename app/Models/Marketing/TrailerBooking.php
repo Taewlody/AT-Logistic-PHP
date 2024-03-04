@@ -4,6 +4,7 @@ namespace App\Models\Marketing;
 
 use App\Casts\CustomDate;
 use App\Casts\CustomDateTime;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
@@ -25,6 +26,11 @@ class TrailerBooking extends Model implements Wireable
     public $incrementing = false;
     protected $keyType = 'string';
     protected $primaryKey = 'documentID';
+    
+    protected $dateFormat = 'y-m-d H:i:s';
+
+    const CREATED_AT = 'createTime';
+    const UPDATED_AT = 'editTime';
 
     protected $fillable = [
         'comCode',
@@ -70,12 +76,48 @@ class TrailerBooking extends Model implements Wireable
         'editTime' => CustomDateTime::class,
     ];
 
-    public function __construct($attributes = [])
+    protected $attributes = [
+        // 'containerList' => [],
+        'comCode' => 'C01',
+        'documentstatus' => 'P',
+    ];
+
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function($model){
+            $model->documentID = self::genarateKey();
+        });
+    }
+
+    public static function genarateKey(){
+        $prefix = "T".Carbon::now()->format('ym');
+        $lastKey = self::where('documentID', 'LIKE', $prefix.'%')->max('documentID');
+        if($lastKey != null){
+            $lastKey = intval(explode('-', $lastKey)[1]) + 1;
+        }else{
+            $lastKey = 1;
+        }
+        $index = str_pad($lastKey, 4, '0', STR_PAD_LEFT);
+        return $prefix.'-'.$index;
+    }
+
+       public function __construct($attributes = [])
     {
         parent::__construct($attributes);
         $this->fill($attributes);
         $this->exists = $attributes['exists'] ?? false;
         $this->setConnection($attributes['connection'] ?? 'mysql');
+        // if(array_key_exists('original', $attributes)){
+        //     dd($attributes['original']);
+        // }
+        // if(array_key_exists('original', $attributes)){
+        //     $original = $attributes['original'];
+        //     array_map(function($key){
+        //         dd($key);
+        //     }, $original);
+        //     // $this->syncOriginalAttributes();
+        // }   
     }
 
     public static function fromLivewire($value): self
@@ -89,6 +131,7 @@ class TrailerBooking extends Model implements Wireable
         $arr = $this->toArray();
         $arr['exists'] = $this->exists;
         $arr['connection'] = $this->getConnectionName();
+        $arr['original'] = $this->getOriginal();
         return $arr;
     }
 

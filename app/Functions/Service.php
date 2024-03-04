@@ -13,6 +13,7 @@ use App\Models\Common\Saleman;
 use App\Models\Common\Supplier;
 use App\Models\Common\TransportType;
 use App\Models\Common\UnitContainer;
+use App\Models\Marketing\JobOrder;
 use Illuminate\Support\Facades\Cache;
 
 class Service
@@ -85,6 +86,12 @@ class Service
     public static function ChargesSelecter(){
         return Cache::remember('charge-select', 15, function () {
             return Charges::select('chargeCode', 'chargeName')->orderBy('chargeName')->get();
+        });
+    }
+
+    public static function JobOrderSelecter(){
+        return Cache::remember('job-order-select', 15, function () {
+            return JobOrder::select('documentID')->orderBy('documentID')->get();
         });
     }
 }

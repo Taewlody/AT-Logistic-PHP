@@ -44,8 +44,8 @@
                                                 <span class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </span>
-                                                <input type="text" name="documentDate" class="form-control"
-                                                    wire.model="data.documentDate">
+                                                <input type="date" name="documentDate" class="form-control"
+                                                    wire:model="data.documentDate">
                                             </div>
                                         </div>
                                     </div>
@@ -57,8 +57,8 @@
                                             <select class="select2_single form-control select2" name="cusCode"
                                                 wire:model="data.cusCode">
                                                 <option value="">Select Customer</option>
-                                                @foreach ($customerList as $customer)
-                                                    <option value="{{ $customer->cusCode }}">{{ $customer->cusName }}
+                                                @foreach (Service::CustomerSelecter() as $customer)
+                                                    <option value="{{ $customer->cusCode }}">{{ $customer->custNameEN }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -71,7 +71,7 @@
                                             <select name="feeder" class="select2_single form-control select2"
                                                 id="feeder" wire:model="data.feeder">
                                                 <option value="">Select Feeder</option>
-                                                @foreach ($feederList as $feeder)
+                                                @foreach (Service::FeederSelecter() as $feeder)
                                                     <option value="{{ $feeder->fCode }}">{{ $feeder->fName }}</option>
                                                 @endforeach
                                             </select>
@@ -83,10 +83,10 @@
                                         <label class="col-sm-3 col-form-label">Agent</label>
                                         <div class="col-md-9">
                                             <select name="agentCode" class="select2_single form-control select2"
-                                                id="agentCode" wire:model="data.agentCode">
+                                                id="agentCode" wire:model="data.agent">
                                                 <option value="">Select Agent</option>
-                                                @foreach ($supplierList as $supplier)
-                                                    <option value="{{ $supplier->supCode }}">{{ $supplier->supName }}
+                                                @foreach (Service::SupplierSelecter() as $supplier)
+                                                    <option value="{{ $supplier->supCode }}">{{ $supplier->supNameTH }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -99,8 +99,8 @@
                                             <select class="select2_single form-control select2" name="ref_jobID"
                                                 id="ref_jobID" wire:model="data.ref_jobID">
                                                 <option value="">Select Ref. JobNo.</option>
-                                                @foreach ($jobOrderList as $refJob)
-                                                    <option value="{{ $refJob->jobID }}">{{ $refJob->jobID }}</option>
+                                                @foreach (Service::JobOrderSelecter() as $refJob)
+                                                    <option value="{{ $refJob->documentID }}">{{ $refJob->documentID }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -134,8 +134,8 @@
                                             <select class="select2_single form-control select2" name="tocompany"
                                                 wire:model="data.tocompany">
                                                 <option value="">Select Company</option>
-                                                @foreach ($supplierList as $supplier)
-                                                    <option value="{{ $supplier->supCode }}">{{ $supplier->supName }}
+                                                @foreach (Service::SupplierSelecter() as $supplier)
+                                                    <option value="{{ $supplier->supCode }}">{{ $supplier->supNameTH }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -219,11 +219,11 @@
                                 <div class="col-sm-10 col-sm-offset-2">
 
 
-                                    <button name="save" id="save" class="btn btn-primary" type="button"
-                                        @disabled($data->documentstatus != 'A')>
-                                        <i class="fa fa-save"></i> Save</button>
-                                    <button name="approve" id="approve" class="btn btn-success " type="button"
+                                    <button name="save" id="save" class="btn btn-primary" type="button" wire:click='save'
                                         @disabled($data->documentstatus == 'A')>
+                                        <i class="fa fa-save"></i> Save</button>
+                                    <button name="approve" id="approve" class="btn btn-success " type="button" wire:click='approve'
+                                        @disabled($data->documentstatus == 'A' || $data->documentID != null)>
                                         <i class="fa fa-check"></i> Approve</button>
 
 

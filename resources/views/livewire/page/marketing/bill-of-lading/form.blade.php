@@ -15,7 +15,6 @@
 
             <div class="row">
                 <div class="col-lg-6">
-
                     <div id="accordion-1" class="default-according">
                         <div class="card">
                             <div class="card-header" id="headingDocument">
@@ -46,7 +45,7 @@
                                                 <span class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </span>
-                                                <input type="text" name="documentDate" class="form-control" wire:model="data.documentDate">
+                                                <input type="date" name="documentDate" class="form-control" wire:model="data.documentDate">
                                             </div>
                                         </div>
                                     </div>
@@ -57,8 +56,8 @@
                                         <div class="col-md-9">
                                             <select class="select2_single form-control select2" name="cusCode" wire:model="data.cusCode">
                                                 <option value="">Select Customer</option>
-                                                @foreach($customerList as $customer)
-                                                    <option value="{{ $customer->cusCode }}">{{ $customer->cusName }}</option>
+                                                @foreach(Service::CustomerSelecter() as $customer)
+                                                    <option value="{{ $customer->cusCode }}">{{ $customer->custNameEN }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -69,8 +68,8 @@
                                         <div class="col-md-9">
                                             <select class="select2_single form-control select2" name="shipperCode" wire:model="data.shipperCode">
                                                 <option value="">Select Shipper</option>
-                                                @foreach($supplierList as $supplier)
-                                                    <option value="{{ $supplier->supCode }}">{{ $supplier->supName }}</option>
+                                                @foreach(Service::SupplierSelecter() as $supplier)
+                                                    <option value="{{ $supplier->supCode }}">{{ $supplier->supNameTH }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -82,8 +81,8 @@
                                         <div class="col-md-9">
                                             <select class="select2_single form-control select2" name="consigneeCode" wire:model="data.consigneeCode">
                                                 <option value="">Select Consignee</option>
-                                                @foreach($supplierList as $supplier)
-                                                    <option value="{{ $supplier->supCode }}">{{ $supplier->supName }}</option>
+                                                @foreach(Service::SupplierSelecter() as $supplier)
+                                                    <option value="{{ $supplier->supCode }}">{{ $supplier->supNameTH }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -94,8 +93,8 @@
                                         <div class="col-md-9">
                                             <select class="select2_single form-control select2" name="ref_jobID" wire:model="data.ref_jobID">
                                                 <option value="">Select JobNo</option>
-                                                @foreach($jobOrderList as $job)
-                                                    <option value="{{ $job->jobID }}">{{ $job->jobID }}</option>
+                                                @foreach(Service::JobOrderSelecter() as $job)
+                                                    <option value="{{ $job->documentID }}">{{ $job->documentID }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -104,10 +103,10 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
                     {{-- Section 2 --}}
                 <div class="col-lg-6">
-
                     <div id="accordion-2" class="default-according">
                         <div class="card">
                             <div class="card-header" id="headingDetail">
@@ -125,20 +124,20 @@
                                     <div class="form-group  row">
                                         <label class="col-sm-3 col-form-label">Notify Party</label>
                                         <div class="col-md-9">
-                                            <input type="text" name="notify_party" class="form-control">
+                                            <input type="text" name="notify_party" class="form-control" wire:model="data.notify_party">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Cargo Delivery, Please Contact</label>
                                         <div class="col-md-9">
-                                            <input type="text" name="cargo_deliverry" class="form-control">
+                                            <input type="text" name="cargo_deliverry" class="form-control" wire:model='data.cargo_deliverry'>
                                         </div>
                                     </div>
         
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Marks Number</label>
                                         <div class="col-md-9">
-                                            <input type="text" name="marks_number" class="form-control">
+                                            <input type="text" name="marks_number" class="form-control" wire:model='data.marks_number'>
                                         </div>
                                     </div>
         
@@ -146,19 +145,19 @@
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Freight Detal, Charges etc.</label>
                                         <div class="col-md-9">
-                                            <input type="text" name="freight_detail" class="form-control">
+                                            <input type="text" name="freight_detail" class="form-control" wire:model='data.freight_detail'>
                                         </div>
                                     </div>
                                     <div class="form-group  row">
                                         <label class="col-sm-3 col-form-label">Prepaid</label>
                                         <div class="col-md-9">
-                                            <input type="text" name="prepaid" class="form-control">
+                                            <input type="text" name="prepaid" class="form-control" wire:model='data.prepaid'>
                                         </div>
                                     </div>
                                     <div class="form-group  row">
                                         <label class="col-sm-3 col-form-label">Collect</label>
                                         <div class="col-md-9">
-                                            <input type="text" name="collerct" class="form-control">
+                                            <input type="text" name="collerct" class="form-control" wire:model='data.collerct'>
                                         </div>
                                     </div>
                                 </div>
@@ -196,12 +195,12 @@
                             <div class="col-sm-10 col-sm-offset-2">
 
 
-                                <button name="save" id="save" class="btn btn-primary" type="button"
-                                    @disabled($data->documentstatus != 'A')>
-                                    <i class="fa fa-save"></i> Save</button>
-                                <button name="approve" id="approve" class="btn btn-success " type="button"
-                                    @disabled($data->documentstatus == 'A')>
-                                    <i class="fa fa-check"></i> Approve</button>
+                                <button name="save" id="save" class="btn btn-primary" type="button" wire:click='save'
+                                        @disabled($data->documentstatus == 'A')>
+                                        <i class="fa fa-save"></i> Save</button>
+                                    <button name="approve" id="approve" class="btn btn-success " type="button" wire:click='approve'
+                                        @disabled($data->documentstatus == 'A' || $data->documentID != null)>
+                                        <i class="fa fa-check"></i> Approve</button>
 
 
                                 <button class="btn btn-white " type="button" onclick=""><i

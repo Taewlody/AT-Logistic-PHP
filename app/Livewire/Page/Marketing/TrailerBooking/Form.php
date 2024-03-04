@@ -7,6 +7,7 @@ use App\Models\Common\Feeder;
 use App\Models\Common\Supplier;
 use App\Models\Marketing\JobOrder;
 use App\Models\Marketing\TrailerBooking;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 
@@ -20,14 +21,9 @@ class Form extends Component
 
     public ?TrailerBooking $data = null;
 
-    public $customerList = [];
-    public $feederList = [];
-    public $supplierList = [];
-    public $jobOrderList = [];
-
-    public function boot()
+    public function mount()
     {
-        $this->data = new TrailerBooking();
+        $this->data = new TrailerBooking;
         if ($this->action == '') {
             $this->action = 'view';
         } else {
@@ -38,12 +34,21 @@ class Form extends Component
             $this->data = TrailerBooking::find($this->id);
         } else {
             $this->action = 'create';
+            $this->data->createID = Auth::user()->usercode;
         }
+    }
 
-        $this->customerList = Customer::all();
-        $this->feederList = Feeder::all();
-        $this->supplierList = Supplier::all();
-        $this->jobOrderList = JobOrder::all();
+    public function save() {
+        $this->data->editID = Auth::user()->usercode;
+        dd($this->data);
+        $this->data->save();
+        $this->redirectRoute(name: 'trailer-booking', navigate: true);
+    }
+
+    public function approve() {
+        $this->data->documentstatus = 'A';
+        $this->data->save();
+        $this->redirectRoute(name:'trailer-booking', navigate: true);
     }
 
     public function render()

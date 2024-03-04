@@ -47,6 +47,11 @@ class Page extends Component
         // }
     }
 
+    public function delete($id) {
+        TrailerBooking::find($id)->delete();
+        $this->render();
+    }
+
     public function render()
     {
         return view('livewire.page.marketing.trailer-booking.page', [ 

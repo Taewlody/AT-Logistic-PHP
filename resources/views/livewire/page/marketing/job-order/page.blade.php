@@ -145,7 +145,7 @@
                                                     </td>
                                                 @endif
         
-                                                <td class="center">{{ $item->editBy != null ? $item->editBy->username : '' }}
+                                                <td class="center">{{ $item->userEdit != null ? $item->userEdit->username : '' }}
                                                 </td>
                                                 <td>
                                                     <div class="btn-group">

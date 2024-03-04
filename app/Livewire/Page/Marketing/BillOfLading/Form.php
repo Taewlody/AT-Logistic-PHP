@@ -6,6 +6,7 @@ use App\Models\Common\Customer;
 use App\Models\Common\Supplier;
 use App\Models\Marketing\BillOfLading;
 use App\Models\Marketing\JobOrder;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 
@@ -18,11 +19,7 @@ class Form extends Component
 
     public ?BillOfLading $data = null;
 
-    public $customerList = [];
-    public $supplierList = [];
-    public $jobOrderList = [];
-
-    public function boot()
+    public function mount()
     {
         $this->data = new BillOfLading();
         if ($this->action == '') {
@@ -35,11 +32,21 @@ class Form extends Component
             $this->data = BillOfLading::find($this->id);
         } else {
             $this->action = 'create';
+            $this->data->createID = Auth::user()->usercode;
         }
+    }
 
-        $this->customerList = Customer::all();
-        $this->supplierList = Supplier::all();
-        $this->jobOrderList = JobOrder::all();
+    public function save() {
+        $this->data->editID = Auth::user()->usercode;
+        // dd($this->data);
+        $this->data->save();
+        $this->redirectRoute(name: 'bill-of-lading', navigate: true);
+    }
+
+    public function approve() {
+        $this->data->documentstatus = 'A';
+        $this->data->save();
+        $this->redirectRoute(name:'bill-of-lading', navigate: true);
     }
 
     public function render()

@@ -107,9 +107,10 @@
                                                 <td>{{ $item->documentID }}</td>
                                                 <td>{{ $item->documentDate }}</td>
                                                 <td>{{ $item->customer != null ? $item->customer->custNameTH : '' }}</td>
-                                                <td><a href="job_form?action=view&documentID={{$item->ref_jobID}}" target="blank">{{$item->ref_jobID}}</a></td>
-                                                <td>{{ $item->jobOrder != null && $item->jobOrder->salemanRef != null ? $item->jobOrder->salemanRef->empName : '' }}</td>
-        
+                                                <td><a href="{{ route('job-order.form', ['action' => 'view', 'id' => $item->ref_jobID]) }}" target="blank">{{$item->ref_jobID}}</a></td>
+                                                <td>{{ $item->jobOrder != null && $item->jobOrder->salemanRefer != null ? $item->jobOrder->salemanRefer->empName : '' }}</td>
+                                                {{$item->jobOrder->saleman_refer}}
+                                                
                                                 @if ($item->docStatus != null)
                                                     <td class="center"><span
                                                             @class([

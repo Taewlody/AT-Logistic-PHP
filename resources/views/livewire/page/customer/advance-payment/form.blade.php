@@ -52,7 +52,7 @@
                                                 style="padding-top: 5px;">ลูกค้า</span></label>
                                         <div class="col-md-4">
                                             <select name="cusCode" class="select2_single form-control select2"
-                                                id="cusCode" wire.model="data.cusCode">
+                                                id="cusCode" wire:model="data.cusCode">
                                                 {{-- <?php
                                                 if ($_SESSION['userTypecode'] == '4') {
                                                     $cusCode = $_SESSION['userID'];
