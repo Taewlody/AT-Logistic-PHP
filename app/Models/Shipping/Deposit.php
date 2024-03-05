@@ -81,6 +81,10 @@ class Deposit extends Model implements Wireable
         'dueTime' => 'string',
     ];
 
+    protected $attributes = [
+        'comCode' => 'C01',
+    ];
+
     public function __construct($attributes = [])
     {
         parent::__construct($attributes);

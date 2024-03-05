@@ -36,7 +36,7 @@ class PettyCashShippingItems extends Model implements Wireable
         'amount' => 'float'
     ];
 
-    protected array $rules = [
+    protected $attributes = [
         'comCode'=> 'C01',
     ];
 

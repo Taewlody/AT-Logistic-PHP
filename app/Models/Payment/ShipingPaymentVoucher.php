@@ -76,7 +76,7 @@ class ShipingPaymentVoucher extends Model implements Wireable
         'accountCode' => 'string',
     ];
 
-    protected array $rules = [
+    protected $attributes = [
         'comCode'=> 'C01',
         'documentstatus'=> 'P',
     ];

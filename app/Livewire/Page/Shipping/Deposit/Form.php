@@ -3,10 +3,14 @@
 namespace App\Livewire\Page\Shipping\Deposit;
 
 use App\Models\Common\BankAccount;
+use App\Models\Common\Charges;
 use App\Models\Common\Customer;
 use App\Models\Common\Supplier;
 use App\Models\Marketing\JobOrder;
 use App\Models\Shipping\Deposit;
+use App\Models\Shipping\DepositItems;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 
@@ -17,16 +21,26 @@ class Form extends Component
     #[Url]
     public $id = '';
 
-    public $customerList = [];
-    public $jobList = [];
-    public $supplierList = [];
-    public $accountList = [];
+    public string $chargeCode = '';
 
     public ?Deposit $data = null;
 
-    public function boot()
+    public Collection $payments;
+
+    protected array $rules = [
+        'payments.*' => 'unique:App\Models\PettyCash\PettyCashShippingItems',
+        'payments.*.autoid' => 'integer',
+        'payments.*.comCode' => 'string',
+        'payments.*.documentID' => 'string',
+        'payments.*.invNo' => 'string',
+        'payments.*.chargeCode' => 'string',
+        'payments.*.chartDetail' => 'string',
+        'payments.*.amount' => 'float'
+    ];
+
+    public function mount()
     {
-        $this->data = new Deposit();
+        $this->data = new Deposit;
         if ($this->action == '') {
             $this->action = 'view';
         } else {
@@ -35,15 +49,32 @@ class Form extends Component
 
         if ($this->id != '') {
             $this->data = Deposit::find($this->id);
+            $this->payments = $this->data->items;
         } else {
             $this->action = 'create';
         }
+    }
 
-        $this->customerList = Customer::select('cusCode', 'custNameEN')->without('country', 'saleman', 'creditType', 'createBy', 'editBy')->get();
-        $this->jobList = JobOrder::select("documentID")->get();
-        $this->supplierList = Supplier::select("supCode", "supNameEN")->get();
-        $this->accountList = BankAccount::select("accountCode", "accountName")->get();
+    public function addPayment() {
+        $charge = Charges::find($this->chargeCode);
+        $newCharge = new DepositItems;
+        $newCharge->documentID = $this->data->documentID;
+        $newCharge->chargeCode = $this->chargeCode;
+        $newCharge->chartDetail = $charge->chargeName;
+        $this->payments->push($newCharge);
+        $this->reset('chargeCode');
+    }
 
+    public function removePayment(int $index) {
+        $this->payments->forget($index);
+        $this->payments = $this->payments->values();
+    }
+
+    public function save() {
+        $this->data->editID = Auth::user()->usercode;
+        $this->data->save();
+        $this->data->items()->saveMany($this->payments);
+        $this->redirectRoute(name: 'deposit', navigate: true);
     }
 
     public function render()

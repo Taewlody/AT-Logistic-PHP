@@ -89,7 +89,7 @@ class PaymentVoucher extends Model implements Wireable
         'purchasevat' => 'boolean',
     ];
 
-    protected array $rules = [
+    protected $attributes = [
         'comCode'=> 'C01',
         'documentstatus'=> 'P',
     ];

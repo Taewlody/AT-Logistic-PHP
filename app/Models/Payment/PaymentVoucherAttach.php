@@ -38,7 +38,7 @@ class PaymentVoucherAttach extends Model implements Wireable
         'fileName' => 'string',
     ];
 
-    protected array $rules = [
+    protected $attributes = [
         'comCode'=> 'C01',
     ];
 

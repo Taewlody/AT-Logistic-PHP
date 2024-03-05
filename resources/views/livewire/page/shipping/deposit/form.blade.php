@@ -5,7 +5,7 @@
     <div class="wrapper wrapper-content animated fadeInRight">
 
         {{-- loading --}}
-        <div wire:loading.block class="loader-wrapper">
+        <div wire:loading.block class="loader-wrapper" wire:target='save,approve'>
             <div class="loader"></div>
         </div>
 
@@ -27,7 +27,7 @@
                             </div>
 
                             <div id="collapseDocument" role="tabpanel" class="collapse show"
-                                aria-labelledby="headingDocument" data-bs-parent="#accordion-1">
+                                aria-labelledby="headingDocument" data-bs-parent="#accordion-1" wire:ignore.self>
                                 <div class="card-body">
                                     <div class="form-group row">
                                         <label class="col-lg-2 col-form-label"><span class="col-form-label"
@@ -43,7 +43,7 @@
                                         <div class="col-md-3">
                                             <div class="input-group date"> <span class="input-group-addon"><i
                                                         class="fa fa-calendar"></i></span>
-                                                <input type="text" name="documentDate" class="form-control"
+                                                <input type="date" name="documentDate" class="form-control"
                                                     wire:model="data.documentDate">
                                             </div>
                                         </div>
@@ -60,7 +60,7 @@
                                                 }
                                                 $db->s_customer_advance($cusCode, $_SESSION['userTypecode']); ?> --}}
                                                 <option value="">- Select -</option>
-                                                @foreach ($customerList as $customer)
+                                                @foreach (Service::CustomerSelecter() as $customer)
                                                     <option value="{{ $customer->cusCode }}">{{ $customer->custNameEN }}</option>
                                                 @endforeach
                                             </select>
@@ -74,7 +74,7 @@
                                                 id="refJobNo" wire:model="data.refJobNo">
                                                 {{-- <?php $db->s_jobref_advance($refJobNo, $cusCode); ?> --}}
                                                 <option value="">- Select -</option>
-                                                @foreach ($jobList as $job)
+                                                @foreach (Service::JobOrderSelecter() as $job)
                                                     <option value="{{ $job->documentID }}">{{ $job->documentID }}</option>
                                                 @endforeach
                                             </select>
@@ -89,8 +89,8 @@
                                                 id="agentCode" wire:model="data.agentCode">
                                                 {{-- <?php $db->s_supplier("$agentCode"); ?> --}}
                                                 <option value="">- Select -</option>
-                                                @foreach ($supplierList as $supplier)
-                                                    <option value="{{ $supplier->supCode }}">{{ $supplier->supNameEN }}</option>
+                                                @foreach (Service::SupplierSelecter() as $supplier)
+                                                    <option value="{{ $supplier->supCode }}">{{ $supplier->supNameTH }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -123,7 +123,7 @@
                             </div>
 
                             <div id="collapsePayment" role="tabpanel" class="collapse show"
-                                aria-labelledby="headingPayment" data-bs-parent="#accordion-2">
+                                aria-labelledby="headingPayment" data-bs-parent="#accordion-2" wire:ignore.self>
                                 <div class="card-body">
                                     <div class="form-group row">
                                         <label class="col-lg-3 col-form-label"><span class="col-form-label"
@@ -133,7 +133,7 @@
                                                 class="select2_single form-control select2" style="width: 100%">
                                                 {{-- <?php $db->s_account(''); ?> --}}
                                                 <option value="">- Select -</option>
-                                                @foreach ($accountList as $account)
+                                                @foreach (Service::AccountSelecter() as $account)
                                                     <option value="{{ $account->accountCode }}">{{ $account->accountName }}</option>
                                                 @endforeach
                                             </select>
@@ -182,7 +182,7 @@
                                         <div class="col-md-3">
                                             <div class="input-group date"> <span class="input-group-addon"><i
                                                         class="fa fa-calendar"></i></span>
-                                                <input type="text" name="dueDate" class="form-control"
+                                                <input type="date" name="dueDate" class="form-control"
                                                     wire:model="data.dueDate">
                                             </div>
                                         </div>
@@ -218,8 +218,27 @@
                         </div>
 
                         <div id="collapseDetail" role="tabpanel" class="collapse" aria-labelledby="headingDetail"
-                            data-bs-parent="#accordion-3">
+                            data-bs-parent="#accordion-3" wire:ignore.self>
                             <div class="card-body">
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <select class="select2_single form-control select2" style="width: 100%;"
+                                            id="chargeCode" wire:model.change="chargeCode">
+                                            <option value="">- select -</option>
+                                            @foreach (Service::ChargesSelecter() as $charge)
+                                                <option value="{{ $charge->chargeCode }}">
+                                                    {{ $charge->chargeName }}
+                                                </option>
+                                            @endforeach
+                            
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2" style="padding-left: 0px;">
+                                        <button class="btn btn-white " type="button" name="addPayment" wire:click="addPayment" @disabled($chargeCode == '')
+                                            id="addPayment"><i class="fa fa-plus"></i>
+                                            Add</button>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <div class="table-responsive" id="containner_charge">
                                         <table class="table" width="100%" id="table_charge">
@@ -232,23 +251,23 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($data->items as $item)
-                                                <tr class='gradeX' wire:model="items-field-{{ $data->autoid }}">
+                                                @foreach ($payments as $item)
+                                                <tr class='gradeX' wire:key="items-field-{{ $item->autoid }}">
                                                     <td>
                                                         <input type='text' class='form-control'
-                                                            wire:model="data.items.{{ $loop->index }}.invNo">
+                                                            wire:model.live.debounce.500ms="payments.{{ $loop->index }}.invNo">
                                                     </td>
                                                     <td>
                                                         <input type='text' class='form-control'
-                                                            wire:model="data.items.{{ $loop->index }}.chartDetail">
+                                                            wire:model.live.debounce.500ms="payments.{{ $loop->index }}.chartDetail">
                                                     </td>
                                                     <td class='center'>
                                                         <input type='number' class='form-control'
-                                                            wire:model="data.items.{{ $loop->index }}.amount">
+                                                            wire:model.live.debounce.500ms.number="payments.{{ $loop->index }}.amount">
                                                     <td class='center'><button type='button'
-                                                            class='btn-white btn btn-xs'
+                                                            class='btn-white btn btn-xs' wire:click='removePayment({{ $loop->index }})'
                                                             {{-- onClick='return FN_Remove_Table("<?php echo $rowIdx; ?>")' --}}
-                                                            >Rempove</button>
+                                                            >Remove</button>
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -267,7 +286,7 @@
                                                     <tr>
                                                         <td><strong>TOTAL :</strong></td>
                                                         <td><span id="total">
-                                                                {{$data->items->sum('amount')}}
+                                                                {{ Service::MoneyFormat($payments->sum('amount')) }}
                                                             </span>
                                                         </td>
                                                     </tr>
@@ -478,7 +497,7 @@
                                 <button name="back" class="btn btn-white" type="button"
                                     onclick="window.location='job'"><i class="fa fa-reply"></i> Back</button>
 
-                                <button name="Approve" id="Approve" class="btn btn-primary" type="button"><i
+                                <button name="Approve" id="Approve" class="btn btn-primary" type="submit"><i
                                         class="fa fa-save"></i> Approve</button>
                                 <button class="btn btn-white " type="button" onclick=""><i
                                         class="fa fa-print"></i> Job</button>
