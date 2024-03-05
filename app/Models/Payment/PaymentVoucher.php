@@ -86,7 +86,12 @@ class PaymentVoucher extends Model implements Wireable
         'sumTax3' => 'float',
         'sumTax7' => 'float',
         'grandTotal' => 'float',
-        'purchasevat' => 'integer',
+        'purchasevat' => 'boolean',
+    ];
+
+    protected array $rules = [
+        'comCode'=> 'C01',
+        'documentstatus'=> 'P',
     ];
 
     public function __construct($attributes = [])

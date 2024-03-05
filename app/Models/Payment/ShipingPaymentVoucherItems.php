@@ -39,6 +39,11 @@ class ShipingPaymentVoucherItems extends Model implements Wireable
         'amount' => 'float',
     ];
 
+    protected array $rules = [
+        'comCode'=> 'C01',
+        'documentstatus'=> 'P',
+    ];
+
     public function __construct($attributes = [])
     {
         parent::__construct($attributes);

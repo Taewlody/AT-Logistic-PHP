@@ -35,6 +35,10 @@ class AdvancePaymentAttach extends Model implements Wireable
         'fileName' => 'string',
     ];
 
+    protected array $rules = [
+        'comCode'=> 'C01',
+    ];
+
     public function __construct($attributes = [])
     {
         parent::__construct($attributes);

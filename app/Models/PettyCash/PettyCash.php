@@ -73,6 +73,12 @@ class PettyCash extends Model implements Wireable
         'sumTax7' => 'float',
         'grandTotal' => 'float',
     ];
+
+    protected array $rules = [
+        'comCode'=> 'C01',
+        'documentstatus'=> 'P',
+    ];
+    
     public function __construct($attributes = [])
     {
         parent::__construct($attributes);

@@ -62,6 +62,11 @@ class PettyCashShipping extends Model implements Wireable
         'editTime' => CustomDateTime::class,
     ];
 
+    protected array $rules = [
+        'comCode'=> 'C01',
+        'documentstatus'=> 'P',
+    ];
+
     public function __construct($attributes = [])
     {
         parent::__construct($attributes);

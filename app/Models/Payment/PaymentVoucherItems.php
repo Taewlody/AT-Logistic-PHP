@@ -49,6 +49,10 @@ class PaymentVoucherItems extends Model implements Wireable
         'vatamount' => 'float',
     ];
 
+    protected array $rules = [
+        'comCode'=> 'C01',
+    ];
+
     public function __construct($attributes = [])
     {
         parent::__construct($attributes);
