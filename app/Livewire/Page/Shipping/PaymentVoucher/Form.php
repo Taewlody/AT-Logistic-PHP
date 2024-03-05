@@ -3,10 +3,12 @@
 namespace App\Livewire\Page\Shipping\PaymentVoucher;
 
 use App\Models\Common\BankAccount;
+use App\Models\Common\Charges;
 use App\Models\Common\Supplier;
 use App\Models\Marketing\JobOrder;
 use App\Models\Payment\PaymentVoucher;
 // use App\Models\Payment\ShipingPaymentVoucher;
+use App\Models\Payment\PaymentVoucherItems;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
@@ -22,6 +24,7 @@ class Form extends Component
 
     public ?PaymentVoucher $data = null;
 
+    public string $chargeCode = '';
     public Collection $payments;
 
     protected array $rules = [
@@ -88,17 +91,33 @@ class Form extends Component
         }
     }
 
+    public function addPayment() {
+        $newPayment = new PaymentVoucherItems;
+        $charge = Charges::find($this->chargeCode);
+        $newPayment->documentID = $this->data->documentID;
+        $newPayment->chargeCode = $this->chargeCode;
+        $newPayment->chartDetail = $charge != null ? $charge->chargeName : '';
+        $this->payments->push($newPayment);
+        $this->reset('chargeCode');
+    }
+
+    public function removePayment(int $index) {
+        $this->payments->forget($index);
+        $this->payments = $this->payments->values();
+    }
+
     public function changeTax(int $value, int $index){
-        $this->payments[$index]->taxamount = $this->payments->get($index)->amount * ($value / 100);
+        $this->payments[$index]->taxamount = round($this->payments->get($index)->amount * ($value / 100), 2);
     }
 
     public function changeVat(int $value, int $index) {
-        $this->payments[$index]->vatamount = $this->payments->get($index)->amount * ($value / 100);
+        $this->payments[$index]->vatamount = round($this->payments->get($index)->amount * ($value / 100), 2);
     }
 
     public function save() {
         $this->data->editID = Auth::user()->usercode;
         $this->data->save();
+        // $this->data->items()->delete();
         $this->data->items()->saveMany($this->payments);
         $this->redirectRoute(name: 'shipping-payment-voucher', navigate: true);
     }

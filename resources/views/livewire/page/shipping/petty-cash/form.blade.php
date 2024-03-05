@@ -6,7 +6,7 @@
     <div class="wrapper wrapper-content animated fadeInRight">
 
         {{-- loading --}}
-        <div wire:loading.block class="loader-wrapper">
+        <div wire:loading.block class="loader-wrapper" wire:target='save,approve'>
             <div class="loader"></div>
         </div>
 
@@ -41,7 +41,7 @@
                                         <div class="col-md-2">
                                             <div class="input-group date"> <span class="input-group-addon"><i
                                                         class="fa fa-calendar"></i></span>
-                                                <input type="text" name="documentDate" class="form-control"
+                                                <input type="date" name="documentDate" class="form-control"
                                                     wire:model="data.documentDate">
                                             </div>
                                         </div>
@@ -53,8 +53,8 @@
                                             <select name="supCode" class="select2_single form-control select2"
                                                 id="supCode" wire:model="data.supCode">
                                                 <option value="">-- Select --</option>
-                                                @foreach ($supplierList as $supplier)
-                                                    <option value="{{ $supplier->supCode }}">{{ $supplier->supNameEN }}
+                                                @foreach (Service::SupplierSelecter() as $supplier)
+                                                    <option value="{{ $supplier->supCode }}">{{ $supplier->supNameTH }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -64,7 +64,7 @@
                                             <select class="select2_single form-control select2" name="refJobNo"
                                                 id="refJobNo" wire:model="data.refJobNo">
                                                 <option value="">-- Select --</option>
-                                                @foreach ($jobNoList as $job)
+                                                @foreach (Service::JobOrderSelecter() as $job)
                                                     <option value="{{ $job->documentID }}">{{ $job->documentID }}
                                                     </option>
                                                 @endforeach
@@ -83,8 +83,8 @@
                                         <div class="col-md-2">
                                             <div class="input-group date"> <span class="input-group-addon"><i
                                                         class="fa fa-calendar"></i></span>
-                                                <input type="text" name="dueDate" class="form-control"
-                                                    wire:model="data.dueDate">
+                                                <input type="date" name="dueDate" class="form-control">
+                                                    {{-- wire:model="data.dueDate"> --}}
                                             </div>
                                         </div>
 
@@ -117,16 +117,15 @@
                                     <div class="form-group  row">
                                         <div class="col-md-6">
                                             <select class="select2_single form-control select2" style="width: 100%;"
-                                                id="chargeCode" wire:model="data.chargeCode">
+                                                id="chargeCode" wire:model="chargeCode">
                                                 <option value="">-- Select --</option>
-                                                @foreach ($chargeList as $charge)
+                                                @foreach (Service::ChargesSelecter() as $charge)
                                                     <option value="{{ $charge->chargeCode }}">{{ $charge->chargeName }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
-                                            <button class="btn btn-white " type="button" name="addCharge"
-                                                id="addCharge"><i class="fa fa-plus"></i> Add</button>
+                                            <button class="btn btn-white " type="button" wire:click='addPayment'><i class="fa fa-plus"></i> Add</button>
                                         </div>
                                     </div>
 
@@ -143,29 +142,25 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach ($data->items as $item)
+                                                    @foreach ($payments as $item)
                                                     <tr class='gradeX'
-                                                            wire:model="item-field-{{ $data->autoid }}">
+                                                            wire:key="item-field-{{ $item->autoid }}">
 
                                                             <td>
                                                                 <input type='text' class='form-control'
-                                                                    wire:model="data.items.{{ $loop->index }}.invNo">
+                                                                    wire:model.live.debounce.500ms="payments.{{ $loop->index }}.invNo">
                                                             </td>
                                                             <td>
                                                                 <input type='text' class='form-control'
-                                                                    wire:model="data.items.{{ $loop->index }}.chartDetail">
+                                                                wire:model.live.debounce.500ms="payments.{{ $loop->index }}.chartDetail">
                                                             </td>
                                                             <td class='center'>
                                                                 <input type='number' class='form-control'
-                                                                    wire:model="data.items.{{ $loop->index }}.amount">
-                                                                {{-- name='amount[]'
-                                                                onkeyup='call_price()' 
-                                                                value='<?php echo $r['amount']; ?>'
-                                                                id='amount<?php echo $rowIdx; ?>'> --}}
+                                                                    wire:model.live.debounce.500ms.number="payments.{{ $loop->index }}.amount">
                                                             </td>
                                                             <td class='center'>
                                                                 <button type='button'
-                                                                    class='btn-white btn btn-xs'>Rempove</button>
+                                                                    class='btn-white btn btn-xs' wire:click='removePayment({{$loop->index}})'>Remove</button>
                                                             </td>
                                                     </tr>
                                                     @endforeach
@@ -184,33 +179,31 @@
                                                         <tr>
                                                             <td><strong>TOTAL :</strong></td>
                                                             <td>
-                                                                <input type="number" name="sumTotal" id="sumTotal"
-                                                                    class='form-control' wire:model="data.sumTotal"
-                                                                    required>
+                                                                <input name="sumTotal" id="sumTotal"
+                                                                    class='form-control' value="{{ Service::MoneyFormat($this->calPrice()->total) }}"
+                                                                    required readonly>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Tax 1% :</strong></td>
-                                                            <td><input type="number" name="tax1" id="tax1"
-                                                                    onkeyup='call_price()' class='form-control' wire:model="data.tax1"
-                                                                    required></td>
+                                                            <td><input name="tax1" id="tax1"
+                                                                     class='form-control' value="{{ Service::MoneyFormat($this->calPrice()->tax1) }}"
+                                                                    required readonly></td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Tax 3% :</strong></td>
-                                                            <td><input type="number" name="tax3" id="tax3"
-                                                                    onkeyup="call_price()" class='form-control' wire:model="data.tax3"
+                                                            <td><input name="tax3" id="tax3" class='form-control' value="{{  Service::MoneyFormat($this->calPrice()->tax3) }}"
                                                                     required></td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Vat7% :</strong></td>
-                                                            <td><input type="number" name="tax7" id="tax7"
-                                                                    onkeyup="call_price()" class='form-control' wire:model="data.tax7"
+                                                            <td><input name="tax7" id="tax7" class='form-control' value="{{  Service::MoneyFormat($this->calPrice()->tax7) }}"
                                                                     required></td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>GRAND TOTAL:</strong></td>
                                                             <td style="text-align: left"><span
-                                                                    id="showgrandTotal">{{$data->grandTotal}}</span>
+                                                                    id="showgrandTotal">{{ Service::MoneyFormat($this->calPrice()->grandTotal)}}</span>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -251,9 +244,9 @@
                             <div class="form-group row">
                                 <div class="col-sm-10 col-sm-offset-2">
                                     <button name="back" class="btn btn-white" type="button"
-                                        onclick="window.location='job'"><i class="fa fa-reply"></i> Back</button>
+                                        wire:click.prevent='{{ url()->previous() }}'><i class="fa fa-reply"></i> Back</button>
 
-                                    <button name="Approve" id="Approve" class="btn btn-primary" type="button"><i
+                                    <button name="Approve" id="Approve" class="btn btn-primary" type="button" wire:click='save'><i
                                             class="fa fa-save"></i> Approve</button>
                                     <button class="btn btn-white " type="button" onclick=""><i
                                             class="fa fa-print"></i> Job</button>

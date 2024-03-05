@@ -202,6 +202,25 @@
                             <div id="collapseDetail" role="tabpanel" class="collapse show"
                                 aria-labelledby="headingDetail" data-bs-parent="#accordion-3" wire:ignore.self>
                                 <div class="card-body">
+                                    <div class="form-group row">
+                                        <div class="col-md-6">
+                                            <select class="select2_single form-control select2" style="width: 100%;"
+                                                id="chargeCode" wire:model.change="chargeCode">
+                                                <option value="">- select -</option>
+                                                @foreach (Service::ChargesSelecter() as $charge)
+                                                    <option value="{{ $charge->chargeCode }}">
+                                                        {{ $charge->chargeName }}
+                                                    </option>
+                                                @endforeach
+                                
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2" style="padding-left: 0px;">
+                                            <button class="btn btn-white " type="button" name="addPayment" wire:click="addPayment" @disabled($chargeCode == '')
+                                                id="addPayment"><i class="fa fa-plus"></i>
+                                                Add</button>
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <div class="table-responsive" id="containner_charge">
                                             <table class="table" width="100%" id="table_charge">
@@ -220,7 +239,7 @@
                                                 <tbody>
                                                     @foreach ($payments as $item)
                                                         <tr class='gradeX'
-                                                            wire:model="item-field-{{ $item->autoid }}">
+                                                            wire:key="item-field-{{ $item->autoid }}">
                                                             <td>
                                                                 <input type='text' class='form-control'
                                                                 wire:model.live.debounce.500ms="payments.{{ $loop->index }}.invNo">
@@ -254,7 +273,7 @@
                                                                 <input type="text" wire:model="payments.{{ $loop->index }}.vatamount" readonly>
                                                               </td>
                                                               <td class='center'>
-                                                                <button type='button' class='btn-white btn btn-xs' wire:model='removeItem({{ $loop->index }})'>Rempove</button>
+                                                                <button type='button' class='btn-white btn btn-xs' wire:click='removePayment({{ $loop->index }})'>Remove</button>
                                                             </td>                                                 
                                                         </tr>
                                                     @endforeach
