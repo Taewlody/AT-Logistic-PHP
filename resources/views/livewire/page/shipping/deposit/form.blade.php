@@ -495,7 +495,7 @@
                         <div class="form-group row">
                             <div class="col-sm-10 col-sm-offset-2">
                                 <button name="back" class="btn btn-white" type="button"
-                                    onclick="window.location='job'"><i class="fa fa-reply"></i> Back</button>
+                                    wire:click.prevent='{{ url()->previous() }}'><i class="fa fa-reply"></i> Back</button>
 
                                 <button name="Approve" id="Approve" class="btn btn-primary" type="submit"><i
                                         class="fa fa-save"></i> Approve</button>

@@ -13,9 +13,11 @@ class ReceiptVoucherItems extends Model implements Wireable
 
     protected $table = 'receipt_voucher_items';
 
-    public $incrementing = false;
-    protected $keyType = 'string';
-    protected $primaryKey = 'documentID';
+    // public $incrementing = false;
+    // protected $keyType = 'string';
+    protected $primaryKey = 'autoid';
+
+    public $timestamps = false;
 
     protected $fillable = [
         'autoid',

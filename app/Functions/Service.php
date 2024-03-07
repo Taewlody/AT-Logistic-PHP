@@ -6,6 +6,7 @@ use App\Models\Common\BankAccount;
 use App\Models\Common\Charges;
 use App\Models\Common\ContainerSize;
 use App\Models\Common\ContainerType;
+use App\Models\Common\CreditTerm;
 use App\Models\Common\Customer;
 use App\Models\Common\Feeder;
 use App\Models\Common\Place;
@@ -99,6 +100,12 @@ class Service
     public static function JobOrderSelecter(){
         return Cache::remember('job-order-select', 15, function () {
             return JobOrder::select('documentID')->orderBy('documentID')->get();
+        });
+    }
+
+    public static function CreditTermSelecter() {
+        return Cache::remember('credit-term-select', 15, function () {
+           return CreditTerm::select('creditCode', 'creditName')->get();
         });
     }
 }

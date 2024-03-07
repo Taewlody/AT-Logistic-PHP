@@ -14,9 +14,11 @@ class InvoiceItems extends Model implements Wireable
 
     protected $table = 'invoice_items';
 
-    public $incrementing = false;
-    protected $keyType = 'string';
-    protected $primaryKey = 'documentID';
+    // public $incrementing = false;
+    // protected $keyType = 'string';
+    protected $primaryKey = 'items';
+
+    public $timestamps = false;
 
     protected $fillable = [
         'items',

@@ -28,7 +28,7 @@ class Form extends Component
     public Collection $payments;
 
     protected array $rules = [
-        'payments.*' => 'unique:App\Models\PettyCash\PettyCashShippingItems',
+        'payments.*' => 'unique:App\Models\Shipping\DepositItems',
         'payments.*.autoid' => 'integer',
         'payments.*.comCode' => 'string',
         'payments.*.documentID' => 'string',
@@ -52,6 +52,7 @@ class Form extends Component
             $this->payments = $this->data->items;
         } else {
             $this->action = 'create';
+            $this->data->createID = Auth::user()->usercode;
         }
     }
 

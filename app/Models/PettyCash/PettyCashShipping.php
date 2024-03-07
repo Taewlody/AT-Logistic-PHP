@@ -4,6 +4,7 @@ namespace App\Models\PettyCash;
 
 use App\Casts\CustomDate;
 use App\Casts\CustomDateTime;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -66,6 +67,26 @@ class PettyCashShipping extends Model implements Wireable
         'comCode'=> 'C01',
         'documentstatus'=> 'P',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function($model){
+            $model->documentID = self::genarateKey();
+        });
+    }
+
+    public static function genarateKey(){
+        $prefix = "C".Carbon::now()->format('ym');
+        $lastKey = self::where('documentID', 'LIKE', $prefix.'%')->max('documentID');
+        if($lastKey != null){
+            $lastKey = intval(explode('-', $lastKey)[1]) + 1;
+        }else{
+            $lastKey = 1;
+        }
+        $index = str_pad($lastKey, 5, '0', STR_PAD_LEFT);
+        return $prefix.'-'.$index;
+    }
 
     public function __construct($attributes = [])
     {

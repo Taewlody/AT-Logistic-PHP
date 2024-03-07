@@ -2,6 +2,7 @@
 
 namespace App\Models\Account;
 
+use App\Models\Common\Charges;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +17,8 @@ class TaxInvoiceItems extends Model implements Wireable
     // public $incrementing = false;
     // protected $keyType = 'string';
     protected $primaryKey = 'items';
+
+    public $timestamps = false;
 
     protected $fillable = [
         'items',
@@ -61,5 +64,10 @@ class TaxInvoiceItems extends Model implements Wireable
         $arr['exists'] = $this->exists;
         $arr['connection'] = $this->getConnectionName();
         return $arr;
+    }
+
+    public function charges(): HasOne
+    {
+        return $this->hasOne(Charges::class, 'chargeCode', 'chargeCode');
     }
 }
