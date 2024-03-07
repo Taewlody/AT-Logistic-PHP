@@ -78,6 +78,10 @@ class Saleman extends Model implements Wireable
         return new static($value);
     }
 
+    public function id(){
+        return $this->getKey();
+    }
+
     public function toLiveWire() : array
     {
         // return $this->toArray();

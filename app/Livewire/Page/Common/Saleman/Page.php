@@ -5,15 +5,18 @@ namespace App\Livewire\Page\Common\Saleman;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Common\Saleman;
+use Illuminate\Support\Facades\DB;
 
 class Page extends Component
 {
     use WithPagination;
     public $searchText = "";
 
-    public function delete($id)
+    public function delete($empCode, $usercode)
     {
-        Saleman::find($id)->delete();
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        Saleman::where('empCode',$empCode)->where('usercode', $usercode)->delete();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
         $this->dispatch('refresh');
     }
 
