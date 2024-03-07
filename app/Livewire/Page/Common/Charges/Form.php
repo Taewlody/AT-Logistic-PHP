@@ -40,6 +40,7 @@ class Form extends Component
     public function save()
     {
         if($this->action=='create'){
+            $this->data->chargeCode = Charges::genarateKey();
             $this->data->createID = Auth::user()->usercode;
             $this->data->createTime = Carbon::now()->format('Y-m-d H:i:s');
             $this->data->editID = Auth::user()->usercode;
@@ -48,6 +49,7 @@ class Form extends Component
             $this->data->editID = Auth::user()->usercode;
             $this->data->editTime = Carbon::now()->format('Y-m-d H:i:s');
         }
+        
         Charges::upsert([$this->data->toArray()], ['chargeCode']);
         return $this->redirect(Page::class);
     }

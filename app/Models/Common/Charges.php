@@ -60,6 +60,26 @@ class Charges extends Model implements Wireable
         'purchaseVat' => BooleanStringChar::class,
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function($model){
+            $model->chargeCode = self::genarateKey();
+        });
+    }
+
+    public static function genarateKey(){
+        $prefix = "C";
+        $lastKey = self::where('chargeCode', 'LIKE', $prefix.'%')->max('chargeCode');
+        if($lastKey != null){
+            $lastKey = intval(explode('-', $lastKey)[1]) + 1;
+        }else{
+            $lastKey = 1;
+        }
+        $index = str_pad($lastKey, 3, '0', STR_PAD_LEFT);
+        return $prefix.'-'.$index;
+    }
+
     public function __construct($attributes = [])
     {
         parent::__construct($attributes);
