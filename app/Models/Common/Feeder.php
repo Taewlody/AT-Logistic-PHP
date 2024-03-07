@@ -53,12 +53,32 @@ class Feeder extends Model implements Wireable
         'isActive' => false,
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function($model){
+            $model->fCode = self::genarateKey();
+        });
+    }
+
     public function __construct($attributes = [])
     {
         parent::__construct($attributes);
         $this->fill($attributes);
         $this->exists = $attributes['exists'] ?? false;
         $this->setConnection($attributes['connection'] ?? 'mysql');
+    }
+
+    public static function genarateKey(){
+        $prefix = "Z";
+        $lastKey = self::where('fCode', 'LIKE', $prefix.'%')->max('fCode');
+        if($lastKey != null){
+            $lastKey = intval(explode('-', $lastKey)[1]) + 1;
+        }else{
+            $lastKey = 1;
+        }
+        $index = str_pad($lastKey, 5, '0', STR_PAD_LEFT);
+        return $prefix.'-'.$index;
     }
 
     public static function fromLivewire($value): self

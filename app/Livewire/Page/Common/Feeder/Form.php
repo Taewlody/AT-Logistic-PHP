@@ -29,12 +29,12 @@ class Form extends Component
             $this->action = 'create';
             $this->data = new Feeder();
         }
-        
     }
 
     public function save()
     {
         if($this->action=='create'){
+            $this->data->fCode = Feeder::genarateKey();
             $this->data->createID = Auth::user()->usercode;
             $this->data->createTime = Carbon::now()->format('Y-m-d H:i:s');
             $this->data->editID = Auth::user()->usercode;
