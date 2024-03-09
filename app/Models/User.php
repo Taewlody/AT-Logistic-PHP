@@ -25,6 +25,11 @@ class User extends Authenticatable implements Wireable {
     protected $keyType = 'string';
     protected $primaryKey = 'usercode';
 
+    protected $dateFormat = 'y-m-d H:i:s';
+
+    const CREATED_AT = 'createTime';
+    const UPDATED_AT = 'editTime';
+
 
     /**
      * The attributes that are mass assignable.
