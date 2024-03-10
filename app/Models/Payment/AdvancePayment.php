@@ -132,7 +132,7 @@ class AdvancePayment extends Model implements Wireable
         return $this->hasMany(AdvancePaymentItems::class, 'documentID', 'documentID');
     }
 
-    public function Attach(): HasMany
+    public function attach(): HasMany
     {
         return $this->hasMany(AdvancePaymentAttach::class, 'documentID', 'documentID');
     }
