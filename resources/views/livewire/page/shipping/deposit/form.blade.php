@@ -436,6 +436,7 @@
                                                 <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i; ?>")'>Remove</button></td>
                                             </tr>
                                             <?php $i++; }} ?> --}}
+                                            
                                         </tbody>
                                         <tfoot>
                                         </tfoot>

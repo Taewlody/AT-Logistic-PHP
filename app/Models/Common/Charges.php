@@ -70,7 +70,7 @@ class Charges extends Model implements Wireable
 
     public static function genarateKey(){
         $prefix = "C";
-        $lastKey = self::where('chargeCode', 'LIKE', $prefix.'%')->max('chargeCode');
+        $lastKey = self::where(self::getKeyName(), 'LIKE', $prefix.'%')->max(self::getKeyName());
         if($lastKey != null){
             $lastKey = intval(explode('-', $lastKey)[1]) + 1;
         }else{
@@ -101,18 +101,18 @@ class Charges extends Model implements Wireable
         $arr['connection'] = $this->getConnectionName();
         return $arr;
     }
-    public function createBy(): BelongsTo
+    public function createBy(): HasOne
     {
-        return $this->belongsTo(User::class, 'userCode','createID');
+        return $this->hasOne(User::class, 'userCode','createID');
     }
 
-    public function editBy(): BelongsTo
+    public function editBy(): HasOne
     {
-        return $this->belongsTo(User::class, 'userCode','editID');
+        return $this->hasOne(User::class, 'userCode','editID');
     }
 
-    public function chargesType(): BelongsTo
+    public function chargesType(): HasOne
     {
-        return $this->belongsTo(ChargesType::class, 'typeCode','typeCode');
+        return $this->hasOne(ChargesType::class, 'typeCode','typeCode');
     }
 }

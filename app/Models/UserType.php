@@ -17,8 +17,13 @@ class UserType extends Model implements Wireable
     protected $table = 'user_type';
 
     public $incrementing = false;
-    protected $keyType = 'string';
+    protected $keyType = 'integer';
     protected $primaryKey = 'userTypecode';
+
+    protected $dateFormat = 'y-m-d H:i:s';
+
+    const CREATED_AT = 'createTime';
+    const UPDATED_AT = 'editTime';
 
     protected $fillable = [
         'comCode',
@@ -41,6 +46,23 @@ class UserType extends Model implements Wireable
         'editID' => 'string',
         'editTime' => CustomDateTime::class,
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function($model){
+            $model->userTypecode = self::genarateKey();
+        });
+    }
+
+    public static function genarateKey(){
+        $lastKey = self::max(self::getKeyName());
+        if($lastKey != null){
+            return $lastKey + 1;
+        }else{
+            return 1;
+        }
+    }
 
     public function __construct($attributes = [])
     {

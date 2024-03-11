@@ -4,6 +4,7 @@ namespace App\Models\Payment;
 
 use App\Models\Common\Charges; // Add the missing import statement
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Wireable;
@@ -62,6 +63,11 @@ class AdvancePaymentItems extends Model implements Wireable
         $arr['exists'] = $this->exists;
         $arr['connection'] = $this->getConnectionName();
         return $arr;
+    }
+
+    public function advancePayment(): BelongsTo
+    {
+        return $this->belongsTo(AdvancePayment::class, 'documentID', 'documentID');
     }
 
     public function charge(): HasOne

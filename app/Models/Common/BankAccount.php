@@ -52,18 +52,22 @@ class BankAccount extends Model implements Wireable
         'editTime' => CustomDateTime::class,
     ];
 
-    // public static function boot()
-    // {
-    //     parent::boot();
-    //     static::creating(function ($model) {
-    //         $model->accountCode .= 'C-' . str_pad(BankAccount::count() + 1, 8, '0', STR_PAD_LEFT);
-    //         $model->createTime = Carbon::now();
-    //         $model->editTime = Carbon::now();
-    //     });
-    //     static::updating(function ($model) {
-    //         $model->editTime = Carbon::now();
-    //     });
-    // }
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function (self $model) {
+            $model->accountCode = self::genarateKey();
+           
+        });
+    }
+
+    public static function genarateKey() {
+        $prefix = "C";
+        $lastKey = self::where(self::getKeyName(), 'LIKE', $prefix.'%')->max(self::getKeyName());
+        $lastKey = ($lastKey != null) ? intval(explode('-', $lastKey)[1]) + 1 : 1;
+        $index = str_pad($lastKey, 3, '0', STR_PAD_LEFT);
+        return $prefix.'-'.$index;
+    }
 
     protected $attributes = [
         'comCode' => 'C01',

@@ -3,6 +3,7 @@
 namespace App\Livewire\Page\Administrator\UserType;
 
 use App\Models\UserType;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 
@@ -28,8 +29,14 @@ class Form extends Component
         }else{
             $this->action = 'create';
             $this->data = new UserType();
+            $this->data->createID = Auth::user()->usercode;
         }
         
+    }
+
+    public function save() {
+        $this->data->eachByID = Auth::user()->usercode;
+        $this->data->save();
     }
 
     public function render()

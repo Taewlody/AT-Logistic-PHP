@@ -53,14 +53,16 @@
                                         <div class="col-md-4">
                                             <select name="cusCode" class="select2_single form-control select2"
                                                 id="cusCode" wire:model="data.cusCode">
-                                                {{-- <?php
+                                                {{--
+                                                <?php
                                                 if ($_SESSION['userTypecode'] == '4') {
                                                     $cusCode = $_SESSION['userID'];
                                                 }
                                                 $db->s_customer_advance($cusCode, $_SESSION['userTypecode']); ?> --}}
                                                 <option>- select -</option>
                                                 @foreach (Service::CustomerSelecter() as $customer)
-                                                    <option value="{{$customer->cusCode}}">{{$customer->custNameEN}}</option>
+                                                <option value="{{$customer->cusCode}}">{{$customer->custNameEN}}
+                                                </option>
                                                 @endforeach
                                             </select>
 
@@ -71,10 +73,11 @@
                                         <div class="col-md-3">
                                             <select class="select2_single form-control select2" name="refJobNo"
                                                 id="refJobNo" wire:model="data.refJobNo">
-                                                {{-- <?php $db->s_jobref_advance($refJobNo, $cusCode); ?> --}}
+                                                {{--
+                                                <?php $db->s_jobref_advance($refJobNo, $cusCode); ?> --}}
                                                 <option>- select -</option>
                                                 @foreach (Service::JobOrderSelecter() as $job)
-                                                    <option value="{{$job->documentID}}">{{$job->documentID}}</option>
+                                                <option value="{{$job->documentID}}">{{$job->documentID}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -84,7 +87,8 @@
                                     <div class="form-group row">
                                         <label class="col-lg-2 col-form-label">Note</label>
                                         <div class="col-md-9">
-                                            <textarea name="note" rows="4" class="form-control" wire:model="data.note"></textarea>
+                                            <textarea name="note" rows="4" class="form-control"
+                                                wire:model="data.note"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -116,10 +120,12 @@
                                             <select name="accountCode" id="accountCode"
                                                 class="select2_single form-control select2"
                                                 wire:model="data.accountCode" style="width: 100%">
-                                                {{-- <?php $db->s_account(''); ?> --}}
+                                                {{--
+                                                <?php $db->s_account(''); ?> --}}
                                                 <option>- select -</option>
                                                 @foreach (Service::AccountSelecter() as $account)
-                                                    <option value="{{$account->accountCode}}">{{$account->accountName}}</option>
+                                                <option value="{{$account->accountCode}}">{{$account->accountName}}
+                                                </option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -137,12 +143,12 @@
 
                                             </div>
                                             <div class="i-checks">
-                                                <input type="radio" id="other" value="o"
-                                                    name="payType"wire:model="data.payType">
+                                                <input type="radio" id="other" value="o" name="payType"
+                                                    wire:model="data.payType">
                                                 <Label for="other"><i></i>อื่นๆ Other</Label>
                                                 @if ($data->payType == 'o')
-                                                    <input type="text" name="payTypeOther" id="payTypeOther"
-                                                        class="form-control col-sm-6" wire:model="data.payTypeOther">
+                                                <input type="text" name="payTypeOther" id="payTypeOther"
+                                                    class="form-control col-sm-6" wire:model="data.payTypeOther">
                                                 @endif
                                             </div>
                                         </div>
@@ -156,8 +162,8 @@
 
                                         <label class="col-sm-2 col-form-label">เลขที่เช็ค</label>
                                         <div class="col-md-3">
-                                            <input type="text" name="chequeNo" id="chequeNo"
-                                                class="form-control" wire:model="data.chequeNo">
+                                            <input type="text" name="chequeNo" id="chequeNo" class="form-control"
+                                                wire:model="data.chequeNo">
                                         </div>
                                     </div>
                                     <div class="form-group  row">
@@ -229,25 +235,26 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                @foreach ($items as $payment)
-                                                <tr class='gradeX'>
-                                                    <td>
-                                                        <input type='text' class='form-control'
-                                                            wire:model.live.debounce.500ms='items.{{$loop->index}}.invNo'>
-                                                    </td>
-                                                    <td>
-                                                        <input type='text' class='form-control' wire:model.live.debounce.500ms='items.{{$loop->index}}.chartDetail'>
-                                                    </td>
-                                                    <td class='center'>
-                                                        <input type='number' class='form-control' wire:model.live.debounce.500ms.number='items.{{$loop->index}}.amount'>
-                                                    </td>
-                                                    <td class='center'>
-                                                        <button type='button'
-                                                            class='btn-white btn btn-xs'
-                                                            wire:click='removeCharge({{$loop->index}})'>Remove</button>
-                                                    </td>
-                                                </tr>
-                                                @endforeach
+                                                    @foreach ($payments as $payment)
+                                                    <tr class='gradeX'>
+                                                        <td>
+                                                            <input type='text' class='form-control'
+                                                                wire:model.live.debounce.500ms='payments.{{$loop->index}}.invNo'>
+                                                        </td>
+                                                        <td>
+                                                            <input type='text' class='form-control'
+                                                                wire:model.live.debounce.500ms='payments.{{$loop->index}}.chartDetail'>
+                                                        </td>
+                                                        <td class='center'>
+                                                            <input type='number' class='form-control'
+                                                                wire:model.live.debounce.500ms.number='payments.{{$loop->index}}.amount'>
+                                                        </td>
+                                                        <td class='center'>
+                                                            <button type='button' class='btn-white btn btn-xs'
+                                                                wire:click='removeCharge({{$loop->index}})'>Remove</button>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
                                                 </tbody>
                                                 <tfoot>
                                                 </tfoot>
@@ -263,7 +270,8 @@
                                                         <tr>
                                                             <td><strong>TOTAL :</strong></td>
                                                             <td><span id="total">
-                                                                    {{ Service::MoneyFormat($data->items->sum('amount') ?? 0) }}
+                                                                    {{ Service::MoneyFormat($data->items->sum('amount')
+                                                                    ?? 0) }}
                                                                 </span>
                                                             </td>
                                                         </tr>
@@ -292,151 +300,70 @@
                                 </h2>
                             </div>
                             <div id="collapseAttachment" role="tabpanel" class="collapse"
-                                aria-labelledby="headingAttachment" data-bs-parent="#accordion-4">
+                                aria-labelledby="headingAttachment" data-bs-parent="#accordion-4" wire:ignore.self>
                                 <div class="card-body">
                                     <div class="form-group">
                                         <table class="table" width="100%" name="table_attach" id="table_attach">
                                             <thead>
                                                 <tr>
-                                                    <th style="width:10%">document</th>
+                                                    <th style="width:10%">No.</th>
+                                                    <th style="width:30%">File Detail</th>
                                                     <th style="width:50%">File Name</th>
                                                     <th style="width:10%">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {{-- <?php
-                                            $sql = "SELECT
-                                              t.items,
-                                              t.comCode,
-                                              t.documentID,
-                                              t.cusCode,
-                                              t.fileDetail,
-                                              t.fileName
-                                              FROM
-                                              joborder_attach AS t
-                                              WHERE t.comCode='$db->comCode' AND t.documentID='$documentID' ";
-                                            $result = $db->query( $sql );
-                                            $i_container = 1;
-                                            $i = 99;
-                            
-                                            if ( $acton != 'add' && $acton != 'copy' ) {
-                                              while ( $r = mysqli_fetch_array( $result ) ) {
-                            
-                                                ?>
-                                            <tr class='gradeX' id='tr<?php echo $i; ?>'>
-                                              <td><?php echo $r['documentID']; ?></td>
-                                              <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i; ?>'>
-                                                <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail']; ?>' id='fileName<?php echo $i; ?>'></td>
-                                              <td class='center'><a class='btn-white btn btn-xs' href='customer_path/<?php echo $r['cusCode'] . '/' . $r['fileName']; ?>' target='_blank'>View</a>
-                                                </button>
-                                                &nbsp;
-                                                <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i; ?>")'>Remove</button></td>
-                                            </tr>
-                                            <?php $i++; } } ?>
-                                            <?php
-                            
-                                            $sql = "SELECT
-                                              t.documentID,
-                                              f.supCode,
-                                              t.refJobNo,
-                                              f.fileDetail,
-                                              f.fileName
-                                              FROM
-                                              payment_voucher AS t
-                                              INNER JOIN payment_voucher_attach AS f ON t.comCode = f.comCode AND t.documentID = f.documentID
-                                              WHERE t.comCode='$db->comCode' AND t.refJobNo='$documentID' AND t.documentstatus='A' ";
-                                            $result = $db->query( $sql );
-                                            if ( $acton != 'add' && $acton != 'copy' ) {
-                                              while ( $r = mysqli_fetch_array( $result ) ) {
-                            
-                                                ?>
-                                            <tr class='gradeX' id='tr<?php echo $i; ?>'>
-                                              <td><?php echo $r['documentID']; ?></td>
-                                              <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i; ?>'>
-                                                <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail']; ?>' id='fileName<?php echo $i; ?>'></td>
-                                              <td class='center'><a class='btn-white btn btn-xs' href='supplier_path/<?php echo $r['supCode'] . '/' . $r['fileName']; ?>' target='_blank'>View</a>
-                                                </button>
-                                                &nbsp;
-                                                <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i; ?>")'>Remove</button></td>
-                                            </tr>
-                                            <?php $i++; }} ?>
-                                            <?php
-                                            $sql = "SELECT
-                                              t.documentID,
-                                              f.cusCode,
-                                              t.refJobNo,
-                                              f.fileDetail,
-                                              f.fileName
-                                              FROM
-                                              advance_payment AS t
-                                              INNER JOIN advance_payment_attach AS f ON t.comCode = f.comCode AND t.documentID = f.documentID
-                                              WHERE t.comCode='$db->comCode' AND t.refJobNo='$documentID' AND t.documentstatus='A'  ";
-                                            $result = $db->query( $sql );
-                                            if ( $acton != 'add' && $acton != 'copy' ) {
-                                              while ( $r = mysqli_fetch_array( $result ) ) {
-                            
-                                                ?>
-                                            <tr class='gradeX' id='tr<?php echo $i; ?>'>
-                                              <td><?php echo $r['documentID']; ?></td>
-                                              <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i; ?>'>
-                                                <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail']; ?>' id='fileName<?php echo $i; ?>'></td>
-                                              <td class='center'><a class='btn-white btn btn-xs' href='customer_path/<?php echo $r['cusCode'] . '/' . $r['fileName']; ?>' target='_blank'>View</a>
-                                                </button>
-                                                &nbsp;
-                                                <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i; ?>")'>Remove</button></td>
-                                            </tr>
-                                            <?php $i++; }} ?>
-                                            <?php
-                                            $sql = "SELECT
-                                              t.documentID,
-                                              f.cusCode,
-                                              t.refJobNo,
-                                              f.fileDetail,
-                                              f.fileName
-                                              FROM
-                                              deposit AS t
-                                              INNER JOIN deposit_attach AS f ON t.comCode = f.comCode AND t.documentID = f.documentID
-                                              WHERE t.comCode='$db->comCode' AND t.refJobNo='$documentID' AND t.documentstatus='A'  ";
-                                            $result = $db->query( $sql );
-                                            if ( $acton != 'add' && $acton != 'copy' ) {
-                                              while ( $r = mysqli_fetch_array( $result ) ) {
-                            
-                                                ?>
-                                            <tr class='gradeX' id='tr<?php echo $i; ?>'>
-                                              <td><?php echo $r['documentID']; ?></td>
-                                              <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i; ?>'>
-                                                <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail']; ?>' id='fileName<?php echo $i; ?>'></td>
-                                              <td class='center'><a class='btn-white btn btn-xs' href='customer_path/<?php echo $r['cusCode'] . '/' . $r['fileName']; ?>' target='_blank'>View</a>
-                                                </button>
-                                                &nbsp;
-                                                <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i; ?>")'>Remove</button></td>
-                                            </tr>
-                                            <?php $i++; }} ?> --}}
+                                                @foreach ($attachs as $attach)
+                                                <tr class='gradeX' wire:key='attach-field-{{ $attach->items }}'>
+                                                    <td>{{ $attach->documentID }}</td>
+                                                    <td>
+                                                        <input type='text' class='form-control'
+                                                            wire:model.live.debounce.500ms='attachs.{{$loop->index}}.fileDetail'>
+                                                    </td>
+                                                    <td>
+                                                        <input type='text' class='form-control'
+                                                            wire:model.live.debounce.500ms='attachs.{{$loop->index}}.fileName'
+                                                            @disabled($attach->items != null)>
+                                                    </td>
+                                                    <td class='center'>
+                                                        {{-- <a class='btn-white btn btn-xs' href='' target='_blank'>View</a> --}}
+                                                        <a href='/api/blobfile/{{$attach->fileName}}' target="_blank">View</a>
+                                                        {{-- </button> --}}
+                                                        &nbsp;
+                                                        <button type='button'
+                                                            class='btn-white btn btn-xs' wire:click='removeFile({{$loop->index}})'>Remove</button>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
                                             </tbody>
                                             <tfoot>
                                             </tfoot>
                                         </table>
                                         <div class="form-group row">
-                                            <label class="col-lg-2 col-form-label">File Name</label>
+                                            {{-- <label class="col-lg-2 col-form-label">File Name</label>
                                             <div class="col-md-4">
-                                                <input type="text" name="attach_name" class="form-control"
-                                                    id="attach_name">
-                                            </div>
+                                                <input type="text" name="attach_name" class="form-control" id="attach_name">
+                                            </div> --}}
                                             <div id="container_attach" class="fileinput fileinput-new"
-                                                data-provides="fileinput"> <span
-                                                    class="btn btn-primary btn-file"><span
-                                                        class="fileinput-new">Select file</span><span
-                                                        class="fileinput-exists">Change</span>
-                                                    <input type="file" name="attach_file" id="attach_file">
-                                                </span> <span class="fileinput-filename"></span> <a href="#"
-                                                    class="close fileinput-exists" data-dismiss="fileinput"
-                                                    style="float: none">&times;</a> </div>
+                                                data-provides="fileinput"> 
+                                                <span class="btn btn-primary btn-file">
+                                                    <span class="fileinput-new">Select file</span>
+                                                        {{-- <span class="fileinput-exists">Change</span> --}}
+                                                    <input type="file" wire:model.change='file'>
+                                                    @error('file')
+                                                    <div class="text-danger m-2">{{ $message }}</div>
+                                                    @enderror
+                                                </span> 
+                                                <span class="fileinput-filename"></span> 
+                                                <button type="button" wire:click='removePreFile' class="close fileinput-exists" data-dismiss="fileinput" style="float: none; border: none;
+                                                background: transparent;" @disabled(!$file)>&times;</button> 
+                                            </div>
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-lg-2 col-form-label">Action</label>
                                             <div class="col-md-4">
-                                                <button class="btn btn-primary " type="button" name="btnUpload"
-                                                    id="btnUpload"><i class="fa fa-save"></i> Upload File</button>
+                                                <button class="btn btn-primary " type="button" wire:click="uploadFile" @disabled(!$file)>
+                                                    <i class="fa fa-save"></i> Upload File</button>
                                             </div>
                                         </div>
                                     </div>
@@ -454,19 +381,19 @@
                         <div class="ibox-content">
 
                             @if ($action != 'create')
-                                <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">Create By</label>
-                                    <div class="col-sm-10">
-                                        <label>{{ $data->createBy->username }} {{ $data->createTime ?? '' }}</label>
-                                    </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Create By</label>
+                                <div class="col-sm-10">
+                                    <label>{{ $data->createBy->username }} {{ $data->createTime ?? '' }}</label>
                                 </div>
+                            </div>
 
-                                <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">Update By</label>
-                                    <div class="col-sm-10">
-                                        <label>{{ $data->editBy->username }} {{ $data->editTime ?? '' }}</label>
-                                    </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Update By</label>
+                                <div class="col-sm-10">
+                                    <label>{{ $data->editBy->username }} {{ $data->editTime ?? '' }}</label>
                                 </div>
+                            </div>
                             @endif
 
                             <div class="hr-line-dashed"></div>
@@ -475,16 +402,15 @@
                                 <div class="col-sm-10 col-sm-offset-2">
 
 
-                                    <button name="save" id="save" class="btn btn-primary" type="button" wire:click='save'
-                                        @disabled($data->documentstatus != 'A')>
+                                    <button name="save" id="save" class="btn btn-primary" type="button"
+                                        wire:click='save' @disabled($data->documentstatus != 'A')>
                                         <i class="fa fa-save"></i> Save</button>
                                     <button name="approve" id="approve" class="btn btn-success " type="button"
                                         @disabled($data->documentstatus == 'A')>
                                         <i class="fa fa-check"></i> Approve</button>
 
 
-                                    <button class="btn btn-white " type="button" onclick=""><i
-                                            class="fa fa-print"></i>
+                                    <button class="btn btn-white " type="button" onclick=""><i class="fa fa-print"></i>
                                         Print</button>
                                 </div>
                             </div>
@@ -494,7 +420,7 @@
 
             </div>
 
-        </div>
+    </div>
     </form>
 </div>
 </div>
