@@ -192,6 +192,7 @@ return [
         // 'Sidebar' => App\Http\Controllers\layouts\menu\SidebarController::class,
         'Livewire' => Livewire\Livewire::class,
         'Service' => App\Functions\Service::class,
+        'ThaiDate' => App\Functions\ThaiDate::class,
     ])->toArray(),
 
 ];

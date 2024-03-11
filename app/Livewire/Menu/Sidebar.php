@@ -106,8 +106,8 @@ class Sidebar extends Component
                 ['name' => 'ใบแจ้งหนี้ค้างชำระ', 'route_name' => 'report5'],
                 ['name' => 'ใบสำคัญจ่าย', 'route_name' => 'report6'],
                 ['name' => 'ใบสำคัญรับ', 'route_name' => 'report7'],
-                ['name' => 'ภาษีขาย', 'route_name' => 'report8'],
-                ['name' => 'ภาษีซื้อ', 'route_name' => 'report9'],
+                ['name' => 'ภาษีขาย', 'route_name' => 'report-tax-invoice'],
+                ['name' => 'ภาษีซื้อ', 'route_name' => 'report-payment-voucher'],
                 ['name' => 'ภาษีหัก ณ ที่จ่าย', 'route_name' => 'report10'],
                 
             ]
