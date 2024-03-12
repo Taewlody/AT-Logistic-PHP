@@ -2,20 +2,26 @@
 
 namespace App\Livewire\Page\Account\PaymentVoucher;
 
+use App\Models\AttachFile;
 use App\Models\Common\BankAccount;
 use App\Models\Common\Charges;
 use App\Models\Common\Supplier;
 use App\Models\Marketing\JobOrder;
 use App\Models\Payment\PaymentVoucher;
+use App\Models\Payment\PaymentVoucherAttach;
 use App\Models\Payment\PaymentVoucherItems;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\Attributes\Url;
+use Livewire\WithFileUploads;
 
 class Form extends Component
 {
+    use WithFileUploads;
+
     #[Url]
     public $action = '';
     #[Url]
@@ -27,7 +33,12 @@ class Form extends Component
 
     public Collection $payments;
 
+    public Collection $attachs;
+
+    public $file;
+
     protected array $rules = [
+        'file' => 'mimes:png,jpg,jpeg,pdf|max:102400',
         'payments.*' => 'unique:App\Models\Payment\PaymentVoucherItems',
         'payments.*.autoid' => 'integer',
         'payments.*.comCode' => 'string',
@@ -40,8 +51,14 @@ class Form extends Component
         'payments.*.taxamount' => 'float',
         'payments.*.vat' => 'integer',
         'payments.*.vatamount' => 'float',
+        'attachs.*' => 'unique:App\Models\Payment\PaymentVoucherAttach',
+        'attachs.*.items' => 'integer',
+        'attachs.*.comCode' => 'string',
+        'attachs.*.documentID' => 'string',
+        'attachs.*.supCode' => 'string',
+        'attachs.*.fileDetail' => 'string',
+        'attachs.*.fileName' => 'string',
     ];
-
 
     #[Computed]
     public function calPrice() {
@@ -86,6 +103,7 @@ class Form extends Component
                 $this->id = '';
             }
             $this->payments = $this->data->items;
+            $this->attachs = $this->data->attachs;
         } else {
             $this->action = 'create';
             $this->data->createID = Auth::user()->usercode;
@@ -115,6 +133,39 @@ class Form extends Component
 
     public function changeVat(int $value, int $index) {
         $this->payments[$index]->vatamount = round($this->payments->get($index)->amount * ($value / 100), 2);
+    }
+
+    public function removePreFile() {
+        $this->reset('file');
+    }
+
+    public function uploadFile() {
+        // dd($this->file->extension());
+        if($this->data->supCode == null|| $this->data->supCode == '') {
+            $this->addError('supCodeEmpty', 'Please select supplier');
+            return;
+        }
+        $date = Carbon::now();
+        $new_attach = new PaymentVoucherAttach;
+        $new_file = new AttachFile;
+        $new_attach->documentID = $this->data->documentID;
+        $new_attach->supCode = $this->data->supCode ?? '';
+        $new_file->mimetype = $this->file->getMimeType();
+        $new_file->blobfile = file_get_contents($this->file->getRealPath());
+        $filename = $new_attach->supCode.'-'.$date->format('ymd').$date->timestamp.'.'.$this->file->extension();
+        $new_file->filename = $filename;
+        $new_attach->fileName = $filename;
+        $new_attach->save();
+        $new_file->save();
+        $this->attachs->push($new_attach->refresh());
+        $this->reset('file');
+    }
+
+    public function removeFile(int $index) {
+        $removeFile = $this->attachs->get($index);
+        $removeFile->delete();
+        $this->attachs->forget($index);
+        $this->attachs = $this->attachs->values();
     }
 
     public function save() {

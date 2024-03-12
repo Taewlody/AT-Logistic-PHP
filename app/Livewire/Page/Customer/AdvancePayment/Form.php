@@ -70,7 +70,7 @@ class Form extends Component
             $this->data->createID = Auth::user()->usercode;
         }
         $this->payments = $this->data->items;
-        $this->attachs = $this->data->attach;
+        $this->attachs = $this->data->attachs;
         // dd($this->attachs->get(0)->blobFile);
     }
 
@@ -95,6 +95,10 @@ class Form extends Component
 
     public function uploadFile() {
         // dd($this->file->extension());
+        if($this->data->cusCode == null|| $this->data->cusCode == '') {
+            $this->addError('cusCodeEmpty', 'Please select customer');
+            return;
+        }
         $date = Carbon::now();
         $new_attach = new AdvancePaymentAttach;
         $new_file = new AttachFile;
@@ -102,7 +106,7 @@ class Form extends Component
         $new_attach->cusCode = $this->data->cusCode ?? '';
         $new_file->mimetype = $this->file->getMimeType();
         $new_file->blobfile = file_get_contents($this->file->getRealPath());
-        $filename = $new_attach->cusCode.'-'.$date->format('ymd').'-'.$date->timestamp.'.'.$this->file->extension();
+        $filename = $new_attach->cusCode.'-'.$date->format('ymd').$date->timestamp.'.'.$this->file->extension();
         $new_file->filename = $filename;
         $new_attach->fileName = $filename;
         $new_attach->save();
@@ -122,7 +126,7 @@ class Form extends Component
         $this->data->editID = Auth::user()->usercode;
         $this->data->save();
         $this->data->items()->saveMany($this->payments);
-        $this->data->attach()->saveMany($this->attachs);
+        $this->data->attachs()->saveMany($this->attachs);
         $this->redirectRoute(name: 'advance-payment', navigate: true);
     }
 

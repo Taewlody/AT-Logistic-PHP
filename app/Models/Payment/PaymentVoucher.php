@@ -148,7 +148,7 @@ class PaymentVoucher extends Model implements Wireable
     }
 
 
-    public function Attach(): HasMany
+    public function attachs(): HasMany
     {
         return $this->hasMany(PaymentVoucherAttach::class, 'documentID', 'documentID');
     }

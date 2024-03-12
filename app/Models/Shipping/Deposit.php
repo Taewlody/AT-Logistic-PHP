@@ -133,7 +133,7 @@ class Deposit extends Model implements Wireable
         return $this->hasMany(DepositItems::class, 'documentID', 'documentID');
     }
 
-    public function Attach(): HasMany
+    public function attachs(): HasMany
     {
         return $this->hasMany(DepositAttach::class, 'documentID', 'documentID');
     }

@@ -25,3 +25,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // });
 
 Route::get('/blobfile/{filename}', [BlobFileResource::class , 'viewFile'])->middleware('auth.basic:,usercode');
+
+Route::post('/blobfile/add', [BlobFileResource::class , 'addFile'])->middleware('auth.basic:,usercode');
