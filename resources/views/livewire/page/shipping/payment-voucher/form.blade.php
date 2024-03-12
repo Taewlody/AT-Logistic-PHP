@@ -261,7 +261,7 @@
                                                                 </select>
                                                               </td>
                                                               <td class='center'>
-                                                                <input type="text" wire:model="payments.{{ $loop->index }}.taxamount" readonly>
+                                                                <input type="text" class='form-control' wire:model="payments.{{ $loop->index }}.taxamount" readonly>
                                                               </td>
                                                               <td class='center'>
                                                                 <select class="form-control valid" wire:model.change='payments.{{ $loop->index }}.vat' wire:change='changeVat($event.target.value, {{$loop->index}})'>
@@ -270,7 +270,7 @@
                                                                 </select>
                                                               </td>
                                                               <td class='center'>
-                                                                <input type="text" wire:model="payments.{{ $loop->index }}.vatamount" readonly>
+                                                                <input type="text" class='form-control' wire:model="payments.{{ $loop->index }}.vatamount" readonly>
                                                               </td>
                                                               <td class='center'>
                                                                 <button type='button' class='btn-white btn btn-xs' wire:click='removePayment({{ $loop->index }})'>Remove</button>
@@ -349,151 +349,68 @@
                                 </h2>
                             </div>
                             <div id="collapseAttachment" role="tabpanel" class="collapse"
-                                aria-labelledby="headingAttachment" data-bs-parent="#accordion-4">
+                                aria-labelledby="headingAttachment" data-bs-parent="#accordion-4" wire:ignore.self>
                                 <div class="card-body">
                                     <div class="form-group">
                                         <table class="table" width="100%" name="table_attach" id="table_attach">
                                             <thead>
                                                 <tr>
                                                     <th style="width:10%">document</th>
+                                                    <th style="width:30%">File Detail</th>
                                                     <th style="width:50%">File Name</th>
                                                     <th style="width:10%">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {{-- <?php
-                                            $sql = "SELECT
-                                              t.items,
-                                              t.comCode,
-                                              t.documentID,
-                                              t.cusCode,
-                                              t.fileDetail,
-                                              t.fileName
-                                              FROM
-                                              joborder_attach AS t
-                                              WHERE t.comCode='$db->comCode' AND t.documentID='$documentID' ";
-                                            $result = $db->query( $sql );
-                                            $i_container = 1;
-                                            $i = 99;
-                            
-                                            if ( $acton != 'add' && $acton != 'copy' ) {
-                                              while ( $r = mysqli_fetch_array( $result ) ) {
-                            
-                                                ?>
-                                            <tr class='gradeX' id='tr<?php echo $i; ?>'>
-                                              <td><?php echo $r['documentID']; ?></td>
-                                              <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i; ?>'>
-                                                <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail']; ?>' id='fileName<?php echo $i; ?>'></td>
-                                              <td class='center'><a class='btn-white btn btn-xs' href='customer_path/<?php echo $r['cusCode'] . '/' . $r['fileName']; ?>' target='_blank'>View</a>
-                                                </button>
-                                                &nbsp;
-                                                <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i; ?>")'>Remove</button></td>
-                                            </tr>
-                                            <?php $i++; } } ?>
-                                            <?php
-                            
-                                            $sql = "SELECT
-                                              t.documentID,
-                                              f.supCode,
-                                              t.refJobNo,
-                                              f.fileDetail,
-                                              f.fileName
-                                              FROM
-                                              payment_voucher AS t
-                                              INNER JOIN payment_voucher_attach AS f ON t.comCode = f.comCode AND t.documentID = f.documentID
-                                              WHERE t.comCode='$db->comCode' AND t.refJobNo='$documentID' AND t.documentstatus='A' ";
-                                            $result = $db->query( $sql );
-                                            if ( $acton != 'add' && $acton != 'copy' ) {
-                                              while ( $r = mysqli_fetch_array( $result ) ) {
-                            
-                                                ?>
-                                            <tr class='gradeX' id='tr<?php echo $i; ?>'>
-                                              <td><?php echo $r['documentID']; ?></td>
-                                              <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i; ?>'>
-                                                <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail']; ?>' id='fileName<?php echo $i; ?>'></td>
-                                              <td class='center'><a class='btn-white btn btn-xs' href='supplier_path/<?php echo $r['supCode'] . '/' . $r['fileName']; ?>' target='_blank'>View</a>
-                                                </button>
-                                                &nbsp;
-                                                <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i; ?>")'>Remove</button></td>
-                                            </tr>
-                                            <?php $i++; }} ?>
-                                            <?php
-                                            $sql = "SELECT
-                                              t.documentID,
-                                              f.cusCode,
-                                              t.refJobNo,
-                                              f.fileDetail,
-                                              f.fileName
-                                              FROM
-                                              advance_payment AS t
-                                              INNER JOIN advance_payment_attach AS f ON t.comCode = f.comCode AND t.documentID = f.documentID
-                                              WHERE t.comCode='$db->comCode' AND t.refJobNo='$documentID' AND t.documentstatus='A'  ";
-                                            $result = $db->query( $sql );
-                                            if ( $acton != 'add' && $acton != 'copy' ) {
-                                              while ( $r = mysqli_fetch_array( $result ) ) {
-                            
-                                                ?>
-                                            <tr class='gradeX' id='tr<?php echo $i; ?>'>
-                                              <td><?php echo $r['documentID']; ?></td>
-                                              <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i; ?>'>
-                                                <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail']; ?>' id='fileName<?php echo $i; ?>'></td>
-                                              <td class='center'><a class='btn-white btn btn-xs' href='customer_path/<?php echo $r['cusCode'] . '/' . $r['fileName']; ?>' target='_blank'>View</a>
-                                                </button>
-                                                &nbsp;
-                                                <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i; ?>")'>Remove</button></td>
-                                            </tr>
-                                            <?php $i++; }} ?>
-                                            <?php
-                                            $sql = "SELECT
-                                              t.documentID,
-                                              f.cusCode,
-                                              t.refJobNo,
-                                              f.fileDetail,
-                                              f.fileName
-                                              FROM
-                                              deposit AS t
-                                              INNER JOIN deposit_attach AS f ON t.comCode = f.comCode AND t.documentID = f.documentID
-                                              WHERE t.comCode='$db->comCode' AND t.refJobNo='$documentID' AND t.documentstatus='A'  ";
-                                            $result = $db->query( $sql );
-                                            if ( $acton != 'add' && $acton != 'copy' ) {
-                                              while ( $r = mysqli_fetch_array( $result ) ) {
-                            
-                                                ?>
-                                            <tr class='gradeX' id='tr<?php echo $i; ?>'>
-                                              <td><?php echo $r['documentID']; ?></td>
-                                              <td><input type='hidden' name='imgKey[]'  value='"+obj.fileName+"' id='imgKey<?php echo $i; ?>'>
-                                                <input type='text' name='fileName[]' class='form-control' value='<?php echo $r['fileDetail']; ?>' id='fileName<?php echo $i; ?>'></td>
-                                              <td class='center'><a class='btn-white btn btn-xs' href='customer_path/<?php echo $r['cusCode'] . '/' . $r['fileName']; ?>' target='_blank'>View</a>
-                                                </button>
-                                                &nbsp;
-                                                <button type='button' class='btn-white btn btn-xs' onClick='return FN_Remove_Table("<?php echo $i; ?>")'>Remove</button></td>
-                                            </tr>
-                                            <?php $i++; }} ?> --}}
+                                                @foreach ($attachs as $attach)
+                                                <tr class='gradeX' wire:key='attach-field-{{ $attach->items }}'>
+                                                    <td>{{ $attach->documentID }}</td>
+                                                    <td>
+                                                        <input type='text' class='form-control'
+                                                            wire:model.live.debounce.500ms='attachs.{{$loop->index}}.fileDetail'>
+                                                    </td>
+                                                    <td>
+                                                        <input type='text' class='form-control'
+                                                            wire:model.live.debounce.500ms='attachs.{{$loop->index}}.fileName'
+                                                            @disabled($attach->items != null)>
+                                                    </td>
+                                                    <td class='center'>
+                                                        {{-- <a class='btn-white btn btn-xs' href='' target='_blank'>View</a> --}}
+                                                        <a href='/api/blobfile/{{$attach->fileName}}' target="_blank">View</a>
+                                                        {{-- </button> --}}
+                                                        &nbsp;
+                                                        <button type='button'
+                                                            class='btn-white btn btn-xs' wire:click='removeFile({{$loop->index}})'>Remove</button>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
                                             </tbody>
                                             <tfoot>
                                             </tfoot>
                                         </table>
                                         <div class="form-group row">
-                                            <label class="col-lg-2 col-form-label">File Name</label>
-                                            <div class="col-md-4">
-                                                <input type="text" name="attach_name" class="form-control"
-                                                    id="attach_name">
-                                            </div>
                                             <div id="container_attach" class="fileinput fileinput-new"
-                                                data-provides="fileinput"> <span
-                                                    class="btn btn-primary btn-file"><span
-                                                        class="fileinput-new">Select file</span><span
-                                                        class="fileinput-exists">Change</span>
-                                                    <input type="file" name="attach_file" id="attach_file">
-                                                </span> <span class="fileinput-filename"></span> <a href="#"
-                                                    class="close fileinput-exists" data-dismiss="fileinput"
-                                                    style="float: none">&times;</a> </div>
+                                                data-provides="fileinput"> 
+                                                <span class="btn btn-primary btn-file">
+                                                    <span class="fileinput-new">Select file</span>
+                                                    <input type="file" wire:model.change='file'>
+                                                    @error('file')
+                                                        <div class="text-danger m-2">{{ $message }}</div>
+                                                    @enderror
+                                                </span> 
+                                                <span class="fileinput-filename"></span> 
+                                                <button type="button" wire:click='removePreFile' class="close fileinput-exists" data-dismiss="fileinput" style="float: none; border: none;
+                                                background: transparent;" @disabled(!$file)>&times;</button> 
+                                            </div>
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-lg-2 col-form-label">Action</label>
                                             <div class="col-md-4">
-                                                <button class="btn btn-primary " type="button" name="btnUpload"
-                                                    id="btnUpload"><i class="fa fa-save"></i> Upload File</button>
+                                                <button class="btn btn-primary " type="button" wire:click="uploadFile" @disabled(!$file)>
+                                                    <i class="fa fa-save"></i> Upload File</button>
+                                                @error('cusCodeEmpty')
+                                                    <div class="text-danger m-2">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>

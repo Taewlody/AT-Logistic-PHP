@@ -351,7 +351,7 @@
                                                         {{-- <span class="fileinput-exists">Change</span> --}}
                                                     <input type="file" wire:model.change='file'>
                                                     @error('file')
-                                                    <div class="text-danger m-2">{{ $message }}</div>
+                                                        <div class="text-danger m-2">{{ $message }}</div>
                                                     @enderror
                                                 </span> 
                                                 <span class="fileinput-filename"></span> 
@@ -364,6 +364,9 @@
                                             <div class="col-md-4">
                                                 <button class="btn btn-primary " type="button" wire:click="uploadFile" @disabled(!$file)>
                                                     <i class="fa fa-save"></i> Upload File</button>
+                                                @error('cusCodeEmpty')
+                                                    <div class="text-danger m-2">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>

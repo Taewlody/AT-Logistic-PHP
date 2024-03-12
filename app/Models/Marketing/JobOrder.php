@@ -221,8 +221,9 @@ class JobOrder extends Model implements Wireable
         return $arr;
     }
 
-    public function id(){
-        return $this->getKey();
+    public function attachs(): HasMany
+    {
+        return $this->hasMany(JobOrderAttach::class, 'documentID', 'documentID');
     }
 
     public function containerList(): HasMany

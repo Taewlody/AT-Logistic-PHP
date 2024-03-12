@@ -112,7 +112,7 @@ class ReceiptVoucher extends Model implements Wireable
         return $this->hasMany(ReceiptVoucherItems::class, 'documentID', 'documentID');
     }
 
-    public function Attach(): HasMany
+    public function attachs(): HasMany
     {
         return $this->hasMany(ReceiptVoucherAttach::class, 'documentID', 'documentID');
     }

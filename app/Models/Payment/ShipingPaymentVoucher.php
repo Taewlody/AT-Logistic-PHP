@@ -129,7 +129,7 @@ class ShipingPaymentVoucher extends Model implements Wireable
         return $this->hasMany(ShipingPaymentVoucherItems::class, 'documentID', 'documentID');
     }
 
-    public function Attach(): HasMany
+    public function attachs(): HasMany
     {
         return $this->hasMany(ShipingPaymentVoucherAttach::class, 'documentID', 'documentID');
     }

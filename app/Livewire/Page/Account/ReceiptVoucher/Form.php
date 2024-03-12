@@ -3,19 +3,20 @@
 namespace App\Livewire\Page\Account\ReceiptVoucher;
 
 use App\Models\Account\ReceiptVoucher;
+use App\Models\Account\ReceiptVoucherAttach;
 use App\Models\Account\ReceiptVoucherItems;
-use App\Models\Common\BankAccount;
+use App\Models\AttachFile;
 use App\Models\Common\Charges;
-use App\Models\Common\Customer;
-use App\Models\Common\Supplier;
-use App\Models\Marketing\JobOrder;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\Url;
+use Livewire\WithFileUploads;
 
 class Form extends Component
 {
+    use WithFileUploads;
     #[Url]
     public $action = '';
     #[Url]
@@ -27,7 +28,12 @@ class Form extends Component
 
     public Collection $payments;
 
+    public Collection $attachs;
+
+    public $file;
+
     protected array $rules = [
+        'file' => 'mimes:png,jpg,jpeg,pdf|max:102400',
         'payments.*' => 'unique:App\Models\Account\ReceiptVoucherItems',
         'payments.*.autoid' => 'integer',
         'payments.*.comCode' => 'string',
@@ -36,6 +42,12 @@ class Form extends Component
         'payments.*.chargeCode' => 'string',
         'payments.*.chartDetail' => 'string',
         'payments.*.amount' => 'float',
+        'attachs.*.items' => 'integer',
+        'attachs.*.comCode' => 'string',
+        'attachs.*.documentID' => 'string',
+        'attachs.*.cusCode' => 'string',
+        'attachs.*.fileDetail' => 'string',
+        'attachs.*.fileName' => 'string',
     ];
 
     public function mount()
@@ -50,6 +62,7 @@ class Form extends Component
         if ($this->id != '') {
             $this->data = ReceiptVoucher::find($this->id);
             $this->payments = $this->data->items;
+            $this->attachs = $this->data->attachs;
         } else {
             $this->action = 'create';
             $this->data->createID = Auth::user()->usercode;
@@ -92,9 +105,38 @@ class Form extends Component
         }
     }
 
-    // public function updatedDataSumTax1($value) {
-    //     dd($value);
-    // }
+    public function removePreFile() {
+        $this->reset('file');
+    }
+
+    public function uploadFile() {
+        // dd($this->file->extension());
+        if($this->data->cusCode == null|| $this->data->cusCode == '') {
+            $this->addError('cusCodeEmpty', 'Please select supplier');
+            return;
+        }
+        $date = Carbon::now();
+        $new_attach = new ReceiptVoucherAttach;
+        $new_file = new AttachFile;
+        $new_attach->documentID = $this->data->documentID;
+        $new_attach->cusCode = $this->data->cusCode ?? '';
+        $new_file->mimetype = $this->file->getMimeType();
+        $new_file->blobfile = file_get_contents($this->file->getRealPath());
+        $filename = $new_attach->cusCode.'-'.$date->format('ymd').$date->timestamp.'.'.$this->file->extension();
+        $new_file->filename = $filename;
+        $new_attach->fileName = $filename;
+        $new_attach->save();
+        $new_file->save();
+        $this->attachs->push($new_attach->refresh());
+        $this->reset('file');
+    }
+
+    public function removeFile(int $index) {
+        $removeFile = $this->attachs->get($index);
+        $removeFile->delete();
+        $this->attachs->forget($index);
+        $this->attachs = $this->attachs->values();
+    }
 
     public function save() {
         $this->data->editID = Auth::user()->usercode;
