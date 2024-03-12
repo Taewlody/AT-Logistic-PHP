@@ -1,6 +1,6 @@
 <div>
-    <livewire:component.page-heading title_main="Report" title_sub="ภาษีซื้อ" breadcrumb_title="Report"
-        breadcrumb_page="ภาษีซื้อ" />
+    <livewire:component.page-heading title_main="Report" title_sub="ภาษีขาย" breadcrumb_title="Report"
+        breadcrumb_page="ภาษีขาย" />
 
     <div class="container-fluid">
         <form wire:submit="$refresh">
@@ -14,9 +14,7 @@
                                 </div>
 
                                 <div class="col-6 text-end">
-                                    <a href="{{ route('tax-invoice.form', ['action' => 'create']) }}" class="btn btn-primary" wire:navigate>
-                                        <i class="fa fa-plus "></i> Create new 
-                                    </a>
+                                   
                                 </div>
                             </div>
                             <br/><br/>
@@ -92,17 +90,13 @@
                                                 <td>{{ $item->documentID }}</td>
                                                 <td>{{ $item->documentDate }}</td>
                                                 <td>{{ $item->customer != null ? $item->customer->custNameTH : '' }}</td>
-                                                <td></td>
+                                                <td>{{ number_format($item->items_sum_charges_receive, 2,'.', ',') }}</td>
         
-                                                <td class="center"></td>
+                                                <td class="center">{{ $item->total_vat}}</td>
                                                 <td>
                                                     <div class="btn-group">
                                                         <a class="btn btn-xs btn-success"
                                                             href="{{ route('tax-invoice.form', ['action' => 'view', 'id' => $item->documentID]) }}" wire:navigate>View</a>
-                                                        <a class="btn btn-xs btn-primary"
-                                                            href="{{ route('tax-invoice.form', ['action' => 'edit', 'id' => $item->documentID]) }}" wire:navigate>Edit</a>
-                                                        <button class="btn btn-xs btn-danger"
-                                                        wire:confirm="Are you sure want to delete {{$item->documentID}}" wire:click="delete('{{$item->documentID}}')" wire:refresh="$refresh">Delete</button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -112,6 +106,16 @@
                                                 <td colspan="7" class="text-center">Data Not Found</td>
                                             </tr>
                                         @endif
+                                    </tbody>
+                                    <tfoot>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{ number_format($this->getTotalAmount, 2,'.', ',') }}</td>
+                                        <td>{{ number_format($this->getTotalVat, 2,'.', ',') }}</td>
+                                        <td></td>
+                                    </tfoot>
                                 </table>
                                 <br/>
                                 <div class="row">
