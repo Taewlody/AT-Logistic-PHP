@@ -3,6 +3,7 @@
 use App\Http\Resources\BlobFileResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Resources\PrintFileResource;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return ['token' => $token->plainTextToken];
 // });
 
-Route::get('/blobfile/{filename}', [BlobFileResource::class , 'viewFile'])->middleware('auth.basic:,usercode');
+Route::group(['middleware' => ['auth.basic:,usercode']], function () {
+    Route::post('/tokens/create', function (Request $request) {
+        $token = $request->user()->createToken($request->token_name);
+        return ['token' => $token->plainTextToken];
+    });
+    Route::get('/blobfile/{filename}', [BlobFileResource::class, 'viewFile']);
 
-Route::post('/blobfile/add', [BlobFileResource::class , 'addFile'])->middleware('auth.basic:,usercode');
+    Route::post('/blobfile/add', [BlobFileResource::class, 'addFile']);
+
+    Route::get('print/advance_payment_pdf/{documentID}', [PrintFileResource::class, 'AdvancePaymentPdf']);
+
+    Route::get('print/advance_payment_pdf/{documentID}/download', [PrintFileResource::class, 'AdvancePaymentPdfDownload']);
+});
+

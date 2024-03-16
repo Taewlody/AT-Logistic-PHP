@@ -17,3 +17,4 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+/.cache/puppeteer/chrome/linux-122.0.6261.111/chrome-linux64

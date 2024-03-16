@@ -1,0 +1,28 @@
+@font-face {
+    font-family: "TH-Sarabun";
+    font-style: normal;
+    font-weight: normal;
+    src: url('../fonts/THSarabunNew/THSarabunNew.ttf') format('truetype');
+}
+@font-face {
+    font-family: "TH-Sarabun";
+    font-style: normal;
+    font-weight: 700;
+    src: url('../fonts/THSarabunNew/THSarabunNew\ Bold.ttf') format('truetype');
+}
+@font-face {
+    font-family: "TH-Sarabun";
+    font-style: italic;
+    font-weight: normal;
+    src: url('../fonts/THSarabunNew/THSarabunNew\ Italic.ttf') format('truetype');
+}
+@font-face {
+    font-family: "TH-Sarabun";
+    font-style: italic;
+    font-weight: 700;
+    src: url('../fonts/THSarabunNew/THSarabunNew\ BoldItalic.ttf') format('truetype');
+}
+body {
+    font-family: "TH-Sarabun";
+    font-size: 30px;
+}

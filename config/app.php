@@ -171,6 +171,7 @@ return [
         // Collective\Html\HtmlServiceProvider::class,
         Spatie\Html\HtmlServiceProvider::class,
         Livewire\LivewireServiceProvider::class,
+        // Barryvdh\DomPDF\ServiceProvider::class,
         
     ])->toArray(),
 
@@ -193,6 +194,7 @@ return [
         'Livewire' => Livewire\Livewire::class,
         'Service' => App\Functions\Service::class,
         'ThaiDate' => App\Functions\ThaiDate::class,
+        // 'PDF' => Barryvdh\DomPDF\Facade::class,
     ])->toArray(),
 
 ];
