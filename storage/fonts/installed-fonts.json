@@ -1,8 +1,14 @@
 {
-    "thsarabunnew": {
+    "THSarabunNew": {
         "normal": "storage\/fonts\/THSarabunNew",
         "bold": "storage\/fonts\/THSarabunNew Bold",
         "italic": "storage\/fonts\/THSarabunNew Italic",
         "bold_italic": "storage\/fonts\/THSarabunNew BoldItalic"
+    },
+    "th-sarabun": {
+        "normal": "\/var\/www\/html\/storage\/fonts\/th_sarabun_normal_0e78dd00a262a09312a678d4c35a4b77",
+        "bold": "\/var\/www\/html\/storage\/fonts\/th_sarabun_bold_d7721d52b6d6b334989b9db9ee529c6b",
+        "italic": "\/var\/www\/html\/storage\/fonts\/th_sarabun_italic_3fbe783e17312c77d0aef78ba0258796",
+        "bold_italic": "th_sarabun_bold_italic_e518f8138fa380140ff500231272a36c"
     }
 }

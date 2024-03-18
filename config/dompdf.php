@@ -11,7 +11,7 @@ return array(
     | in dompdf_config.inc.php. You can also override the entire config file.
     |
     */
-    'show_warnings' => false,   // Throw an Exception on warnings from dompdf
+    'show_warnings' => true,   // Throw an Exception on warnings from dompdf
 
     'public_path' => null,  // Override the public path if needed
 
@@ -99,12 +99,12 @@ return array(
          /**
           * @var string
           */
-        'log_output_file' => null,
+        'log_output_file' => 'dompdf_log.html',
 
         /**
          * Whether to enable font subsetting or not.
          */
-        "enable_font_subsetting" => false,
+        "enable_font_subsetting" => true,
 
         /**
          * The PDF rendering backend to use
@@ -134,7 +134,7 @@ return array(
          * @link http://www.ros.co.nz/pdf
          * @link http://www.php.net/image
          */
-        "pdf_backend" => "CPDF",
+        "pdf_backend" => "auto",
 
         /**
          * PDFlib license key
@@ -186,7 +186,7 @@ return array(
          * Used if no suitable fonts can be found. This must exist in the font folder.
          * @var string
          */
-        "default_font" => "'THSarabunNew' serif",
+        "default_font" => "th-sarabun",
 
         /**
          * Image DPI setting
