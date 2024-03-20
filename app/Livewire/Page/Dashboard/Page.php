@@ -27,6 +27,9 @@ class Page extends Component
     public $data_petty_cash = null;
     public $data_payment_voucher = null;
 
+    public $monthSearch;
+    public $yearSearch;
+
     public $monthTotal;
     public $monthVatBuy;
     public $monthVatSale;
@@ -81,16 +84,12 @@ class Page extends Component
         // end account balance
 
         //start ยอดภาษีมูลค่าเพิ่ม ยอดขาย ยอดซื้อ
-        // $this->monthSearch = (int) date('m');
-        $this->monthSearch = 1;
-        $this->yearSearch = date('Y');
-        // $count_days = cal_days_in_month(CAL_GREGORIAN, $this->monthSearch, $this->yearSearch);
-        //จำนวนวันใน 1 เดือน
-        // $this->monthCategory = range(1, $count_days);
+        $this->monthSearch = date('m');
+        $this->yearSearch =  date('Y');
         
         //รายเดือนปัจจุบัน
         //ภาษีซื้อ เดือนปัจจุบัน
-        $monthVatBuy = PaymentVoucher::selectRaw('sum(sumTax7)  as sum, DATE(documentDate) as date')
+        $monthVatBuy = PaymentVoucher::selectRaw('sum(sumTax7) as sum, DATE(documentDate) as date')
             ->whereYear('documentDate', $this->yearSearch)
             ->whereMonth('documentDate', $this->monthSearch)
             ->groupBy('date')
@@ -129,25 +128,28 @@ class Page extends Component
 
     public function setDataCurrentMonthChart($items)
     {
-        // dd($items->toArray());
-        $firstKey = array_key_first($items);
-        $date = Carbon::createFromFormat('Y-m-d', $firstKey);
-        $year = $date->year;
-        $month = $date->month;
-        $daysInMonth = [];
-        $categorirs = [];
-        $startDay = Carbon::create($year, $month, 1);
-        $endDay = Carbon::create($year, $month, 1)->endOfMonth();
-        $currentDay = clone $startDay;
-        while ($currentDay <= $endDay) {
-            $categorirs[] = $currentDay->format('Y-m-d');
-            $daysInMonth[$currentDay->format('Y-m-d')] = 0;
-            $currentDay->addDay();
+        if(count($items) > 0) {
+            $firstKey = array_key_first($items);
+            $date = Carbon::createFromFormat('Y-m-d', $firstKey);
+            $year = $this->yearSearch;
+            $month = $this->monthSearch;
+            $daysInMonth = [];
+            $categorirs = [];
+            $startDay = Carbon::create($year, $month, 1);
+            $endDay = Carbon::create($year, $month, 1)->endOfMonth();
+            $currentDay = clone $startDay;
+            while ($currentDay <= $endDay) {
+                $categorirs[] = $currentDay->format('Y-m-d');
+                $daysInMonth[$currentDay->format('Y-m-d')] = "0.00";
+                $currentDay->addDay();
+            }
+            $this->monthCategory = $categorirs;
+            $mergedData = array_merge($daysInMonth, $items);
+            
+            return array_values($mergedData);
+        } else {
+            return [];
         }
-        $this->monthCategory = $categorirs;
-        $mergedData = array_merge($daysInMonth, $items);
-        
-        return ksort($mergedData);
     }
 
     public function render()

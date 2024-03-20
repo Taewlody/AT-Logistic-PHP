@@ -402,32 +402,21 @@
 
 @push('scripts')
 <script src="{{ asset('assets/js/chart/apex-chart/apex-chart.js') }}"></script>
+@endpush
+
+@script
 <script>
-    // window.Livewire.start();
-    setInterval(() => {
-        // console.log("wire:", $wire.get('page'));
-        // $wire.$refresh();
-        
-        console.log(@js($monthVatBuy));
-    }, 2000);
-   
+    document.addEventListener('livewire:initialized', () => {
+        setDataToChart(document.querySelector("#chart-widget1"), $wire.monthCategory, $wire.monthVatSale, $wire.monthVatBuy);
+    })
 
-    // document.addEventListener('livewire:init', () => {
-    //     console.log(@this.monthVatBuy);
-    //     setDataToChart(document.querySelector("#chart-widget1"), $wire.monthCategory, $wire.monthVatSale, $wire.monthVatBuy);
-    //     // setDataToChart(document.querySelector("#chart-widget2") );
-    //     // setDataToChart(document.querySelector("#chart-widget3"));
-    // })
-
-    // document.addEventListener('DOMContentLoaded', () => {
-    //     console.log('55555', $wire.monthVatBuy);
-    //     Livewire.hook('element.init', (el, component) => {
-    //         // var data = @this.monthVatBuy;
-    //         console.log(Livewire.all());
-    //     })
-    // });
 
     function setDataToChart(chart_id, chart_category, sale, buy) {
+        console.log('chart_id: ', chart_id);
+        console.log('chart_category: ', chart_category);
+        console.log('sale: ', sale);
+        console.log('buy: ', buy);
+
         var optionscolumnchart = {
             series: [
                 {
@@ -444,7 +433,7 @@
                 show: false,
             },
             chart: {
-                type: "bar",
+                type: "line",
                 height: 380,
             },
             plotOptions: {
@@ -476,7 +465,7 @@
             },
             yaxis: {
                 title: {
-                    text: "$ (thousands)",
+                    text: " (บาท)",
                 },
             },
             fill: {
@@ -496,7 +485,7 @@
             tooltip: {
                 y: {
                     formatter: function (val) {
-                        return "$ " + val + " thousands";
+                        return val + " บาท";
                     },
                 },
             },
@@ -520,4 +509,4 @@
     }
 </script>
 
-@endpush
+@endscript
