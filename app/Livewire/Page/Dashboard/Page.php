@@ -12,6 +12,7 @@ use App\Models\PettyCash\PettyCash;
 use App\Models\Payment\PaymentVoucher;
 use App\Models\Payment\AdvancePayment;
 use App\Models\Marketing\JobOrder;
+use Illuminate\Support\Facades\DB;
 
 class Page extends Component
 {
@@ -25,6 +26,11 @@ class Page extends Component
     public $data_tax_invoice = null;
     public $data_petty_cash = null;
     public $data_payment_voucher = null;
+
+    public $monthTotal;
+    public $monthVatBuy;
+    public $monthVatSale;
+    public $monthCategory;
 
     public function boot()
     {
@@ -74,7 +80,76 @@ class Page extends Component
         $this->data_total_balance = $this->data_total_income - ($total_pc+$total_pv);
         // end account balance
 
+        //start ยอดภาษีมูลค่าเพิ่ม ยอดขาย ยอดซื้อ
+        // $this->monthSearch = (int) date('m');
+        $this->monthSearch = 1;
+        $this->yearSearch = date('Y');
+        // $count_days = cal_days_in_month(CAL_GREGORIAN, $this->monthSearch, $this->yearSearch);
+        //จำนวนวันใน 1 เดือน
+        // $this->monthCategory = range(1, $count_days);
+        
+        //รายเดือนปัจจุบัน
+        //ภาษีซื้อ เดือนปัจจุบัน
+        $monthVatBuy = PaymentVoucher::selectRaw('sum(sumTax7)  as sum, DATE(documentDate) as date')
+            ->whereYear('documentDate', $this->yearSearch)
+            ->whereMonth('documentDate', $this->monthSearch)
+            ->groupBy('date')
+            ->pluck('sum', 'date');
+        
+        //ภาษีขาย เดือนปัจจุบัน
+        $monthVatSale = TaxInvoice::selectRaw('sum(total_vat)  as sum, DATE(documentDate) as date')
+            ->whereYear('documentDate', $this->yearSearch)
+            ->whereMonth('documentDate', $this->monthSearch)
+            ->groupBy('date')
+            ->pluck('sum', 'date');
+        
+        $this->monthVatBuy = $this->setDataCurrentMonthChart($monthVatBuy->toArray());
+        $this->monthVatSale = $this->setDataCurrentMonthChart($monthVatSale->toArray());
+        
+        //รายปี
+        $this->yearTotal = PaymentVoucher::selectRaw('sum(sumTotal)  as sum, MONTH(documentDate) as month')
+            ->whereYear('documentDate', $this->yearSearch)
+            ->groupBy('month')
+            ->get()->toArray();
+        
+
+        //ราย 11 ปี
+        $years = range($this->yearSearch, $this->yearSearch - 11);
+        $this->previousYearsTotal = PaymentVoucher::selectRaw('sum(sumTotal) as sum, YEAR(documentDate) as year')
+            ->whereIn(DB::raw('YEAR(documentDate)'), $years)
+            ->groupBy(DB::raw('YEAR(documentDate)'))
+            ->orderBy(DB::raw('YEAR(documentDate)'), 'asc')
+            ->get()
+            ->toArray();
+        
+
+        //end ยอดภาษีมูลค่าเพิ่ม ยอดขาย ยอดซื้อ
+
     }
+
+    public function setDataCurrentMonthChart($items)
+    {
+        // dd($items->toArray());
+        $firstKey = array_key_first($items);
+        $date = Carbon::createFromFormat('Y-m-d', $firstKey);
+        $year = $date->year;
+        $month = $date->month;
+        $daysInMonth = [];
+        $categorirs = [];
+        $startDay = Carbon::create($year, $month, 1);
+        $endDay = Carbon::create($year, $month, 1)->endOfMonth();
+        $currentDay = clone $startDay;
+        while ($currentDay <= $endDay) {
+            $categorirs[] = $currentDay->format('Y-m-d');
+            $daysInMonth[$currentDay->format('Y-m-d')] = 0;
+            $currentDay->addDay();
+        }
+        $this->monthCategory = $categorirs;
+        $mergedData = array_merge($daysInMonth, $items);
+        
+        return ksort($mergedData);
+    }
+
     public function render()
     {
         $data_advance_pyment_table = AdvancePayment::selectRaw('Sum(advance_payment.sumTotal) AS sumTotal, advance_payment.cusCode, common_customer.custNameTH')

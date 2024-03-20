@@ -3,7 +3,9 @@
         breadcrumb_page="Dashboard" />
 
     <div class="container-fluid ecommerce-page">
+        {{-- start row 1 --}}
         <div class="row">
+            {{-- start invoice --}}
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card sale-chart">
                     <div class="card-body">
@@ -22,6 +24,9 @@
                     </div>
                 </div>
             </div>
+            {{-- end invoice --}}
+
+            {{-- start account balance --}}
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card sale-chart">
                     <div class="card-body">
@@ -40,6 +45,9 @@
                     </div>
                 </div>
             </div>
+            {{-- end account balance --}}
+
+            {{-- start income this month --}}
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card sale-chart">
                     <div class="card-body">
@@ -58,6 +66,9 @@
                     </div>
                 </div>
             </div>
+            {{-- end income this month --}}
+
+            {{-- start VAT --}}
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card sale-chart">
                     <div class="card-body">
@@ -76,9 +87,13 @@
                     </div>
                 </div>
             </div>
+            {{-- end VAT --}}
         </div>
+        {{-- end row 1 --}}
 
+        {{-- start row 2 --}}
         <div class="row">
+            {{-- start advance payment --}}
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="card">
                     <div class="card-header">
@@ -124,6 +139,9 @@
                     </div>
                 </div>
             </div>
+            {{-- end advance paynebt --}}
+
+            {{-- start ใบแจ้งหนี้ ค้างชำระ --}}
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="card">
                     <div class="card-header">
@@ -167,9 +185,13 @@
                     </div>
                 </div>
             </div>
+            {{-- end ใบแจ้งหนี้ ค้างชำระ --}}
         </div>
+        {{-- end row 2 --}}
 
+        {{-- start row 3 --}}
         <div class="row">
+            {{-- start ยอดเจ้าหนี้คงค้าง --}}
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="card">
                     <div class="card-header">
@@ -215,6 +237,8 @@
                     </div>
                 </div>
             </div>
+            {{-- end ยอดเจ้าหนี้คงค้าง --}}
+
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="card">
                     <div class="card-header">
@@ -233,7 +257,9 @@
                 </div>
             </div>
         </div>
+        {{-- end row 3 --}}
 
+        {{-- start row 4 job inprocess --}}
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -291,5 +317,207 @@
                 </div>
             </div>
         </div>
+        {{-- end row 4 job inprocess --}}
+
+        {{-- start row 5 ยอดภาษีมูลค่าเพิ่ม --}}
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>ยอดภาษีมูลค่าเพิ่ม ยอดขาย ยอดซื้อ</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-body">
+                            <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="pills-month-tab" data-bs-toggle="pill"
+                                        href="#pills-month" role="tab" aria-controls="pills-month"
+                                        aria-selected="true">รายเดือน
+                                        <div class="d-flex"></div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pills-year-tab" data-bs-toggle="pill"
+                                        href="#pills-year" role="tab" aria-controls="pills-year"
+                                        aria-selected="false">รายปี
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pills-previous-year-tab" data-bs-toggle="pill"
+                                        href="#pills-previous-year" role="tab" aria-controls="pills-previous-year"
+                                        aria-selected="false">11 ปีย้อนหลัง
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade show active" id="pills-month" role="tabpanel"
+                                    aria-labelledby="pills-month-tab">
+                                    
+                                    <div class="bar-chart-widget">
+                                        <div class="bottom-content card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div id="chart-widget1"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="tab-pane fade" id="pills-year" role="tabpanel"
+                                    aria-labelledby="pills-year-tab">
+                                    <div class="bar-chart-widget">
+                                        <div class="bottom-content card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div id="chart-widget2"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="pills-previous-year" role="tabpanel"
+                                    aria-labelledby="pills-previous-year-tab">
+                                    <div class="bar-chart-widget">
+                                        <div class="bottom-content card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div id="chart-widget3"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                                
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- end row 5 ยอดภาษีมูลค่าเพิ่ม --}}
     </div>
 </div>
+
+
+@push('scripts')
+<script src="{{ asset('assets/js/chart/apex-chart/apex-chart.js') }}"></script>
+<script>
+    // window.Livewire.start();
+    setInterval(() => {
+        // console.log("wire:", $wire.get('page'));
+        // $wire.$refresh();
+        
+        console.log(@js($monthVatBuy));
+    }, 2000);
+   
+
+    // document.addEventListener('livewire:init', () => {
+    //     console.log(@this.monthVatBuy);
+    //     setDataToChart(document.querySelector("#chart-widget1"), $wire.monthCategory, $wire.monthVatSale, $wire.monthVatBuy);
+    //     // setDataToChart(document.querySelector("#chart-widget2") );
+    //     // setDataToChart(document.querySelector("#chart-widget3"));
+    // })
+
+    // document.addEventListener('DOMContentLoaded', () => {
+    //     console.log('55555', $wire.monthVatBuy);
+    //     Livewire.hook('element.init', (el, component) => {
+    //         // var data = @this.monthVatBuy;
+    //         console.log(Livewire.all());
+    //     })
+    // });
+
+    function setDataToChart(chart_id, chart_category, sale, buy) {
+        var optionscolumnchart = {
+            series: [
+                {
+                    name: "ภาษีขาย",
+                    data: sale,
+                },
+                {
+                    name: "ภาษีซื้อ",
+                    data: buy,
+                }
+            ],
+
+            legend: {
+                show: false,
+            },
+            chart: {
+                type: "bar",
+                height: 380,
+            },
+            plotOptions: {
+                bar: {
+                    radius: 10,
+                    horizontal: false,
+                    columnWidth: "55%",
+                    endingShape: "rounded",
+                },
+            },
+            dataLabels: {
+                enabled: true,
+            },
+            stroke: {
+                show: true,
+                colors: ["transparent"],
+                curve: "smooth",
+                lineCap: "butt",
+            },
+            grid: {
+                show: false,
+                padding: {
+                    left: 0,
+                    right: 0,
+                },
+            },
+            xaxis: {
+                categories: chart_category
+            },
+            yaxis: {
+                title: {
+                    text: "$ (thousands)",
+                },
+            },
+            fill: {
+                colors: [KohoAdminConfig.primary, KohoAdminConfig.secondary, "#51bb25"],
+                type: "gradient",
+                gradient: {
+                    shade: "light",
+                    type: "vertical",
+                    shadeIntensity: 0.1,
+                    inverseColors: false,
+                    opacityFrom: 1,
+                    opacityTo: 0.9,
+                    stops: [0, 100],
+                },
+            },
+
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        return "$ " + val + " thousands";
+                    },
+                },
+            },
+            responsive: [
+                {
+                    breakpoint: 575,
+                    options: {
+                        chart: {
+                            height: 280,
+                        },
+                    },
+                },
+            ],
+        };
+
+        var chartcolumnchart1 = new ApexCharts(
+            chart_id,
+            optionscolumnchart
+        );
+        chartcolumnchart1.render();
+    }
+</script>
+
+@endpush
