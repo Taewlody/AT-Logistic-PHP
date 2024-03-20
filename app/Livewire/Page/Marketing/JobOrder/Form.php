@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Page\Marketing\JobOrder;
 
+use App\Functions\CalculatorPrice;
 use App\Models\AttachFile;
 use App\Models\Common\Charges;
 use App\Models\Marketing\JobOrder;
@@ -242,7 +243,7 @@ class Form extends Component
     {
         if ($this->containerList->isNotEmpty()) {
             return $this->containerList->groupBy('referContainerSize.containersizeName')->map(function ($item, $key) {
-                return collect($item)->count();
+                return collect($item)->count().'x'.$key;
             })->toArray();
         } else {
             return [];
@@ -286,6 +287,13 @@ class Form extends Component
     public function save()
     {
         $this->job->editID = Auth::user()->usercode;
+        $calCharge = (object) CalculatorPrice::cal_charge($this->value);
+        $this->job->total_vat = $calCharge->tax7;
+        $this->job->tax3 = $calCharge->tax3;
+        $this->job->tax1 = $calCharge->tax1;
+        $this->job->total_amt = ($this->job->charge->sum('chargesReceive') + $this->job->total_vat) + $this->job->charge->sum('chargesbillReceive');
+        $this->job->total_netamt =  $this->job->total_amt - ($this->job->tax3 + $this->job->tax1);
+        $this->job->cus_paid = CalculatorPrice::cal_customer_piad($this->documentID)->sum('sumTotal');
         $this->job->save();
         $this->job->containerList()->saveMany($this->containerList->map(function (JobOrderContainer $item) {
             if ($item->documentID == null || $item->documentID == '') {

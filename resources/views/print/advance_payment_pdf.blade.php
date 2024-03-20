@@ -4,18 +4,19 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>{{$title}}</title>
-    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
     @if(isset($test)&&$test)
-    <link rel="stylesheet" href="{{asset('assets/css/pdf.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/pdf/main.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/pdf/advance-payment.css')}}">
     @else
-    <link rel="stylesheet" href="{{public_path('assets/css/pdf.css')}}">
+    <link rel="stylesheet" href="{{public_path('assets/css/pdf/main.css')}}">
+    <link rel="stylesheet" href="{{public_path('assets/css/pdf/advance-payment.css')}}">
     @endif
 </head>
 
 <body>
     <div class="page">
         {{-- {{$data}} --}}
-        @include('print.header')
+        @include('print.asset.header')
         <div class="content">
             <div class="title">
                 <b>เงินสำรองจ่ายล่วงหน้า<br>
