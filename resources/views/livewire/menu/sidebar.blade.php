@@ -118,7 +118,7 @@
         Alpine.data('activeMenu', () => ({
             listeners: [],
             init() {
-                this.activeMenu = window.location.pathname.split('/')[2];
+                this.activeMenu = window.location.pathname.split('/')[2]; 
                 console.log("init", this.activeMenu);
             },
             update(menu) {

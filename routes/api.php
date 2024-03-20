@@ -37,5 +37,7 @@ Route::group(['middleware' => ['auth.basic:,usercode']], function () {
     Route::get('print/advance_payment_pdf/{documentID}', [PrintFileResource::class, 'AdvancePaymentPdf']);
 
     Route::get('print/advance_payment_pdf/{documentID}/download', [PrintFileResource::class, 'AdvancePaymentPdfDownload']);
+
+    Route::get('testview/pdf/{id}', [PrintFileResource::class, 'testViewPdf']);
 });
 

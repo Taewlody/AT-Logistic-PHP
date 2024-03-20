@@ -4,6 +4,7 @@ namespace App\Models\Payment;
 
 use App\Casts\CustomDate;
 use App\Casts\CustomDateTime;
+use App\Models\Common\BankAccount;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -137,9 +138,14 @@ class AdvancePayment extends Model implements Wireable
         return $this->hasMany(AdvancePaymentAttach::class, 'documentID', 'documentID');
     }
 
-    public function jobOrder()
+    public function jobOrder(): HasOne
     {
-        return $this->hasMany(JobOrder::class, 'documentID', 'refJobNo');
+        return $this->hasOne(JobOrder::class, 'documentID', 'refJobNo');
+    }
+
+    public function accountBank(): HasOne
+    {
+        return $this->hasOne(BankAccount::class, 'accountCode', 'accountCode');
     }
 
     public function customer(): HasOne

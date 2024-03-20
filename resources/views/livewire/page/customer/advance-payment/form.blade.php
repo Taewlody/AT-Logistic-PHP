@@ -411,10 +411,10 @@
                                     <button name="approve" id="approve" class="btn btn-success " type="button"
                                         @disabled($data->documentstatus == 'A')>
                                         <i class="fa fa-check"></i> Approve</button>
-
-
-                                    <button class="btn btn-white " type="button" onclick=""><i class="fa fa-print"></i>
-                                        Print</button>
+                                    @if($action != 'create')
+                                        <a class="btn btn-white" target="_blank" href="{{'/api/print/advance_payment_pdf/'.$data->documentID}}" wire:navigate @disabled($data->documentID == null || $data->documentID == '')><i class="fa fa-print"></i>
+                                            Print</a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
