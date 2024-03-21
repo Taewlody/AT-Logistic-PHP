@@ -190,12 +190,12 @@
 
 
 
-                <div class="col-lg-12">
-                    <div class="ibox ">
-                        <div class="ibox-title">
-                            <h2>Action</h2>
+                <div class="col-lg-12 mt-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Action</h3>
                         </div>
-                        <div class="ibox-content">
+                        <div class="card-body">
 
                             @if ($action != 'create')
                                 <div class="form-group row">
@@ -227,7 +227,7 @@
                                         <i class="fa fa-check"></i> Approve</button>
 
 
-                                    <button class="btn btn-white " type="button" onclick=""><i
+                                    <button class="btn btn-secondary " type="button" onclick=""><i
                                             class="fa fa-print"></i>
                                         Print</button>
                                 </div>

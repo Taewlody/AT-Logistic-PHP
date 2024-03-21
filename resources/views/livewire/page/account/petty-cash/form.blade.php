@@ -220,11 +220,11 @@
 
                 {{-- Section Action --}}
                 <div class="col-lg-12">
-                    <div class="ibox ">
-                        <div class="ibox-title">
-                            <h2>Action</h2>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Action</h3>
                         </div>
-                        <div class="ibox-content">
+                        <div class="card-body">
                             @if ($action != 'create')
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Create By</label>
@@ -243,16 +243,16 @@
                             <div class="hr-line-dashed"></div>
                             <div class="form-group row">
                                 <div class="col-sm-10 col-sm-offset-2">
-                                    <button name="back" class="btn btn-white" type="button"
+                                    <button name="back" class="btn btn-secondary" type="button"
                                         wire:click.prevent='{{ url()->previous() }}'><i class="fa fa-reply"></i> Back</button>
 
-                                    <button name="Approve" id="Approve" class="btn btn-primary" type="submit"><i
+                                    <button name="Approve" id="Approve" class="btn btn-success" type="submit"><i
                                             class="fa fa-save"></i> Approve</button>
-                                    <button class="btn btn-white " type="button" onclick=""><i
+                                    <button class="btn btn-primary " type="button" onclick=""><i
                                             class="fa fa-print"></i> Job</button>
-                                    <button class="btn btn-white " type="button" onclick=""><i
+                                    <button class="btn btn-primary " type="button" onclick=""><i
                                             class="fa fa-print"></i> Booking confirm</button>
-                                    <button class="btn btn-white " type="button" onclick=""><i
+                                    <button class="btn btn-primary " type="button" onclick=""><i
                                             class="fa fa-print"></i> Trailer booking</button>
                                 </div>
                             </div>

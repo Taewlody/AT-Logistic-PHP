@@ -194,7 +194,7 @@
 
 
                 {{-- Section 3 --}}
-                <div class="col-lg-12">
+                <div class="col-lg-12 mt-2 mb-2">
                     <div id="accordion-3" class="default-according">
                         <div class="card">
                             <div class="card-header" id="headingCustomerPayment">
@@ -377,11 +377,11 @@
                 </div>
 
                 <div class="col-lg-12">
-                    <div class="ibox ">
-                        <div class="ibox-title">
-                            <h2>Action</h2>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Action</h3>
                         </div>
-                        <div class="ibox-content">
+                        <div class="card-body">
 
                             @if ($action != 'create')
                             <div class="form-group row">
@@ -403,8 +403,6 @@
                             <div class="form-group row">
 
                                 <div class="col-sm-10 col-sm-offset-2">
-
-
                                     <button name="save" id="save" class="btn btn-primary" type="button"
                                         wire:click='save' @disabled($data->documentstatus != 'A')>
                                         <i class="fa fa-save"></i> Save</button>
@@ -412,7 +410,7 @@
                                         @disabled($data->documentstatus == 'A')>
                                         <i class="fa fa-check"></i> Approve</button>
                                     @if($action != 'create')
-                                        <a class="btn btn-white" target="_blank" href="{{'/api/print/advance_payment_pdf/'.$data->documentID}}" wire:navigate @disabled($data->documentID == null || $data->documentID == '')><i class="fa fa-print"></i>
+                                        <a class="btn btn-secondary" target="_blank" href="{{'/api/print/advance_payment_pdf/'.$data->documentID}}" wire:navigate @disabled($data->documentID == null || $data->documentID == '')><i class="fa fa-print"></i>
                                             Print</a>
                                     @endif
                                 </div>
