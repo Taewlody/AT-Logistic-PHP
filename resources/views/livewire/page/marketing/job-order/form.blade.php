@@ -348,8 +348,9 @@
                             <div class="hr-line-dashed"></div>
                             <div class="form-group row">
                                 <div class="col-sm-10 col-sm-offset-2">
-                                    <button name="back" class="btn btn-secondary" type="button" wire:click="$this->redirectRoute('job-order')" >
-                                        <i class="fa fa-reply"></i> Back</button>
+                                    <a name="back" class="btn btn-white" type="button" href="{{ route('job-order') }}"
+                                    wire.loading.attr="disabled">
+                                        <i class="fa fa-reply"></i> Back</a>
 
                                     <button name="Approve" id="Approve" class="btn btn-success" wire:click="save"
                                         type="button"><i class="fa fa-save"></i> Approve</button>
