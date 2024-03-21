@@ -353,7 +353,7 @@
                                 <div class="tab-pane fade show active" id="pills-month" role="tabpanel"
                                     aria-labelledby="pills-month-tab">
                                     
-                                    <div class="bar-chart-widget">
+                                    {{-- <div class="bar-chart-widget">
                                         <div class="bottom-content card-body">
                                             <div class="row">
                                                 <div class="col-12">
@@ -361,12 +361,39 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
+                                    <br/>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>วันที่</th>
+                                                <th>ภาษีซื้อ</th>
+                                                <th>ภาษีขาย</th>
+                                                <th>ส่วนต่าง</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if(count($monthVatTotal) > 0)
+                                            @foreach ($monthVatTotal as $vat)
+                                            <tr>
+                                                <td>{{ $vat->date }}</td>
+                                                <td>{{ $vat->value1 }}</td>
+                                                <td>{{ $vat->value2 }}</td>
+                                                <td></td>
+                                            </tr>
+                                            @endforeach
+                                            @else
+                                            <tr>
+                                                <td colspan="4" class="text-center">Data Not Found</td>
+                                            </tr>
+                                            @endif
+                                        </tbody>
+                                    </table>
 
                                 </div>
                                 <div class="tab-pane fade" id="pills-year" role="tabpanel"
                                     aria-labelledby="pills-year-tab">
-                                    <div class="bar-chart-widget">
+                                    {{-- <div class="bar-chart-widget">
                                         <div class="bottom-content card-body">
                                             <div class="row">
                                                 <div class="col-12">
@@ -374,11 +401,39 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
+                                    <br/>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>วันที่</th>
+                                                <th>ภาษีซื้อ</th>
+                                                <th>ภาษีขาย</th>
+                                                <th>ส่วนต่าง</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if(count($yearVatTotal) > 0)
+                                            @foreach ($yearVatTotal as $year)
+                                            <tr>
+                                                <td>{{ $year->month }}</td>
+                                                <td>{{ $year->value1 }}</td>
+                                                <td>{{ $year->value2 }}</td>
+                                                <td></td>
+                                            </tr>
+                                            @endforeach
+                                            @else
+                                            <tr>
+                                                <td colspan="4" class="text-center">Data Not Found</td>
+                                            </tr>
+                                            @endif
+                                        </tbody>
+                                    </table>
+
                                 </div>
                                 <div class="tab-pane fade" id="pills-previous-year" role="tabpanel"
                                     aria-labelledby="pills-previous-year-tab">
-                                    <div class="bar-chart-widget">
+                                    {{-- <div class="bar-chart-widget">
                                         <div class="bottom-content card-body">
                                             <div class="row">
                                                 <div class="col-12">
@@ -386,7 +441,34 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
+                                    <br/>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>วันที่</th>
+                                                <th>ภาษีซื้อ</th>
+                                                <th>ภาษีขาย</th>
+                                                <th>ส่วนต่าง</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if(count($previousVatTotal) > 0)
+                                            @foreach ($previousVatTotal as $previous)
+                                            <tr>
+                                                <td>{{ $previous->year }}</td>
+                                                <td>{{ $previous->value1 }}</td>
+                                                <td>{{ $previous->value2 }}</td>
+                                                <td></td>
+                                            </tr>
+                                            @endforeach
+                                            @else
+                                            <tr>
+                                                <td colspan="4" class="text-center">Data Not Found</td>
+                                            </tr>
+                                            @endif
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -407,7 +489,8 @@
 @script
 <script>
     document.addEventListener('livewire:initialized', () => {
-        setDataToChart(document.querySelector("#chart-widget1"), $wire.monthCategory, $wire.monthVatSale, $wire.monthVatBuy);
+        // setDataToChart(document.querySelector("#chart-widget1"), $wire.monthCategory, $wire.monthVatSale, $wire.monthVatBuy);
+        // setDataToChart(document.querySelector("#chart-widget2"), $wire.yearCategory, $wire.yearVatSale, $wire.yearVatBuy);
     })
 
 
@@ -416,7 +499,6 @@
         console.log('chart_category: ', chart_category);
         console.log('sale: ', sale);
         console.log('buy: ', buy);
-
         var optionscolumnchart = {
             series: [
                 {

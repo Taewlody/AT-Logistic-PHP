@@ -30,10 +30,17 @@ class Page extends Component
     public $monthSearch;
     public $yearSearch;
 
-    public $monthTotal;
+    public $monthVatTotal;
     public $monthVatBuy;
     public $monthVatSale;
     public $monthCategory;
+
+    public $yearVatTotal;
+    public $yearVatBuy;
+    public $yearVatSale;
+    public $yearCategory;
+
+    public $previousVatTotal;
 
     public function boot()
     {
@@ -84,7 +91,7 @@ class Page extends Component
         // end account balance
 
         //start ยอดภาษีมูลค่าเพิ่ม ยอดขาย ยอดซื้อ
-        $this->monthSearch = date('m');
+        $this->monthSearch = (int) date('m');
         $this->yearSearch =  date('Y');
         
         //รายเดือนปัจจุบัน
@@ -102,28 +109,119 @@ class Page extends Component
             ->groupBy('date')
             ->pluck('sum', 'date');
         
-        $this->monthVatBuy = $this->setDataCurrentMonthChart($monthVatBuy->toArray());
-        $this->monthVatSale = $this->setDataCurrentMonthChart($monthVatSale->toArray());
+        // $this->monthVatBuy = $this->setDataCurrentMonthChart($monthVatBuy->toArray());
+        // $this->monthVatSale = $this->setDataCurrentMonthChart($monthVatSale->toArray());
+        $this->monthVatTotal = $this->mergeDataWithDate($monthVatBuy, $monthVatSale) ?? [];
         
         //รายปี
-        $this->yearTotal = PaymentVoucher::selectRaw('sum(sumTotal)  as sum, MONTH(documentDate) as month')
+        $yearVatBuy = PaymentVoucher::selectRaw('sum(sumTax7) as sum, MONTH(documentDate) as month')
             ->whereYear('documentDate', $this->yearSearch)
             ->groupBy('month')
-            ->get()->toArray();
+            ->pluck('sum', 'month');
+        
+        //ภาษีขาย เดือนปัจจุบัน
+        $yearVatSale = TaxInvoice::selectRaw('sum(total_vat)  as sum, MONTH(documentDate) as month')
+            ->whereYear('documentDate', $this->yearSearch)
+            ->groupBy('month')
+            ->pluck('sum', 'month');
+
+        $this->yearVatTotal = $this->mergeDataWithMonth($yearVatBuy, $yearVatSale) ?? [];
+        
+        // $this->yearVatBuy = $this->setDataCurrentYearChart($yearVatBuy->toArray());
+        // $this->yearVatSale = $this->setDataCurrentYearChart($yearVatSale->toArray());
         
 
         //ราย 11 ปี
         $years = range($this->yearSearch, $this->yearSearch - 11);
-        $this->previousYearsTotal = PaymentVoucher::selectRaw('sum(sumTotal) as sum, YEAR(documentDate) as year')
+        $previousVatBuy = PaymentVoucher::selectRaw('sum(sumTotal) as sum, YEAR(documentDate) as year')
             ->whereIn(DB::raw('YEAR(documentDate)'), $years)
             ->groupBy(DB::raw('YEAR(documentDate)'))
             ->orderBy(DB::raw('YEAR(documentDate)'), 'asc')
-            ->get()
-            ->toArray();
+            ->pluck('sum', 'year');
+
+        $previousVatSale = TaxInvoice::selectRaw('sum(total_vat) as sum, YEAR(documentDate) as year')
+            ->whereIn(DB::raw('YEAR(documentDate)'), $years)
+            ->groupBy(DB::raw('YEAR(documentDate)'))
+            ->orderBy(DB::raw('YEAR(documentDate)'), 'asc')
+            ->pluck('sum', 'year');
+        
+        $this->previousVatTotal = $this->mergeDataWithYear($previousVatBuy, $previousVatSale) ?? [];
         
 
         //end ยอดภาษีมูลค่าเพิ่ม ยอดขาย ยอดซื้อ
 
+    }
+
+    public function mergeDataWithYear($data1, $data2)
+    {
+        if(count($data1) > 0 || count($data2) > 0) {
+
+            $previousYear = [];
+            $endYear = $this->yearSearch - 11;
+            $currentYear = $this->yearSearch;
+            $index = 0;
+            while ($currentYear >= $endYear) {
+
+                $previousYear[$index] = (object) array(
+                    'year' => $currentYear,
+                    'value1' => $data1[$currentYear] ?? '0.00',
+                    'value2' => $data2[$currentYear] ?? '0.00'
+                );
+                $index++;
+                $currentYear=$currentYear-1;
+                
+            }
+            return $previousYear;
+        }
+    }
+
+    public function mergeDataWithMonth($data1, $data2)
+    {
+        
+        if(count($data1) > 0 || count($data2) > 0) {
+            $monthInYears = [];
+            // $startMonth = 1;
+            $endMonth = 12;
+            $currentMonth = 1;
+
+            while ($currentMonth <= $endMonth) {
+
+                $monthInYears[$currentMonth-1] = (object) array(
+                    'month' => $currentMonth,
+                    'value1' => $data1[$currentMonth] ?? '0.00',
+                    'value2' => $data2[$currentMonth] ?? '0.00'
+                );
+
+                $currentMonth++;
+            }
+            return $monthInYears;
+        }
+    }
+
+    public function mergeDataWithDate($data1, $data2)
+    {
+        if(count($data1) > 0 || count($data2) > 0) {
+            $year = $this->yearSearch;
+            $month = $this->monthSearch;
+
+            $daysInMonth = [];
+            $startDay = Carbon::create($year, $month, 1);
+            $endDay = Carbon::create($year, $month, 1)->endOfMonth();
+            $currentDay = clone $startDay;
+
+            while ($currentDay <= $endDay) {
+
+                $daysInMonth[$currentDay->format('d')-1] = (object) array(
+                    'date' => $currentDay->format('Y-m-d'),
+                    'value1' => $data1[$currentDay->format('Y-m-d')] ?? '0.00',
+                    'value2' => $data2[$currentDay->format('Y-m-d')] ?? '0.00'
+                );
+
+                $currentDay->addDay();
+            }
+            // dd($data1,$data2,$daysInMonth);
+            return $daysInMonth;
+        }
     }
 
     public function setDataCurrentMonthChart($items)
@@ -147,6 +245,27 @@ class Page extends Component
             $mergedData = array_merge($daysInMonth, $items);
             
             return array_values($mergedData);
+        } else {
+            return [];
+        }
+    }
+
+    public function setDataCurrentYearChart($items)
+    {
+        $this->yearCategory = range(1,12);
+        if(count($items) > 0) {
+            $monthInYear = [];
+
+            for($i=0; $i<=11; $i++) {
+                if(isset($items[$i])) {
+                    $monthInYear[$i] = $items[$i];
+                }else {
+                    $monthInYear[$i] = '0.00';
+                }
+
+            }
+            
+            return $monthInYear;
         } else {
             return [];
         }
