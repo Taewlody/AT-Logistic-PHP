@@ -78,9 +78,7 @@ div.line {
 }
 
 .logo {
-    /* width: 120px; */
     max-height: 72px;
-
 }
 
 .content .title {
@@ -94,33 +92,10 @@ div.line {
     line-height: 14px;
 }
 
-.detail table.col-left {
-    width: 19.7cm;
-    padding-right: 20px;
-}
-
-.detail table.col-left th {
-    width: 3cm;
-}
-
-.detail table.col-right {
-    width: 10cm;
-}
-
-.detail table.col-right th {
-    width: 2.5cm;
-}
-
-.detail th {
-    text-align: left;
-    font-size: 20px;
-    padding-right: 18px;
-}
-
-.detail td {
-    letter-spacing: 0px;
-    font-size: 20px;
-    padding-right: 10px;
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    padding: 0;
 }
 
 .table {
@@ -134,43 +109,11 @@ div.line {
 .table th,
 .table td {
     border: 1px solid black;
-    border-collapse: collapse;
-    font-size: 20px;
-    line-height: 14px;
-}
-
-.table th {
-    padding: 0px 10px;
-}
-
-.table td:first-child,
-.table td:last-child {
-    text-align: center;
-}
-
-.footer table {
-    width: 100%;
-    line-height: 14px;
-    font-size: 20px;
-    margin-left: 15px;
-    margin-right: 15px;
-}
-
-.footer table th:first-child,
-.footer table th:last-child {
-    text-align: left;
-}
-
-.footer table td {
-    vertical-align: top;
+    border-spacing: 0;
 }
 
 input[type="checkbox"] {
     display: none;
-}
-
-label.label {
-    margin-left: 5px;
 }
 
 input[type="checkbox"]+label.icon::before {
@@ -203,4 +146,10 @@ div.dotted-line {
 .footer tr.sign-block td span {
     line-height: 20px;
     font-size: 20px;
+}
+
+table.test-table,
+table.test-table th,
+table.test-table td {
+    border: 1px solid black;
 }

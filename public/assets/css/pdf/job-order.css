@@ -1,0 +1,82 @@
+.detail-job th, .detail-job td {
+    white-space: nowrap;
+    font-size: 18px;
+    text-align: left;
+}
+
+
+.detail-job tr th:last-of-type {
+    text-align: right;
+}
+
+table.table-containers {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table.table-containers th {
+    border: 1px solid black;
+    text-align: left;
+    font-size: 18px;
+    line-height: 16px;
+    padding-left: 4px;
+}
+
+table.table-containers td {
+    padding-left: 4px;
+    text-align: left;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 16px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+table.table-containers tr:first-of-type {
+    border-bottom: none;
+}
+
+table.table-containers tr:last-of-type {
+    border-top: none;
+}
+
+.table-job {
+    margin-top: 20px;
+}
+
+table.table-charges {
+    margin-top: 20px;
+    font-size: 18px;
+    width: 100%;
+}
+
+table.table-charges th, table.table-charges td {
+    border: 1px solid black;
+    line-height: 14px;
+}
+
+table.table-charges tr>td.money {
+    text-align: right;
+    padding-right: 8px;
+    width: 15%;
+}
+
+table.table-charges tr>td.sum-block {
+    border-top: none;
+    border-bottom: none;
+}
+
+table.table-charges tr>td.sum-block-last {
+    border-top: none;
+}
+
+table.table-charges tr>td.header {
+    text-align: right;
+    padding-right: 8px;
+}
+.footer {
+    margin-top: 20px;
+    font-size: 18px;
+}
+

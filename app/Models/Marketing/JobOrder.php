@@ -11,6 +11,7 @@ use App\Models\Common\Supplier;
 use App\Models\Payment\AdvancePayment;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
@@ -298,22 +299,22 @@ class JobOrder extends Model implements Wireable
 
     public function referFeeder(): HasOne
     {
-        return $this->hasOne(Feeder::class, 'feederCode', 'feeder');
+        return $this->hasOne(Feeder::class, 'fCode', 'feeder');
     }
     public function vesselFeeder(): HasOne
     {
-        return $this->hasOne(Feeder::class, 'feederCode', 'feeder');
+        return $this->hasOne(Feeder::class, 'fCode', 'feeder');
     }
 
-    public function invoice(): HasOne
+    public function invoice(): BelongsTo
     {
-        return $this->hasOne(Invoice::class, 'documentID', 'invoiceNo');
+        return $this->belongsTo(Invoice::class, 'ref_jobNo', 'documentID');
     }
 
-    public function referInvoice(): HasOne
-    {
-        return $this->hasOne(Invoice::class, 'ref_jobNo', 'documentID');
-    }
+    // public function referInvoice(): HasOne
+    // {
+    //     return $this->hasOne(Invoice::class, 'ref_jobNo', 'documentID');
+    // }
 
     public function PlaceFOB(): HasOne
     {
