@@ -1,0 +1,25 @@
+.title {
+    margin-top: -8px;
+}
+
+table {
+    width: 100%;
+}
+
+.detail {
+    font-size: 20px !important;
+}
+
+.detail .detail-block td {
+    width: 50%;
+}
+
+.detail .detail-block tr>td:first-of-type {
+    padding-right: 10px;
+}
+
+.detail .header-table {
+    font-weight: bold;
+    text-decoration: underline;
+    margin-top: .3cm;
+}

@@ -48,22 +48,21 @@ class PrintFileResource extends Controller
             'netTotal' => 0,
 
         ];
-        $calCharge->vat7 = $data->total_vat;
-        $calCharge->totalPaid = $data->charge->sum('chargesCost');
-        $calCharge->totalReceive = $data->charge->sum('chargesReceive');
-        $calCharge->totalBill = $data->charge->sum('chargesbillReceive');
-        $calCharge->total = $data->total_amt;
-        $calCharge->vat3 = $data->tax3;
-        $calCharge->tax1 = $data->tax1;
-        $calCharge->cusPaid = $data->cus_paid;
-        $calCharge->netTotal = $data->total_netamt;
         if($data->containerList != null) {
             $groupContainer = $data->containerList->groupBy('referContainerSize.containersizeName')->map(function ($item, $key) {
                 return collect($item)->count().'x'.$key;
             })->toArray();
         }
+        $calCharge->vat7 = $data->total_vat;
+        $calCharge->total = $data->total_amt;
+        $calCharge->vat3 = $data->tax3;
+        $calCharge->tax1 = $data->tax1;
+        $calCharge->cusPaid = $data->cus_paid;
+        $calCharge->netTotal = $data->total_netamt;
         if($data->charge != null) {
-
+            $calCharge->totalPaid = $data->charge->sum('chargesCost');
+            $calCharge->totalReceive = $data->charge->sum('chargesReceive');
+            $calCharge->totalBill = $data->charge->sum('chargesbillReceive');
         }
         $pdf = DomPdf::loadView('print.job_order_pdf', ['title' => "Job Order", 'data' => $data, 'groupContainer' => $groupContainer, 'calCharge' => $calCharge]);
         return $pdf->stream('job_order.pdf');
@@ -72,7 +71,13 @@ class PrintFileResource extends Controller
     public function BookingJobOrderPdf(string $documentID)
     {
         $data = JobOrder::find($documentID);
-        $pdf = DomPdf::loadView('print.booking_job_order_pdf', ['title' => "Booking Job Order", 'data' => $data]);
+        $groupContainer = [];
+        if($data->containerList != null) {
+            $groupContainer = $data->containerList->groupBy('referContainerSize.containersizeName')->map(function ($item, $key) {
+                return collect($item)->count().'x'.$key;
+            })->toArray();
+        }
+        $pdf = DomPdf::loadView('print.booking_job_order_pdf', ['title' => "Booking Confirmation", 'data' => $data, 'groupContainer' => $groupContainer,]);
         return $pdf->stream('booking_job_order.pdf');
     }
 
