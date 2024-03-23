@@ -267,9 +267,9 @@ class JobOrder extends Model implements Wireable
         return $this->hasOne(Port::class, 'portCode', 'port_of_landing');
     }
 
-    public function trailerBooking(): HasOne
+    public function trailerBooking(): BelongsTo
     {
-        return $this->hasOne(TrailerBooking::class, 'documentID', 'trailer_bookingNO');
+        return $this->belongsTo(TrailerBooking::class, 'ref_jobID', 'documentID');
     }
 
     public function dischargePort(): HasOne

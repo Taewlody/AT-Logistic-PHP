@@ -40,6 +40,12 @@ Route::group(['middleware' => ['auth.basic:,usercode']], function () {
 
     Route::get('print/job_order_pdf/{documentID}', [PrintFileResource::class, 'JobOrderPdf']);
 
+    Route::get('print/booking_job_pdf/{documentID}', [PrintFileResource::class,'BookingJobOrderPdf']);
+
+    Route::get('print/trailer_booking_pdf/{documentID}', [PrintFileResource::class, 'TrailerBookingPdf']);
+
+
+
     Route::get('testview/pdf/{id}', [PrintFileResource::class, 'testViewPdf']);
 });
 

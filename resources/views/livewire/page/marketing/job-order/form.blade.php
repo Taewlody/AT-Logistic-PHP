@@ -29,7 +29,8 @@
                             <div id="collapseDocument" role="tabpanel" class="collapse show"
                                 aria-labelledby="headingDocument" data-bs-parent="#accordion-1" wire:ignore.self>
                                 <div class="card-body">
-                                    <livewire:page.marketing.job-order.element.document wire:model.live="job" :$action />
+                                    <livewire:page.marketing.job-order.element.document wire:model.live="job"
+                                        :$action />
                                 </div>
                             </div>
                         </div>
@@ -49,8 +50,8 @@
                                     </a>
                                 </h2>
                             </div>
-                            <div id="collapseSale" role="tabpanel" class="collapse show"
-                                aria-labelledby="headingSale" data-bs-parent="#accordion-2" wire:ignore.self>
+                            <div id="collapseSale" role="tabpanel" class="collapse show" aria-labelledby="headingSale"
+                                data-bs-parent="#accordion-2" wire:ignore.self>
                                 <div class="card-body">
                                     <livewire:page.marketing.job-order.element.detail wire:model.live="job" :$action />
                                 </div>
@@ -75,7 +76,8 @@
                             <div id="collapseLocation" role="tabpanel" class="collapse"
                                 aria-labelledby="headingLocation" data-bs-parent="#accordion-3" wire:ignore.self>
                                 <div class="card-body">
-                                    <livewire:page.marketing.job-order.element.location wire:model.live="job" :$action />
+                                    <livewire:page.marketing.job-order.element.location wire:model.live="job"
+                                        :$action />
                                 </div>
                             </div>
                         </div>
@@ -98,8 +100,9 @@
                             <div id="collapseContainers" role="tabpanel" class="collapse"
                                 aria-labelledby="headingContainers" data-bs-parent="#accordion-4" wire:ignore.self>
                                 <div class="card-body">
-                                    <livewire:page.marketing.job-order.element.containers wire:model.live="containerList" :$action />
-                                    
+                                    <livewire:page.marketing.job-order.element.containers
+                                        wire:model.live="containerList" :$action />
+
                                 </div>
                             </div>
                         </div>
@@ -122,7 +125,8 @@
                             <div id="collapsePackaged" role="tabpanel" class="collapse"
                                 aria-labelledby="headingPackaged" data-bs-parent="#accordion-5" wire:ignore.self>
                                 <div class="card-body">
-                                    <livewire:page.marketing.job-order.element.packaged-size wire:model.live="packagedList" :$action />
+                                    <livewire:page.marketing.job-order.element.packaged-size
+                                        wire:model.live="packagedList" :$action />
                                 </div>
                             </div>
                         </div>
@@ -145,7 +149,9 @@
                             <div id="collapseGoods" role="tabpanel" class="collapse" aria-labelledby="headingGoods"
                                 data-bs-parent="#accordion-6" wire:ignore.self>
                                 <div class="card-body">
-                                    <livewire:page.marketing.job-order.element.goods wire:model="goodsList" :$action :good_total_num_package="$job->good_total_num_package" :good_commodity="$job->good_commodity" />
+                                    <livewire:page.marketing.job-order.element.goods wire:model="goodsList" :$action
+                                        :good_total_num_package="$job->good_total_num_package"
+                                        :good_commodity="$job->good_commodity" />
                                 </div>
                             </div>
                         </div>
@@ -165,10 +171,12 @@
                                     </a>
                                 </h2>
                             </div>
-                            <div id="collapseCharges" role="tabpanel" class="collapse"
-                                aria-labelledby="headingCharges" data-bs-parent="#accordion-7" wire:ignore.self>
+                            <div id="collapseCharges" role="tabpanel" class="collapse" aria-labelledby="headingCharges"
+                                data-bs-parent="#accordion-7" wire:ignore.self>
                                 <div class="card-body">
-                                    <livewire:page.marketing.job-order.element.charges wire:model.live.debounce.1000ms="chargeList" :$action :documentID="$job->documentID" />
+                                    <livewire:page.marketing.job-order.element.charges
+                                        wire:model.live.debounce.1000ms="chargeList" :$action
+                                        :documentID="$job->documentID" />
                                 </div>
                             </div>
                         </div>
@@ -203,29 +211,25 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach ($advancePayment as $piad)
+                                                @foreach ($advancePayment as $piad)
                                                 <td>{{$loop->iteration}}</td>
-                                                <td><a href="{{ route('advance-payment.form', ['action' => 'edit', 'id' => $piad->documentID]) }}" target="_blank">{{$piad->documentID}}</a></td>
+                                                <td><a href="{{ route('advance-payment.form', ['action' => 'edit', 'id' => $piad->documentID]) }}"
+                                                        target="_blank">{{$piad->documentID}}</a></td>
                                                 <td>{{$piad->note == '' ? 'ลูกค้าสำรองจ่าย' : $piad->note}}</td>
                                                 <td>{{number_format($piad->sumTotal, 2,'.', ',')}}</td>
                                                 @if ($piad->docStatus != null)
-                                                    <td class="center">
-                                                        <span
-                                                            @class([
-                                                                'badge',
-                                                                'label-primary' => $piad->docStatus->status_code == 'A',
-                                                                'label-danger' => $piad->docStatus->status_code == 'D',
-                                                                'label-warning' => $piad->docStatus->status_code == 'P',
-                                                            ])>{{ $piad->docStatus->status_name }}</span>
-                                                    </td>
+                                                <td class="center">
+                                                    <span @class([ 'badge' , 'label-primary'=>
+                                                        $piad->docStatus->status_code == 'A',
+                                                        'label-danger' => $piad->docStatus->status_code == 'D',
+                                                        'label-warning' => $piad->docStatus->status_code == 'P',
+                                                        ])>{{ $piad->docStatus->status_name }}</span>
+                                                </td>
                                                 @else
-                                                    <td class="center"><span
-                                                            @class([
-                                                                'label'
-                                                            ])>Disabled</span>
-                                                    </td>
+                                                <td class="center"><span @class([ 'label' ])>Disabled</span>
+                                                </td>
                                                 @endif
-                                            @endforeach
+                                                @endforeach
                                             </tbody>
                                             <tfoot>
                                             </tfoot>
@@ -277,12 +281,14 @@
                                                             @disabled($attach->items != null)>
                                                     </td>
                                                     <td class='center'>
-                                                        {{-- <a class='btn-white btn btn-xs' href='' target='_blank'>View</a> --}}
-                                                        <a href='/api/blobfile/{{$attach->fileName}}' target="_blank">View</a>
+                                                        {{-- <a class='btn-white btn btn-xs' href=''
+                                                            target='_blank'>View</a> --}}
+                                                        <a href='/api/blobfile/{{$attach->fileName}}'
+                                                            target="_blank">View</a>
                                                         {{-- </button> --}}
                                                         &nbsp;
-                                                        <button type='button'
-                                                            class='btn-white btn btn-xs' wire:click='removeFile({{$loop->index}})'>Remove</button>
+                                                        <button type='button' class='btn-white btn btn-xs'
+                                                            wire:click='removeFile({{$loop->index}})'>Remove</button>
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -292,26 +298,28 @@
                                         </table>
                                         <div class="form-group row">
                                             <div id="container_attach" class="fileinput fileinput-new"
-                                                data-provides="fileinput"> 
+                                                data-provides="fileinput">
                                                 <span class="btn btn-primary btn-file">
                                                     <span class="fileinput-new">Select file</span>
                                                     <input type="file" wire:model.change='file'>
                                                     @error('file')
-                                                        <div class="text-danger m-2">{{ $message }}</div>
+                                                    <div class="text-danger m-2">{{ $message }}</div>
                                                     @enderror
-                                                </span> 
-                                                <span class="fileinput-filename"></span> 
-                                                <button type="button" wire:click='removePreFile' class="close fileinput-exists" data-dismiss="fileinput" style="float: none; border: none;
-                                                background: transparent;" @disabled(!$file)>&times;</button> 
+                                                </span>
+                                                <span class="fileinput-filename"></span>
+                                                <button type="button" wire:click='removePreFile'
+                                                    class="close fileinput-exists" data-dismiss="fileinput" style="float: none; border: none;
+                                                background: transparent;" @disabled(!$file)>&times;</button>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-lg-2 col-form-label">Action</label>
                                             <div class="col-md-4">
-                                                <button class="btn btn-primary " type="button" wire:click="uploadFile" @disabled(!$file)>
+                                                <button class="btn btn-primary " type="button" wire:click="uploadFile"
+                                                    @disabled(!$file)>
                                                     <i class="fa fa-save"></i> Upload File</button>
                                                 @error('cusCodeEmpty')
-                                                    <div class="text-danger m-2">{{ $message }}</div>
+                                                <div class="text-danger m-2">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
@@ -330,36 +338,45 @@
                         </div>
                         <div class="card-body">
                             @if ($action != 'create')
-                                <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">Create By</label>
-                                    <div class="col-sm-10">
-                                        <label>{{ $createBy->username ?? '' }}
-                                            {{ $job->createTime ?? '' }}</label>
-                                    </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Create By</label>
+                                <div class="col-sm-10">
+                                    <label>{{ $createBy->username ?? '' }}
+                                        {{ $job->createTime ?? '' }}</label>
                                 </div>
+                            </div>
 
-                                <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">Update By</label>
-                                    <div class="col-sm-10">
-                                        <label>{{ $editBy->username ?? '' }} {{ $job->editTime ?? '' }}</label>
-                                    </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Update By</label>
+                                <div class="col-sm-10">
+                                    <label>{{ $editBy->username ?? '' }} {{ $job->editTime ?? '' }}</label>
                                 </div>
+                            </div>
                             @endif
                             <div class="hr-line-dashed"></div>
                             <div class="form-group row">
                                 <div class="col-sm-10 col-sm-offset-2">
                                     <a name="back" class="btn btn-white" type="button" href="{{ route('job-order') }}"
-                                    wire.loading.attr="disabled">
+                                        wire.loading.attr="disabled">
                                         <i class="fa fa-reply"></i> Back</a>
 
                                     <button name="Approve" id="Approve" class="btn btn-success" wire:click="save"
                                         type="button"><i class="fa fa-save"></i> Approve</button>
-                                    <button class="btn btn-primary " type="button" onclick=""><i
-                                            class="fa fa-print"></i> Job</button>
-                                    <button class="btn btn-primary " type="button" onclick=""><i
-                                            class="fa fa-print"></i> Booking confirm</button>
-                                    <button class="btn btn-primary " type="button" onclick=""><i
-                                            class="fa fa-print"></i> Trailer booking</button>
+                                    @if($job->documentID != null ||$job->documentID != '')
+                                        <a class="btn btn-primary " target="_blank"
+                                            href="{{'/api/print/job_order_pdf/'.$job->documentID}}"><i
+                                                class="fa fa-print"></i> Job</a>
+                                    @endif
+                                    @if($job->documentID != null ||$job->documentID != '')
+                                        <a class="btn btn-primary " target="_blank"
+                                            href="{{'/api/print/booking_job_pdf/'.$job->documentID}}"><i
+                                                class="fa fa-print"></i> Booking confirm</a>
+                                    @endif
+                                    @if($job->trailerBooking != null)
+                                        <a class="btn btn-primary " target="_blank"
+                                            href="{{'/api/print/trailer_booking_pdf/'.$job->trailerBooking->documentID}}"
+                                            ><i class="fa fa-print"></i> Trailer booking</a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
