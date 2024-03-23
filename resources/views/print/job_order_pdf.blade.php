@@ -84,7 +84,7 @@
                     </tr>
                     <tr>
                         <th>Tel.</th>
-                        <td>{{$data->agentRefer != null ? $data->$data->agentRefer->tel : ""}}</td>
+                        <td>{{$data->agentRefer != null ? $data->agentRefer->tel : ""}}</td>
                         <th style="text-align: left;" colspan="3">Fax.</th>
                         <td>{{$data->agentRefer != null ? $data->agentRefer->fax : ""}}</td>
                     </tr>

@@ -16,6 +16,8 @@ use App\Models\Common\Supplier;
 use App\Models\Common\TransportType;
 use App\Models\Common\UnitContainer;
 use App\Models\Marketing\JobOrder;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Support\Facades\Cache;
 
 class Service
@@ -23,6 +25,11 @@ class Service
     public static function MoneyFormat($number)
     {
         return number_format($number, 2,'.', ',');
+    }
+
+    public static function DateFormat($date, bool|null $empty = false)
+    {
+        return Carbon::parse($date) == Carbon::createFromTimestamp(0) ?  ($empty ? "" : "00/00/0000") : Carbon::parse($date)->format('d/m/Y');
     }
 
     public static function AccountSelecter(){

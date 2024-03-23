@@ -6,6 +6,7 @@ use App\Casts\CustomDate;
 use App\Casts\CustomDateTime;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Common\Feeder;
@@ -152,7 +153,7 @@ class TrailerBooking extends Model implements Wireable
 
     public function jobOrder(): HasOne
     {
-        return $this->hasOne(JobOrder::class,'documentID','ref_jobID');
+        return $this->HasOne(JobOrder::class, 'documentID', 'ref_jobID');
     }
 
     public function docStatus(): HasOne

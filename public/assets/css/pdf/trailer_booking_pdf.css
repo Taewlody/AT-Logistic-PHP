@@ -1,0 +1,39 @@
+.content table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.content table tr>td {
+    font-size: 20px !important;
+    line-height: 14px;
+}
+
+.content table tr>td .header {
+    font-weight: bold !important;
+}
+
+.content table tr.col-2>td {
+    width: 50%;
+    max-width: 50%;
+}
+
+.content table tr.col-2>td:first-of-type {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+.content table.detail tr>td {
+    line-height: 16px;
+}
+
+.content .footer {
+    margin-top: 20px;
+}
+
+.content .footer table tr>td {
+    text-align: center;
+}
+
+.content .footer table tr>td>b {
+    font-size: 22px !important;
+}

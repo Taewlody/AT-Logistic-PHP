@@ -227,11 +227,11 @@
                                     <button name="approve" id="approve" class="btn btn-success " type="button" wire:click='approve'
                                         @disabled($data->documentstatus == 'A' || $data->documentID != null)>
                                         <i class="fa fa-check"></i> Approve</button>
-
-
-                                    <button class="btn btn-secondary " type="button" onclick=""><i
-                                            class="fa fa-print"></i>
-                                        Print</button>
+                                    @if($data->documentID != null ||$data->documentID != '')
+                                        <a class="btn btn-primary " target="_blank"
+                                            href="{{'/api/print/trailer_booking_pdf/'.$data->documentID}}"
+                                            ><i class="fa fa-print"></i> Print</a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
