@@ -100,7 +100,7 @@ class Sidebar extends Component
             'icon' => 'fa fa-line-chart',
             'menu' => [
                 ['name' => 'งานระหว่างทำ', 'route_name' => 'report1'],
-                ['name' => 'กำไร-ขาดทุนตาม Job', 'route_name' => 'report2'],
+                ['name' => 'กำไร-ขาดทุนตาม Job', 'route_name' => 'report-profit-and-loss-job'],
                 ['name' => 'ยอดขายตามใบแจ้งหนี้', 'route_name' => 'report3'],
                 ['name' => 'ยอดขายตามใบกำกับภาษี', 'route_name' => 'report4'],
                 ['name' => 'ใบแจ้งหนี้ค้างชำระ', 'route_name' => 'report5'],
