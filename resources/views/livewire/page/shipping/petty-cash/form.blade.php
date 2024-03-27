@@ -246,14 +246,14 @@
                                     <a name="back" class="btn btn-white" type="button" href="{{ route('shipping-petty-cash') }}" wire.loading.attr="disabled">
                                         <i class="fa fa-reply"></i> Back</a>
 
-                                    <button name="Approve" id="Approve" class="btn btn-success" type="button" wire:click='save'><i
-                                            class="fa fa-save"></i> Approve</button>
-                                    <button class="btn btn-primary " type="button" onclick=""><i
-                                            class="fa fa-print"></i> Job</button>
-                                    <button class="btn btn-primary " type="button" onclick=""><i
-                                            class="fa fa-print"></i> Booking confirm</button>
-                                    <button class="btn btn-primary " type="button" onclick=""><i
-                                            class="fa fa-print"></i> Trailer booking</button>
+                                    <button name="Save" id="Save" class="btn btn-success" type="submit"><i
+                                            class="fa fa-save"></i> Save</button>
+                                    <button name="Approve" id="Approve" class="btn btn-primary" type="button" wire:click='approve'><i
+                                            class="fa fa-check"></i> Approve</button>
+                                    @if($data->documentID!=null||$data->documentID!='')
+                                    <a class="btn" target="_blank" href="/api/print/shipping_petty_cash_pdf/{{$data->documentID}}"><i
+                                            class="fa fa-print"></i> Print</a>
+                                    @endif
                                 </div>
                             </div>
                         </div>

@@ -44,7 +44,23 @@ Route::group(['middleware' => ['auth.basic:,usercode']], function () {
 
     Route::get('print/trailer_booking_pdf/{documentID}', [PrintFileResource::class, 'TrailerBookingPdf']);
 
+    Route::get('print/bill_of_lading_pdf/{documentID}', [PrintFileResource::class, 'BillOfLadingPdf']);
 
+    Route::get('print/invoice_pdf/{documentID}', [PrintFileResource::class, 'InvoicePdf']);
+
+    Route::get('print/deposit_pdf/{documentID}', [PrintFileResource::class, 'DepositPdf']);
+
+    Route::get('print/payment_voucher_pdf/{documentID}', [PrintFileResource::class, 'PaymentVoucherPdf']);
+
+    Route::get('print/petty_cash_pdf/{documentID}', [PrintFileResource::class, 'PettyCashPdf']);
+
+    Route::get('print/shipping_payment_voucher_pdf/{documentID}', [PrintFileResource::class, 'ShippingPaymentVoucherPdf']);
+
+    Route::get('print/shipping_petty_cash_pdf/{documentID}', [PrintFileResource::class, 'ShippingPettyCashPdf']);
+
+    Route::get('print/receipt_voucher_pdf/{documentID}', [PrintFileResource::class, 'ReceiptVoucherPdf']);
+
+    Route::get('print/tax_invoice_pdf/{documentID}', [PrintFileResource::class, 'TaxInvoicePdf']);
 
     Route::get('testview/pdf/{id}', [PrintFileResource::class, 'testViewPdf']);
 });

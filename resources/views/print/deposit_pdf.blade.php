@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{{$title}}</title>
+    @if(isset($test)&&$test)
+    <link rel="stylesheet" href="{{asset('assets/css/pdf/main.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/pdf/deposit.css')}}">
+    @else
+    <link rel="stylesheet" href="{{public_path('assets/css/pdf/main.css')}}">
+    <link rel="stylesheet" href="{{public_path('assets/css/pdf/deposit.css')}}">
+    @endif
+</head>
+
+<body>
+    <div class="page">
+        @include('print.asset.header')
+        <div class="content">
+            <div class="title">
+                <b>ใบมัดจำรับ<br>
+                    Deposit</b>
+            </div>
+            <div class="detail">
+                <table>
+                    <tr>
+                        <th style="width: 19%;">ลูกค้า</th>
+                        <td style="width: 50%;">
+                            {{ $data->customer != null ? $data->customer->custNameTH : ""}}
+                        </td>
+                        <th style="width: 15%;">
+                            เลขที่เอกสาร/No
+                        </th>
+                        <td>
+                            {{$data->documentID}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            เพื่อชำระ/Paid For
+                        </th>
+                        <td>
+                            {{$data->refJobNo}}{{$data->jobOrder != null ? '/'.$data->jobOrder->invNo : ""}}
+                        </td>
+                        <th>
+                            วันที่/Date
+                        </th>
+                        <td>
+                            {{Carbon\Carbon::parse($data->documentDate)->format('d/m/Y')}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="table">
+                <table style="width: 100%">
+                    <thead>
+                        <th style="width: 5%">
+                            ลำดับ<br>No.
+                        </th>
+                        <th style="width: 10%">
+                            เลขที่บิล<br>Bill No.
+                        </th>
+                        <th style="width: 50%">
+                            รายการ<br>Particulars
+                        </th>
+                        <th style="width: 10%">
+                            จำนวน<br>Amount
+                        </th>
+                    </thead>
+                    <tbody>
+                        @foreach ($data->items as $item)
+                        <tr>
+                            <td>
+                                {{$loop->iteration}}
+                            </td>
+                            <td>
+                                {{$item->invNo}}
+                            </td>
+                            <td>
+                                {{$item->chartDetail}}
+                            </td>
+                            <td style="text-align: right">
+                                {{Service::MoneyFormat($item->amount)}}
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3">
+                                รวม/Total
+                            </td>
+                            <td style="text-align: right">
+                                {{Service::MoneyFormat($data->items->sum('amount'))}}
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="footer">
+                <table>
+                    <thead>
+                        <th style="width: 25%;">
+                            โดย/By
+                        </th>
+                        <th style="width: 25%;">
+                            สาขา/Branch
+                        </th>
+                        <th style="width: 25%;">
+                            เลขที่เช็ค/Cheque
+                        </th>
+                        <th style="width: 25%;">
+                            ลงวันที่/DueDate
+                        </th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="cash" @checked($data->payType == "c")><label for="cash"
+                                    class="icon"></label><label for="cash" class="label">เงินสด/cash</label>
+                                <br>
+                                <input type="checkbox" id="bank" @checked($data->payType == "b")><label for="bank"
+                                    class="icon"></label><label for="bank" class="label">เช็คธนาคาร/Bank</label>
+                                <br>
+                                <input type="checkbox" id="other" @checked($data->payType == "o")><label for="other"
+                                    class="icon"></label><label for="other" class="label">อื่นๆ</label>
+                            </td>
+                            <td colspan="2"></td>
+                            <td>{{Carbon\Carbon::parse($data->documentDate)->format('d/m/Y')}}</td>
+                        </tr>
+                        <tr class="sign-block">
+                            <td>
+                                <div class="dotted-line"></div>
+                                <span>ผู้รับเงิน/Received By</span>
+                            </td>
+                            <td>
+                                <div class="dotted-line"></div>
+                                <span>ผู้จัดทำ/Prepared By</span>
+                            </td>
+                            <td>
+                                <div class="dotted-line"></div>
+                                <span>ผู้อนุมัติ/Authorized By</span>
+                            </td>
+                            <td>
+                                <div class="dotted-line"></div>
+                                <span>สมุห์บัญชี/Accountant</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

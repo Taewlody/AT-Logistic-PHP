@@ -15,7 +15,6 @@
 
 <body>
     <div class="page">
-        {{-- {{$data}} --}}
         @include('print.asset.header')
         <div class="content">
             <div class="title">

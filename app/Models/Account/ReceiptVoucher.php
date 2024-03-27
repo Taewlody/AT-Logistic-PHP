@@ -5,6 +5,7 @@ namespace App\Models\Account;
 use App\Casts\CustomDate;
 use App\Casts\CustomDateTime;
 use App\Models\Common\BankAccount;
+use App\Models\Marketing\JobOrder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -115,6 +116,11 @@ class ReceiptVoucher extends Model implements Wireable
     public function attachs(): HasMany
     {
         return $this->hasMany(ReceiptVoucherAttach::class, 'documentID', 'documentID');
+    }
+
+    public function jobOrder(): HasOne
+    {
+        return $this->hasOne(JobOrder::class, 'documentID', 'refJobNo');
     }
 
     public function customer(): HasOne
