@@ -1,0 +1,195 @@
+.header-page td.company-detail>* {
+    font-size: 18px;
+    line-height: 14px;
+    display: block;
+    height: 19px;
+}
+
+.header-page td.company-detail .name-company {
+    font-size: 20px;
+}
+
+.content {
+    margin-top: -10px;
+}
+
+.title {
+    /* border: .5px solid #000; */
+    /* background-color: #b8cce4; */
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+.title b {
+    font-size: 26px;
+    line-height: 17px;
+}
+
+.detail table {
+    border: none;
+    margin-top: 3px;
+}
+
+.detail>table td {
+    /* height: fit-content; */
+    height: 100px;
+}
+
+.detail>table td>div {
+    border: 1px solid #000;
+    border-radius: 20px;
+    height: inherit;
+    padding: 0px 5px;
+}
+
+.detail>table td span {
+    display: block;
+    font-size: 19px;
+    height: 20px;
+}
+
+.detail>table td div>div {
+    display: block;
+    font-size: 19px;
+    height: 20px;
+}
+
+/* .detail>table td div span, .detail>table td div span b {
+    border: 1px solid #000;
+} */
+
+/* .detail>table td:nth-of-type(1) span>b {
+    width: 95px;
+    display: block;
+    margin-right: 10px;
+} */
+
+/* .detail>table td:nth-of-type(1) span:last-of-type>b {
+    width: 125px;
+    display: block;
+} */
+.detail>table td:nth-of-type(1)>div {
+    padding-left: 15px;
+    padding-bottom: 5px;
+}
+
+.detail>table td:nth-of-type(2)>div {
+    padding-left: 8px;
+    padding-bottom: 5px;
+}
+
+.detail>table td:nth-of-type(2) span>b {
+    width: 90px;
+    display: inline-block;
+    height: inherit;
+    line-height: inherit;
+    vertical-align: text-bottom;
+    margin-bottom: 4px;
+}
+
+.transport-detail {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.transport-detail table {
+    width: 100%;
+}
+
+.transport-detail table td:nth-of-type(1) {
+    width: 20%;
+}
+
+.transport-detail table td:nth-of-type(2) {
+    width: 35%;
+}
+
+.transport-detail table td:nth-of-type(3) {
+    width: 20%;
+}
+
+.transport-detail table td {
+    font-size: 18px;
+    line-height: 14px;
+}
+
+.table table {
+    width: 100%;
+    font-size: 18px;
+    line-height: 14px;
+}
+
+.table table th {
+    border: 1px solid #000;
+    padding-bottom: 5px;
+}
+
+.table table th:nth-of-type(1) {
+    width: 8%;
+}
+
+.table table th:nth-of-type(2) {
+    width: auto;
+}
+
+.table table th:nth-of-type(3) {
+    width: 15%;
+}
+
+.table table th:nth-of-type(4) {
+    width: 15%;
+}
+
+.table table tbody tr:nth-of-type(1) td {
+    padding-top: 15px;
+}
+
+.table table tbody tr {
+    border: none !important;
+}
+
+.table table tbody tr td {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.table table tbody tr td:nth-of-type(1) {
+    text-align: center;
+}
+
+.table table tbody tr td:nth-of-type(3), .table table tbody tr td:nth-of-type(4) {
+    text-align: right;
+}
+
+
+.table table tbody tr td {
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    border-top: unset;
+    border-bottom: unset;
+}
+
+.table table tbody {
+    height: 500px;
+}
+
+.footer .footer-sign table {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.footer .footer-sign table td {
+    width: 35%;
+    text-align: center;
+    
+}
+
+.footer .footer-sign table td .dotted-line {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.footer .footer-remark div {
+    text-align: center;
+}

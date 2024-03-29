@@ -75,10 +75,19 @@ div.line {
 
 .header-page .company-logo {
     text-align: right;
+    padding-right: 10px;
 }
 
 .logo {
     max-height: 72px;
+}
+
+.type-page {
+    margin-top: 20px;
+    font-size: 24px;
+    color: red;
+    font-weight: bold;
+    margin-right: 20px;
 }
 
 .content .title {

@@ -10,6 +10,7 @@ use App\Models\Common\Saleman;
 use App\Models\Common\Supplier;
 use App\Models\Payment\AdvancePayment;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -222,6 +223,17 @@ class JobOrder extends Model implements Wireable
         return $arr;
     }
 
+    public function getBound(): Attribute {
+        return Attribute::make(
+            get: function() {
+                if($this->bound == '1') 
+                    return 'IN BOUND';
+                else if($this->bound == '2') 
+                return 'OUT BOUND';
+                else return '';
+            }
+        );
+    }
     public function attachs(): HasMany
     {
         return $this->hasMany(JobOrderAttach::class, 'documentID', 'documentID');
@@ -230,6 +242,19 @@ class JobOrder extends Model implements Wireable
     public function containerList(): HasMany
     {
         return $this->hasMany(JobOrderContainer::class, 'documentID', 'documentID');
+    }
+
+    public function qty(): Attribute {
+        return Attribute::make(
+            get: function() {
+                if($this->containerList != null)
+                    return $this->containerList->groupBy('referContainerSize.containersizeName')->map(function ($item, $key) {
+                        return collect($item)->count().'x'.$key;
+                    })->toArray();
+                return [];
+            }
+        );
+        
     }
 
     public function addContainer(JobOrderContainer $container)

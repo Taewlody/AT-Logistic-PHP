@@ -415,14 +415,18 @@
                                 <a name="back" class="btn btn-white" type="button" href="{{ route('deposit') }}" wire.loading.attr="disabled">
                                     <i class="fa fa-reply"></i> Back</a>
 
-                                <button name="Approve" id="Approve" class="btn btn-success" type="submit"><i
-                                        class="fa fa-save"></i> Approve</button>
-                                <button class="btn btn-primary " type="button" onclick=""><i
-                                        class="fa fa-print"></i> Job</button>
-                                <button class="btn btn-primary " type="button" onclick=""><i
-                                        class="fa fa-print"></i> Booking confirm</button>
-                                <button class="btn btn-primary " type="button" onclick=""><i
-                                        class="fa fa-print"></i> Trailer booking</button>
+                                @if($data->documentstatus != 'A')
+                                <button name="save" id="save" class="btn  btn-success" type="button"
+                                    wire:click='save' @disabled($data->documentstatus != 'A')>
+                                    <i class="fa fa-save"></i> Save</button>
+                                @endif
+                                <button name="approve" id="approve" class="btn btn-primary" type="button"
+                                    @disabled($data->documentstatus == 'A')>
+                                    <i class="fa fa-check"></i> Approve</button>
+                                @if($data->documentID != null && $data->documentID != '')
+                                    <a class="btn" target="_blank" href="{{'/api/print/deposit_pdf/'.$data->documentID}}"><i class="fa fa-print"></i>
+                                        Print</a>
+                                @endif
                             </div>
                         </div>
                     </div>

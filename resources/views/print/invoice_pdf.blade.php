@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{{ $title }}</title>
+    @if (isset($test) && $test)
+        <link rel="stylesheet" href="{{ asset('assets/css/pdf/main.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/pdf/invoice.css') }}">
+    @else
+        <link rel="stylesheet" href="{{ public_path('assets/css/pdf/main.css') }}">
+        <link rel="stylesheet" href="{{ public_path('assets/css/pdf/invoice.css') }}">
+    @endif
+</head>
+
+<body>
+    <div class="page">
+        @include('print.asset.header_two_withtype', ['type' => 'ORIGINAL / ต้นฉบับ'])
+        <div class="line" style="margin-left: 20px; margin-right: 20px;"></div>
+        <div class="content">
+            <div class="title">
+                <b>ใบแจ้งหนี้ / INVOICE</b>
+            </div>
+
+            <div class="detail">
+                <table>
+                    <td style="width: 55%;">
+                        <div>
+                            <span><b>TO</b> : {{$data->jobOrder?->customerRefer?->custNameTH}}</span>
+                            <span style="min-height: 20px; height: auto;">{{$data->jobOrder?->customerRefer?->addressTH}}</span>
+                            <span><b>เลขประจำตัวผู้เสียภาษี</b> : {{$data->jobOrder?->customerRefer?->taxID}}</span>
+                            <span><b>สาขาที่</b>&nbsp; : &nbsp;{{$data->jobOrder?->customerRefer?->branchEN}}</span>
+                        </div>
+                    </td>
+                    <td style="width: 30%; padding-left: 5px;">
+                        <div>
+                            <span><b>Date</b>{{Carbon\Carbon::parse($data->documentDate)->format('d/m/Y')}}</span>
+                            <span><b>Innoive No.</b>{{$data->documentID}}</span>
+                            <span><b>Credit Term</b>{{$data->credit?->creditName}}</span>
+                            <span><b>Your Ref. No</b> </span>
+                            <span><b>Sales Contact</b>{{$data->salemanRef?->empName}}</span>
+                        </div>
+                    </td>
+                </table>
+            </div>
+
+            <div class="transport-detail">
+                <table>
+                    <tr>
+                        <td><b>Bound</b>&nbsp;{{$data->jobOrder?->getBound}}</td>
+                        <td><b>Commodity</b>&nbsp;{{$data->jobOrder != null ? $data->jobOrder->good_commodity : ''}}</td>
+                        <td><b>Carrier</b>&nbsp;{{ $data->jobOrder?->agentRefer?->supNameEN }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Freight</b>{{$data->transport?->transportName}}</td>
+                        <td><b>Qty. / Measurement</b>&nbsp;{{join(',',$data->jobOrder?->qty ?? [])}}</td>
+                        <td><b>B/L No.</b>&nbsp;{{$data->jobOrder?->bill_of_landing}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>JOB NO</b> &nbsp;{{$data->ref_jobNo}}</td>
+                        <td><b>Origin / Destination</b> &nbsp;{{$data->jobOrder?->landingPort?->portNameEN}}/{{$data->jobOrder?->dischargePort?->portNameEN}}</td>
+                        <td><b>On Board</b> &nbsp;{{$data->jobOrder?->boud == '1' ? Carbon\Carbon::parse($data->jobOrder?->etaDate)->format('d/m/Y') : ""}} {{$data->jobOrder?->boud == '2' ? Carbon\Carbon::parse($data->jobOrder?->etdDate)->format('d/m/Y') : ''}}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="table">
+                <table>
+                    <thead>
+                        <th>No.</th>
+                        <th colspan="3">Particulars</th>
+                        <th>Your Behalf</th>
+                        <th>Amount</th>
+                    </thead>
+                    <tbody>
+                        @foreach ($data->items as $item)
+                            <tr>
+                                <td>
+                                    {{ $loop->iteration }}
+                                </td>
+                                <td  colspan="3">
+                                    {{ $item->detail }}
+                                </td>
+                                <td>
+                                    {{ $item->chargesbillReceive>=1 ? Service::MoneyFormat($item->chargesbillReceive) : ''}}
+                                </td>
+                                <td>
+                                    {{ $item->chargesReceive>=1 ? Service::MoneyFormat($item->chargesReceive) : ''}}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                    <tfoot style="border: 1px solid #000">
+                        <tr>
+                            <td style="border: none; vertical-align: top;" rowspan="7">remark</td>
+                            <td style="border: none;" colspan="3" style="text-align: right;">Total</td>
+                            <td>{{ Service::MoneyFormat($data->items->sum('chargesbillReceive')) }}</td>
+                            <td>{{ Service::MoneyFormat($data->items->sum('chargesReceive')) }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: none;" colspan="3" style="text-align: right;">Vat 7%</td>
+                            <td></td>
+                            <td>{{ Service::MoneyFormat($data->items->sum('chargesReceive') * 0.07) }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: none;" colspan="3" style="text-align: right;">GRAND TOTAL</td>
+                            <td></td>
+                            <td>{{ Service::MoneyFormat($data->items->sum('chargesReceive') + ($data->items->sum('chargesReceive') * 0.07)) }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: none;" colspan="3" style="text-align: right;">WH TAX 3 % ( จากยอด )</td>
+                            <td>{{Service::MoneyFormat($data->itemsTax3Sum)}}</td>
+                            <td>{{ Service::MoneyFormat($data->itemsTax3Sum * 0.03) }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: none;" colspan="3" style="text-align: right;">WH TAX 1 % ( จากยอด )</td>
+                            <td>{{Service::MoneyFormat($data->itemsTax1Sum)}}</td>
+                            <td>{{ Service::MoneyFormat($data->itemsTax1Sum * 0.01) }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: none;" colspan="3" style="text-align: right;">ลูกค้าสำรองจ่าย</td>
+                            <td></td>
+                            <td>{{ Service::MoneyFormat($data->cus_paid) }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: none;" colspan="3" style="text-align: right;">NET PAID</td>
+                            <td></td>
+                            <td>{{ Service::MoneyFormat($data->items->sum('chargesReceive') + ($data->items->sum('chargesReceive') * 0.07) - ($data->itemsTax3Sum * 0.03) - ($data->itemsTax1Sum * 0.01) - $data->cus_paid) }}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: none; text-align: center;" colspan="6">({{ Service::ThaiBahtConversion($data->items->sum('chargesReceive') + ($data->items->sum('chargesReceive') * 0.07) - ($data->itemsTax3Sum * 0.03) - ($data->itemsTax1Sum * 0.01) - $data->cus_paid) }})</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer-sign">
+                <table>
+                    <tr>
+                        <td><div class="dotted-line"></div></td>
+                        <td><div class="dotted-line"></div></td>
+                        <td><div class="dotted-line"></div></td>
+                    </tr>
+                    <tr>
+                        <td>Authorized Signature</td>
+                        <td>Customer Authorized Signatured</td>
+                        <td>Due Date</td>
+                </table>
+            </div>
+            <div class="footer-remark">
+                <div>
+                    <span>Please Issue crssed cheque to order "AT LOGISTICS AND SERVICES CO., LTD." settlement to this invoice.</span>
+                </div>
+            </div>
+    </div>
+</body>
+
+</html>
