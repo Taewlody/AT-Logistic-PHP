@@ -319,7 +319,78 @@
         </div>
         {{-- end row 4 job inprocess --}}
 
-        {{-- start row 5 ยอดถูกหักภาษี ณ ที่จ่าย  --}}
+        {{-- start row 5 ยอดภาษีมูลค่าเพิ่ม --}}
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>ยอดภาษีมูลค่าเพิ่ม ยอดขาย ยอดซื้อ</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        @foreach (EngDate::full_month_list() as $month)
+                                        <th>{{$month}}</th>
+                                        @endforeach
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if(count($yearVatTotal) > 0)
+                                    <tr>
+                                        <th>ภาษีซื้อ</th>
+                                        @foreach ($monthVatBuy as $buy)
+                                            <td>{{ number_format($buy, 2) }}</td>
+                                        @endforeach
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <th>ภาษีขาย</th>
+                                        
+                                        @foreach ($monthVatSale as $sale)
+                                            <td>{{ number_format($sale, 2) }}</td>
+                                        @endforeach
+                                        <th></td>
+                                    </tr>
+                                    <tr>
+                                        <th>ส่วนต่าง</th>
+                                        
+                                        
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        
+                                        <th></th>
+                                    </tr>
+                                    
+                                    @else
+                                    <tr>
+                                        <td colspan="13" class="text-center">Data Not Found</td>
+                                    </tr>
+                                    @endif
+                                </tbody>
+                            </table> 
+                        </div>
+                                
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- end row 5 ยอดภาษีมูลค่าเพิ่ม --}}
+
+        {{-- start row 6 ยอดถูกหักภาษี ณ ที่จ่าย  --}}
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -329,7 +400,7 @@
                     <div class="card-body">
                         <div class="row mb-3">
                             <div class="col text-end" style="margin: auto">
-                                    ปี   
+                                    Year   
                             </div>
                             <div class="col-3">
                                 <select class="select2_single form-control select2" name="cusCode" id="cusCode" wire:live="yearTaxSearch">
@@ -344,7 +415,7 @@
                             <thead>
                                 <tr>
                                     <th></th>
-                                    @foreach (ThaiDate::full_month_list() as $month)
+                                    @foreach (EngDate::full_month_list() as $month)
                                     <th>{{$month}}</th>
                                     @endforeach
                                     <th>Total</th>
@@ -355,7 +426,7 @@
                                 <tr>
                                     <th>Billing Summary</th>
                                     @foreach ($billingSummary as $bill)
-                                        <td>{{ $bill->value }}</td>
+                                        <td>{{ number_format($bill->value, 2) }}</td>
                                     @endforeach
                                     <th>{{ number_format($billingSummaryTotal, 2) }}</th>
                                 </tr>
@@ -363,7 +434,7 @@
                                     <th>Tax 3%</th>
                                     
                                     @foreach ($yearTaxTotal as $year)
-                                        <td>{{ $year->value2 }}</td>
+                                        <td>{{ number_format($year->value2, 2) }}</td>
                                     @endforeach
                                     <th>{{ number_format($totalYearTax3, 2) }}</td>
                                 </tr>
@@ -371,7 +442,7 @@
                                     <th>Tax 1%</th>
                                     
                                     @foreach ($yearTaxTotal as $year)
-                                        <td>{{ $year->value1 }}</td>
+                                        <td>{{ number_format($year->value1) }}</td>
                                     @endforeach
                                     <th>{{ number_format($totalYearTax1, 2) }}</td>
                                 </tr>
@@ -399,174 +470,24 @@
                                 @endif
                             </tbody>
                         </table>                            
-                            
-                        
-                                
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{-- end row 5 ยอดถูกหักภาษี ณ ที่จ่าย  --}}
-
-        {{-- start row 6 ยอดภาษีมูลค่าเพิ่ม --}}
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>ยอดภาษีมูลค่าเพิ่ม ยอดขาย ยอดซื้อ</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-body">
-                            <ul class="nav nav-pills" id="vat-pills-tab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="pills-month-vat-tab" data-bs-toggle="pill"
-                                        href="#pills-month-vat" role="tab" aria-controls="pills-month-vat"
-                                        aria-selected="true">รายเดือน
-                                        <div class="d-flex"></div>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pills-year-vat-tab" data-bs-toggle="pill"
-                                        href="#pills-year-vat" role="tab" aria-controls="pills-year-vat"
-                                        aria-selected="false">รายปี
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pills-previous-year-vat-tab" data-bs-toggle="pill"
-                                        href="#pills-previous-year-vat" role="tab" aria-controls="pills-previous-year-vat"
-                                        aria-selected="false">11 ปีย้อนหลัง
-                                    </a>
-                                </li>
-                            </ul>
-                            <div class="tab-content" id="vat-pills-tabContent">
-                                <div class="tab-pane fade show active" id="pills-month" role="tabpanel"
-                                    aria-labelledby="pills-month-vat-tab">
-                                    
-                                    {{-- <div class="bar-chart-widget">
-                                        <div class="bottom-content card-body">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div id="chart-widget1"></div>
-                                                </div>
-                                            </div>
+                        <br/>    
+                        <div class="bar-chart-widget">
+                            <div class="bar-chart-widget">
+                                <div class="bottom-content card-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <b>Billing Summary</b>
+                                            <div id="chart-widget1"></div>
                                         </div>
-                                    </div> --}}
-                                    <br/>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>วันที่</th>
-                                                <th>ภาษีซื้อ</th>
-                                                <th>ภาษีขาย</th>
-                                                <th>ส่วนต่าง</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @if(count($monthVatTotal) > 0)
-                                            @foreach ($monthVatTotal as $vat)
-                                            <tr>
-                                                <td>{{ $vat->date }}</td>
-                                                <td>{{ $vat->value1 }}</td>
-                                                <td>{{ $vat->value2 }}</td>
-                                                <td></td>
-                                            </tr>
-                                            @endforeach
-                                            @else
-                                            <tr>
-                                                <td colspan="4" class="text-center">Data Not Found</td>
-                                            </tr>
-                                            @endif
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                                <div class="tab-pane fade" id="pills-year-vat" role="tabpanel"
-                                    aria-labelledby="pills-year-vat-tab">
-                                    {{-- <div class="bar-chart-widget">
-                                        <div class="bottom-content card-body">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div id="chart-widget2"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> --}}
-                                    <br/>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>เดือน</th>
-                                                <th>ภาษีซื้อ</th>
-                                                <th>ภาษีขาย</th>
-                                                <th>ส่วนต่าง</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @if(count($yearVatTotal) > 0)
-                                            @foreach ($yearVatTotal as $year)
-                                            <tr>
-                                                <td>{{ $year->month }}</td>
-                                                <td>{{ $year->value1 }}</td>
-                                                <td>{{ $year->value2 }}</td>
-                                                <td></td>
-                                            </tr>
-                                            @endforeach
-                                            @else
-                                            <tr>
-                                                <td colspan="4" class="text-center">Data Not Found</td>
-                                            </tr>
-                                            @endif
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                                <div class="tab-pane fade" id="pills-previous-year-vat" role="tabpanel"
-                                    aria-labelledby="pills-previous-year-vat-tab">
-                                    {{-- <div class="bar-chart-widget">
-                                        <div class="bottom-content card-body">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div id="chart-widget3"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> --}}
-                                    <br/>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>วันที่</th>
-                                                <th>ภาษีซื้อ</th>
-                                                <th>ภาษีขาย</th>
-                                                <th>ส่วนต่าง</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @if(count($previousVatTotal) > 0)
-                                            @foreach ($previousVatTotal as $previous)
-                                            <tr>
-                                                <td>{{ $previous->year }}</td>
-                                                <td>{{ $previous->value1 }}</td>
-                                                <td>{{ $previous->value2 }}</td>
-                                                <td></td>
-                                            </tr>
-                                            @endforeach
-                                            @else
-                                            <tr>
-                                                <td colspan="4" class="text-center">Data Not Found</td>
-                                            </tr>
-                                            @endif
-                                        </tbody>
-                                    </table>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                                
+                        </div>        
                     </div>
                 </div>
             </div>
         </div>
-        {{-- end row 6 ยอดภาษีมูลค่าเพิ่ม --}}
+        {{-- end row 6 ยอดถูกหักภาษี ณ ที่จ่าย  --}}
 
         {{-- start row 7 สรุปยอดสำรองจ่าย  --}}
         <div class="row">
@@ -577,121 +498,8 @@
                     </div>
                     <div class="card-body">
                         <div class="card-body">
-                            <ul class="nav nav-pills" id="reserve-pills-tab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="pills-month-reserve-tab" data-bs-toggle="pill"
-                                        href="#pills-month-reserve" role="tab" aria-controls="pills-month-reserve"
-                                        aria-selected="true">รายเดือน
-                                        <div class="d-flex"></div>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pills-year-tab-reserve" data-bs-toggle="pill"
-                                        href="#pills-year-reserve" role="tab" aria-controls="pills-year-reserve"
-                                        aria-selected="false">รายปี
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pills-previous-year-reserve-tab" data-bs-toggle="pill"
-                                        href="#pills-previous-year-reserve" role="tab" aria-controls="pills-previous-year-reserve"
-                                        aria-selected="false">11 ปีย้อนหลัง
-                                    </a>
-                                </li>
-                            </ul>
-                            <div class="tab-content" id="reserve-pills-tabContent">
-                                <div class="tab-pane fade show active" id="pills-month-reserve" role="tabpanel"
-                                    aria-labelledby="pills-month-reserve-tab">
-                                    <br/>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>วันที่</th>
-                                                <th>ภาษีซื้อ</th>
-                                                <th>ภาษีขาย</th>
-                                                <th>ส่วนต่าง</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @if(count($monthVatTotal) > 0)
-                                            @foreach ($monthVatTotal as $vat)
-                                            <tr>
-                                                <td>{{ $vat->date }}</td>
-                                                <td>{{ $vat->value1 }}</td>
-                                                <td>{{ $vat->value2 }}</td>
-                                                <td></td>
-                                            </tr>
-                                            @endforeach
-                                            @else
-                                            <tr>
-                                                <td colspan="4" class="text-center">Data Not Found</td>
-                                            </tr>
-                                            @endif
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                                <div class="tab-pane fade" id="pills-year-reserve" role="tabpanel"
-                                    aria-labelledby="pills-year-reserve-tab">
-                                    <br/>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>วันที่</th>
-                                                <th>ภาษีซื้อ</th>
-                                                <th>ภาษีขาย</th>
-                                                <th>ส่วนต่าง</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @if(count($yearVatTotal) > 0)
-                                            @foreach ($yearVatTotal as $year)
-                                            <tr>
-                                                <td>{{ $year->month }}</td>
-                                                <td>{{ $year->value1 }}</td>
-                                                <td>{{ $year->value2 }}</td>
-                                                <td></td>
-                                            </tr>
-                                            @endforeach
-                                            @else
-                                            <tr>
-                                                <td colspan="4" class="text-center">Data Not Found</td>
-                                            </tr>
-                                            @endif
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                                <div class="tab-pane fade" id="pills-previous-year-reserve" role="tabpanel"
-                                    aria-labelledby="pills-previous-year-reserve-tab">
-                                    <br/>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>วันที่</th>
-                                                <th>ภาษีซื้อ</th>
-                                                <th>ภาษีขาย</th>
-                                                <th>ส่วนต่าง</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @if(count($previousVatTotal) > 0)
-                                            @foreach ($previousVatTotal as $previous)
-                                            <tr>
-                                                <td>{{ $previous->year }}</td>
-                                                <td>{{ $previous->value1 }}</td>
-                                                <td>{{ $previous->value2 }}</td>
-                                                <td></td>
-                                            </tr>
-                                            @endforeach
-                                            @else
-                                            <tr>
-                                                <td colspan="4" class="text-center">Data Not Found</td>
-                                            </tr>
-                                            @endif
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                            
+                            
                         </div>
                                 
                     </div>
@@ -710,25 +518,17 @@
 @script
 <script>
     document.addEventListener('livewire:initialized', () => {
-        // setDataToChart(document.querySelector("#chart-widget1"), $wire.monthCategory, $wire.monthVatSale, $wire.monthVatBuy);
+        setDataToChart(document.querySelector("#chart-widget1"), $wire.billingSummaryChart, $wire.monthList);
         // setDataToChart(document.querySelector("#chart-widget2"), $wire.yearCategory, $wire.yearVatSale, $wire.yearVatBuy);
     })
 
 
-    function setDataToChart(chart_id, chart_category, sale, buy) {
-        console.log('chart_id: ', chart_id);
-        console.log('chart_category: ', chart_category);
-        console.log('sale: ', sale);
-        console.log('buy: ', buy);
+    function setDataToChart(chart_id, data, category) {
         var optionscolumnchart = {
             series: [
                 {
-                    name: "ภาษีขาย",
-                    data: sale,
-                },
-                {
-                    name: "ภาษีซื้อ",
-                    data: buy,
+                    name: "billing summary",
+                    data: data,
                 }
             ],
 
@@ -764,7 +564,7 @@
                 },
             },
             xaxis: {
-                categories: chart_category
+                categories: category
             },
             yaxis: {
                 title: {

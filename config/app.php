@@ -194,6 +194,7 @@ return [
         'Livewire' => Livewire\Livewire::class,
         'Service' => App\Functions\Service::class,
         'ThaiDate' => App\Functions\ThaiDate::class,
+        'EngDate' => App\Functions\EngDate::class,
         // 'PDF' => Barryvdh\DomPDF\Facade::class,
     ])->toArray(),
 

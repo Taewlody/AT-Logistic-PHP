@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Carbon\Carbon;
 
+use App\Functions\EngDate;
 use App\Models\Account\Invoice;
 use App\Models\Account\TaxInvoice;
 use App\Models\PettyCash\PettyCash;
@@ -31,23 +32,23 @@ class Page extends Component
     public $yearSearch;
     public $yearOptions;
 
-    public $monthVatTotal;
     public $monthVatBuy;
     public $monthVatSale;
     public $monthCategory;
+
+    public $monthList;
 
     public $yearVatTotal;
     public $yearVatBuy;
     public $yearVatSale;
     public $yearCategory;
 
-    public $previousVatTotal;
 
     public $yearTaxTotal;
-    public $previousTaxTotal;
     public $totalYearTax1;
     public $totalYearTax3;
     public $billingSummary;
+    public $billingSummaryChart;
     public $billingSummaryTotal;
 
     public function boot()
@@ -105,24 +106,6 @@ class Page extends Component
         //start ยอดภาษีมูลค่าเพิ่ม ยอดขาย ยอดซื้อ
             $this->yearOptions = PaymentVoucher::selectRaw('YEAR(documentDate) as year')->whereRaw('YEAR(documentDate) > 0')->groupBy('year')->get();
             
-            //รายเดือนปัจจุบัน
-            //ภาษีซื้อ เดือนปัจจุบัน
-            $monthVatBuy = PaymentVoucher::selectRaw('sum(sumTax7) as sum, DATE(documentDate) as date')
-                ->whereYear('documentDate', $this->yearSearch)
-                ->whereMonth('documentDate', $this->monthSearch)
-                ->groupBy('date')
-                ->pluck('sum', 'date');
-            
-            //ภาษีขาย เดือนปัจจุบัน
-            $monthVatSale = TaxInvoice::selectRaw('sum(total_vat)  as sum, DATE(documentDate) as date')
-                ->whereYear('documentDate', $this->yearSearch)
-                ->whereMonth('documentDate', $this->monthSearch)
-                ->groupBy('date')
-                ->pluck('sum', 'date');
-            
-            $this->monthVatTotal = $this->mergeDataWithDate($monthVatBuy, $monthVatSale) ?? [];
-            
-            //รายปี
             $yearVatBuy = PaymentVoucher::selectRaw('sum(sumTax7) as sum, MONTH(documentDate) as month')
                 ->whereYear('documentDate', $this->yearSearch)
                 ->groupBy('month')
@@ -135,21 +118,9 @@ class Page extends Component
                 ->pluck('sum', 'month');
 
             $this->yearVatTotal = $this->mergeDataWithMonth($yearVatBuy, $yearVatSale) ?? [];
-
-            //ราย 11 ปี
-            $previousVatBuy = PaymentVoucher::selectRaw('sum(sumTotal) as sum, YEAR(documentDate) as year')
-                ->whereIn(DB::raw('YEAR(documentDate)'), $years)
-                ->groupBy(DB::raw('YEAR(documentDate)'))
-                ->orderBy(DB::raw('YEAR(documentDate)'), 'asc')
-                ->pluck('sum', 'year');
-
-            $previousVatSale = TaxInvoice::selectRaw('sum(total_vat) as sum, YEAR(documentDate) as year')
-                ->whereIn(DB::raw('YEAR(documentDate)'), $years)
-                ->groupBy(DB::raw('YEAR(documentDate)'))
-                ->orderBy(DB::raw('YEAR(documentDate)'), 'asc')
-                ->pluck('sum', 'year');
+            $this->monthVatBuy = array_column($this->yearVatTotal , 'value1');
+            $this->monthVatSale = array_column($this->yearVatTotal , 'value2');
             
-            $this->previousVatTotal = $this->mergeDataWithYear($previousVatBuy, $previousVatSale) ?? [];
         //end ยอดภาษีมูลค่าเพิ่ม ยอดขาย ยอดซื้อ
 
         //start ยอดถูกหักภาษี ณ ที่จ่าย vat 1% vat 3%
@@ -168,7 +139,9 @@ class Page extends Component
 
             $billing = TaxInvoice::selectRaw('sum(total_vat) as total_vat, MONTH(documentDate) as month')->whereYear('documentDate', $this->yearSearch)->groupBy('month')->pluck('total_vat', 'month');
 
+            $this->monthList = EngDate::full_month_list();
             $this->billingSummary = $this->setDataInYear($billing) ?? [];
+            $this->billingSummaryChart = array_column($this->billingSummary , 'value');
             $this->billingSummaryTotal = array_sum($billing->toArray());
             
 
