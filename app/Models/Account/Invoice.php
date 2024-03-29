@@ -4,7 +4,10 @@ namespace App\Models\Account;
 
 use App\Casts\CustomDate;
 use App\Casts\CustomDateTime;
+use App\Models\Common\CreditTerm;
+use App\Models\Marketing\JobOrder;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -147,10 +150,50 @@ class Invoice extends Model implements Wireable
         return $this->hasMany(InvoiceItems::class, 'documentID', 'documentID');
     }
 
+    public function itemsTax1Sum(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+            if($this->items != null){
+                return $this->items->filter(function ($item) {
+                    if($item->charge == null || $item->charge->chargesType == null) return false;
+                    return $item->charges->chargesType->amount == 1;
+                })->sum('chargesReceive');
+            }else{
+                return 0;
+            }
+        });
+    }
+
+    public function itemsTax3Sum(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+            if($this->items != null){
+                return $this->items->filter(function ($item) {
+                    if($item->charge == null || $item->charge->chargesType == null) return false;
+                    return $item->charges->chargesType->amount == 3;
+                })->sum('chargesReceive');
+            }else{
+                return 0;
+            }
+        });
+    }
+
     public function taxInvoiceItems() : HasMany
     {
         return $this->hasMany(TaxInvoiceItems::class, 'comCode', 'comCode')
         ->whereColumn('invoice.documentID', 'tax_invoice_items.invNo');
+    }
+
+    public function jobOrder() : HasOne
+    {
+        return $this->hasOne(JobOrder::class, 'documentID', 'ref_jobNo');
+    }
+
+    public function credit(): HasOne
+    {
+        return $this->hasOne(CreditTerm::class, 'creditCode', 'creditterm');
     }
 
     public function customer(): HasOne

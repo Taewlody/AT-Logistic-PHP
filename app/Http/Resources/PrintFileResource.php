@@ -271,19 +271,10 @@ class PrintFileResource extends Controller
 
     public function testViewPdf(string $id)
     {
-        $data = PettyCashShipping::find($id);
-        $tax1 = 0;
-        $tax3 = 0;
-        if($data->items == null) {
-            $tax1 = $data->items->filter(function ($item) {
-                if($item->charge == null || $item->charge->chargesType == null) return false;
-                return $item->charges->chargesType->amount == 1;
-            })->sum('amount') * 0.01;
-            $tax3 = $data->items->filter(function ($item) {
-                if($item->charge == null || $item->charge->chargesType == null) return false;
-                return $item->charges->chargesType->amount == 3;
-            })->sum('amount') * 0.03;
+        $data = Invoice::find($id);
+        if($data == null) {
+            return view('404');
         }
-        return view('print.petty_cash_shipping_pdf', ['title' => "Shipping Petty Cash", 'data' => $data, 'tax1'=> $tax1,'tax3'=> $tax3, 'test' => true]);
+        return view('print.invoice_pdf', ['title' => "Invoice", 'data' => $data, 'test' => true]);
     }
 }

@@ -22,97 +22,167 @@ use Illuminate\Support\Facades\Cache;
 
 class Service
 {
+
+    private static function ReadNumber($number)
+    {
+        $position_call = array("แสน", "หมื่น", "พัน", "ร้อย", "สิบ", "");
+        $number_call = array("", "หนึ่ง", "สอง", "สาม", "สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า");
+        $number = $number + 0;
+        $ret = "";
+        if ($number == 0)
+            return $ret;
+        if ($number > 1000000) {
+            $ret .= ReadNumber(intval($number / 1000000)) . "ล้าน";
+            $number = intval(fmod($number, 1000000));
+        }
+
+        $divider = 100000;
+        $pos = 0;
+        while ($number > 0) {
+            $d = intval($number / $divider);
+            $ret .= (($divider == 10) && ($d == 2)) ? "ยี่" :
+            ((($divider == 10) && ($d == 1)) ? "" :
+                ((($divider == 1) && ($d == 1) && ($ret != "")) ? "เอ็ด" : $number_call[$d]));
+            $ret .= ($d ? $position_call[$pos] : "");
+            $number = $number % $divider;
+            $divider = $divider / 10;
+            $pos++;
+        }
+        return $ret;
+    }
+
     public static function MoneyFormat($number)
     {
-        return number_format($number, 2,'.', ',');
+        return number_format($number, 2, '.', ',');
     }
+
+    public static function ThaiBahtConversion($amount_number)
+    {
+        $amount_number = number_format($amount_number, 2, ".", "");
+        $pt = strpos($amount_number, ".");
+        $number = $fraction = "";
+        if ($pt === false)
+            $number = $amount_number;
+        else {
+            $number = substr($amount_number, 0, $pt);
+            $fraction = substr($amount_number, $pt + 1);
+        }
+
+        $ret = "";
+        $baht = self::ReadNumber($number);
+        if ($baht != "")
+            $ret .= $baht . "บาท";
+
+        $satang = self::ReadNumber($fraction);
+        if ($satang != "")
+            $ret .= $satang . "สตางค์";
+        else
+            $ret .= "ถ้วน";
+        return $ret;
+    }
+
+
 
     public static function DateFormat($date, bool|null $empty = false)
     {
-        return Carbon::parse($date) == Carbon::createFromTimestamp(0) ?  ($empty ? "" : "00/00/0000") : Carbon::parse($date)->format('d/m/Y');
+        return Carbon::parse($date) == Carbon::createFromTimestamp(0) ? ($empty ? "" : "00/00/0000") : Carbon::parse($date)->format('d/m/Y');
     }
 
-    public static function AccountSelecter(){
+    public static function AccountSelecter()
+    {
         return Cache::remember('account-select', 15, function () {
             return BankAccount::select('accountCode', 'accountName')->orderBy('accountName')->get();
         });
     }
 
-    public static function TransportTypeSelecter(){
+    public static function TransportTypeSelecter()
+    {
         return Cache::remember('transport-type-select', 15, function () {
             return TransportType::select('transportCode', 'transportName')->orderBy('transportName')->get();
         });
     }
 
-    public static function PortSelecter(){
+    public static function PortSelecter()
+    {
         return Cache::remember('port-select', 15, function () {
             return Port::select('portCode', 'portNameEN')->orderBy('portNameEN')->get();
         });
     }
 
-    public static function PlaceSelecter(){
-    return Cache::remember('place-select', 15, function () {
-        return Place::select('pCode', 'pName')->orderBy('pName')->get();
-    });
+    public static function PlaceSelecter()
+    {
+        return Cache::remember('place-select', 15, function () {
+            return Place::select('pCode', 'pName')->orderBy('pName')->get();
+        });
     }
 
-    public static function CustomerSelecter(){
+    public static function CustomerSelecter()
+    {
         return Cache::remember('customer-select', 15, function () {
             return Customer::select('cusCode', 'custNameEN')->orderBy('custNameEN')->get();
         });
     }
 
-    public static function SalemanSelecter(){
+    public static function SalemanSelecter()
+    {
         return Cache::remember('salename-select', 15, function () {
             return Saleman::select('usercode', 'empName')->orderBy('empName')->get();
         });
     }
 
-    public static function SupplierSelecter(){
+    public static function SupplierSelecter()
+    {
         return Cache::remember('supplier-select', 15, function () {
             return Supplier::select('supCode', 'supNameTH')->orderBy('supNameTH')->get();
         });
     }
 
-    public static function FeederSelecter(){
+    public static function FeederSelecter()
+    {
         return Cache::remember('feeder-select', 15, function () {
             return Feeder::select('fCode', 'fName')->orderBy('fName')->get();
         });
     }
 
-    public static function ContainerTypeSelecter(){
+    public static function ContainerTypeSelecter()
+    {
         return Cache::remember('container-type-select', 15, function () {
             return ContainerType::select('containertypeCode', 'containertypeName')->orderBy('containertypeName')->get();
         });
     }
 
-    public static function ContainerSizeSelecter(){
+    public static function ContainerSizeSelecter()
+    {
         return Cache::remember('container-size-select', 15, function () {
             return ContainerSize::select('containersizeCode', 'containersizeName')->orderBy('containersizeName')->get();
         });
     }
 
-    public static function UnitContainerSelecter(){
+    public static function UnitContainerSelecter()
+    {
         return Cache::remember('unit-select', 15, function () {
             return UnitContainer::select('unitCode', 'unitName')->orderBy('unitName')->get();
         });
     }
 
-    public static function ChargesSelecter(){
+    public static function ChargesSelecter()
+    {
         return Cache::remember('charge-select', 15, function () {
             return Charges::select('chargeCode', 'chargeName')->orderBy('chargeName')->get();
         });
     }
 
-    public static function JobOrderSelecter(){
+    public static function JobOrderSelecter()
+    {
         return Cache::remember('job-order-select', 15, function () {
             return JobOrder::select('documentID')->orderBy('documentID')->get();
         });
     }
 
-    public static function CreditTermSelecter() {
+    public static function CreditTermSelecter()
+    {
         return Cache::remember('credit-term-select', 15, function () {
-           return CreditTerm::select('creditCode', 'creditName')->get();
+            return CreditTerm::select('creditCode', 'creditName')->get();
         });
     }
 }
