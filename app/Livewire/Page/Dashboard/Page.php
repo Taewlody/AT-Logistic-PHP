@@ -32,6 +32,9 @@ class Page extends Component
     public $yearSearch;
     public $yearOptions;
 
+    public $monthVatDifferent;
+    public $totalMonthVatSale;
+    public $totalMonthVatBuy;
     public $monthVatBuy;
     public $monthVatSale;
     public $monthCategory;
@@ -42,14 +45,18 @@ class Page extends Component
     public $yearVatBuy;
     public $yearVatSale;
     public $yearCategory;
+    
+    public $totalVatDifferent;
 
-
+    public $netProfit;
+    public $totalYearNetProfit;
     public $yearTaxTotal;
     public $totalYearTax1;
     public $totalYearTax3;
     public $billingSummary;
     public $billingSummaryChart;
     public $billingSummaryTotal;
+
 
     public function boot()
     {
@@ -121,6 +128,13 @@ class Page extends Component
             $this->monthVatBuy = array_column($this->yearVatTotal , 'value1');
             $this->monthVatSale = array_column($this->yearVatTotal , 'value2');
             
+            $this->totalMonthVatSale = array_sum($this->monthVatSale);
+            $this->totalMonthVatBuy = array_sum($this->monthVatBuy);
+
+            $this->monthVatDifferent = $this->Different($this->monthVatSale, $this->monthVatBuy);
+            $this->totalVatDifferent = array_sum($this->monthVatDifferent);
+            
+            
         //end ยอดภาษีมูลค่าเพิ่ม ยอดขาย ยอดซื้อ
 
         //start ยอดถูกหักภาษี ณ ที่จ่าย vat 1% vat 3%
@@ -137,6 +151,15 @@ class Page extends Component
                 ->groupBy('month')
                 ->pluck('sumtax3', 'month');
 
+            $yearProfit = JobOrder::selectRaw("MONTH(documentDate) as month, joborder.total_amt - SUM('joborder_charge.chargesCost') - joborder.total_vat - joborder.tax3 - joborder.tax1 as netprofit")
+            ->join('joborder_charge', 'joborder_charge.documentID', 'joborder.documentID')
+            ->whereYear('documentDate', $this->yearSearch)
+            ->where('documentstatus', 'A')
+            ->groupBy('month', 'joborder.total_amt', 'joborder.total_vat', 'joborder.tax3', 'joborder.tax1')
+            ->pluck('netprofit', 'month');
+
+            $this->netProfit = $this->setDataInYear($yearProfit) ?? [];
+
             $billing = TaxInvoice::selectRaw('sum(total_vat) as total_vat, MONTH(documentDate) as month')->whereYear('documentDate', $this->yearSearch)->groupBy('month')->pluck('total_vat', 'month');
 
             $this->monthList = EngDate::full_month_list();
@@ -145,6 +168,7 @@ class Page extends Component
             $this->billingSummaryTotal = array_sum($billing->toArray());
             
 
+            $this->totalYearNetProfit = array_sum($yearProfit->toArray());
             $this->totalYearTax1 = array_sum($yearTax1->toArray());
             $this->totalYearTax3 = array_sum($yearTax3->toArray());
             
@@ -153,6 +177,18 @@ class Page extends Component
         //end ยอดถูกหักภาษี ณ ที่จ่าย vat 1% vat 3%
 
 
+    }
+
+    public function Different($data1, $data2)
+    {
+        // dd($data1, $data2);
+        $result = [];
+        if(count($data1) == 12 && count($data2) == 12) {
+            foreach ($data1 as $key => $value) {
+                $result[$key] = $value - $data2[$key];
+            }
+        }
+        return $result;
     }
 
     public function setDataInYear($data)

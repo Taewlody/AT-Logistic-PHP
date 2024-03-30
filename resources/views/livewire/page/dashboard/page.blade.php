@@ -345,7 +345,7 @@
                                         @foreach ($monthVatBuy as $buy)
                                             <td>{{ number_format($buy, 2) }}</td>
                                         @endforeach
-                                        <th></th>
+                                        <th>{{ number_format($totalMonthVatBuy, 2) }}</th>
                                     </tr>
                                     <tr>
                                         <th>ภาษีขาย</th>
@@ -353,26 +353,14 @@
                                         @foreach ($monthVatSale as $sale)
                                             <td>{{ number_format($sale, 2) }}</td>
                                         @endforeach
-                                        <th></td>
+                                        <th>{{ number_format($totalMonthVatSale, 2) }}</th>
                                     </tr>
                                     <tr>
                                         <th>ส่วนต่าง</th>
-                                        
-                                        
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        
-                                        <th></th>
+                                        @foreach ($monthVatDifferent as $dif)
+                                            <td>{{ number_format($dif, 2) }}</td>
+                                        @endforeach
+                                        <th>{{ number_format($totalVatDifferent, 2) }}</th>
                                     </tr>
                                     
                                     @else
@@ -442,25 +430,16 @@
                                     <th>Tax 1%</th>
                                     
                                     @foreach ($yearTaxTotal as $year)
-                                        <td>{{ number_format($year->value1) }}</td>
+                                        <td>{{ number_format($year->value1, 2) }}</td>
                                     @endforeach
                                     <th>{{ number_format($totalYearTax1, 2) }}</td>
                                 </tr>
                                 <tr>
                                     <th>Profit</th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <th></th>
+                                    @foreach ($netProfit as $profit)
+                                        <td>{{ number_format($profit->value, 2) }}</td>
+                                    @endforeach
+                                    <th>{{ number_format($totalYearNetProfit, 2) }}</td>
                                 </tr>
                                 
                                 @else

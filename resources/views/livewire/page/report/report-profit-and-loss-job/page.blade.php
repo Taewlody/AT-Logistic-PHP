@@ -101,10 +101,10 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{ number_format($this->getTotalAmount, 2,'.', ',') }}</td>
+                                        <td>{{ number_format($this->getTotalCost, 2,'.', ',') }}</td>
+                                        <td>{{ number_format($this->getTotalProfit, 2,'.', ',') }}</td>
+                                        <td>{{ number_format($this->getTotalNetProfit, 2,'.', ',') }}</td>
                                         <td></td>
                                     </tfoot>
                                 </table>
