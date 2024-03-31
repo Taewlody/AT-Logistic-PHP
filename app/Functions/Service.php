@@ -185,4 +185,11 @@ class Service
             return CreditTerm::select('creditCode', 'creditName')->get();
         });
     }
+
+    public static function CurrentDateDiff($date)
+    {
+        $now = Carbon::now();
+        $diff = date_diff($now, date_create($date));
+        return $diff->format('%R%a days');
+    }
 }
