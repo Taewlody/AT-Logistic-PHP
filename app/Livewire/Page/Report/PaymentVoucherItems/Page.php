@@ -14,7 +14,7 @@ class Page extends Component
     public function render()
     {
         return view('livewire.page.report.payment-voucher-items.page',[ 
-            'data'=> PaymentVoucher::with(['items', 'supplier', 'docStatus'])
+            'data'=> PaymentVoucher::with(['items', 'supplier', 'docStatus'])->orderBy('documentID', 'DESC')
             ->paginate(20)
             ])->extends('layouts.main')->section('main-content');
     }
