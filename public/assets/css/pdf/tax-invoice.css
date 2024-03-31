@@ -1,3 +1,9 @@
+@page {
+    margin-bottom: 0cm !important;
+    margin-left: 1cm !important;
+    margin-right: .8cm !important;
+}
+
 .header-page td.company-detail>* {
     font-size: 18px;
     line-height: 14px;
@@ -31,48 +37,193 @@
 }
 
 .detail>table td {
-    min-height: 120px;
+    /* height: fit-content; */
+    height: 110px;
 }
 
-.detail>table td div {
+.detail>table td>div {
     border: 1px solid #000;
     border-radius: 20px;
     height: inherit;
-    padding: 5px 5px;
+    padding: 0px 5px;
 }
 
 .detail>table td span {
     display: block;
     font-size: 19px;
-    height: 22px;
+    height: 20px;
+}
+
+.detail>table td div>div {
+    display: block;
+    font-size: 19px;
+    height: 20px;
 }
 
 /* .detail>table td div span, .detail>table td div span b {
     border: 1px solid #000;
 } */
 
-.detail>table td:nth-of-type(1) span>b {
+.detail>table td:nth-of-type(1) span>b:first-of-type {
     width: 95px;
-    display: block;
+    display: inline-block;
     margin-right: 10px;
+    height: inherit;
+    line-height: inherit;
+    vertical-align: text-bottom;
+    margin-bottom: 2px;
 }
 
-.detail>table td:nth-of-type(1) span:last-of-type>b {
-    width: 125px;
-    display: block;
+.detail>table td:nth-of-type(1) span:last-of-type>b:first-of-type {
+    width: 110px;
+    /* display: block; */
 }
 
-.detail>table td:nth-of-type(2) span>b {
+.detail>table td:nth-of-type(1)>div {
+    padding-left: 15px;
+    padding-bottom: 5px;
+}
+
+.detail>table td:nth-of-type(2)>div {
+    padding-left: 8px;
+    padding-bottom: 5px;
+}
+
+.detail>table td:nth-of-type(2) span>b:first-of-type {
     width: 30px;
-    display: block;
-    margin-right: 10px;
+    display: inline-block;
+    height: inherit;
+    line-height: inherit;
+    vertical-align: text-bottom;
+    margin-bottom: 4px;
 }
 
 .table table {
     width: 100%;
     font-size: 18px;
+    line-height: 14px;
 }
 
 .table table th {
     border: 1px solid #000;
+    height: 28px;
+}
+
+
+.table table tbody tr,
+.table table tbody td {
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    border-bottom: none;
+    border-top: none;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.table table tbody tr>td:last-of-type,
+.table table tfoot tr {
+    text-align: right;
+}
+
+.table table tfoot tr td {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.table table tfoot tr>td:first-of-type>b {
+    text-align: left;
+    display: inline-block;
+    width: 160px;
+}
+
+.table table tfoot tr>td.text-money {
+    text-align: center;
+    background-color: #b8cce4;
+    height: 20px;
+}
+
+.footer input[type="checkbox"]+label.icon::before {
+    color: #565964;
+    margin-right: 5px;
+}
+
+/* .footer .cash-input {
+    display: inline-block;
+} */
+
+.footer {
+    margin-top: -30px;
+}
+
+.footer .cash-input {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.footer .cash-input label.label {
+    font-size: 18px;
+}
+
+.footer .cash-input .dash-line {
+    border-top: 2px dotted black;
+}
+
+.footer .cash-detail {
+   width: 100%;
+   border: 1.5px solid #000;
+}
+
+.footer .cash-detail th, .footer .cash-detail td {
+    border: 1.5px solid #000;
+    line-height: 14px;
+    font-size: 18px;
+}
+
+.footer .cash-detail td {
+    text-align: center;
+    font-weight: bold;
+}
+
+.footer .list-invoice {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.footer .list-invoice td:first-of-type {
+    padding-top: 4px;
+    text-align: center;
+    vertical-align: text-top;
+}
+
+.footer .list-invoice td:last-of-type {
+    white-space: pre-line;
+    line-height: 14px;
+}
+
+.footer .list-invoice td>b {
+    font-size: 18px;
+    line-height: 14px;
+}
+
+.footer .sign-block {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.footer .sign-block tr:first-of-type>td {
+    padding-top: 30px;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.footer .sign-block td {
+    width: 50%;
+    text-align: center;
+    font-size: 18px;
+    line-height: 14px;
+}
+
+.footer .remark span {
+    font-size: 18px;
+    line-height: 14px;
 }

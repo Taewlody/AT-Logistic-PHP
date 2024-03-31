@@ -1,4 +1,9 @@
-.header-page td.company-detail>* {
+@page {
+    margin-bottom: 0cm !important;
+}
+
+
+.header-page td.company-detail > * {
     font-size: 18px;
     line-height: 14px;
     display: block;
@@ -30,25 +35,25 @@
     margin-top: 3px;
 }
 
-.detail>table td {
+.detail > table td {
     /* height: fit-content; */
     height: 100px;
 }
 
-.detail>table td>div {
+.detail > table td > div {
     border: 1px solid #000;
     border-radius: 20px;
     height: inherit;
     padding: 0px 5px;
 }
 
-.detail>table td span {
+.detail > table td span {
     display: block;
     font-size: 19px;
     height: 20px;
 }
 
-.detail>table td div>div {
+.detail > table td div > div {
     display: block;
     font-size: 19px;
     height: 20px;
@@ -68,17 +73,17 @@
     width: 125px;
     display: block;
 } */
-.detail>table td:nth-of-type(1)>div {
+.detail > table td:nth-of-type(1) > div {
     padding-left: 15px;
     padding-bottom: 5px;
 }
 
-.detail>table td:nth-of-type(2)>div {
+.detail > table td:nth-of-type(2) > div {
     padding-left: 8px;
     padding-bottom: 5px;
 }
 
-.detail>table td:nth-of-type(2) span>b {
+.detail > table td:nth-of-type(2) span > b {
     width: 90px;
     display: inline-block;
     height: inherit;
@@ -157,10 +162,10 @@
     text-align: center;
 }
 
-.table table tbody tr td:nth-of-type(3), .table table tbody tr td:nth-of-type(4) {
+.table table tbody tr td:nth-of-type(3),
+.table table tbody tr td:nth-of-type(4) {
     text-align: right;
 }
-
 
 .table table tbody tr td {
     border-left: 1px solid #000;
@@ -169,8 +174,33 @@
     border-bottom: unset;
 }
 
+.table table tbody tr,
+.table table tbody tr td {
+    height: 14px;
+}
+
 .table table tbody {
-    height: 500px;
+    border-bottom: 1px solid #000;
+}
+
+.table table tfoot tr > td:nth-last-of-type(3) {
+    border-top: none;
+    border-bottom: none;
+    border-left: none;
+    padding-right: 4px;
+    text-align: right;
+}
+
+.table table tfoot tr > td:nth-last-of-type(1),
+.table table tfoot tr > td:nth-last-of-type(2) {
+    text-align: right;
+    text-align: right;
+    padding-right: 4px;
+}
+
+.table table tfoot tr > td.remove-border {
+    border-top: none;
+    border-bottom: none;
 }
 
 .footer .footer-sign table {
@@ -181,7 +211,6 @@
 .footer .footer-sign table td {
     width: 35%;
     text-align: center;
-    
 }
 
 .footer .footer-sign table td .dotted-line {

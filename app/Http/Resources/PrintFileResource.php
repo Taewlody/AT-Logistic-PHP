@@ -139,7 +139,14 @@ class PrintFileResource extends Controller
         if($data == null) {
             return view('404');
         }
-        $pdf = DomPdf::loadView('print.invoice_pdf', ['title' => "Invoice", 'data' => $data]);
+        $heightItems = 0;
+        if($data->items != null) {
+            $heightItems = $data->items->count() * 14;
+        }
+        
+        $heightItems = 328 - $heightItems;
+        $heightItems = $heightItems < 0 ? 'auto' : $heightItems.'px';
+        $pdf = DomPdf::loadView('print.invoice_pdf', ['title' => "Invoice", 'data' => $data, 'heightItems' => $heightItems]);
         return $pdf->stream('invoice.pdf');
     }
 
@@ -158,7 +165,7 @@ class PrintFileResource extends Controller
             'sumAmount' => 0,
             'sumTax' => 0,
         ];
-        if($data->items == null) {
+        if($data->items != null) {
             $tax1->sumAmount = $data->items->filter(function ($item) {
                 if($item->charge == null || $item->charge->chargesType == null) return false;
                 return $item->charges->chargesType->amount == 1;
@@ -182,7 +189,7 @@ class PrintFileResource extends Controller
         }
         $tax1 = 0;
         $tax3 = 0;
-        if($data->items == null) {
+        if($data->items != null) {
             $tax1 = $data->items->filter(function ($item) {
                 if($item->charge == null || $item->charge->chargesType == null) return false;
                 return $item->charges->chargesType->amount == 1;
@@ -211,7 +218,7 @@ class PrintFileResource extends Controller
             'sumAmount' => 0,
             'sumTax' => 0,
         ];
-        if($data->items == null) {
+        if($data->items != null) {
             $tax1->sumAmount = $data->items->filter(function ($item) {
                 if($item->charge == null || $item->charge->chargesType == null) return false;
                 return $item->charges->chargesType->amount == 1;
@@ -235,7 +242,7 @@ class PrintFileResource extends Controller
         }
         $tax1 = 0;
         $tax3 = 0;
-        if($data->items == null) {
+        if($data->items != null) {
             $tax1 = $data->items->filter(function ($item) {
                 if($item->charge == null || $item->charge->chargesType == null) return false;
                 return $item->charges->chargesType->amount == 1;
@@ -265,16 +272,62 @@ class PrintFileResource extends Controller
         if($data == null) {
             return view('404');
         }
-        $pdf = DomPdf::loadView('print.tax_invoice_pdf', ['title' => "Tax Invoice", 'data' => $data]);
+        $heightChargesReceive = 0;
+        $heightChargesbillReceive = 0;
+        $itemChargesReceive = $data->items->filter(function ($item) {
+            return $item->chargesReceive > 0;
+        })->groupBy('detail')->map(function ($item) {
+            $newItem = (object) [
+                'detail' => $item->first()->detail,
+                'chargesReceive' => $item->sum('chargesReceive'),
+            ];
+            return $newItem;
+        });
+        $itemChargesbillReceive = $data->items->filter(function ($item) {
+            return $item->chargesbillReceive > 0;
+        })->groupBy('detail')->map(function ($item) {
+            $newItem = (object) [
+                'detail' => $item->first()->detail,
+                'chargesbillReceive' => $item->sum('chargesbillReceive'),
+            ];
+            return $newItem;
+        });
+        // if($data->items != null) {
+            $heightChargesReceive = $itemChargesReceive->count() * 14;
+            $heightChargesbillReceive = $itemChargesbillReceive->count() * 14;
+        // }
+        
+        $heightChargesReceive = 260 - $heightChargesReceive;
+        $heightChargesReceive = $heightChargesReceive < 0 ? 'auto' : $heightChargesReceive.'px';
+        $heightChargesbillReceive = 288 - $heightChargesbillReceive;
+        $heightChargesbillReceive = $heightChargesbillReceive < 0 ? 'auto' : $heightChargesbillReceive.'px';
+        $pdf = DomPdf::loadView('print.tax_invoice_pdf', ['title' => "Tax Invoice", 'data' => $data, 'itemChargesReceive'=> $itemChargesReceive, 'heightChargesReceive' => $heightChargesReceive, 'itemChargesbillReceive'=> $itemChargesbillReceive, 'heightChargesbillReceive' => $heightChargesbillReceive]);
         return $pdf->stream('tax_invoice.pdf');
     }
 
     public function testViewPdf(string $id)
     {
-        $data = Invoice::find($id);
+        $data = TaxInvoice::find($id);
         if($data == null) {
             return view('404');
         }
-        return view('print.invoice_pdf', ['title' => "Invoice", 'data' => $data, 'test' => true]);
+        $heightChargesReceive = 0;
+        $itemChargesReceive = $data->items->filter(function ($item) {
+            return $item->chargesReceive > 0;
+        })->groupBy('detail')->map(function ($item) {
+            $newItem = (object) [
+                'detail' => $item->first()->detail,
+                'chargesReceive' => $item->sum('chargesReceive'),
+            ];
+            return $newItem;
+        });
+        if($data->items != null) {
+            $heightChargesReceive = $itemChargesReceive->count() * 14;
+        }
+        $heightChargesReceive = 328 - $heightChargesReceive;
+        $heightChargesReceive = $heightChargesReceive < 0 ? 'auto' : $heightChargesReceive.'px';
+
+        
+        return view('print.tax_invoice_pdf', ['title' => "Tax Invoice", 'data' => $data, 'itemChargesReceive'=> $itemChargesReceive, 'heightChargesReceive' => $heightChargesReceive, 'test' => true]);
     }
 }
