@@ -9,6 +9,8 @@ use App\Models\Marketing\JobOrder;
 
 class Page extends Component
 {
+    use WithPagination;
+    
     public function render()
     {
         return view('livewire.page.report.report-job.page',[ 

@@ -9,6 +9,8 @@ use App\Models\Payment\PaymentVoucher;
 
 class Page extends Component
 {
+    use WithPagination;
+    
     public function render()
     {
         return view('livewire.page.report.payment-voucher-items.page',[ 

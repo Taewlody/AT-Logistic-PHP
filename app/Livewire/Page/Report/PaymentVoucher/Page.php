@@ -4,11 +4,14 @@ namespace App\Livewire\Page\Report\PaymentVoucher;
 
 use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\WithPagination;
 
 use App\Models\Payment\PaymentVoucher;
 
 class Page extends Component
 {
+    use WithPagination;
+    
     public $monthSearch = '';
     public $yearSearch = '';
     public $yearList = [];
