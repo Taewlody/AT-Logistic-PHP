@@ -7,6 +7,8 @@ use Livewire\Attributes\Computed;
 use App\Models\Marketing\JobOrder;
 use Illuminate\Support\Facades\DB;
 use Livewire\WithPagination;
+use App\Models\Common\Customer;
+use App\Models\Common\Saleman;
 
 class Page extends Component
 {
@@ -18,6 +20,38 @@ class Page extends Component
     public $totalCost;
     public $totalProfit;
     public $totalNetProfit;
+
+    public $query = [];
+    public $dateStart;
+    public $dateEnd;
+    public $documentID = '';
+    public $customerList = [];
+    public $customerSearch = "";
+    public $salemanList = [];
+    public $salemanSearch = "";
+
+
+    #[On('post-search')] 
+    public function search() {
+        $this->query = [];
+        $this->queryCustomer = [];
+
+        if($this->dateStart != null) {
+            $this->query[] = ['joborder.documentDate', '>=', $this->dateStart];
+        }
+        if($this->dateEnd != null) {
+            $this->query[] = ['joborder.documentDate', '<=', $this->dateEnd];
+        }
+        if($this->documentID != null) {
+            $this->query[] = ['joborder.documentID', 'like', '%'.$this->documentID.'%'];
+        }
+        if($this->customerSearch != null) {
+            $this->query[] = ['joborder.cusCode', '=', $this->customerSearch];
+        }
+        if($this->salemanSearch != null) {
+            $this->query[] = ['joborder.saleman', '=', $this->salemanSearch];
+        }
+    }
 
     #[Computed]
     public function getTotalAmount()
@@ -83,6 +117,11 @@ class Page extends Component
         $this->yearSearch = date('Y');
 
         $this->yearList = range(date('Y'), date('Y')-4);
+        
+        $this->dateStart = null;
+        $this->dateEnd = null;
+        $this->customerList = Customer::all()->sortBy('custNameEN');
+        $this->salemanList = Saleman::all()->sortBy('empName');
 
     }
 
@@ -97,6 +136,7 @@ class Page extends Component
         joborder.total_amt - SUM('joborder_charge.chargesCost') - joborder.total_vat - joborder.tax3 - joborder.tax1 as netprofit, common_customer.custNameEN")
         ->join('joborder_charge', 'joborder_charge.documentID', 'joborder.documentID')
         ->join('common_customer', 'common_customer.cusCode', 'joborder.cusCode')
+        ->where($this->query)
         ->groupBy('joborder.documentID', 'joborder.documentDate', 'joborder.total_amt', 'joborder.total_vat', 'joborder.tax3', 'joborder.tax1', 'common_customer.custNameEN')
         ->orderBy('documentDate', 'DESC');
         
