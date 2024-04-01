@@ -19,7 +19,30 @@
                             </div>
                             <br/><br/>
                             <div class="row">
-                                
+                                <div class="col-4">
+                                    <div class="form-group col-margin0">
+                                        <label class="font-normal">Document No.</label>
+                                        <div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group col-margin0">
+                                        <label class="font-normal">Cutomer</label>
+                                        <div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group col-margin0">
+                                        <label class="font-normal">Sale</label>
+                                        <div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
                                 
                             </div>
                             

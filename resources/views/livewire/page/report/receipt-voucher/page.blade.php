@@ -19,8 +19,41 @@
                             </div>
                             <br/><br/>
                             <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group col-margin0">
+                                        <label class="font-normal">Date Range</label>
+                                        <div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group col-margin0">
+                                        <label class="font-normal">To</label>
+                                        <div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group col-margin0">
+                                        <label class="font-normal">Document No.</label>
+                                        <div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
                                 
-                                
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group col-margin0">
+                                        <label class="font-normal">Customer</label>
+                                        <div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             
                             <div class="row">

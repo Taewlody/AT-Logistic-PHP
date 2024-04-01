@@ -21,7 +21,7 @@
                             <div class="row">
                                 <div class="col-4">
                                     <div class="form-group col-margin0">
-                                        <label class="font-normal">เดือน</label>
+                                        <label class="font-normal">Job No.</label>
                                         <div>
                                             
                                         </div>
@@ -29,13 +29,31 @@
                                 </div>
                                 <div class="col-4">
                                     <div class="form-group col-margin0">
-                                        <label class="font-normal">ปี</label>
+                                        <label class="font-normal">Customer</label>
+                                        <div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group col-margin0">
+                                        <label class="font-normal">Sale</label>
                                         <div>
                                             
                                         </div>
                                     </div>
                                 </div>
                                 
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group col-margin0">
+                                        <label class="font-normal">Month</label>
+                                        <div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             
                             <div class="row">
