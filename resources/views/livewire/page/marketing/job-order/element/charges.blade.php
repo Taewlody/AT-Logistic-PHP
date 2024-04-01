@@ -129,7 +129,7 @@
                         <td style="width:10%">&nbsp;</td>
                         <td style="width:10%">&nbsp;</td>
                         <td style="width:10%"><span
-                                style="width:50%; text-align: right;">Toal 7%</span>
+                                style="width:50%; text-align: right;">Total 7%</span>
                         </td>
                         <td style="width:10%">
                             <input type="text"
