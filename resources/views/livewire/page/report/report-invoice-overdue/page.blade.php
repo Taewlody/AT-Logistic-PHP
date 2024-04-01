@@ -3,7 +3,7 @@
         breadcrumb_page="ใบแจ้งหนี้ค้างชำระ" />
 
     <div class="container-fluid">
-        <form wire:submit="$refresh">
+        <form wire:submit="search">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -23,7 +23,7 @@
                                     <div class="form-group col-margin0">
                                         <label class="font-normal">Document No.</label>
                                         <div>
-                                            
+                                            <input type='text' name='documentID' class='form-control' id="documentID" wire:model="documentID">
                                         </div>
                                     </div>
                                 </div>
@@ -31,7 +31,14 @@
                                     <div class="form-group col-margin0">
                                         <label class="font-normal">Cutomer</label>
                                         <div>
-                                            
+                                            <select class="select2_single form-control select2"
+                                                name="cusCode" id="cusCode" wire:model="customerSearch">
+                                                <option value="">- select -</option>
+                                                @foreach ($customerList as $customer)
+                                                    <option value="{{ $customer->cusCode }}">
+                                                        {{ $customer->custNameTH }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -39,7 +46,14 @@
                                     <div class="form-group col-margin0">
                                         <label class="font-normal">Sale</label>
                                         <div>
-                                            
+                                            <select class="select2_single form-control select2"
+                                            name="saleman" id="saleman" wire:model="salemanSearch">
+                                            <option value="">- select -</option>
+                                            @foreach ($salemanList as $saleman)
+                                                <option value="{{ $saleman->empName }}">
+                                                    {{ $saleman->empName }}</option>
+                                            @endforeach
+                                    </select>
                                         </div>
                                     </div>
                                 </div>
