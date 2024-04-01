@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Client\Request;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -26,6 +28,8 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
             if ($e instanceof \Illuminate\Session\TokenMismatchException) {
+                $url = Request::url();
+                Log::debug("message: TokenMismatchException, url: $url");
                 return redirect()->route('login')->with('error', 'Your session has expired. Please try again.');
             }
         });

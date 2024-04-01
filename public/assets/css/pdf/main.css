@@ -51,6 +51,10 @@ body .page {
 
 }
 
+.cut-page {
+    page-break-after: always;
+}
+
 div.line {
     border-top: .5px solid black;
     margin-top: 8px;
