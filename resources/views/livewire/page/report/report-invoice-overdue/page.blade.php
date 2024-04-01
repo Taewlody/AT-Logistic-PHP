@@ -127,12 +127,12 @@
                                         <th></th>
                                         <th></th>
                                         <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
+                                        <th>{{ number_format($this->getTotalAmount, 2)}}</th>
+                                        <th>{{ number_format($this->getTotalVat, 2)}}</th>
+                                        <th>{{ number_format($this->getTotalTax3, 2) }}</th>
+                                        <th>{{ number_format($this->getTotalTax1, 2) }}</th>
+                                        <th>{{ number_format($this->getTotalReserve, 2) }}</th>
+                                        <th>{{ number_format($this->getTotalNet, 2) }}</th>
                                         <th></th>
                                     </tfoot>
                                 </table>

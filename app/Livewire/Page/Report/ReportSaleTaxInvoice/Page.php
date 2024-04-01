@@ -4,6 +4,7 @@ namespace App\Livewire\Page\Report\ReportSaleTaxInvoice;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\Computed;
 
 use App\Models\Account\TaxInvoice;
 use App\Models\Common\Customer;
@@ -36,6 +37,48 @@ class Page extends Component
         if($this->customerSearch != null) {
             $this->query[] = ['cusCode', '=', $this->customerSearch];
         }
+    }
+
+    #[Computed]
+    public function getTotalAmount()
+    {
+        $results = TaxInvoice::with('customer')->where($this->query)->orderBy('documentID', 'DESC')->sum('total_amt');
+        return $results;
+    }
+
+    #[Computed]
+    public function getTotalVat()
+    {
+        $results = TaxInvoice::with('customer')->where($this->query)->orderBy('documentID', 'DESC')->sum('total_Vat');
+        return $results;
+    }
+
+    #[Computed]
+    public function getTotalTax3()
+    {
+        $results = TaxInvoice::with('customer')->where($this->query)->orderBy('documentID', 'DESC')->sum('tax3');
+        return $results;
+    }
+
+    #[Computed]
+    public function getTotalTax1()
+    {
+        $results = TaxInvoice::with('customer')->where($this->query)->orderBy('documentID', 'DESC')->sum('tax1');
+        return $results;
+    }
+
+    #[Computed]
+    public function getTotalReserve()
+    {
+        $results = TaxInvoice::with('customer')->where($this->query)->orderBy('documentID', 'DESC')->sum('cus_paid');
+        return $results;
+    }
+
+    #[Computed]
+    public function getTotalNet()
+    {
+        $results = TaxInvoice::with('customer')->where($this->query)->orderBy('documentID', 'DESC')->sum('total_netamt');
+        return $results;
     }
 
     public function mount()
