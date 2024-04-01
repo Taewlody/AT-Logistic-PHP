@@ -3,7 +3,7 @@
         breadcrumb_page="ใบสำคัญจ่าย" />
 
     <div class="container-fluid">
-        <form wire:submit="$refresh">
+        <form wire:submit="search">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -23,7 +23,9 @@
                                     <div class="form-group col-margin0">
                                         <label class="font-normal">Date Range</label>
                                         <div>
-                                            
+                                            <div class="input-group date"> 
+                                                <input class="form-control digits" name="dateStart" wire:model="dateStart" autocomplete="off" type="date" value="">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -31,7 +33,9 @@
                                     <div class="form-group col-margin0">
                                         <label class="font-normal">To</label>
                                         <div>
-                                            
+                                            <div class="input-group date"> 
+                                                <input class="form-control digits" name="dateEnd" wire:model="dateEnd" autocomplete="off" type="date" value="">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -39,7 +43,7 @@
                                     <div class="form-group col-margin0">
                                         <label class="font-normal">Document No.</label>
                                         <div>
-                                            
+                                            <input type='text' name='documentID' class='form-control' id="documentID" wire:model="documentID">
                                         </div>
                                     </div>
                                 </div>
@@ -50,7 +54,14 @@
                                     <div class="form-group col-margin0">
                                         <label class="font-normal">Supplier</label>
                                         <div>
-                                            
+                                            <select class="select2_single form-control select2"
+                                            name="supCode" id="supCode" wire:model="supplierSearch">
+                                                <option value="">- select -</option>
+                                                @foreach ($supplierList as $supplier)
+                                                    <option value="{{ $supplier->supCode }}">
+                                                        {{ $supplier->supNameTH }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
