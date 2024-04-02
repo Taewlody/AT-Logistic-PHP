@@ -406,8 +406,8 @@
                                     <a name="back" class="btn btn-white" type="button" href="{{ route('advance-payment') }}" wire.loading.attr="disabled">
                                     <i class="fa fa-reply"></i> Back</a>
                                     @if($data->documentstatus != 'A')
-                                    <button name="save" id="save" class="btn  btn-success" type="button"
-                                        wire:click='save' @disabled($data->documentstatus != 'A')>
+                                    <button name="save" id="save" class="btn btn-success" type="submit"
+                                         @disabled($data->documentstatus == 'A')>
                                         <i class="fa fa-save"></i> Save</button>
                                     @endif
                                     <button name="approve" id="approve" class="btn btn-primary" type="button"

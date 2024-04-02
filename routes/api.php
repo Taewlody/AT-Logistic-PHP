@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Resources\BlobFileResource;
+use App\Models\AttachFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Resources\PrintFileResource;
@@ -30,6 +31,13 @@ Route::group(['middleware' => ['auth.basic:,usercode']], function () {
         $token = $request->user()->createToken($request->token_name);
         return ['token' => $token->plainTextToken];
     });
+
+    Route::get('/blobfile/filename', function () {
+        return AttachFile::select('filename')->get()->map(function ($file) {
+            return $file->filename;
+        })->toArray();
+    });
+
     Route::get('/blobfile/{filename}', [BlobFileResource::class, 'viewFile']);
 
     Route::post('/blobfile/add', [BlobFileResource::class, 'addFile']);

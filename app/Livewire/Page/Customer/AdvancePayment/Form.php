@@ -65,12 +65,15 @@ class Form extends Component
 
         if ($this->id != '') {
             $this->data = AdvancePayment::find($this->id);
+            $this->payments = $this->data->items;
+            $this->attachs = $this->data->attachs;
         } else {
             $this->action = 'create';
             $this->data->createID = Auth::user()->usercode;
+            $this->payments = new Collection;
+            $this->attachs = new Collection;
         }
-        $this->payments = $this->data->items;
-        $this->attachs = $this->data->attachs;
+        
         // dd($this->attachs->get(0)->blobFile);
     }
 
@@ -125,6 +128,9 @@ class Form extends Component
     public function save() {
         $this->data->editID = Auth::user()->usercode;
         $this->data->save();
+        $this->data->items->filter(function($item){
+            return !collect($this->payments->pluck('autoid'))->contains($item->autoid);
+        })->each->delete();
         $this->data->items()->saveMany($this->payments);
         $this->data->attachs()->saveMany($this->attachs);
         $this->redirectRoute(name: 'advance-payment', navigate: true);

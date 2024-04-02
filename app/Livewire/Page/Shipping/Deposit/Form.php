@@ -72,6 +72,8 @@ class Form extends Component
         } else {
             $this->action = 'create';
             $this->data->createID = Auth::user()->usercode;
+            $this->payments = new Collection;
+            $this->attachs = new Collection;
         }
     }
 
@@ -126,6 +128,9 @@ class Form extends Component
     public function save() {
         $this->data->editID = Auth::user()->usercode;
         $this->data->save();
+        $this->data->items->filter(function($item){
+            return !collect($this->payments->pluck('autoid'))->contains($item->autoid);
+        })->each->delete();
         $this->data->items()->saveMany($this->payments);
         $this->redirectRoute(name: 'deposit', navigate: true);
     }
