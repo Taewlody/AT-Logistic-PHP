@@ -4,6 +4,7 @@ namespace App\Livewire\Page\Report\ReceiptVoucher;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use Carbon\Carbon;
 
 use App\Models\Account\ReceiptVoucher;
 use App\Models\Common\Customer;
@@ -39,9 +40,10 @@ class Page extends Component
 
     public function mount()
     {
-        $this->dateStart = null;
-        $this->dateEnd = null;
+        $this->dateStart = Carbon::parse('first day of this month')->format('Y-m-d');
+        $this->dateEnd = Carbon::parse('last day of this month')->format('Y-m-d');
         $this->customerList = Customer::all()->sortBy('custNameEN');
+        $this->search();
 
     }
 

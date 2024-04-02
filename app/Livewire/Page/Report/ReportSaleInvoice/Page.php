@@ -5,6 +5,7 @@ namespace App\Livewire\Page\Report\ReportSaleInvoice;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Computed;
+use Carbon\Carbon;
 
 use App\Models\Account\Invoice;
 use App\Models\Common\Customer;
@@ -46,11 +47,11 @@ class Page extends Component
 
     public function mount()
     {
-        $this->dateStart = null;
-        $this->dateEnd = null;
+        $this->dateStart = Carbon::parse('first day of this month')->format('Y-m-d');
+        $this->dateEnd = Carbon::parse('last day of this month')->format('Y-m-d');
         $this->customerList = Customer::all()->sortBy('custNameEN');
         $this->salemanList = Saleman::all()->sortBy('empName');
-
+        $this->search();
     }
 
     #[Computed]
