@@ -486,6 +486,25 @@
             </div>
         </div>
         {{-- end row 7 สรุปยอดสำรองจ่าย  --}}
+
+        {{-- start row 8 ยอดค้างจ่ายที่ต้องชำระ   --}}
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>สรุปยอดค้างจ่ายที่ต้องชำระ</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-body">
+                            
+                            
+                        </div>
+                                
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- end row 8 ยอดค้างจ่ายที่ต้องชำระ   --}}
     </div>
 </div>
 

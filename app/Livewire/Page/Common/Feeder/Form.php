@@ -34,6 +34,13 @@ class Form extends Component
     public function save()
     {
         if($this->action=='create'){
+            if($this->data && $this->data->fName) {
+                $checkDuplicateName = Feeder::where('fName', $this->data->fName);
+                if(isset($checkDuplicateName)) {
+                    return session()->flash('message', 'มีชื่อนี้อยู่ในระบบแล้ว');
+                    
+                }
+            }
             $this->data->fCode = Feeder::genarateKey();
             $this->data->createID = Auth::user()->usercode;
             $this->data->createTime = Carbon::now()->format('Y-m-d H:i:s');

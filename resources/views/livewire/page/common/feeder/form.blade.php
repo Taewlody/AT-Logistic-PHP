@@ -10,7 +10,13 @@
         <div wire:loading.block class="loader-wrapper">
             <div class="loader"></div>
         </div>
-        
+        <div>
+            @if (session()->has('message'))
+                <div class="alert alert-danger">
+                    {{ session('message') }}
+                </div>
+            @endif
+        </div>
         <div class="card ">
             <div class="card-body">
                 <form class="form-body" wire:submit="save">
