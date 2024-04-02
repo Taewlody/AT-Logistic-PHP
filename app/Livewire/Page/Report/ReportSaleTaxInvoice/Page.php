@@ -5,6 +5,7 @@ namespace App\Livewire\Page\Report\ReportSaleTaxInvoice;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Computed;
+use Carbon\Carbon;
 
 use App\Models\Account\TaxInvoice;
 use App\Models\Common\Customer;
@@ -26,10 +27,10 @@ class Page extends Component
         $this->query = [];
 
         if($this->dateStart != null) {
-            $this->query[] = ['documentDate', '>=', $this->dateStart];
+            $this->query[] = ['documentDate', '>=', $this->dateStart.'-01'];
         }
         if($this->dateEnd != null) {
-            $this->query[] = ['documentDate', '<=', $this->dateEnd];
+            $this->query[] = ['documentDate', '<=', $this->dateEnd.'-31'];
         }
         if($this->documentID != null) {
             $this->query[] = ['documentID', 'like', '%'.$this->documentID.'%'];
@@ -83,10 +84,10 @@ class Page extends Component
 
     public function mount()
     {
-        $this->dateStart = null;
-        $this->dateEnd = null;
+        $this->dateStart = Carbon::now()->format('Y-m');
+        $this->dateEnd = Carbon::now()->format('Y-m');
         $this->customerList = Customer::all()->sortBy('custNameEN');
-
+        $this->search();
     }
 
     public function render()

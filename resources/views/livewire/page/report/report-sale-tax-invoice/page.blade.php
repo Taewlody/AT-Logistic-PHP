@@ -24,7 +24,7 @@
                                         <label class="font-normal">Date Range</label>
                                         <div>
                                             <div class="input-group date"> 
-                                                <input class="form-control digits" name="dateStart" wire:model="dateStart" autocomplete="off" type="date" value="">
+                                                <input class="form-control digits" name="dateStart" wire:model="dateStart" autocomplete="off" type="month" value="">
                                             </div>
                                         </div>
                                     </div>
@@ -34,7 +34,7 @@
                                         <label class="font-normal">To</label>
                                         <div>
                                             <div class="input-group date"> 
-                                                <input class="form-control digits" name="dateEnd" wire:model="dateEnd" autocomplete="off" type="date" value="">
+                                                <input class="form-control digits" name="dateEnd" wire:model="dateEnd" autocomplete="off" type="month" value="">
                                             </div>
                                         </div>
                                     </div>
