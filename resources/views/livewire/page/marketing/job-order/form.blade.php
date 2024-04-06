@@ -212,23 +212,25 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($advancePayment as $piad)
-                                                <td>{{$loop->iteration}}</td>
-                                                <td><a href="{{ route('advance-payment.form', ['action' => 'edit', 'id' => $piad->documentID]) }}"
-                                                        target="_blank">{{$piad->documentID}}</a></td>
-                                                <td>{{$piad->note == '' ? 'ลูกค้าสำรองจ่าย' : $piad->note}}</td>
-                                                <td>{{number_format($piad->sumTotal, 2,'.', ',')}}</td>
-                                                @if ($piad->docStatus != null)
-                                                <td class="center">
-                                                    <span @class([ 'badge' , 'label-primary'=>
-                                                        $piad->docStatus->status_code == 'A',
-                                                        'label-danger' => $piad->docStatus->status_code == 'D',
-                                                        'label-warning' => $piad->docStatus->status_code == 'P',
-                                                        ])>{{ $piad->docStatus->status_name }}</span>
-                                                </td>
-                                                @else
-                                                <td class="center"><span @class([ 'label' ])>Disabled</span>
-                                                </td>
-                                                @endif
+                                                <tr>
+                                                    <td>{{$loop->iteration}}</td>
+                                                    <td><a href="{{ route('advance-payment.form', ['action' => 'edit', 'id' => $piad->documentID]) }}"
+                                                            target="_blank">{{$piad->documentID}}</a></td>
+                                                    <td>{{$piad->note == '' ? 'ลูกค้าสำรองจ่าย' : $piad->note}}</td>
+                                                    <td>{{Service::MoneyFormat($piad->sumTotal)}}</td>
+                                                    @if ($piad->docStatus != null)
+                                                        <td class="center">
+                                                            <span @class([ 'badge' , 'label-primary'=>
+                                                                $piad->docStatus->status_code == 'A',
+                                                                'label-danger' => $piad->docStatus->status_code == 'D',
+                                                                'label-warning' => $piad->docStatus->status_code == 'P',
+                                                                ])>{{ $piad->docStatus->status_name }}</span>
+                                                        </td>
+                                                    @else
+                                                        <td class="center"><span @class([ 'label' ])>Disabled</span>
+                                                    </td>
+                                                    @endif
+                                                </tr>
                                                 @endforeach
                                             </tbody>
                                             <tfoot>
@@ -301,7 +303,7 @@
                                                 data-provides="fileinput">
                                                 <span class="btn btn-primary btn-file">
                                                     <span class="fileinput-new">Select file</span>
-                                                    <input type="file" wire:model.change='file'>
+                                                    <input type="file" wire:model.change="file">
                                                     @error('file')
                                                     <div class="text-danger m-2">{{ $message }}</div>
                                                     @enderror
@@ -360,8 +362,12 @@
                                         wire.loading.attr="disabled">
                                         <i class="fa fa-reply"></i> Back</a>
 
-                                    <button name="Approve" id="Approve" class="btn btn-success" wire:click="save"
-                                        type="button"><i class="fa fa-save"></i> Approve</button>
+                                    <button name="Approve" id="Approve" class="btn btn-success" 
+                                        type="submit"><i class="fa fa-save"></i> Save</button>
+                                    @if($action != 'create' && $job->documentS == 'P')
+                                        <button name="Approve" id="Approve" class="btn btn-success" wire:click="save"
+                                        type="button"><i class="fa fa-check"></i> Approve</button>
+                                    @endif
                                     @if($job->documentID != null ||$job->documentID != '')
                                         <a class="btn btn-primary " target="_blank"
                                             href="{{'/api/print/job_order_pdf/'.$job->documentID}}"><i

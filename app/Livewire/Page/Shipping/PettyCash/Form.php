@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
 use Livewire\Component;
+use Carbon\Carbon;
 
 class Form extends Component
 {
@@ -79,6 +80,7 @@ class Form extends Component
         } else {
             $this->action = 'create';
             $this->data->createID = Auth::user()->usercode;
+            $this->data->dueDate = Carbon::now()->endOfMonth()->toDateString();
             $this->payments = new Collection;
         }
     }

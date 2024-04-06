@@ -349,14 +349,14 @@
                                                 <span class="btn btn-primary btn-file">
                                                     <span class="fileinput-new">Select file</span>
                                                         {{-- <span class="fileinput-exists">Change</span> --}}
-                                                    <input type="file" wire:model.change='file'>
+                                                    <input type="file" wire:model.change="file">
                                                     @error('file')
                                                         <div class="text-danger m-2">{{ $message }}</div>
                                                     @enderror
                                                 </span> 
                                                 <span class="fileinput-filename"></span> 
-                                                <button type="button" wire:click='removePreFile' class="close fileinput-exists" data-dismiss="fileinput" style="float: none; border: none;
-                                                background: transparent;" @disabled(!$file)>&times;</button> 
+                                                <button type="button" wire:click="removePreFile" class="fa fa-times" data-dismiss="fileinput" style="float: none; border: none;
+                                                background: transparent;" @disabled(!$file)></button> 
                                             </div>
                                         </div>
                                         <div class="form-group row">

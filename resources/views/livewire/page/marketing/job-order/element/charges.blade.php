@@ -67,18 +67,18 @@
                                     {{-- wire:model="data.{{ $loop->index }}.exchange"> --}}
                             </td>
                             <td class="center">
-                                <input type="number" class="form-control full" 
+                                <input type="number" class="form-control full" step=".01"
                                     wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.chargesCost"
                                     @readonly($charge->ref_paymentCode != '')>
                                     {{-- <livewire:element.input :keyName="'chargesCost-'.$item->items" type="number" wire:model.live="value.{{ $loop->index }}.chargesCost" /> --}}
                             </td>
                             <td class="center">
-                                <input type="number" class="form-control full"
+                                <input type="number" class="form-control full" step=".01"
                                     wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.chargesReceive">
                                     {{-- <livewire:element.input :keyName="'chargesReceive-'.$item->items" type="number" wire:model.live="value.{{ $loop->index }}.chargesReceive" /> --}}
                             </td>
                             <td class="center">
-                                <input type="number" class="form-control full"
+                                <input type="number" class="form-control full" step=".01"
                                     wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.chargesbillReceive">
                                     {{-- <livewire:element.input :keyName="'chargesbillReceive-'.$item->items" type="number" wire:model.live="value.{{ $loop->index }}.chargesbillReceive" /> --}}
                             </td>

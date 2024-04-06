@@ -160,7 +160,7 @@
         </div>
         <div class="col-lg-4">
             <div class="input-group clockpicker" value-autoclose="true">
-                <input name="closingTime" type="text" class="form-control"
+                <input name="closingTime" type="time" class="form-control"
                     id="closingTime" wire:model.live.debounce.500ms="value.closingTime"
                     @disabled($action != 'create' && $action != 'edit')>
                 <span class="input-group-addon">

@@ -22,8 +22,8 @@ class Page extends Component
     public $query = [];
 
     public function mount(){
-        $this->dateStart = date('Y-m-01');
-        $this->dateEnd = date("Y-m-d");
+        $this->dateStart = Carbon::now()->subMonths(2)->startOfMonth()->toDateString();
+        $this->dateEnd = Carbon::now()->toDateString();
         $this->supplierList = Supplier::all()->sortBy('supNameEN');
     }
 

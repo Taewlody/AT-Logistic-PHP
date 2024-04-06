@@ -23,8 +23,8 @@ class Page extends Component
     public $query = [];
 
     public function mount(){
-        $this->dateStart = null;
-        $this->dateEnd = null;
+        $this->dateStart = Carbon::now()->subMonths(2)->startOfMonth()->toDateString();
+        $this->dateEnd = Carbon::now()->toDateString();
         $this->customerList = Customer::all()->sortBy('custNameEN');
     }
     

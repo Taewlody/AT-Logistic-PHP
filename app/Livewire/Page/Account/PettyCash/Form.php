@@ -7,6 +7,7 @@ use App\Models\Common\Supplier;
 use App\Models\Marketing\JobOrder;
 use App\Models\PettyCash\PettyCash;
 use App\Models\PettyCash\PettyCashItems;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
@@ -77,6 +78,7 @@ class Form extends Component
         } else {
             $this->action = 'create';
             $this->data->createID = Auth::user()->usercode;
+            $this->data->dueDate = Carbon::now()->endOfMonth()->toDateString();
             $this->payments = new Collection;
         }
     }

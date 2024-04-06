@@ -287,45 +287,32 @@ class Form extends Component
     public function save()
     {
         $this->job->editID = Auth::user()->usercode;
-        $calCharge = (object) CalculatorPrice::cal_charge($this->value);
+        $calCharge = (object) CalculatorPrice::cal_charge($this->chargeList);
         $this->job->total_vat = $calCharge->tax7;
         $this->job->tax3 = $calCharge->tax3;
         $this->job->tax1 = $calCharge->tax1;
         $this->job->total_amt = ($this->job->charge->sum('chargesReceive') + $this->job->total_vat) + $this->job->charge->sum('chargesbillReceive');
         $this->job->total_netamt =  $this->job->total_amt - ($this->job->tax3 + $this->job->tax1);
-        $this->job->cus_paid = CalculatorPrice::cal_customer_piad($this->documentID)->sum('sumTotal');
+        $this->job->cus_paid =  CalculatorPrice::cal_customer_piad($this->id)->sum('sumTotal');
         $this->job->save();
-        $this->job->containerList()->saveMany($this->containerList->map(function (JobOrderContainer $item) {
-            if ($item->documentID == null || $item->documentID == '') {
-                $item->documentID = $this->job->getKey();
-            }
-            return $item;
-        }));
-        $this->job->packedList()->saveMany($this->packagedList->map(function (JobOrderPacked $item) {
-            if ($item->documentID == null || $item->documentID == '') {
-                $item->documentID = $this->job->getKey();
-            }
-            return $item;
-        }));
-        $this->job->goodsList()->saveMany($this->goodsList->map(function (JobOrderGoods $item) {
-            if ($item->documentID == null || $item->documentID == '') {
-                $item->documentID = $this->job->getKey();
-            }
-            return $item;
-        }));
-        $this->job->charge()->saveMany($this->chargeList->map(function (JobOrderCharge $item) {
-            if ($item->documentID == null || $item->documentID == '') {
-                $item->documentID = $this->job->getKey();
-            }
-            return $item;
-        }));
-        $this->job->attachs()->saveMany($this->attachs->map(function (JobOrderAttach $item) {
-            if ($item->documentID == null || $item->documentID == '') {
-                $item->documentID = $this->job->getKey();
-            }
-            return $item;
-        }));
-        $this->redirectRoute('job-order');
+        $this->job->containerList->filter(function($item){
+            return !collect($this->containerList->pluck('items'))->contains($item->items);
+        })->each->delete();
+        $this->job->containerList()->saveMany($this->containerList);
+        $this->job->packedList->filter(function($item){
+            return !collect($this->packedList->pluck('items'))->contains($item->items);
+        })->each->delete();
+        $this->job->packedList()->saveMany($this->packagedList);
+        $this->job->goodsList->filter(function($item){
+            return !collect($this->goodsList->pluck('items'))->contains($item->items);
+        })->each->delete();
+        $this->job->goodsList()->saveMany($this->goodsList);
+        $this->job->chargeList->filter(function($item){
+            return !collect($this->chargeList->pluck('items'))->contains($item->items);
+        })->each->delete();
+        $this->job->charge()->saveMany($this->chargeList);
+        $this->job->attachs()->saveMany($this->attachs);
+        $this->redirectRoute(name: 'job-order', navigate: true);
     }
 
     public function render()

@@ -114,6 +114,7 @@
                                             <th data-hide="phone" width="15%">Job Date</th>
                                             <th data-toggle="true" width="30%">Customer</th>
                                             <th data-hide="phone,tablet" width="10%">Sale</th>
+                                            <th data-hide="phone,tablet" width="10%">Bound</th>
                                             <th width="5%">Status</th>
                                             <th width="10%">Update by</th>
                                             <th data-hide="phone,tablet" data-sort-ignore="true" width="15%">Action</th>
@@ -127,7 +128,7 @@
                                                 <td>{{ $item->documentDate }}</td>
                                                 <td>{{ $item->customerRefer != null ? $item->customerRefer->custNameEN : '' }}</td>
                                                 <td>{{ $item->salemanRefer != null ? $item->salemanRefer->empName : '' }}</td>
-        
+                                                <td>{{ $item->getBound}}</td>
                                                 @if ($item->docStatus != null)
                                                     <td class="center"><span
                                                             @class([

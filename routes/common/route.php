@@ -31,6 +31,8 @@ use App\Livewire\Page\Common\Unit\Page as Unit;
 use App\Livewire\Page\Common\Unit\Form as UnitForm;
 use App\Livewire\Page\Common\Currency\Page as Currency;
 use App\Livewire\Page\Common\Currency\Form as CurrencyForm;
+use App\Livewire\Page\Common\Company\Page as Company;
+use App\Livewire\Page\Common\Company\Form as CompanyForm;
 
 Route::group(['prefix' => '/common',], function() {
 
@@ -93,4 +95,6 @@ Route::group(['prefix' => '/common',], function() {
     Route::get('/currency', Currency::class)->name('currency');
 
     Route::get('/currency/form', CurrencyForm::class)->name('currency.form');
+
+    Route::get('/company', CompanyForm::class)->name('company');
 });

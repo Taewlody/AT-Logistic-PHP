@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use App\Casts\CustomDateTime;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Wireable;
 
@@ -50,5 +51,14 @@ class AttachFile extends Model implements Wireable
         $arr['exists'] = $this->exists;
         $arr['connection'] = $this->getConnectionName();
         return $arr;
+    }
+
+    public function base64(): Attribute
+    {
+        return Attribute::make(get: function () {
+            $base64 = base64_encode($this->blobfile ?? '');
+            $mimetype = $this->mimeType ?? 'application/octet-stream';
+            return "data:$mimetype;base64,$base64";
+        });
     }
 }

@@ -94,6 +94,7 @@ class Form extends Component
 
     public function removePreFile() {
         $this->reset('file');
+        $this->file = null;
     }
 
     public function uploadFile() {
