@@ -6,6 +6,7 @@ storage/framework/sessions/*
 storage/framework/views/*
 storage/logs/*
 
+vender/*
 vendor/**/test*
 vendor/**/tests*
 vendor/**/Tests*
@@ -17,8 +18,8 @@ vendor/**/Tests*
 **.gitignore
 **.gitattributes
 **.sass-cache
-# *.env*
-# composer.json
+*.env*
+composer.json
 
 # *.config.js
 ?ulpfile.js
@@ -28,6 +29,7 @@ phpunit.xml
 readme.md
 phpspec.yml
 
+Dockerfile
 Dockerfile-test
 Dockerfile.prod
 docker-compose.yml

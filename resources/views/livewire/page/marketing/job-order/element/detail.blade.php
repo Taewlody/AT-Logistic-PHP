@@ -108,7 +108,10 @@
         </div>
     </div>
     <div class="form-group row">
-        <label class="col-lg-2 col-form-label"></label>
-        <div class="col-md-10"> </div>
+        <label class="col-lg-2 col-form-label">Internal Note</label>
+        <div class="col-md-10">
+            <textarea name="internal_note" rows="4" class="form-control" id="internal_note" wire:model.live.debounce.500ms="value.internal_note"
+                @disabled($action != 'create' && $action != 'edit')></textarea>
+        </div>
     </div>
 </div>

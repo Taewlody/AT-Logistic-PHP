@@ -12,7 +12,8 @@ class CustomDateTime implements CastsAttributes {
         // Log::debug("get value date: $value");
         
         if($value == "") {
-            return Carbon::createFromTimestamp(0)->setTimezone('UTC')->format('Y-m-d H:i:s');
+            // return Carbon::createFromTimestamp(0)->setTimezone('UTC')->format('Y-m-d H:i:s');
+            return "";
         } else if($value < 1) {
             return '';
         } else {

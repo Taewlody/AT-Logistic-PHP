@@ -33,6 +33,8 @@ class Charges extends Component
     #[Locked]
     public string $action = '';
 
+    public string $qty = '';
+
     protected array $rules = [
         'value.*' => 'unique:App\Models\Marketing\JobOrderCharge',
         'value.*.items'=> 'number',
@@ -55,6 +57,12 @@ class Charges extends Component
     {
         $this->dispatch('Add-Charge', $this->chargeCode);
         $this->reset('chargeCode');
+    }
+
+    #[On('Update-Container')]
+    public function updateQty($newQty)
+    {
+        $this->qty = $newQty;
     }
 
     public function boot(){

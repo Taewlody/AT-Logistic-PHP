@@ -67,7 +67,7 @@
                             <div class="card-header" id="headingLocation">
                                 <h2 class="mb-0">
                                     <a role="button" class="accordion-button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseLocation" aria-expanded="true"
+                                        data-bs-target="#collapseLocation" aria-expanded="false"
                                         aria-controls="collapseLocation">
                                         Location
                                     </a>
@@ -91,7 +91,7 @@
                             <div class="card-header" id="headingContainers">
                                 <h2 class="mb-0">
                                     <a role="button" class="accordion-button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseContainers" aria-expanded="true"
+                                        data-bs-target="#collapseContainers" aria-expanded="false"
                                         aria-controls="collapseContainers">
                                         Containers
                                     </a>
@@ -101,7 +101,7 @@
                                 aria-labelledby="headingContainers" data-bs-parent="#accordion-4" wire:ignore.self>
                                 <div class="card-body">
                                     <livewire:page.marketing.job-order.element.containers
-                                        wire:model.live="containerList" :$action />
+                                        wire:model="containerList" :$action />
 
                                 </div>
                             </div>
@@ -116,7 +116,7 @@
                             <div class="card-header" id="headingPackaged">
                                 <h2 class="mb-0">
                                     <a role="button" class="accordion-button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapsePackaged" aria-expanded="true"
+                                        data-bs-target="#collapsePackaged" aria-expanded="false"
                                         aria-controls="collapsePackaged">
                                         Packaged Size
                                     </a>
@@ -140,7 +140,7 @@
                             <div class="card-header" id="headingGoods">
                                 <h2 class="mb-0">
                                     <a role="button" class="accordion-button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseGoods" aria-expanded="true"
+                                        data-bs-target="#collapseGoods" aria-expanded="false"
                                         aria-controls="collapseGoods">
                                         Goods / สินค้า
                                     </a>
@@ -165,7 +165,7 @@
                             <div class="card-header" id="headingCharges">
                                 <h2 class="mb-0">
                                     <a role="button" class="accordion-button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseCharges" aria-expanded="true"
+                                        data-bs-target="#collapseCharges" aria-expanded="false"
                                         aria-controls="collapseCharges">
                                         Charges / ค่าใช้จ่าย
                                     </a>
@@ -176,6 +176,7 @@
                                 <div class="card-body">
                                     <livewire:page.marketing.job-order.element.charges
                                         wire:model.live.debounce.1000ms="chargeList" :$action
+                                        :qty="$qty"
                                         :documentID="$job->documentID" />
                                 </div>
                             </div>
@@ -190,7 +191,7 @@
                             <div class="card-header" id="headingCustomerPayment">
                                 <h2 class="mb-0">
                                     <a role="button" class="accordion-button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseCustomerPayment" aria-expanded="true"
+                                        data-bs-target="#collapseCustomerPayment" aria-expanded="false"
                                         aria-controls="collapseCustomerPayment">
                                         ลูกค้าสำรองจ่าย
                                     </a>
@@ -250,7 +251,7 @@
                             <div class="card-header" id="headingAttachment">
                                 <h2 class="mb-0">
                                     <a role="button" class="accordion-button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseAttachment" aria-expanded="true"
+                                        data-bs-target="#collapseAttachment" aria-expanded="false"
                                         aria-controls="collapseAttachment">
                                         Attach File / ไฟล์แนบ
                                     </a>
