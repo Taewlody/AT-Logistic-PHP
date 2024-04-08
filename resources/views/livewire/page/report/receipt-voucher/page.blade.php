@@ -59,12 +59,13 @@
                                                 <option value="">- select -</option>
                                                 @foreach ($customerList as $customer)
                                                     <option value="{{ $customer->cusCode }}">
-                                                        {{ $customer->custNameTH }}</option>
+                                                        {{ $customer->custNameEN ? $customer->custNameEN : $customer->custNameTH }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
                                 </div>
+                                
                             </div>
                             
                             <div class="row">
@@ -104,8 +105,8 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->documentID }}</td>
-                                                <td>{{ $item->documentDate }}</td>
-                                                <td>{{ $item->customer != null ? $item->customer->custNameEN : '' }}</td>
+                                                <td>{{ Service::DateFormat($item->documentDate, true) }}</td>
+                                                <td>{{ $item->customer != null ? $item->customer->custNameEN ? $item->customer->custNameEN : $item->customer->custNameTH : '' }}</td>
                                                 <td>{{ $item->items[0]->chartDetail }}</td>
                                                 <td>{{ number_format($item->items[0]->amount, 2) }}</td>
                                                 <td>{{ $item->items[0]->invNo }}</td>

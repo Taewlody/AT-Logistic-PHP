@@ -51,11 +51,11 @@
                                     <label class="font-normal">supplier</label>
                                     <div>
                                         <select class="select2_single form-control select2"
-                                            name="cusCode" id="cusCode" wire:model="supplierSearch">
+                                            name="supCode" id="supCode" wire:model="supplierSearch">
                                             <option value="">- select -</option>
                                             @foreach ($supplierList as $supplier)
-                                                <option value="{{ $supplier->cusCode }}">
-                                                    {{ $supplier->supNameEN }}</option>
+                                                <option value="{{ $supplier->supCode }}">
+                                                    {{ $supplier->supNameEN ? $supplier->supNameEN : $supplier->supNameTH }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -114,14 +114,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @if( count($data) > 0 )
                                     @foreach ($data as $item)
                                         <tr>
                                             <td>{{ $loop->iteration + ($data->currentPage() - 1) * $data->perPage() }}
                                             </td>
                                             <td>{{ $item->documentID }}</td>
-                                            <td>{{ $item->documentDate }}</td>
+                                            <td>{{ Service::DateFormat($item->documentDate, true) }}</td>
                                             <td>{{ $item->refJobNo }}</td>
-                                            <td>{{ $item->supplier != null ? $item->supplier->supNameTH : '' }}</td>
+                                            <td>{{ $item->supplier != null ? $item->supplier->supNameEN ?$item->supplier->supNameEN : $item->supplier->supNameTH : '' }}</td>
                                             <td>{{ number_format($item->sumTotal, 2) }}</td>
                                             @if ($item->docStatus != null)
                                                 <td class="center"><span
@@ -151,6 +152,11 @@
                                             </td>
                                         </tr>
                                     @endforeach
+                                    @else
+                                    <tr>
+                                        <td colspan="8" class="text-center">Data Not Found</td>
+                                    </tr>
+                                    @endif
                             </table>
                             <br/>
 

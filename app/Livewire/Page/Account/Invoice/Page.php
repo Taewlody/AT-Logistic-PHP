@@ -21,14 +21,14 @@ class Page extends Component
     public $customerSearch = "";
     public $salemanList = [];
     public $salemanSearch = "";
-    public $invoiceNo = "";
+    public $invNo = "";
     public $jobNo = "";
     public $query = [];
 
     public function mount(){
         $this->dateStart = null;
         $this->dateEnd = null;
-        $this->customerList = Customer::all()->sortBy('cusNameEN');
+        $this->customerList = Customer::all()->sortBy('custNameEN');
         $this->salemanList = Saleman::all()->sortBy('salemanNameEN');
     }
 
@@ -47,8 +47,8 @@ class Page extends Component
         if($this->salemanSearch != null) {
             $this->query[] = ['saleman', '=', $this->salemanSearch];
         }
-        if($this->invoiceNo != null) {
-            $this->query[] = ['documentID', 'like', '%'.$this->invoiceNo.'%'];
+        if($this->invNo != null) {
+            $this->query[] = ['documentID', 'like', '%'.$this->invNo.'%'];
         }
         if($this->jobNo != null) {
             $this->query[] = ['ref_jobNo', 'like', '%'.$this->jobNo.'%'];
@@ -57,6 +57,6 @@ class Page extends Component
 
     public function render()
     {
-        return view('livewire.page.account.invoice.page', [ 'data'=> Invoice::where($this->query)->orderBy('documentDate', 'desc')->paginate(20)])->extends('layouts.main')->section('main-content');
+        return view('livewire.page.account.invoice.page', [ 'data'=> Invoice::where($this->query)->orderBy('documentID', 'desc')->paginate(20)])->extends('layouts.main')->section('main-content');
     }
 }

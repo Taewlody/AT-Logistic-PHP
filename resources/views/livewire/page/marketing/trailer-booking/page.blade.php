@@ -44,7 +44,7 @@
                                                 <option value="">- select -</option>
                                                 @foreach ($customerList as $customer)
                                                     <option value="{{ $customer->cusCode }}">
-                                                        {{ $customer->custNameEN }}</option>
+                                                        {{ $customer->custNameEN ?  $customer->custNameEN :  $customer->custNameTH }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -60,7 +60,7 @@
                                                 name="saleman" id="saleman" wire:model="salemanSearch">
                                                 <option value="">- select -</option>
                                                 @foreach ($salemanList as $saleman)
-                                                    <option value="{{ $saleman->empCode }}">
+                                                    <option value="{{ $saleman->usercode }}">
                                                         {{ $saleman->empName }}</option>
                                                 @endforeach
                                             </select>
@@ -101,15 +101,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @if( count($data) > 0)
                                         @foreach ($data as $item)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->documentID }}</td>
-                                                <td>{{ $item->documentDate }}</td>
-                                                <td>{{ $item->customer != null ? $item->customer->custNameTH : '' }}</td>
+                                                <td>{{ Service::DateFormat($item->documentDate, true) }}</td>
+                                                <td>{{ $item->customer != null ? $item->customer->custNameEN ? $item->customer->custNameEN : $item->customer->custNameTH : '' }}</td>
                                                 <td><a href="{{ route('job-order.form', ['action' => 'view', 'id' => $item->ref_jobID]) }}" target="blank">{{$item->ref_jobID}}</a></td>
                                                 <td>{{ $item->jobOrder != null && $item->jobOrder->salemanRefer != null ? $item->jobOrder->salemanRefer->empName : '' }}</td>
-                                                {{$item->jobOrder->saleman_refer}}
                                                 
                                                 @if ($item->docStatus != null)
                                                     <td class="center"><span
@@ -142,6 +142,11 @@
                                                 </td>
                                             </tr>
                                         @endforeach
+                                        @else
+                                        <tr>
+                                            <td colspan="9" class="text-center">Data Not Found</td>
+                                        </tr>
+                                        @endif
                                 </table>
                                 <br/>
                                 <div class="row">

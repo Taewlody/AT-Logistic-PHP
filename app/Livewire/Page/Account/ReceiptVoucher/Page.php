@@ -25,7 +25,7 @@ class Page extends Component
     public function mount(){
         $this->dateStart = null;
         $this->dateEnd = null;
-        $this->customerList = Customer::all()->sortBy('cusNameEN');
+        $this->customerList = Customer::all()->sortBy('custNameEN');
         $this->salemanList = Saleman::all()->sortBy('salemanNameEN');
     }
 
@@ -51,6 +51,6 @@ class Page extends Component
 
     public function render()
     {
-        return view('livewire.page.account.receipt-voucher.page', [ 'data'=> ReceiptVoucher::where($this->query)->orderBy('documentDate', 'desc')->paginate(20)])->extends('layouts.main')->section('main-content');
+        return view('livewire.page.account.receipt-voucher.page', [ 'data'=> ReceiptVoucher::where($this->query)->orderBy('documentID', 'desc')->paginate(20)])->extends('layouts.main')->section('main-content');
     }
 }

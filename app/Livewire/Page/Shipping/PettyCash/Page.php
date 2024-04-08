@@ -23,7 +23,7 @@ class Page extends Component
     public $query = [];
 
     public function mount(){
-        $this->dateStart = Carbon::now()->subMonths(2)->startOfMonth()->toDateString();
+        $this->dateStart = Carbon::now()->subDays(7)->toDateString();
         $this->dateEnd = Carbon::now()->toDateString();
         $this->customerList = Customer::all()->sortBy('custNameEN');
     }
@@ -31,12 +31,12 @@ class Page extends Component
     #[On('post-search')] 
     public function search() {
         $this->query = [];
-        if($this->dateStart != null) {
-            $this->query[] = ['documentDate', '>=', $this->dateStart];
-        }
-        if($this->dateEnd != null) {
-            $this->query[] = ['documentDate', '<=', $this->dateEnd];
-        }
+        // if($this->dateStart != null) {
+        //     $this->query[] = ['documentDate', '>=', $this->dateStart];
+        // }
+        // if($this->dateEnd != null) {
+        //     $this->query[] = ['documentDate', '<=', $this->dateEnd];
+        // }
         if($this->customerSearch != null) {
             $this->query[] = ['supCode', '=', $this->customerSearch];
         }
@@ -49,6 +49,9 @@ class Page extends Component
     }
     public function render()
     {
-        return view('livewire.page.shipping.petty-cash.page', [ 'data'=> PettyCashShipping::where($this->query)->paginate(20)])->extends('layouts.main')->section('main-content');
+        return view('livewire.page.shipping.petty-cash.page', [ 
+            'data'=> PettyCashShipping::whereBetween('documentDate', [$this->dateStart, $this->dateEnd] )
+            ->where($this->query)->orderBy('documentID', 'DESC')->paginate(20)
+            ])->extends('layouts.main')->section('main-content');
     }
 }

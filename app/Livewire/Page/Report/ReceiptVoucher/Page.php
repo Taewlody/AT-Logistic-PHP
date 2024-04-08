@@ -50,7 +50,7 @@ class Page extends Component
     public function render()
     {
         return view('livewire.page.report.receipt-voucher.page', [
-            'data' => ReceiptVoucher::with(['items', 'customer', 'docStatus'])
+            'data' => ReceiptVoucher::with(['items', 'customer', 'docStatus'. ''])
             ->where($this->query)
             ->orderBy('documentID', 'DESC')->paginate(20)
         ])->extends('layouts.main')->section('main-content');

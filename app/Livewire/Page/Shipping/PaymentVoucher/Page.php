@@ -22,7 +22,7 @@ class Page extends Component
     public $query = [];
 
     public function mount(){
-        $this->dateStart = Carbon::now()->subMonths(2)->startOfMonth()->toDateString();
+        $this->dateStart = Carbon::now()->subDays(7)->toDateString();
         $this->dateEnd = Carbon::now()->toDateString();
         $this->supplierList = Supplier::all()->sortBy('supNameEN');
     }
@@ -52,7 +52,7 @@ class Page extends Component
             $this->query[] = ['documentID', 'like', '%'.$this->documentNo.'%'];
         }
         if($this->jobNo != null) {
-            $this->query[] = ['jobNo', 'like', '%'.$this->jobNo.'%'];
+            $this->query[] = ['refJobNo', 'like', '%'.$this->jobNo.'%'];
         }
     }
 

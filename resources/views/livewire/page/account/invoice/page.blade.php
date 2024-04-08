@@ -28,7 +28,7 @@
                                                 <option value="">- select -</option>
                                                 @foreach ($customerList as $customer)
                                                     <option value="{{ $customer->cusCode }}">
-                                                        {{ $customer->custNameEN }}</option>
+                                                        {{ $customer->custNameEN ? $customer->custNameEN : $customer->custNameTH }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -42,7 +42,7 @@
                                                     name="saleman" id="saleman" wire:model="salemanSearch">
                                                     <option value="">- select -</option>
                                                     @foreach ($salemanList as $saleman)
-                                                        <option value="{{ $saleman->empCode }}">
+                                                        <option value="{{ $saleman->usercode }}">
                                                             {{ $saleman->empName }}</option>
                                                     @endforeach
                                             </select>
@@ -119,12 +119,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @if( count($data) > 0 )
                                         @foreach ($data as $item)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->documentID }}</td>
-                                                <td>{{ $item->documentDate }}</td>
-                                                <td>{{ $item->customer != null ? $item->customer->custNameTH : '' }}</td>
+                                                <td>{{ Service::DateFormat($item->documentDate, true) }}</td>
+                                                <td>{{ $item->customer != null ? $item->customer->custNameEN ? $item->customer->custNameEN : $item->customer->custNameTH : '' }}</td>
                                                 <td>{{ $item->ref_jobNo }}</td>
                                                 <td>{{ $item->taxivRef }}</td>
                                                 <td>{{ $item->salemanRef != null ? $item->salemanRef->empName : '' }}</td>
@@ -132,10 +133,11 @@
                                                     <td class="center"><span
                                                             @class([
                                                                 'badge',
+                                                                'label-success' => $item->taxivRef,
                                                                 'label-primary' => $item->docStatus->status_code == 'A',
                                                                 'label-danger' => $item->docStatus->status_code == 'D',
                                                                 'label-warning' => $item->docStatus->status_code == 'P',
-                                                            ])>{{ $item->docStatus->status_name }}</span>
+                                                            ])>{{ $item->taxivRef ? 'Complete' : $item->docStatus->status_name }}</span>
                                                     </td>
                                                 @else
                                                     <td class="center"><span
@@ -158,6 +160,11 @@
                                                 </td>
                                             </tr>
                                         @endforeach
+                                        @else
+                                        <tr>
+                                            <td colspan="9" class="text-center">Data Not Found</td>
+                                        </tr>
+                                        @endif
                                 </table>
                                 <br/>
                                 <div class="row">

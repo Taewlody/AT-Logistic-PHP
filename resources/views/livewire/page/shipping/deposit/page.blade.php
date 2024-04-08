@@ -44,7 +44,7 @@
                                                 <option value="">- select -</option>
                                                 @foreach ($customerList as $customer)
                                                     <option value="{{ $customer->cusCode }}">
-                                                        {{ $customer->custNameEN }}</option>
+                                                        {{ $customer->custNameEN ? $customer->custNameEN : $customer->custNameTH }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -101,15 +101,16 @@
                                             <th data-hide="phone,tablet"  data-sort-ignore="true" width="15%">Action</th>                                </tr>
                                     </thead>
                                     <tbody>
+                                        @if( count($data) > 0)
                                         @foreach ($data as $item)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->documentID }}</td>
-                                                <td>{{ $item->documentDate }}</td>
-                                                <td>{{ $item->customer != null ? $item->customer->custNameTH : '' }}</td>
+                                                <td>{{ Service::DateFormat($item->documentDate, true) }}</td>
+                                                <td>{{ $item->customer != null ? $item->customer->custNameEN ? $item->customer->custNameEN : $item->customer->custNameTH : '' }}</td>
 
                                                 <td>{{ $item->refJobNo }}</td>
-                                                <td>{{ $item->sumTotal }}</td>
+                                                <td>{{ number_format($item->sumTotal, 2) }}</td>
                                                 @if ($item->docStatus != null)
                                                     <td class="center"><span
                                                             @class([
@@ -141,6 +142,11 @@
                                                 </td>
                                             </tr>
                                         @endforeach
+                                        @else
+                                        <tr>
+                                            <td colspan="9" class="text-center">Data Not Found</td>
+                                        </tr>
+                                        @endif
                                 </table>
                                 <br/>
                                 <div class="row">

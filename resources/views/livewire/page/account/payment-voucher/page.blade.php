@@ -44,7 +44,7 @@
                                             <option value="">- select -</option>
                                             @foreach ($supplierList as $supplier)
                                                 <option value="{{ $supplier->supCode }}">
-                                                    {{ $supplier->supNameTH }}</option>
+                                                    {{ $supplier->supNameEN ? $supplier->supNameEN : $supplier->supNameTH }}</option>
                                             @endforeach
                                         </select>
                                         </div>
@@ -103,14 +103,15 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @if( count($data) > 0 )
                                             @foreach ($data as $item)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $item->documentID }}</td>
-                                                    <td>{{ $item->documentDate }}</td>
+                                                    <td>{{ Service::DateFormat($item->documentDate, true) }}</td>
                                                     <td>{{ $item->refJobNo }}</td>
-                                                    <td>{{ $item->supplier != null ? $item->supplier->supNameTH : '' }}</td>
-                                                    <td>{{ $item->grandTotal }}</td>
+                                                    <td>{{ $item->supplier != null ? $item->supplier->supNameEN ? $item->supplier->supNameEN : $item->supplier->supNameTH : '' }}</td>
+                                                    <td>{{ number_format($item->grandTotal, 2) }}</td>
                                                     @if ($item->docStatus != null)
                                                         <td class="center"><span
                                                                 @class([
@@ -142,6 +143,11 @@
                                                     </td>
                                                 </tr>
                                             @endforeach
+                                            @else
+                                            <tr>
+                                                <td colspan="8" class="text-center">Data Not Found</td>
+                                            </tr>
+                                            @endif
                                     </table>
                                     <br/>
                                     <div class="row">

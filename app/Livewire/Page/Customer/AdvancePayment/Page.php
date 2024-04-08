@@ -41,13 +41,13 @@ class Page extends Component
         if($this->documentNo != null) {
             $this->query[] = ['documentID', 'like', '%'.$this->documentNo.'%'];
         }
-        // if($this->customerSearch != null) {
-        //     $this->query[] = ['customerSearch', $this->customerSearch];
-        // }
+        if($this->customerSearch != null) {
+            $this->query[] = ['cusCode', $this->customerSearch];
+        }
     }
 
     public function render()
     {
-        return view('livewire.page.customer.advance-payment.page', [ 'data'=> AdvancePayment::where($this->query)->paginate(20)])->extends('layouts.main')->section('main-content');
+        return view('livewire.page.customer.advance-payment.page', [ 'data'=> AdvancePayment::where($this->query)->orderBy('documentID', 'DESC')->paginate(20)])->extends('layouts.main')->section('main-content');
     }
 }

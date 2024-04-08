@@ -106,14 +106,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @if( count($data) > 0)
                                         @foreach ($data as $item)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->documentID }}</td>
-                                                <td>{{ $item->documentDate }}</td>
+                                                <td>{{ Service::DateFormat($item->documentDate, true) }}</td>
                                                 <td>{{ $item->refJobNo }}</td>
                                                 <td>{{ $item->supplier != null ? $item->supplier->supNameTH : '' }}</td>
-                                                <td>{{ $item->sumTotal }}</td>
+                                                <td>{{ number_format($item->sumTotal, 2) }}</td>
                                                 @if ($item->docStatus != null)
                                                     <td class="center"><span
                                                             @class([
@@ -145,6 +146,12 @@
                                                 </td>
                                             </tr>
                                         @endforeach
+                                        @else
+                                        <tr>
+                                            <td colspan="9" class="text-center">Data Not Found</td>
+                                        </tr>
+                                        @endif
+                                    </tbody>
                                 </table>
                                 <br/>
 

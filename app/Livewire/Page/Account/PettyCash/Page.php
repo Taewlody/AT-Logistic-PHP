@@ -6,6 +6,7 @@ use Livewire\Attributes\On;
 use App\Models\PettyCash\PettyCash;
 use App\Models\Common\Customer;
 use App\Models\Common\Saleman;
+use App\Models\Common\Supplier;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Carbon\Carbon;
@@ -18,6 +19,8 @@ class Page extends Component
     public $dateStart;
     public $dateEnd;
     public $customerList = [];
+    public $supplierList = [];
+    public $supplierSearch = "";
     public $customerSearch = "";
     public $documentNo = "";
     public $jobNo = "";
@@ -26,7 +29,8 @@ class Page extends Component
     public function mount(){
         $this->dateStart = null;
         $this->dateEnd = null;
-        $this->customerList = Customer::all()->sortBy('cusNameEN');
+        $this->customerList = Customer::all()->sortBy('custNameEN');
+        $this->supplierList = Supplier::all()->sortBy('supNameEN');
     }
 
     #[On('post-search')] 
@@ -40,6 +44,9 @@ class Page extends Component
         }
         if($this->customerSearch != null) {
             $this->query[] = ['cusCode', '=', $this->customerSearch];
+        }
+        if($this->supplierSearch != null) {
+            $this->query[] = ['supCode', '=', $this->supplierSearch];
         }
         if($this->documentNo != null) {
             $this->query[] = ['documentID', 'like', '%'.$this->documentNo.'%'];

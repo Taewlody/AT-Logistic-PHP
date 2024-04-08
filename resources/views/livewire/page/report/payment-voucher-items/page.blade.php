@@ -59,7 +59,7 @@
                                                 <option value="">- select -</option>
                                                 @foreach ($supplierList as $supplier)
                                                     <option value="{{ $supplier->supCode }}">
-                                                        {{ $supplier->supNameTH }}</option>
+                                                        {{ $supplier->supNameEN ? $supplier->supNameEN : $supplier->supNameTH }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -104,8 +104,8 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->documentID }}</td>
-                                                <td>{{ $item->documentDate }}</td>
-                                                <td>{{ $item->supplier != null ? $item->supplier->supNameTH : '' }}</td>
+                                                <td>{{ Service::DateFormat($item->documentDate, true) }}</td>
+                                                <td>{{ $item->supplier != null ? $item->supplier->supNameEN ? $item->supplier->supNameEN : $item->supplier->supNameTH : '' }}</td>
                                                 <td>{{ $item->items[0]->chartDetail }}</td>
                                                 <td>{{ number_format($item->items[0]->amount, 2) }}</td>
                                                 <td>{{ $item->items[0]->invNo }}</td>

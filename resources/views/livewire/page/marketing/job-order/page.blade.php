@@ -125,7 +125,7 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->documentID }}</td>
-                                                <td>{{ $item->documentDate }}</td>
+                                                <td>{{ Service::DateFormat($item->documentDate, true) }}</td>
                                                 <td>{{ $item->customerRefer != null ? $item->customerRefer->custNameEN ? $item->customerRefer->custNameEN : $item->customerRefer->custNameTH : '' }}</td>
                                                 <td>{{ $item->salemanRefer != null ? $item->salemanRefer->empName : '' }}</td>
                                                 <td>{{ $item->getBound}}</td>

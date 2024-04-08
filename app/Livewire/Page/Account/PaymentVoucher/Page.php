@@ -26,7 +26,7 @@ class Page extends Component
     public function mount(){
         $this->dateStart = null;
         $this->dateEnd = null;
-        $this->supplierList = Supplier::all()->sortBy('supNameTH');
+        $this->supplierList = Supplier::all()->sortBy('supNameEN');
     }
 
     #[On('post-search')] 
@@ -51,6 +51,6 @@ class Page extends Component
 
     public function render()
     {
-        return view('livewire.page.account.payment-voucher.page', [ 'data'=> PaymentVoucher::where($this->query)->orderBy('documentDate', 'desc')->paginate(20)])->extends('layouts.main')->section('main-content');
+        return view('livewire.page.account.payment-voucher.page', [ 'data'=> PaymentVoucher::where($this->query)->orderBy('documentID', 'desc')->paginate(20)])->extends('layouts.main')->section('main-content');
     }
 }

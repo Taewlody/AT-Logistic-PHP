@@ -21,7 +21,7 @@ class Page extends Component
     public $query = [];
     
     public function mount(){
-        $this->dateStart = Carbon::now()->subMonths(2)->startOfMonth()->toDateString();
+        $this->dateStart = Carbon::now()->subDays(7)->toDateString();
         $this->dateEnd = Carbon::now()->toDateString();
         $this->customerList = Customer::all()->sortBy('custNameEN');
     }
@@ -49,6 +49,6 @@ class Page extends Component
 
     public function render()
     {
-        return view('livewire.page.shipping.deposit.page', [ 'data'=> Deposit::where($this->query)->orderBy('documentstatus', 'DESC')->paginate(20)])->extends('layouts.main')->section('main-content');
+        return view('livewire.page.shipping.deposit.page', [ 'data'=> Deposit::whereBetween('documentDate', [$this->dateStart, $this->dateEnd] )->where($this->query)->orderBy('documentstatus', 'DESC')->orderBy('documentID', 'DESC')->paginate(20)])->extends('layouts.main')->section('main-content');
     }
 }
