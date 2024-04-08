@@ -41,9 +41,12 @@ class Page extends Component
         if($this->dateEnd != null) {
             $this->query[] = ['documentDate', '<=', $this->dateEnd];
         }
-        // if($this->salemanSearch != null) {
-        //     $this->query[] = ['saleman', '=', $this->salemanSearch];
-        // }
+        if($this->customerSearch != null) {
+            $this->query[] = ['cusCode', '=', $this->customerSearch];
+        }
+        if($this->salemanSearch != null) {
+            $this->query[] = ['saleman', '=', $this->salemanSearch];
+        }
         if($this->documentID != null) {
             $this->query[] = ['documentID', 'like', '%'.$this->documentID.'%'];
         }
@@ -60,7 +63,7 @@ class Page extends Component
     public function render()
     {
         return view('livewire.page.marketing.job-order.page',[ 
-            'data'=> JobOrder::where($this->query)->paginate(20)
+            'data'=> JobOrder::where($this->query)->orderBy('documentID', 'DESC')->paginate(20)
             ])->extends('layouts.main')->section('main-content');
     }
 }

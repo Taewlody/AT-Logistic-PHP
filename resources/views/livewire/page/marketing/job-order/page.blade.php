@@ -30,7 +30,7 @@
                                                 <option value="">- select -</option>
                                                 @foreach ($customerList as $customer)
                                                     <option value="{{ $customer->cusCode }}">
-                                                        {{ $customer->custNameEN }}</option>
+                                                        {{ $customer->custNameEN ? $customer->custNameEN : $customer->custNameTH }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -44,7 +44,7 @@
                                                     name="saleman" id="saleman" wire:model="salemanSearch">
                                                     <option value="">- select -</option>
                                                     @foreach ($salemanList as $saleman)
-                                                        <option value="{{ $saleman->empCode }}">
+                                                        <option value="{{ $saleman->usercode }}">
                                                             {{ $saleman->empName }}</option>
                                                     @endforeach
                                             </select>
@@ -82,8 +82,7 @@
                                     <div class="form-group col-margin0">
                                         <label class="font-normal">Invoice</label>
                                         <div>
-                                            <input type='text' name='invNo' class='form-control' id="invNo"
-                                                wire:mode="invNo">
+                                            <input type='text' name='invNo' class='form-control' id="invNo" wire:model="invNo">
                                         </div>
                                     </div>
                                 </div>
@@ -121,12 +120,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @if( count($data) > 0 )
                                         @foreach ($data as $item)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->documentID }}</td>
                                                 <td>{{ $item->documentDate }}</td>
-                                                <td>{{ $item->customerRefer != null ? $item->customerRefer->custNameEN : '' }}</td>
+                                                <td>{{ $item->customerRefer != null ? $item->customerRefer->custNameEN ? $item->customerRefer->custNameEN : $item->customerRefer->custNameTH : '' }}</td>
                                                 <td>{{ $item->salemanRefer != null ? $item->salemanRefer->empName : '' }}</td>
                                                 <td>{{ $item->getBound}}</td>
                                                 @if ($item->docStatus != null)
@@ -160,6 +160,12 @@
                                                 </td>
                                             </tr>
                                         @endforeach
+                                        @else
+                                        <tr>
+                                            <td colspan="9" class="text-center">Data Not Found</td>
+                                        </tr>
+                                        @endif
+                                    </tbody>
                                 </table>
                                 <br/>
                                 <div class="row">
