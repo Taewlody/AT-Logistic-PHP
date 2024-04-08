@@ -55,7 +55,12 @@
         </div>
     </div>
     <div class="form-group row">
-        <label class="col-lg-2 col-form-label">RTN</label>
+        <label class="col-lg-2 col-form-label">RTN
+            @if(($value->cy_location ?? "") != "" || ($value->cy_contact ?? "") != "" || ($value->cy_mobile ?? "") != "" || $value->cy_date ?? "" != "")
+            <button type="button" class="ml-2 btn btn-sm btn-primary" wire:click="$parent.copyCyToRtn" 
+            @disabled($value->cy_location == $value->rtn_location && $value->cy_contact == $value->rtn_contact && $value->cy_mobile == $value->rtnmobile && $value->cy_date == $value->rtn_date )>Copy CY</button>
+            @endif
+        </label>
         <div class="col-md-3">
             <input type="text" name="rtn_location" class="form-control"
                 placeholder="location" id="rtn_location"

@@ -29,7 +29,7 @@
                 
         </div>
         <div class="col-md-1" style="display: flex; align-items: flex-end;">
-            <button name="btnAddQT" id="btnAddQT" class="btn btn-white" type="button" wire:click="addContainer">
+            <button class="btn btn-white" type="button" wire:click="addContainer">
                 <i class="fa fa-plus"></i>Add
             </button>
         </div>

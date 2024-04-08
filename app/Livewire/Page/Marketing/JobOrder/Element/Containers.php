@@ -22,11 +22,13 @@ class Containers extends Component
     #[Modelable]
     public Collection $value;
     
-    public $typeContainer = '';
-    public $sizeContainer = '';
+    #[Validate('required|string')]
+    public string $typeContainer = '';
+    #[Validate('required|string')]
+    public string $sizeContainer = '';
 
     #[Validate('required|numeric|min:1')]
-    public $quantityContainer = 1;
+    public int $quantityContainer = 1;
 
     protected array $rules = [
         'value.*'=> 'unique:App\Models\Marketing\JobOrderContainer',
@@ -42,6 +44,16 @@ class Containers extends Component
         'value.*.containerNW'=> 'string',
         'value.*.containerNW_Unit'=> 'string',
         'value.*.containerTareweight'=> 'string',
+        'value.*.refer_container_size' => 'unique:App\Models\Common\ContainerSize',
+        'value.*.refer_container_size.comCode' => 'string',
+        'value.*.refer_container_size.containersizeCode' => 'string',
+        'value.*.refer_container_size.containersizeName' => 'string',
+        'value.*.refer_container_size.isActive' => 'boolean',
+        'value.*.refer_container_size.createID' => 'string',
+        'value.*.refer_container_size.createTime' => 'string',
+        'value.*.refer_container_size.editID' => 'string',
+        'value.*.refer_container_size.editTime' => 'string',
+        'value.*.refer_container_type' => 'unique:App\Models\Common\ContainerType',
     ];
 
     public function addContainer() {

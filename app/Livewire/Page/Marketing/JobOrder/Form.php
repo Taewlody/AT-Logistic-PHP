@@ -38,6 +38,8 @@ class Form extends Component
 
     public $editBy;
 
+    public $qty = '';
+
     public Collection $containerList;
 
     public Collection $packagedList;
@@ -55,6 +57,19 @@ class Form extends Component
     protected array $rules = [
         'file' => 'mimes:png,jpg,jpeg,pdf|max:102400',
         'containerList.*' => 'unique:App\Models\Marketing\JobOrderContainer',
+        // 'job.stu_location' => 'string',
+        // 'job.stu_contact' => 'string',
+        // 'job.stu_mobile' => 'string',
+        // 'job.stu_date' => 'unique:Casts\CustomDate',
+        // 'job.cy_location' => 'string',
+        // 'job.cy_contact' => 'string',
+        // 'job.cy_mobile' => 'string',
+        // 'job.cy_date' => 'unique:Casts\CustomDate',
+        // 'job.rtn_location' => 'string',
+        // 'job.rtn_contact' => 'string',
+        // 'job.rtn_mobile' => 'string',
+        // 'job.rtn_date' => 'unique:Casts\CustomDate',
+        // 'job.trailer_booking' => 'unique:App\Models\Marketing\TrailerBooking',
         'containerList.*.items' => 'integer',
         'containerList.*.comCode' => 'string',
         'containerList.*.documentID' => 'required|string',
@@ -67,6 +82,15 @@ class Form extends Component
         'containerList.*.containerNW' => 'string',
         'containerList.*.containerNW_Unit' => 'string',
         'containerList.*.containerTareweight' => 'string',
+        'containerList.*.refer_container_size' => 'unique:App\Models\Common\ContainerSize',
+        'containerList.*.refer_container_size.comCode' => 'string',
+        'containerList.*.refer_container_size.containersizeCode' => 'string',
+        'containerList.*.refer_container_size.containersizeName' => 'string',
+        'containerList.*.refer_container_size.isActive' => 'boolean',
+        'containerList.*.refer_container_size.createID' => 'string',
+        'containerList.*.refer_container_size.createTime' => 'string',
+        'containerList.*.refer_container_size.editID' => 'string',
+        'containerList.*.refer_container_size.editTime' => 'string',
         'packagedList.*' => 'unique:App\Models\Marketing\JobOrderPacked',
         'packagedList.*.items' => 'integer',
         'packagedList.*.comCode' => 'string',
@@ -128,17 +152,15 @@ class Form extends Component
             if ($this->data == null) {
                 $this->data = new JobOrder;
             }
-            // dd($this->data);
+            $this->job = $this->data->withoutRelations();
         } else {
             $this->action = 'create';
             $this->data->createID = Auth::user()->usercode;
+
             // $this->data->documentID = JobOrder::GenKey();
             // dd($this->data);
         }
-        // dd($this->data, new JobOrder);
         $this->job = $this->data->withoutRelations();
-        // if($this->job->good_total_num_package == null) $this->job->good_total_num_package = '';
-        // if($this->job->good_commodity == null) $this->job->good_commodity = '';
         $this->createBy = $this->data->userCreate;
         $this->editBy = $this->data->userEdit;
         $this->containerList = $this->data->containerList;
@@ -147,7 +169,18 @@ class Form extends Component
         $this->chargeList = $this->data->charge;
         $this->advancePayment = $this->data->AdvancePayment;
         $this->attachs = $this->data->attachs;
-        // dd($this->job->toArray());
+        // $this->qty = $this->groupedContainer();
+    }
+
+    public function copyCyToRtn() {
+        if($this->job->cy_location ?? "" != "")
+            $this->job->rtn_location = $this->job->cy_location;
+        if($this->job->cy_contact ?? "" != "")
+            $this->job->rtn_contact = $this->job->cy_contact;
+        if($this->job->cy_mobile ?? "" != "")
+            $this->job->rtn_mobile = $this->job->cy_mobile;
+        if($this->job->cy_date ?? "" != "")
+            $this->job->rtn_date = $this->job->cy_date;
     }
 
     #[On('Add-Container')]
@@ -162,6 +195,7 @@ class Form extends Component
             $this->containerList->push($dataContainer);
         }
         // $this->skipRender();
+        // $this->dispatch('Update-Container', $this->groupedContainer);
     }
 
     #[On('Remove-Container')]
@@ -169,6 +203,7 @@ class Form extends Component
     {
         $this->containerList->forget($index);
         $this->containerList = $this->containerList->values();
+        // $this->dispatch('Update-Container', $this->groupedContainer);
     }
 
     #[On('Add-Packaged')]
@@ -238,15 +273,14 @@ class Form extends Component
         $this->chargeList = $this->chargeList->values();
     }
 
-    #[Computed]
     public function groupedContainer()
     {
         if ($this->containerList->isNotEmpty()) {
-            return $this->containerList->groupBy('referContainerSize.containersizeName')->map(function ($item, $key) {
+            return join(", ", $this->containerList->groupBy('referContainerSize.containersizeName')->map(function ($item, $key) {
                 return collect($item)->count().'x'.$key;
-            })->toArray();
+            })->toArray());
         } else {
-            return [];
+            return "";
         }
 
     }
@@ -307,7 +341,7 @@ class Form extends Component
             return !collect($this->goodsList->pluck('items'))->contains($item->items);
         })->each->delete();
         $this->job->goodsList()->saveMany($this->goodsList);
-        $this->job->chargeList->filter(function($item){
+        $this->job->charge->filter(function($item){
             return !collect($this->chargeList->pluck('items'))->contains($item->items);
         })->each->delete();
         $this->job->charge()->saveMany($this->chargeList);

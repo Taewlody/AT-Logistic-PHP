@@ -99,6 +99,7 @@
                                 {{-- @foreach ($this->groupedContainer($parent->container) as $key => $GroupContainer)
                                     {{ $GroupContainer }}X{{ $key }}
                                 @endforeach --}}
+                                {{$qty}}
                             </strong></td>
                         <td style="width:10%">&nbsp;</td>
                         <td style="width:10%">&nbsp;</td>

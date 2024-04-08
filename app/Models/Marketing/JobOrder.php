@@ -11,6 +11,7 @@ use App\Models\Common\Supplier;
 use App\Models\Payment\AdvancePayment;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -72,6 +73,7 @@ class JobOrder extends Model implements Wireable
         'agentContact',
         'feeder',
         'vessel',
+        'internal_note',
         'note',
         'stu_location',
         'stu_contact',
@@ -139,6 +141,7 @@ class JobOrder extends Model implements Wireable
         'feeder' => 'string',
         'vessel' => 'string',
         'note' => 'string',
+        'internal_note' => 'string',
         'stu_location' => 'string',
         'stu_contact' => 'string',
         'stu_mobile' => 'string',
