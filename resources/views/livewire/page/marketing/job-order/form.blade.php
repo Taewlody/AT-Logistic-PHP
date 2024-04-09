@@ -394,3 +394,7 @@
         </div>
     </form>
 </div>
+
+@push('modal')
+    <livewire:modal.job-order.charges-alert />
+@endpush

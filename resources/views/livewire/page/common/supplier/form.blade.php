@@ -5,7 +5,7 @@
     <div class="container-fluid">
 
         {{-- loading --}}
-        <div wire:loading.block class="loader-wrapper">
+        <div wire:loading.flex class="loader-wrapper">
             <div class="loader"></div>
         </div>
 

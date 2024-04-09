@@ -147,16 +147,13 @@ class Form extends Component
             $this->action;
         }
 
-        if ($this->id != '') {
+        if ($this->id != '' && JobOrder::find($this->id) != null) {
             $this->data = JobOrder::find($this->id);
-            if ($this->data == null) {
-                $this->data = new JobOrder;
-            }
             $this->job = $this->data->withoutRelations();
         } else {
             $this->action = 'create';
             $this->data->createID = Auth::user()->usercode;
-
+            $this->data->documentDate = Carbon::now()->format('Y-m-d');
             // $this->data->documentID = JobOrder::GenKey();
             // dd($this->data);
         }

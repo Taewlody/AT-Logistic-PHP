@@ -65,6 +65,12 @@ class Charges extends Component
         $this->qty = $newQty;
     }
 
+    public function checkBill($index) {
+        if($this->value[$index]['chargesbillReceive'] < $this->value[$index]['chargesCost']) {
+            $this->dispatch('modal.job-order.charges-alert', showModal: true);
+        }
+    }
+
     public function boot(){
         Log::info('boot');
     }

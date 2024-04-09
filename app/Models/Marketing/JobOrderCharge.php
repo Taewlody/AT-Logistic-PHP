@@ -47,6 +47,18 @@ class JobOrderCharge extends Model implements Wireable
         'chargesbillReceive' => 'float',
     ];
 
+    protected $attributes = [
+        // 'items' => 0,
+        // 'comCode' => '',
+        // 'documentID' => '',
+        // 'ref_paymentCode' => '',
+        // 'chargeCode' => '',
+        // 'detail' => '',
+        'chargesCost' => 0,
+        'chargesReceive' => 0,
+        'chargesbillReceive' => 0,
+    ];
+
     public function id(){
         return $this->items;
     }

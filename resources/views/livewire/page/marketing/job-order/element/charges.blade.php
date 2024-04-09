@@ -24,13 +24,13 @@
                 <thead>
                     <tr>
                         <th style="width:5%">No.</th>
-                        <th style="width:10%">Detail</th>
-                        <th style="width:10%;min-width: 140px;">Price</th>
-                        <th style="width:10%;min-width: 140px;">Volum</th>
-                        <th style="width:10%;min-width: 140px;">Exchange</th>
-                        <th style="width:10%;min-width: 140px;">Cost</th>
-                        <th style="width:10%;min-width: 140px;">Receive</th>
-                        <th style="width:10%;min-width: 140px;">Bill of receipt</th>
+                        <th style="width:10%;min-width: 200px;">Detail</th>
+                        <th style="width:10%;min-width: 80px;">Price</th>
+                        <th style="width:10%;min-width: 80px;">Volum</th>
+                        <th style="width:10%;min-width: 80px;">Exchange</th>
+                        <th style="width:10%;min-width: 100px;">Cost</th>
+                        <th style="width:10%;min-width: 100px;">Receive</th>
+                        <th style="width:10%;min-width: 100px;">Bill of receipt</th>
                         <th style="width:5%">Action</th>
                     </tr>
                 </thead>
@@ -78,7 +78,7 @@
                                     {{-- <livewire:element.input :keyName="'chargesReceive-'.$item->items" type="number" wire:model.live="value.{{ $loop->index }}.chargesReceive" /> --}}
                             </td>
                             <td class="center">
-                                <input type="number" class="form-control full" step=".01"
+                                <input type="number" class="form-control full" step=".01" wire:change="checkBill({{ $loop->index }})"
                                     wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.chargesbillReceive">
                                     {{-- <livewire:element.input :keyName="'chargesbillReceive-'.$item->items" type="number" wire:model.live="value.{{ $loop->index }}.chargesbillReceive" /> --}}
                             </td>

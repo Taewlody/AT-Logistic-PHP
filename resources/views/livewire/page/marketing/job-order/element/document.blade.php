@@ -33,20 +33,22 @@
             <label class="col-form-label" style="padding-top: 5px;">Freight</label>
         </div>
         <div class="col-md-4">
-            <select name="freight" class="select2_single form-control select2"
+            {{-- <select name="freight" class="select2_single select2_search form-control select2"
                 id="freight" wire:model.change="value.freight" @disabled($action != 'create' && $action != 'edit')>
                 <option value="">- select -</option>
                 @foreach (Service::TransportTypeSelecter() as $transportType)
                     <option value="{{ $transportType->transportCode }}">
                         {{ $transportType->transportName }}</option>
                 @endforeach
-            </select>
+            </select> --}}
+            <livewire:element.select2 wire:model='value.freight' name="freight" :options="Service::PortSelecter()" 
+                itemKey="transportCode" itemValue="transportName" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
         </div>
     </div>
     <div class="form-group  row">
         <label class="col-sm-2 col-form-label">Port of Loading</label>
         <div class="col-md-4">
-            <select name="port_of_landing" class="select2_single form-control select2"
+            {{-- <select name="port_of_landing" class="select2_single select2_search form-control select2"
                 id="port_of_landing" wire:model.change="value.port_of_landing"
                 @disabled($action != 'create' && $action != 'edit')>
                 <option value="">- select -</option>
@@ -54,7 +56,9 @@
                     <option value="{{ $port->portCode }}">{{ $port->portNameEN }}
                     </option>
                 @endforeach
-            </select>
+            </select> --}}
+            <livewire:element.select2 wire:model='value.port_of_landing' name="port_of_landing" :options="Service::PortSelecter()" 
+                itemKey="portCode" itemValue="portNameEN" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
         </div>
         <div class="col-md-2">
             <label class="col-form-label" style="padding-top: 5px;">Port of
@@ -62,7 +66,7 @@
             </label>
         </div>
         <div class="col-md-4">
-            <select name="port_of_discharge" class="select2_single form-control select2"
+            {{-- <select name="port_of_discharge" class="select2_single select2_search form-control select2"
                 id="port_of_discharge" wire:model.change="value.port_of_discharge"
                 @disabled($action != 'create' && $action != 'edit')>
                 <option value="">- select -</option>
@@ -70,7 +74,9 @@
                     <option value="{{ $port->portCode }}">{{ $port->portNameEN }}
                     </option>
                 @endforeach
-            </select>
+            </select> --}}
+            <livewire:element.select2 wire:model='value.port_of_discharge' name="port_of_discharge" :options="Service::PortSelecter()" 
+                itemKey="portCode" itemValue="portNameEN" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
         </div>
     </div>
     <div class="form-group row">
@@ -206,14 +212,16 @@
     <div class="form-group row">
         <label class="col-lg-2 col-form-label">FOB AT</label>
         <div class="col-md-4">
-            <select name="fob" class="select2_single form-control select2"
+            {{-- <select name="fob" class="select2_single select2_search form-control select2"
                 id="fob" wire:model.change="value.fob" @disabled($action != 'create' && $action != 'edit')>
                 <option value="">- select -</option>
                 @foreach (Service::PlaceSelecter() as $place)
                     <option value="{{ $place->pCode }}">{{ $place->pName }}
                     </option>
                 @endforeach
-            </select>
+            </select> --}}
+            <livewire:element.select2 wire:model='value.fob' name="fob" :options="Service::PlaceSelecter()" 
+                itemKey="pCode" itemValue="pName" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
         </div>
         <div class="col-md-2">
             <label class="col-form-label" style="padding-top: 5px;">Place of
@@ -221,7 +229,7 @@
             </label>
         </div>
         <div class="col-md-4">
-            <select name="place_receive" class="select2_single form-control select2"
+            {{-- <select name="place_receive" class="select2_single select2_search form-control select2"
                 id="place_receive" wire:model.change="value.place_receive"
                 @disabled($action != 'create' && $action != 'edit')>
                 <option value="">- select -</option>
@@ -229,7 +237,9 @@
                     <option value="{{ $place->pCode }}">{{ $place->pName }}
                     </option>
                 @endforeach
-            </select>
+            </select> --}}
+            <livewire:element.select2 wire:model='value.place_receive' name="place_receive" :options="Service::PlaceSelecter()" 
+                itemKey="pCode" itemValue="pName" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
         </div>
     </div>
     <div class="form-group row">

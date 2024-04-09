@@ -6,7 +6,7 @@
         <!-- Body-->
 
         {{-- loading --}}
-        <div wire:loading.block class="loader-wrapper" wire:target='save'>
+        <div wire:loading.flex class="loader-wrapper" wire:target='save'>
             <div class="loader"></div>
         </div>
 

@@ -2,7 +2,7 @@
     <div class="form-group  row">
         <label class="col-sm-2 col-form-label">Customer</label>
         <div class="col-md-10">
-            <select name="cusCode" class="select2_single form-control select2"
+            {{-- <select name="cusCode" class="select2_single select2_search form-control select2"
                 id="cusCode" wire:model.live.change="value.cusCode"
                 @disabled($action != 'create' && $action != 'edit')>
                 <option value="">- select -</option>
@@ -11,13 +11,15 @@
                         {{ $customer->custNameEN }}
                     </option>
                 @endforeach
-            </select>
+            </select> --}}
+            <livewire:element.select2 wire:model='value.cusCode' name="cusCode" :options="Service::CustomerSelecter()" 
+                itemKey="cusCode" itemValue="custNameEN" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
         </div>
     </div>
     <div class="form-group  row">
         <label class="col-sm-2 col-form-label">Sales</label>
         <div class="col-md-10">
-            <select name="saleman" class="select2_single form-control select2"
+            {{-- <select name="saleman" class="select2_single select2_search form-control select2"
                 id="saleman" wire:model.change="value.saleman"
                 @disabled($action != 'create' && $action != 'edit')>
                 <option value="">- select -</option>
@@ -25,7 +27,9 @@
                     <option value="{{ $saleman->usercode }}">{{ $saleman->empName }}
                     </option>
                 @endforeach
-            </select>
+            </select> --}}
+            <livewire:element.select2 wire:model='value.saleman' name="saleman" :options="Service::SalemanSelecter()" 
+                itemKey="usercode" itemValue="empName" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
         </div>
     </div>
     <div class="form-group row">
@@ -39,7 +43,7 @@
     <div class="form-group  row">
         <label class="col-sm-2 col-form-label">Agent</label>
         <div class="col-md-10">
-            <select name="agentCode" class="select2_single form-control select2"
+            {{-- <select name="agentCode" class="select2_single select2_search form-control select2"
                 id="agentCode" wire:model.change="value.agentCode"
                 @disabled($action != 'create' && $action != 'edit')>
                 <option value="">- select -</option>
@@ -47,7 +51,9 @@
                     <option value="{{ $supplier->supCode }}">
                         {{ $supplier->supNameTH }}</option>
                 @endforeach
-            </select>
+            </select> --}}
+            <livewire:element.select2 wire:model='value.agentCode' name="agentCode" :options="Service::SupplierSelecter()" 
+                itemKey="supCode" itemValue="supNameTH" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
         </div>
     </div>
     <div class="form-group row">
@@ -61,14 +67,16 @@
     <div class="form-group row">
         <label class="col-lg-2 col-form-label">Feeder</label>
         <div class="col-md-5">
-            <select name="feeder" class="select2_single form-control select2"
+            {{-- <select name="feeder" class="select2_single select2_search form-control select2"
                 id="feeder" wire:model.change="value.feeder" @disabled($action != 'create' && $action != 'edit')>
                 <option value="">- select -</option>
                 @foreach (Service::FeederSelecter() as $feeder)
                     <option value="{{ $feeder->fCode }}">{{ $feeder->fName }}
                     </option>
                 @endforeach
-            </select>
+            </select> --}}
+            <livewire:element.select2 wire:model='value.feeder' name="feeder" :options="Service::FeederSelecter()" 
+                itemKey="fCode" itemValue="fName" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
         </div>
         <div class="col-md-1">
             <label class="col-form-label" style="padding-top: 5px;">VOY</label>
@@ -82,14 +90,16 @@
     <div class="form-group row">
         <label class="col-lg-2 col-form-label">Vessel</label>
         <div class="col-md-5">
-            <select name="vessel" class="select2_single form-control select2"
+            {{-- <select name="vessel" class="select2_single select2_search form-control select2"
                 id="vessel" wire:model.change="value.vessel" @disabled($action != 'create' && $action != 'edit')>
                 <option value="">- select -</option>
                 @foreach (Service::FeederSelecter() as $feeder)
                     <option value="{{ $feeder->fCode }}">{{ $feeder->fName }}
                     </option>
                 @endforeach
-            </select>
+            </select> --}}
+            <livewire:element.select2 wire:model='value.feeder' name="feeder" :options="Service::FeederSelecter()" 
+                itemKey="fCode" itemValue="fName" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
         </div>
         <div class="col-md-1">
             <label class="col-form-label" style="padding-top: 5px;">VOY</label>

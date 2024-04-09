@@ -4,7 +4,7 @@
         breadcrumb_page="Trailer Booking" breadcrumb_page_title="Trailer Booking Form" />
     <div class="wrapper wrapper-content animated fadeInRight">
         {{-- loading --}}
-        <div wire:loading.block class="loader-wrapper">
+        <div wire:loading.flex class="loader-wrapper" wire:target='save'>
             <div class="loader"></div>
         </div>
 
@@ -96,7 +96,7 @@
                                     <div class="form-group  row">
                                         <label class="col-sm-3 col-form-label">Ref. JobNo.</label>
                                         <div class="col-md-9">
-                                            <select class="select2_single form-control select2" name="ref_jobID"
+                                            <select class="select2_single form-control select2" name="ref_jobID" wire:change="getJobDetail"
                                                 id="ref_jobID" wire:model="data.ref_jobID">
                                                 <option value="">Select Ref. JobNo.</option>
                                                 @foreach (Service::JobOrderSelecter() as $refJob)

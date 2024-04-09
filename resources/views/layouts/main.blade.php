@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <!-- All meta and title start-->
@@ -55,6 +55,11 @@
     @include('layouts.themes.layout.script')
     @stack('scripts')
     <!-- scripts end-->
+
+    <!--Modal element -->
+    @stack('modal')
+
+    <!-- page-wrapper End-->
 </body>
 
 </html>

@@ -38,9 +38,21 @@ class Form extends Component
         }
     }
 
+    public function getJobDetail() {
+        if($this->action != 'create' || $this->data->ref_jobID == null) {
+            return;
+        }
+        $job = JobOrder::where('documentID', $this->data->ref_jobID)->first();
+        $this->data->documentDate = $job->documentDate;
+        $this->data->cusCode = $job->cusCode;
+        $this->data->feeder = $job->feeder;
+        $this->data->agent = $job->agent;
+
+    }
+
     public function save() {
         $this->data->editID = Auth::user()->usercode;
-        dd($this->data);
+        // dd($this->data);
         $this->data->save();
         $this->redirectRoute(name: 'trailer-booking', navigate: true);
     }
