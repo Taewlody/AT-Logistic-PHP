@@ -35,14 +35,14 @@ class Select2 extends Component
         $this->required = $required ?? $this->required;
         $this->readonly = $readonly ?? $this->readonly;
         $this->placeholder = $placeholder ?? $this->placeholder;
-        if($multiple) {
-            $this->class[] = 'select2-multiple';
-        }else {
-            $this->class[] = 'select2-single';
-        }
-        if($searchable) {
-            $this->class[] = 'select2-search';
-        }
+        // if($multiple) {
+        //     $this->class[] = 'select2-multiple';
+        // }else {
+        //     $this->class[] = 'select2-single';
+        // }
+        // if($searchable) {
+        //     $this->class[] = 'select2-search';
+        // }
     }
 
     public function render()

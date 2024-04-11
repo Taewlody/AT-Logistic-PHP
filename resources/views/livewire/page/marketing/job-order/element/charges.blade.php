@@ -151,49 +151,56 @@
                         </td>
                         <td style="width:5%"></td>
                     </tr>
-                </tfoot>
+                {{-- </tfoot>
             </table>
             <table class="table invoice-total">
-                <tbody>
+                <tbody> --}}
                     <tr>
-                        <td><strong>รวม :</strong></td>
-                        <td>
+                        <td colspan="4"></td>
+                        <td colspan="3"><strong>รวม :</strong></td>
+                        <td colspan="2">
                             <span id="total">{{ Service::MoneyFormat($this->call_price['total'] + $value->sum('chargesbillReceive')) }}</span>
                         </td>
                     </tr>
                     <tr>
-                        <td><strong>ค่าบริการ Tax (3%) :</strong></td>
-                        <td><span id="tax3">{{ Service::MoneyFormat($this->call_price['tax3']) }}</span>
+                        <td colspan="4"></td>
+                        <td colspan="3"><strong>ค่าบริการ Tax (3%) :</strong></td>
+                        <td colspan="2"><span id="tax3">{{ Service::MoneyFormat($this->call_price['tax3']) }}</span>
                         </td>
                     </tr>
                     <tr>
-                        <td><strong>ค่าขนส่ง Tax (1%) :</strong></td>
-                        <td><span id="tax1">{{ Service::MoneyFormat($this->call_price['tax1']) }}</span>
+                        <td colspan="4"></td>
+                        <td colspan="3"><strong>ค่าขนส่ง Tax (1%) :</strong></td>
+                        <td colspan="2"><span id="tax1">{{ Service::MoneyFormat($this->call_price['tax1']) }}</span>
                         </td>
                     </tr>
                     <tr>
-                        <td><strong>รวม :</strong></td>
-                        <td><span id="grand_total">{{Service::MoneyFormat(($this->call_price['total'] + $value->sum('chargesbillReceive')) - $this->call_price['tax3'] - $this->call_price['tax1'])}}</span>
+                        <td colspan="4"></td>
+                        <td colspan="3"><strong>รวม :</strong></td>
+                        <td colspan="2"><span id="grand_total">{{Service::MoneyFormat(($this->call_price['total'] + $value->sum('chargesbillReceive')) - $this->call_price['tax3'] - $this->call_price['tax1'])}}</span>
                             {{-- <input type="hidden" id="h_grand_total"
                                 name="h_grand_total" value="{{Service::MoneyFormat(($cal_charge['total'] + $data->charge->sum('chargesbillReceive')) - $cal_charge['tax3'] - $cal_charge['tax1']) }}"> --}}
                         </td>
                     </tr>
                     <tr>
-                        <td><strong>ลูกค้าสำรองจ่าย</strong></td>
-                        <td><span id="cus_paid">
+                        <td colspan="4"></td>
+                        <td colspan="3"><strong>ลูกค้าสำรองจ่าย</strong></td>
+                        <td colspan="2"><span id="cus_paid">
                                 {{Service::MoneyFormat($customer_piad->sum('sumTotal'))}}
                             </span>
                                 
                         </td>
                     </tr>
                     <tr>
-                        <td><strong>คงเหลือจ่ายจริง</strong></td>
-                        <td><span id="net_pad">{{Service::MoneyFormat((($this->call_price['total'] + $value->sum('chargesbillReceive')) - $this->call_price['tax3'] - $this->call_price['tax1']) - $customer_piad->sum('sumTotal'))}}</span>
+                        <td colspan="4"></td>
+                        <td colspan="3"><strong>คงเหลือจ่ายจริง</strong></td>
+                        <td colspan="2"><span id="net_pad">{{Service::MoneyFormat((($this->call_price['total'] + $value->sum('chargesbillReceive')) - $this->call_price['tax3'] - $this->call_price['tax1']) - $customer_piad->sum('sumTotal'))}}</span>
                             <input type="hidden" id="h_net_pad" name="h_net_pad"
                                 value="">
                         </td>
                     </tr>
-                </tbody>
+                {{-- </tbody> --}}
+                </tfoot>
             </table>
         </div>
     </div>

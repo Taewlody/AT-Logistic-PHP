@@ -1,7 +1,12 @@
 "use strict";
 setTimeout(function(){
         (function($) {
-            "use strict";
+            // "use strict";
+
+            // $(".select2-single").on('change', function (e) {
+            //     console.log('change select', e);
+            //     // @this.set('value', e.target.value);
+            // });
             // Single Search Select
             $(".select2-single").not('.select2-search').select2({
                 minimumResultsForSearch: Infinity

@@ -33,15 +33,15 @@
             <label class="col-form-label" style="padding-top: 5px;">Freight</label>
         </div>
         <div class="col-md-4">
-            {{-- <select name="freight" class="select2_single select2_search form-control select2"
-                id="freight" wire:model.change="value.freight" @disabled($action != 'create' && $action != 'edit')>
-                <option value="">- select -</option>
+            {{-- <select name="freight" data-pharaonic="select2"  class="select2_single select2_search form-control select2"
+                id="freight" wire:model.defer="value.freight" @disabled($action != 'create' && $action != 'edit')>
+                <option></option>
                 @foreach (Service::TransportTypeSelecter() as $transportType)
                     <option value="{{ $transportType->transportCode }}">
                         {{ $transportType->transportName }}</option>
                 @endforeach
             </select> --}}
-            <livewire:element.select2 wire:model='value.freight' name="freight" :options="Service::PortSelecter()" 
+            <livewire:element.select2 wire:model='value.freight' name="freight" :options="Service::TransportTypeSelecter()" 
                 itemKey="transportCode" itemValue="transportName" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
         </div>
     </div>

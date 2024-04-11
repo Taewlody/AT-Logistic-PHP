@@ -17,7 +17,7 @@
    <script src="{{ asset('assets/js/theme-customizer/customizer.js') }}"></script>
    <!-- Select2 -->
    <script src="{{asset('assets/js/select2/select2.full.min.js')}}"></script>
-   <script src="{{asset('assets/js/select2/select2-custom.js')}}"></script>
+   {{-- <script src="{{asset('assets/js/select2/select2-custom.js')}}"></script> --}}
    {{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
    <!-- Alipine js-->
    {{-- <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script> --}}
