@@ -386,69 +386,76 @@
                         <h3>ยอดถูกหักภาษี ณ ที่จ่าย </h3>
                     </div>
                     <div class="card-body">
-                        <div class="row mb-3">
-                            <div class="col text-end" style="margin: auto">
-                                    Year   
+                        <form wire:submit="searchYearTax">
+                            <div class="row mb-3 text-end">
+                                <div class="col text-end" style="margin: auto">
+                                        Year   
+                                </div>
+                                <div class="col-3">
+                                    <select class="select2_single form-control select2"  wire:model="yearTaxSearch">
+                                        <option value="">- select -</option>
+                                        @foreach ($yearOptions as $year)
+                                        <option value="{{$year->year}}">{{$year->year}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-primary" id="postYearTaxSearch">Search</button>
+                                </div>
                             </div>
-                            <div class="col-3">
-                                <select class="select2_single form-control select2" name="cusCode" id="cusCode" wire:live="yearTaxSearch">
-                                    <option value="">- select -</option>
-                                    @foreach ($yearOptions as $year)
-                                    <option value="{{$year->year}}">{{$year->year}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    @foreach (EngDate::full_month_list() as $month)
-                                    <th>{{$month}}</th>
-                                    @endforeach
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if(count($yearTaxTotal) > 0)
-                                <tr>
-                                    <th>Billing Summary</th>
-                                    @foreach ($billingSummary as $bill)
-                                        <td>{{ number_format($bill->value, 2) }}</td>
-                                    @endforeach
-                                    <th>{{ number_format($billingSummaryTotal, 2) }}</th>
-                                </tr>
-                                <tr>
-                                    <th>Tax 3%</th>
+                        </form>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        @foreach (EngDate::full_month_list() as $month)
+                                        <th>{{$month}}</th>
+                                        @endforeach
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if(count($yearTaxTotal) > 0)
+                                    <tr>
+                                        <th>Billing Summary</th>
+                                        @foreach ($billingSummary as $bill)
+                                            <td>{{ number_format($bill->value, 2) }}</td>
+                                        @endforeach
+                                        <th>{{ number_format($billingSummaryTotal, 2) }}</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Tax 3%</th>
+                                        
+                                        @foreach ($yearTaxTotal as $year)
+                                            <td>{{ number_format($year->value2, 2) }}</td>
+                                        @endforeach
+                                        <th>{{ number_format($totalYearTax3, 2) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tax 1%</th>
+                                        
+                                        @foreach ($yearTaxTotal as $year)
+                                            <td>{{ number_format($year->value1, 2) }}</td>
+                                        @endforeach
+                                        <th>{{ number_format($totalYearTax1, 2) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Profit</th>
+                                        @foreach ($netProfit as $profit)
+                                            <td>{{ number_format($profit->value, 2) }}</td>
+                                        @endforeach
+                                        <th>{{ number_format($totalYearNetProfit, 2) }}</td>
+                                    </tr>
                                     
-                                    @foreach ($yearTaxTotal as $year)
-                                        <td>{{ number_format($year->value2, 2) }}</td>
-                                    @endforeach
-                                    <th>{{ number_format($totalYearTax3, 2) }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Tax 1%</th>
-                                    
-                                    @foreach ($yearTaxTotal as $year)
-                                        <td>{{ number_format($year->value1, 2) }}</td>
-                                    @endforeach
-                                    <th>{{ number_format($totalYearTax1, 2) }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Profit</th>
-                                    @foreach ($netProfit as $profit)
-                                        <td>{{ number_format($profit->value, 2) }}</td>
-                                    @endforeach
-                                    <th>{{ number_format($totalYearNetProfit, 2) }}</td>
-                                </tr>
-                                
-                                @else
-                                <tr>
-                                    <td colspan="13" class="text-center">Data Not Found</td>
-                                </tr>
-                                @endif
-                            </tbody>
-                        </table>                            
+                                    @else
+                                    <tr>
+                                        <td colspan="13" class="text-center">Data Not Found</td>
+                                    </tr>
+                                    @endif
+                                </tbody>
+                            </table>  
+                        </div>                          
                         <br/>    
                         <div class="bar-chart-widget">
                             <div class="bar-chart-widget">
@@ -515,99 +522,123 @@
 
 @script
 <script>
+    let optionscolumnchart_yeartax = {
+        series: [
+            {
+                name: "billing summary",
+                data: [],
+            }
+        ],
+
+        legend: {
+            show: false,
+        },
+        chart: {
+            type: "line",
+            height: 380,
+        },
+        plotOptions: {
+            bar: {
+                radius: 10,
+                horizontal: false,
+                columnWidth: "55%",
+                endingShape: "rounded",
+            },
+        },
+        dataLabels: {
+            enabled: true,
+        },
+        stroke: {
+            show: true,
+            colors: ["transparent"],
+            curve: "smooth",
+            lineCap: "butt",
+        },
+        grid: {
+            show: false,
+            padding: {
+                left: 50,
+                right: 20,
+            },
+        },
+        xaxis: {
+            categories: $wire.monthList
+        },
+        yaxis: {
+            title: {
+                text: " (บาท)",
+            },
+        },
+        fill: {
+            colors: [KohoAdminConfig.primary, KohoAdminConfig.secondary, "#51bb25"],
+            type: "gradient",
+            gradient: {
+                shade: "light",
+                type: "vertical",
+                shadeIntensity: 0.1,
+                inverseColors: false,
+                opacityFrom: 1,
+                opacityTo: 0.9,
+                stops: [0, 100],
+            },
+        },
+
+        tooltip: {
+            y: {
+                formatter: function (val) {
+                    return val + " บาท";
+                },
+            },
+        },
+        responsive: [
+            {
+                breakpoint: 575,
+                options: {
+                    chart: {
+                        height: 280,
+                    },
+                },
+            },
+        ],
+    };
+
+    let chartcolumnchart_yeartax = new ApexCharts(
+        document.querySelector("#chart-widget1"),
+        optionscolumnchart_yeartax
+    );
+
+    chartcolumnchart_yeartax.render();
+
     document.addEventListener('livewire:initialized', () => {
-        setDataToChart(document.querySelector("#chart-widget1"), $wire.billingSummaryChart, $wire.monthList);
-        // setDataToChart(document.querySelector("#chart-widget2"), $wire.yearCategory, $wire.yearVatSale, $wire.yearVatBuy);
-    })
-
-
-    function setDataToChart(chart_id, data, category) {
-        var optionscolumnchart = {
+        chartcolumnchart_yeartax.updateOptions({
+            xaxis: {
+                categories: $wire.monthList
+            },
             series: [
                 {
                     name: "billing summary",
-                    data: data,
+                    data: $wire.billingSummaryChart,
                 }
             ],
+        });
+    })
 
-            legend: {
-                show: false,
-            },
-            chart: {
-                type: "line",
-                height: 380,
-            },
-            plotOptions: {
-                bar: {
-                    radius: 10,
-                    horizontal: false,
-                    columnWidth: "55%",
-                    endingShape: "rounded",
+    $('#postYearTaxSearch').click(function() {
+        setTimeout(() => {
+            chartcolumnchart_yeartax.updateOptions({
+                xaxis: {
+                    categories: $wire.monthList
                 },
-            },
-            dataLabels: {
-                enabled: true,
-            },
-            stroke: {
-                show: true,
-                colors: ["transparent"],
-                curve: "smooth",
-                lineCap: "butt",
-            },
-            grid: {
-                show: false,
-                padding: {
-                    left: 0,
-                    right: 0,
-                },
-            },
-            xaxis: {
-                categories: category
-            },
-            yaxis: {
-                title: {
-                    text: " (บาท)",
-                },
-            },
-            fill: {
-                colors: [KohoAdminConfig.primary, KohoAdminConfig.secondary, "#51bb25"],
-                type: "gradient",
-                gradient: {
-                    shade: "light",
-                    type: "vertical",
-                    shadeIntensity: 0.1,
-                    inverseColors: false,
-                    opacityFrom: 1,
-                    opacityTo: 0.9,
-                    stops: [0, 100],
-                },
-            },
+                series: [
+                    {
+                        name: "billing summary",
+                        data: $wire.billingSummaryChart,
+                    }
+                ],
+            });
 
-            tooltip: {
-                y: {
-                    formatter: function (val) {
-                        return val + " บาท";
-                    },
-                },
-            },
-            responsive: [
-                {
-                    breakpoint: 575,
-                    options: {
-                        chart: {
-                            height: 280,
-                        },
-                    },
-                },
-            ],
-        };
-
-        var chartcolumnchart1 = new ApexCharts(
-            chart_id,
-            optionscolumnchart
-        );
-        chartcolumnchart1.render();
-    }
+        }, 500);
+    })
 </script>
 
 @endscript
