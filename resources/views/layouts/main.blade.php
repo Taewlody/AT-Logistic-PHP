@@ -13,7 +13,7 @@
 
 </head>
 
-<body style="font-size: 13px;">
+<body>
     <!-- tap on top starts-->
     <div class="tap-top"><i data-feather="chevrons-up"></i></div>
     <!-- tap on tap ends-->

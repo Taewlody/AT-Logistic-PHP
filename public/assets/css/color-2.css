@@ -29810,7 +29810,7 @@ footer {
 .page-wrapper .page-body-wrapper .page-body {
     min-height: calc(100vh - 136px);
     margin-top: 136px;
-    padding: 0 15px 0 15px;
+    padding: 0;
     position: relative;
     -webkit-transition: .5s;
     transition: .5s

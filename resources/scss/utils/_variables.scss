@@ -81,7 +81,7 @@ $dark-even-hover-sorting: #191e27;
 
 
 //General tag settings
-$body-font-size: 14px;
+$body-font-size: 13px;
 $body-font-color: $theme-body-font-color;
 $ul-padding-left: 0px;
 $ancher-color: var(--theme-default);
@@ -156,8 +156,8 @@ $badge-svg-size: 10px;
 
 //form input settings
 $form-group-margin-bottom : 1.25em;
-$col-form-label-font-size : 14px;
-$form-control-font-size : 14px;
+$col-form-label-font-size : 13px;
+$form-control-font-size : 13px;
 $form-control-border-radious : 2px;
 $form-control-border-color : $light-gray;
 
@@ -166,7 +166,7 @@ $breadcrumb-ancher-color : $white;
 $breadcrumb-ancher-dark-color : $black;
 
 //buttons setting
-$btn-font-size:14px;
+$btn-font-size:13px;
 $btn-padding:0.6rem 1.75rem;
 $btn-lg-font-size:18px;
 $btn-sm-font-size:12px;
@@ -198,7 +198,7 @@ $footer_dark__txt_color : $white;
 $form-group-margin-bottom :20px;
 $sm-form-margin-bottom : 14px;
 $form-placeholder-color : $dark-gray;
-$form-placeholder-font-size : 14px;
+$form-placeholder-font-size : 13px;
 $form-placeholder-letter-spacing : 1px;
 $form-placeholder-font-weight : 100;
 $form-input-border-color : $light-gray;
@@ -259,7 +259,7 @@ $main-header-top: 0;
 $main-header-shadow: 0 0 20px rgba($semi-dark, 0.1);
 
 //page settings
-$page-body-padding : 0 15px 0 15px;
+$page-body-padding : 0;
 $page-body-bg-color: $light-color;
 $page-body-margin-bottom: 0px;
 $page-title-padding : 30px;
