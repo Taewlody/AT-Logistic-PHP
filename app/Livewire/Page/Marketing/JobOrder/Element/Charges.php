@@ -12,6 +12,7 @@ use Livewire\Attributes\On;
 use Livewire\Attributes\Session;
 use Livewire\Component;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\Validate;
 
 class Charges extends Component
 {
@@ -24,7 +25,7 @@ class Charges extends Component
     public Collection $value;
 
     // public Collection $container;
-
+    #[Validate('required|string')]
     public String $chargeCode = '';
 
     #[Locked]
@@ -41,7 +42,7 @@ class Charges extends Component
         'value.*.comCode'=> 'string',
         'value.*.documentID'=> 'required|string',
         'value.*.ref_paymentCode'=> 'string',
-        'value.*.chargeCode'=> 'string',
+        'value.*.chargeCode'=> 'required|string',
         'value.*.detail'=> 'string',
         'value.*.chargesCost'=> 'string',
         'value.*.chargesReceive'=> 'string',
@@ -55,6 +56,7 @@ class Charges extends Component
 
     public function addCharge()
     {
+        $this->validate();
         $this->dispatch('Add-Charge', $this->chargeCode);
         $this->reset('chargeCode');
     }

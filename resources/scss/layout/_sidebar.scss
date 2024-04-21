@@ -1039,8 +1039,8 @@
   // left sidebar css
   &.compact-wrapper {
     .page-header {
-      margin-left: 258px;
-      width: calc(100% - 258px);
+      margin-left: 220px;
+      width: calc(100% - 220px);
       &.close_icon {
         margin-left: 85px;
         width: calc(100% - 85px);
@@ -1064,7 +1064,7 @@
           z-index: 9;
           line-height: inherit;
           background: $white;
-          width: 258px;
+          width: 220px;
           text-align: left;
           transition: 0.3s;
           box-shadow: 0 0 21px 0 rgba($semi-dark, 0.1);
@@ -1161,7 +1161,7 @@
               }
             }
             &:hover {
-              width: 258px;
+              width: 220px;
               transition: all 0.3s ease;
               .badge {
                 opacity: 1;
@@ -1719,7 +1719,7 @@
       .page-body {
         min-height: calc(100vh - 95px);
         margin-top: 80px;
-        margin-left: 258px;
+        margin-left: 220px;
       }
     }
 

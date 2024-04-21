@@ -21,7 +21,10 @@ th{
 			}
 		}
 	}
-	th,td{
+	th{
+		padding: 8px;
+	}
+	td{
 		padding: $table-padding;
 	}
 	&.table-primary {

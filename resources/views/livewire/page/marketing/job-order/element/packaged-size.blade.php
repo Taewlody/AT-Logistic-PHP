@@ -66,7 +66,7 @@
                                     wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.packaed_totalWeight">
                             </td>
                             <td class="center">
-                                <button type="button" class="btn-white btn btn-xs"
+                                <button type="button" class="btn-danger btn btn-xs"
                                     wire:click="$parent.removeRowPacked('{{ $loop->index }}')">Remove</button>
                             </td>
                         </tr>
@@ -74,7 +74,7 @@
                 </tbody>
             </table>
         </div>
-        <a class="btn btn-white btn-xs" id="addpacked" wire:click="$parent.addRowPacked">
+        <a class="btn btn-primary btn-xs mt-3" id="addpacked" wire:click="$parent.addRowPacked">
             <i class="fa fa-plus "></i>
             Add New Row
         </a>

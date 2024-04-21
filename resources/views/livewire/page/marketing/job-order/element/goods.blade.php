@@ -56,7 +56,7 @@
                                 
                             </td>
                             <td class="center">
-                                <button type="button" class="btn-white btn btn-xs"
+                                <button type="button" class="btn-danger btn btn-xs"
                                     wire:click="$parent.removeGoods('{{ $loop->index }}')">Remove</button>
                             </td>
                         </tr>
@@ -66,7 +66,7 @@
                 </tfoot>
             </table>
         </div>
-        <button type="button" class="btn btn-white btn-xs" id="addproduct" wire:click="$parent.addGoods">
+        <button type="button" class="btn btn-primary btn-xs mt-3" id="addproduct" wire:click="$parent.addGoods">
             <i class="fa fa-plus "> </i>
             Add New Row
         </button>
