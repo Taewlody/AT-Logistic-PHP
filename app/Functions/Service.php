@@ -4,6 +4,7 @@ namespace App\Functions;
 
 use App\Models\Common\BankAccount;
 use App\Models\Common\Charges;
+use App\Models\Common\Commodity;
 use App\Models\Common\ContainerSize;
 use App\Models\Common\ContainerType;
 use App\Models\Common\CreditTerm;
@@ -91,98 +92,105 @@ class Service
     public static function AccountSelecter()
     {
         return Cache::remember('account-select', 15, function () {
-            return BankAccount::select('accountCode', 'accountName')->orderBy('accountName')->get();
+            return BankAccount::select('accountCode', 'accountName')->where('isActive', '=', '1')->orderBy('accountName')->get();
         });
     }
 
     public static function TransportTypeSelecter()
     {
         return Cache::remember('transport-type-select', 15, function () {
-            return TransportType::select('transportCode', 'transportName')->orderBy('transportName')->get();
+            return TransportType::select('transportCode', 'transportName')->where('isActive', '=', '1')->orderBy('transportName')->get();
         });
     }
 
     public static function PortSelecter()
     {
         return Cache::remember('port-select', 15, function () {
-            return Port::select('portCode', 'portNameEN')->orderBy('portNameEN')->get();
+            return Port::select('portCode', 'portNameEN')->where('isActive', '=', '1')->orderBy('portNameEN')->get();
         });
     }
 
     public static function PlaceSelecter()
     {
         return Cache::remember('place-select', 15, function () {
-            return Place::select('pCode', 'pName')->orderBy('pName')->get();
+            return Place::select('pCode', 'pName')->orderBy('pName')->where('isActive', '=', '1')->get();
         });
     }
 
     public static function CustomerSelecter()
     {
         return Cache::remember('customer-select', 15, function () {
-            return Customer::select('cusCode', 'custNameEN')->orderBy('custNameEN')->get();
+            return Customer::select('cusCode', 'custNameEN')->where('isActive', '=', '1')->orderBy('custNameEN')->get();
         });
     }
 
     public static function SalemanSelecter()
     {
         return Cache::remember('salename-select', 15, function () {
-            return Saleman::select('usercode', 'empName')->orderBy('empName')->get();
+            return Saleman::select('usercode', 'empName')->where('isActive', '=', '1')->orderBy('empName')->get();
         });
     }
 
     public static function SupplierSelecter()
     {
         return Cache::remember('supplier-select', 15, function () {
-            return Supplier::select('supCode', 'supNameTH')->orderBy('supNameTH')->get();
+            return Supplier::select('supCode', 'supNameTH')->where('isActive', '=', '1')->orderBy('supNameTH')->get();
         });
     }
 
     public static function FeederSelecter()
     {
         return Cache::remember('feeder-select', 15, function () {
-            return Feeder::select('fCode', 'fName')->orderBy('fName')->get();
+            return Feeder::select('fCode', 'fName')->where('isActive', '=', '1')->orderBy('fName')->get();
         });
     }
 
     public static function ContainerTypeSelecter()
     {
         return Cache::remember('container-type-select', 15, function () {
-            return ContainerType::select('containertypeCode', 'containertypeName')->orderBy('containertypeName')->get();
+            return ContainerType::select('containertypeCode', 'containertypeName')->where('isActive', '=', '1')->orderBy('containertypeName')->get();
         });
     }
 
     public static function ContainerSizeSelecter()
     {
         return Cache::remember('container-size-select', 15, function () {
-            return ContainerSize::select('containersizeCode', 'containersizeName')->orderBy('containersizeName')->get();
+            return ContainerSize::select('containersizeCode', 'containersizeName')->where('isActive', '=', '1')->orderBy('containersizeName')->get();
         });
     }
 
     public static function UnitContainerSelecter()
     {
         return Cache::remember('unit-select', 15, function () {
-            return UnitContainer::select('unitCode', 'unitName')->orderBy('unitName')->get();
+            return UnitContainer::select('unitCode', 'unitName')->where('isActive', '=', '1')->orderBy('unitName')->get();
         });
     }
 
     public static function ChargesSelecter()
     {
         return Cache::remember('charge-select', 15, function () {
-            return Charges::select('chargeCode', 'chargeName')->orderBy('chargeName')->get();
+            return Charges::select('chargeCode', 'chargeName')->where('isActive', '=', '1')->orderBy('chargeName')->get();
         });
     }
 
     public static function JobOrderSelecter()
     {
         return Cache::remember('job-order-select', 15, function () {
-            return JobOrder::select('documentID')->orderBy('documentID')->get();
+            return JobOrder::select('documentID')->where("documentstatus", "=", "A")->orderBy('documentID')->get();
         });
     }
 
     public static function CreditTermSelecter()
     {
         return Cache::remember('credit-term-select', 15, function () {
-            return CreditTerm::select('creditCode', 'creditName')->get();
+            return CreditTerm::select('creditCode', 'creditName')->where('isActive', '=', '1')->get();
+        });
+    }
+
+    public static function CommoditySelecter()
+    {
+        return Cache::remember('commodity-select', 15, function () {
+            return Commodity::select('commodityCode', 'commodityNameTH')->orderBy('commodityNameTH')->get();
         });
     }
 

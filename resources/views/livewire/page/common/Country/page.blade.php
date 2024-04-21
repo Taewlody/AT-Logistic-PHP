@@ -5,8 +5,8 @@
         background-color: #ffffff !important;
     }
     </style>
-
 @endpush
+
 <div>
     <livewire:component.page-heading title_main="Country" title_sub="ประเทศ" breadcrumb_title="Common Data" breadcrumb_page="Country" />
 

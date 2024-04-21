@@ -41,7 +41,8 @@ class Sidebar extends Component
                 ['name' => 'Place', 'route_name' => 'place'],
                 ['name' => 'Unit', 'route_name' => 'unit'],
                 ['name' => 'Currency', 'route_name' => 'currency'],
-                ['name' => 'Company', 'route_name' => 'company']
+                ['name' => 'Company', 'route_name' => 'company'],
+                ['name' => 'Commodity', 'route_name' => 'commodity']
             ]
          ],
         [
