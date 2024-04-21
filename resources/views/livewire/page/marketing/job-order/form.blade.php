@@ -6,12 +6,55 @@
     <div wire:loading.flex class="loader-wrapper" wire:target="save" >
         <div class="loader"></div>
     </div>
-
+    
     <form class="form-body" wire:submit="save">
         <div class="wrapper wrapper-content animated fadeInRight">
 
             <div class="row">
-
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col file-box">
+                                    <div class="file"> 
+                                        <a id="invoice">
+                                            <div class="icon"> 
+                                                <i class="fa fa-file-text"></i> 
+                                            </div>
+                                            <div class="file-name text"> 
+                                                Invoice
+                                            </div>
+                                        </a> 
+                                    </div>
+                                </div>
+                                <div class="col file-box">
+                                    <div class="file"> 
+                                        <a id="btnbill_of_lading">
+                                            <div class="icon"> 
+                                                <i class="fa fa-file-text"></i> 
+                                            </div>
+                                            <div class="file-name"> 
+                                                Bill of landing
+                                            </div>
+                                        </a> 
+                                    </div>
+                                </div>
+                                <div class="col file-box">
+                                    <div class="file"> 
+                                        <a id="trailer_booking">
+                                            <div class="icon"> 
+                                                <i class="fa fa-file-text"></i> 
+                                            </div>
+                                            <div class="file-name text-navy"> 
+                                                Trailer Booking
+                                            </div>
+                                        </a> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {{-- Section 1_1 --}}
                 <div class="col-lg-7 mb-2">
                     <div id="accordion-1" class="default-according">
@@ -413,3 +456,44 @@
 @push('modal')
     <livewire:modal.job-order.charges-alert />
 @endpush
+
+@script
+<script>
+    let invoiceNo = null;
+    let billOfladingNo = null;
+
+    document.addEventListener('livewire:initialized', () => {
+        if($wire.job && $wire.job.invoiceNo) {
+            invoiceNo = $wire.job.invoiceNo;
+        }
+        if($wire.job && $wire.job.billOfladingNo) {
+            billOfladingNo = $wire.job.billOfladingNo;
+        }
+    });
+
+    $('#invoice').click(function() {
+        if(invoiceNo) {
+            var url = "{!! route('invoice.form', ['action' => 'edit']) !!}"+'&id='+invoiceNo;
+            window.open(url, '_blank');
+        }else {
+            return false
+        }
+    });
+    $('#invoice').click(function() {
+        if(invoiceNo) {
+            var url = "{!! route('invoice.form', ['action' => 'edit']) !!}"+'&id='+invoiceNo;
+            window.open(url, '_blank');
+        }else {
+            return false
+        }
+    });
+    // $('#btnbill_of_lading').click(function() {
+    //     if(invoiceNo) {
+    //         var url = "{!! route('invoice.form', ['action' => 'edit']) !!}"+'&id='+invoiceNo;
+    //         window.open(url, '_blank');
+    //     }else {
+    //         return false
+    //     }
+    // });
+</script>
+@endscript
