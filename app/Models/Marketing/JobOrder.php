@@ -4,6 +4,7 @@ namespace App\Models\Marketing;
 
 use App\Casts\CustomDate;
 use App\Casts\CustomDateTime;
+use App\Models\Common\Commodity;
 use App\Models\Common\Feeder;
 use App\Models\Common\Place;
 use App\Models\Common\Saleman;
@@ -13,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
@@ -256,7 +258,11 @@ class JobOrder extends Model implements Wireable
                 return [];
             }
         );
-        
+    }
+
+    public function commodity(): BelongsToMany
+    {
+        return $this->belongsToMany(Commodity::class, 'ref_joborder__commodity', 'documentID', 'commodityCode');
     }
 
     public function addContainer(JobOrderContainer $container)

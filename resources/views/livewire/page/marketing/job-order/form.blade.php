@@ -3,7 +3,7 @@
         breadcrumb_page="Job Orders" breadcrumb_page_title="Job Orders Form" />
 
     {{-- loading --}}
-    <div wire:loading class="loader-wrapper" wire:target="save">
+    <div wire:loading.flex class="loader-wrapper" wire:target="save" >
         <div class="loader"></div>
     </div>
     
@@ -176,7 +176,7 @@
                     </div>
                 </div>
 
-                {{-- Section 6 --}}
+                {{-- Section 6 Goods --}}
                 <div class="col-lg-12 mb-2">
                     <div id="accordion-6" class="default-according">
                         <div class="card">
@@ -192,16 +192,31 @@
                             <div id="collapseGoods" role="tabpanel" class="collapse" aria-labelledby="headingGoods"
                                 data-bs-parent="#accordion-6" wire:ignore.self>
                                 <div class="card-body">
-                                    <livewire:page.marketing.job-order.element.goods wire:model="goodsList" :$action
-                                        :good_total_num_package="$job->good_total_num_package"
-                                        :good_commodity="$job->good_commodity" />
+                                    <livewire:page.marketing.job-order.element.goods wire:model="goodsList" :$action />
+                                    <div class="form-group row">
+                                        <label class="col-lg-2 col-form-label">Total Number of Package (in
+                                            words)</label>
+                                        <div class="col-md-4">
+                                            <input type="text" name="good_total_num_package" class="form-control"
+                                                wire:model.live.debounce.500ms="job.good_total_num_package">
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label style="padding-top: 5px;">Commodity</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            {{-- <input type="text" name="good_commodity" class="form-control" 
+                                                wire:model.live.debounce.500ms="good_commodity"> --}}
+                                            <livewire:element.select2 wire:model='listCommodity' name="listCommodity" :options="Service::CommoditySelecter()" 
+                                                itemKey="commodityCode" itemValue="commodityNameTH" :multiple="true" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {{-- Section 7 --}}
+                {{-- Section 7 Charges --}}
                 <div class="col-lg-12 mb-2">
                     <div id="accordion-7" class="default-according">
                         <div class="card">

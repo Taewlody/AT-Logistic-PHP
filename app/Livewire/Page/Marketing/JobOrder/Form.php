@@ -52,6 +52,10 @@ class Form extends Component
 
     public Collection $attachs;
 
+    public Collection $commodity;
+
+    public $listCommodity;
+
     public $file;
 
     protected array $rules = [
@@ -167,6 +171,10 @@ class Form extends Component
         $this->advancePayment = $this->data->AdvancePayment;
         $this->attachs = $this->data->attachs;
         // $this->qty = $this->groupedContainer();
+        $this->commodity = $this->data->commodity;
+        $this->listCommodity = $this->data->commodity->map(function ($item) {
+            return $item->commodityCode;
+        })->toArray();
     }
 
     public function copyCyToRtn() {
@@ -270,6 +278,13 @@ class Form extends Component
         $this->chargeList = $this->chargeList->values();
     }
 
+    #[On('Update-List-Commodity')]
+    public function getListCommodity($value)
+    {
+        $this->listCommodity = $value;
+        $this->skipRender();
+    }
+
     public function groupedContainer()
     {
         if ($this->containerList->isNotEmpty()) {
@@ -331,7 +346,7 @@ class Form extends Component
         })->each->delete();
         $this->job->containerList()->saveMany($this->containerList);
         $this->job->packedList->filter(function($item){
-            return !collect($this->packedList->pluck('items'))->contains($item->items);
+            return !collect($this->packagedList->pluck('items'))->contains($item->items);
         })->each->delete();
         $this->job->packedList()->saveMany($this->packagedList);
         $this->job->goodsList->filter(function($item){
@@ -343,6 +358,13 @@ class Form extends Component
         })->each->delete();
         $this->job->charge()->saveMany($this->chargeList);
         $this->job->attachs()->saveMany($this->attachs);
+        // dd($this->listCommodity);
+        // $this->job->commodity()->delete();
+        $this->job->commodity()->detach();
+        $this->job->commodity()->syncWithoutDetaching($this->listCommodity);
+        // $this->job->commodity()->
+        // })->each->detach();
+        // dd($this->listCommodity);
         $this->redirectRoute(name: 'job-order', navigate: true);
     }
 

@@ -71,19 +71,4 @@
             Add New Row
         </button>
     </div>
-    <div class="form-group row">
-        <label class="col-md-3 col-form-label">Total Number of Package (in
-            words)</label>
-        <div class="col-md-4">
-            <input type="text" name="good_total_num_package" class="form-control"
-                wire:model.live.debounce.500ms="good_total_num_package">
-        </div>
-        <div class="col-md-1">
-            <label style="padding-top: 5px;">Commodity</label>
-        </div>
-        <div class="col-md-4">
-            <input type="text" name="good_commodity" class="form-control" 
-                wire:model.live.debounce.500ms="good_commodity">
-        </div>
-    </div>
 </div>
