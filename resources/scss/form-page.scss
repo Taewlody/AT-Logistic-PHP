@@ -35,4 +35,28 @@
         color: black;
         padding: 0;
     }
+    .file-box {
+        .file {
+            border: 1px solid #e7eaec;
+            padding: 0;
+            background-color: #ffffff;
+            position: relative;
+            margin-bottom: 10px;
+            margin-right: 10px;
+            margin-top: 5px;
+            .icon {
+                text-align: center;
+                font-size: 40px;
+                color: $light-gray
+            }
+            .file-name {
+                background-color: #f8f8f8;
+                border-top: 1px solid #e7eaec;
+                text-align: center;
+                color: #78A3D4;
+                font-size: 20px;
+                font-weight: 500;
+            }
+        }
+    }
 }

@@ -201,14 +201,14 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Create By</label>
                                     <div class="col-sm-10">
-                                        <label>{{ $data->createBy->username }} {{ $data->createTime ?? '' }}</label>
+                                        <label>{{ $createBy->username ?? '' }} {{ $data->createTime ?? '' }}</label>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Update By</label>
                                     <div class="col-sm-10">
-                                        <label>{{ $data->editBy->username }} {{ $data->editTime ?? '' }}</label>
+                                        <label>{{ $editBy->username ?? '' }} {{ $data->editTime ?? '' }}</label>
                                     </div>
                                 </div>
                             @endif
@@ -220,9 +220,10 @@
                                     <a name="back" class="btn btn-white" type="button" href="{{ route('trailer-booking') }}"
                                     wire.loading.attr="disabled">
                                         <i class="fa fa-reply"></i> Back</a>
-
+                                        
+                                    @if($data)
                                     <button name="save" id="save" class="btn btn-primary" type="button" wire:click='save'
-                                        @disabled($data->documentstatus == 'A')>
+                                        @disabled($data != null && $data->documentstatus == 'A')>
                                         <i class="fa fa-save"></i> Save</button>
                                     <button name="approve" id="approve" class="btn btn-success " type="button" wire:click='approve'
                                         @disabled($data->documentstatus == 'A' || $data->documentID != null)>
@@ -231,6 +232,7 @@
                                         <a class="btn btn-primary " target="_blank"
                                             href="{{'/api/print/trailer_booking_pdf/'.$data->documentID}}"
                                             ><i class="fa fa-print"></i> Print</a>
+                                    @endif
                                     @endif
                                 </div>
                             </div>
