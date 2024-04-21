@@ -10,6 +10,8 @@ use App\Models\Common\Place;
 use App\Models\Common\Saleman;
 use App\Models\Common\Supplier;
 use App\Models\Payment\AdvancePayment;
+use App\Models\Payment\PaymentVoucher;
+use App\Models\PettyCash\PettyCash;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -294,6 +296,17 @@ class JobOrder extends Model implements Wireable
     {
         return $this->hasMany(JobOrderCharge::class, 'documentID', 'documentID');
     }
+
+    public function PaymentVoucher(): HasMany
+    {
+        return $this->hasMany(PaymentVoucher::class, 'refJobNo', 'documentID');
+    }
+
+    public function PettyCash(): HasMany
+    {
+        return $this->hasMany(PettyCash::class, 'refJobNo', 'documentID');
+    }
+
 
     public function landingPort(): HasOne
     {

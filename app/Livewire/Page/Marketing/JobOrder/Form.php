@@ -58,6 +58,8 @@ class Form extends Component
 
     public $file;
 
+    public $checkApprove = true;
+
     protected array $rules = [
         'file' => 'mimes:png,jpg,jpeg,pdf|max:102400',
         'containerList.*' => 'unique:App\Models\Marketing\JobOrderContainer',
@@ -175,6 +177,26 @@ class Form extends Component
         $this->listCommodity = $this->data->commodity->map(function ($item) {
             return $item->commodityCode;
         })->toArray();
+
+        $this->checkApprove = $this->checkApprove();
+
+    }
+
+    private function checkApprove()
+    {
+        if ($this->data->documentstatus == 'A') {
+            return false;
+        }
+        if ($this->data->PaymentVoucher->where('documentstatus', 'A')->count() > 0) {
+            return false;
+        }
+        if ($this->data->PettyCash->where('documentstatus', 'P')->count() > 0) {
+            return false;
+        }
+        if($this->data->AdvancePayment->where('documentstatus', 'P')->count() > 0) {
+            return false;
+        }
+
     }
 
     public function copyCyToRtn() {
@@ -365,6 +387,13 @@ class Form extends Component
         // $this->job->commodity()->
         // })->each->detach();
         // dd($this->listCommodity);
+        $this->redirectRoute(name: 'job-order', navigate: true);
+    }
+
+    public function approve()
+    {
+        $this->job->documentstatus = 'A';
+        $this->job->save();
         $this->redirectRoute(name: 'job-order', navigate: true);
     }
 

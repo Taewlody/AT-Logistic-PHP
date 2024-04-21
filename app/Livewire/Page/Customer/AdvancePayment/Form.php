@@ -4,6 +4,7 @@ namespace App\Livewire\Page\Customer\AdvancePayment;
 
 use App\Models\AttachFile;
 use App\Models\Common\Charges;
+use App\Models\Marketing\JobOrder;
 use App\Models\Payment\AdvancePayment;
 use App\Models\Payment\AdvancePaymentAttach;
 use App\Models\Payment\AdvancePaymentItems;
@@ -135,6 +136,25 @@ class Form extends Component
         $this->data->items()->saveMany($this->payments);
         $this->data->attachs()->saveMany($this->attachs);
         $this->redirectRoute(name: 'advance-payment', navigate: true);
+    }
+
+    public function approve() {
+        $this->data->editID = Auth::user()->usercode;
+        $this->data->documentstatus = 'A';
+        $this->data->save();
+        $this->job = JobOrder::find($this->data->refJobNo);
+        $this->data->items->each(function($item){
+            $this->job->charge()->create([
+                'documentID' => $this->job->documentID,
+                'ref_paymentCode' => $this->data->documentID,
+                'chargeCode' => $item->chargeCode,
+                'detail' => $item->chartDetail,
+                'chargesCost' => $item->amount,
+                // 'chargesReceive' => $item->amount,
+                // 'chargesbillReceive' => $item->amount,
+            ]);
+        });
+        $this->redirectRoute(name: 'shipping-payment-voucher', navigate: true);
     }
 
     public function render()
