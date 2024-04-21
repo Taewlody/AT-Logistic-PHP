@@ -14,7 +14,7 @@
                                 </div>
 
                                 <div class="col-6 text-end">
-                                    <a href="{{ route('invoice.form', ['action' => 'create']) }}" class="btn btn-primary"><i class="fa fa-plus "> </i> Create new </a>
+                                    {{-- <a href="{{ route('invoice.form', ['action' => 'create']) }}" class="btn btn-primary"><i class="fa fa-plus "> </i> Create new </a> --}}
                                 </div>
                             </div>
                             <br/><br/>

@@ -17,13 +17,10 @@
                 @disabled($action != 'create' && $action != 'edit')>
         </div>
         <div class="col-md-2">
-            <div class="input-group date">
-                <span class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                </span>
+            
                 <input type="date" name="stu_date" class="form-control"
                     wire:model.live.debounce.500ms="value.stu_date" @disabled($action != 'create' && $action != 'edit')>
-            </div>
+         
         </div>
     </div>
     <div class="form-group row">
@@ -44,14 +41,11 @@
                 @disabled($action != 'create' && $action != 'edit')>
         </div>
         <div class="col-md-2">
-            <div class="input-group date">
-                <span class="input-group-addon">
-                    <i class="fa fa-calendar "></i>
-                </span>
+            
                 <input type="date" name="cy_date" id="cy_date"
                     class="form-control" wire:model.live.debounce.500ms="value.cy_date"
                     @disabled($action != 'create' && $action != 'edit')>
-            </div>
+         
         </div>
     </div>
     <div class="form-group row">
@@ -77,12 +71,11 @@
                 @disabled($action != 'create' && $action != 'edit')>
         </div>
         <div class="col-md-2">
-            <div class="input-group date"> <span class="input-group-addon"><i
-                        class="fa fa-calendar"></i></span>
+            
                 <input type="date" name="rtn_date" id="rtn_date"
                     class="form-control" wire:model.live.debounce.500ms="value.rtn_date"
                     @disabled($action != 'create' && $action != 'edit')>
-            </div>
+            
         </div>
     </div>
 </div>

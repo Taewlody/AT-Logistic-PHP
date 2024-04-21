@@ -1,7 +1,7 @@
 <div>
     <div class="form-group  row">
         <div class="col-md-6">
-            <select class="select2_single form-control select2" style="width: 100%;"
+            {{-- <select class="select2_single form-control select2" style="width: 100%;"
                 id="chargeCode" wire:model.change="chargeCode">
                 <option value="">- select -</option>
                 @foreach (Service::ChargesSelecter() as $charge)
@@ -10,13 +10,16 @@
                     </option>
                 @endforeach
 
-            </select>
+            </select> --}}
+            <livewire:element.select2 wire:model.change='chargeCode' name="chargeCode" :options="Service::ChargesSelecter()" 
+                itemKey="chargeCode" itemValue="chargeName" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
         </div>
         <div class="col-md-2" style="padding-left: 0px;">
-            <button class="btn btn-white " type="button" name="addCharge" wire:click="addCharge"
+            <button class="btn btn-primary " type="button" name="addCharge" wire:click="addCharge"
                 id="addCharge"><i class="fa fa-plus"></i>
                 Add</button>
         </div>
+        @error('chargeCode') <span class="text-danger">{{ $message }}</span> @enderror
     </div>
     <div class="form-group">
         <div class="table-responsive" id="containner_charge">
@@ -68,8 +71,7 @@
                             </td>
                             <td class="center">
                                 <input type="number" class="form-control full" step=".01"
-                                    wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.chargesCost"
-                                    @readonly($charge->ref_paymentCode != '')>
+                                    wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.chargesCost">
                                     {{-- <livewire:element.input :keyName="'chargesCost-'.$item->items" type="number" wire:model.live="value.{{ $loop->index }}.chargesCost" /> --}}
                             </td>
                             <td class="center">

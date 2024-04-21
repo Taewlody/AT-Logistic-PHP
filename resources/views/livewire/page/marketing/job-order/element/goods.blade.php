@@ -56,7 +56,7 @@
                                 
                             </td>
                             <td class="center">
-                                <button type="button" class="btn-white btn btn-xs"
+                                <button type="button" class="btn-danger btn btn-xs"
                                     wire:click="$parent.removeGoods('{{ $loop->index }}')">Remove</button>
                             </td>
                         </tr>
@@ -66,13 +66,13 @@
                 </tfoot>
             </table>
         </div>
-        <button type="button" class="btn btn-white btn-xs" id="addproduct" wire:click="$parent.addGoods">
+        <button type="button" class="btn btn-primary btn-xs mt-3" id="addproduct" wire:click="$parent.addGoods">
             <i class="fa fa-plus "> </i>
             Add New Row
         </button>
     </div>
     <div class="form-group row">
-        <label class="col-lg-2 col-form-label">Total Number of Package (in
+        <label class="col-md-3 col-form-label">Total Number of Package (in
             words)</label>
         <div class="col-md-4">
             <input type="text" name="good_total_num_package" class="form-control"

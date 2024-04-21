@@ -1,7 +1,9 @@
 <div>
     <div class="form-group row">
-        <div class="col-md-2">
+        <div class="col-md-1">
             <label class="col-form-label" style="padding-top: 5px;">Type</label>
+        </div>
+        <div class="col-md-2">
             <select name="containerTypeHeader" class="select2_single form-control select2" id="containerTypeHeader"
                 style="width: 100%" wire:model.change="typeContainer">
                 <option value="">- select -</option>
@@ -11,8 +13,10 @@
                 @endforeach
             </select>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
             <label class="col-form-label" style="padding-top: 5px;">Size</label>
+        </div>
+        <div class="col-md-2">
             <select name="containerSizeHeader" id="containerSizeHeader" class="select2_single form-control select2"
                 style="width: 100%" wire:model.change="sizeContainer">
                 <option value="">- select -</option>
@@ -24,15 +28,20 @@
         </div>
         <div class="col-md-1">
             <label class="col-form-label" style="padding-top: 5px;">จำนวน</label>
+                
+        </div>
+        <div class="col-md-2">
             <input name="containQty" type="number" class="form-control" id="containQty"
                 wire:model.live.debounce.500ms="quantityContainer">
                 
         </div>
-        <div class="col-md-1" style="display: flex; align-items: flex-end;">
-            <button class="btn btn-white" type="button" wire:click="addContainer">
+        <div class="col" style="display: flex; align-items: flex-end;">
+            <button class="btn btn-primary" type="button" wire:click="addContainer">
                 <i class="fa fa-plus"></i>Add
             </button>
         </div>
+        @error('typeContainer') <span class="text-danger">{{ $message }}</span> @enderror
+        @error('sizeContainer') <span class="text-danger">{{ $message }}</span> @enderror
         @error('quantityContainer')
             <div class="text-danger m-2">{{ $message }}</div>
         @enderror
@@ -133,7 +142,7 @@
                                 wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.containerTareweight">
                         </td>
                         <td class="center">
-                            <button type="button" class="btn-white btn btn-xs"
+                            <button type="button" class="btn-danger btn btn-xs"
                                 wire:click="$parent.removeContainer('{{ $loop->index }}')">Remove</button>
                         </td>
                     </tr>

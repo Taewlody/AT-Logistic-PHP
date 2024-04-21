@@ -11,13 +11,10 @@
                 Date</label>
         </div>
         <div class="col-lg-4">
-            <div class="input-group date">
-                <span class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                </span>
+            
                 <input type="date" name="documentDate" class="form-control" placeholder="dd/mm/yyyy"
                     wire:model.live.debounce.500ms="value.documentDate" @disabled($action != 'create' && $action != 'edit')>
-            </div>
+        
         </div>
     </div>
     <div class="form-group  row">
@@ -126,53 +123,38 @@
     <div class="form-group row date">
         <label class="col-lg-2 col-form-label">ETD</label>
         <div class="col-lg-4">
-            <div class="input-group date"> 
-                <span class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                </span>
+            
                 <input type="date" name="etdDate" id="etdDate"
                     class="form-control" wire:model.live.debounce.500ms="value.etdDate"
                     @disabled($action != 'create' && $action != 'edit')>
-            </div>
+          
         </div>
         <div class="col-md-2">
             <label class="col-form-label" style="padding-top: 5px;">ETA</label>
         </div>
         <div class="col-lg-4">
-            <div class="input-group date"> 
-                <span class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                </span>
                 <input name="etaDate" id="etaDate" type="date"
                     class="form-control" wire:model.live.debounce.500ms="value.etaDate"
                     @disabled($action != 'create' && $action != 'edit')>
-            </div>
+         
         </div>
     </div>
     <div class="form-group row date">
         <label class="col-lg-2 col-form-label">Closing Date</label>
         <div class="col-lg-4">
-            <div class="input-group date">
-                <span class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                </span>
                 <input name="closingDate" type="date" class="form-control"
                     id="closingDate" wire:model.live.debounce.500ms="value.closingDate"
                     @disabled($action != 'create' && $action != 'edit')>
-            </div>
+       
         </div>
         <div class="col-md-2">
             <label class="col-form-label" style="padding-top: 5px;">Time</label>
         </div>
         <div class="col-lg-4">
-            <div class="input-group clockpicker" value-autoclose="true">
                 <input name="closingTime" type="time" class="form-control"
                     id="closingTime" wire:model.live.debounce.500ms="value.closingTime"
                     @disabled($action != 'create' && $action != 'edit')>
-                <span class="input-group-addon">
-                    <span class="fa fa-clock-o"></span>
-                </span>
-            </div>
+        
         </div>
     </div>
     <div class="form-group row">
@@ -256,14 +238,11 @@
             </label>
         </div>
         <div class="col-md-4">
-            <div class="input-group date">
-                <span class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                </span>
+           
                 <input name="freetimeEXP" id="freetimeEXP" type="date"
                     wire:model.live.debounce.500ms="value.freetimeEXP" class="form-control"
                     @disabled($action != 'create' && $action != 'edit')>
-            </div>
+            
         </div>
     </div>
 </div>

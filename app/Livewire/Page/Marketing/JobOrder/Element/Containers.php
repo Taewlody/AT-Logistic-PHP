@@ -57,6 +57,7 @@ class Containers extends Component
     ];
 
     public function addContainer() {
+        $this->validate();
         $this->dispatch('Add-Container', $this->typeContainer, $this->sizeContainer, $this->quantityContainer);
         $this->reset('typeContainer', 'sizeContainer', 'quantityContainer');
     }
