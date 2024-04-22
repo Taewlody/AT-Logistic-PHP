@@ -5,8 +5,8 @@ namespace App\Livewire\Page\Shipping\PettyCash;
 use App\Models\Common\Charges;
 use App\Models\Common\Supplier;
 use App\Models\Marketing\JobOrder;
-use App\Models\PettyCash\PettyCashShipping;
-use App\Models\PettyCash\PettyCashShippingItems;
+use App\Models\PettyCash\PettyCash;
+use App\Models\PettyCash\PettyCashItems;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
@@ -24,12 +24,12 @@ class Form extends Component
 
     public string $chargeCode = '';
 
-    public ?PettyCashShipping $data = null;
+    public ?PettyCash $data = null;
 
     public Collection $payments;
 
     protected array $rules = [
-        'payments.*' => 'unique:App\Models\PettyCash\PettyCashShippingItems',
+        'payments.*' => 'unique:App\Models\PettyCash\PettyCashItems',
         'payments.*.autoid' => 'integer',
         'payments.*.comCode' => 'string',
         'payments.*.documentID' => 'string',
@@ -67,7 +67,7 @@ class Form extends Component
 
     public function mount()
     {
-        $this->data = new PettyCashShipping();
+        $this->data = new PettyCash;
         if ($this->action == '') {
             $this->action = 'view';
         } else {
@@ -75,7 +75,7 @@ class Form extends Component
         }
 
         if ($this->id != '') {
-            $this->data = PettyCashShipping::find($this->id);
+            $this->data = PettyCash::find($this->id);
             $this->payments = $this->data->items;
         } else {
             $this->action = 'create';
@@ -87,7 +87,7 @@ class Form extends Component
 
     public function addPayment() {
         $charge = Charges::find($this->chargeCode);
-        $newCharge = new PettyCashShippingItems;
+        $newCharge = new PettyCashItems;
         $newCharge->documentID = $this->data->documentID;
         $newCharge->chargeCode = $this->chargeCode;
         $newCharge->chartDetail = $charge->chargeName;

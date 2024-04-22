@@ -108,6 +108,26 @@ class Form extends Component
         $this->redirectRoute(name: 'account-petty-cash', navigate: true);
     }
 
+    public function approve() {
+        $this->data->editID = Auth::user()->usercode;
+        $this->data->documentstatus = 'A';
+        $this->data->save();
+        $this->job = JobOrder::find($this->data->refJobNo);
+        $this->data->items->each(function($item){
+            $this->job->charge()->create([
+                'documentID' => $this->job->documentID,
+                'ref_paymentCode' => $this->data->documentID,
+                'chargeCode' => $item->chargeCode,
+                'detail' => $item->chartDetail,
+                'chargesCost' => $item->amount,
+                // 'chargesReceive' => $item->amount,
+                // 'chargesbillReceive' => $item->amount,
+            ]);
+        });
+        $this->redirectRoute(name: 'shipping-payment-voucher', navigate: true);
+    }
+
+
 
     public function render()
     {

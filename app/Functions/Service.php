@@ -173,10 +173,10 @@ class Service
         });
     }
 
-    public static function JobOrderSelecter()
+    public static function JobOrderSelecter(bool|null $approve = false)
     {
-        return Cache::remember('job-order-select', 15, function () {
-            return JobOrder::select('documentID')->where("documentstatus", "=", "A")->orderBy('documentID')->get();
+        return Cache::remember('job-order-select', 15, function () use ($approve) {
+            return JobOrder::select('documentID')->where("documentstatus", "=", ($approve ? "A" : "P"))->orderBy('documentID')->get();
         });
     }
 

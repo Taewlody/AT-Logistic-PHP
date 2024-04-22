@@ -8,7 +8,7 @@ use Livewire\WithPagination;
 use Carbon\Carbon;
 
 use App\Models\Common\Customer;
-use App\Models\PettyCash\PettyCashShipping;
+use App\Models\PettyCash\PettyCash;
 
 
 class Page extends Component
@@ -50,7 +50,7 @@ class Page extends Component
     public function render()
     {
         return view('livewire.page.shipping.petty-cash.page', [ 
-            'data'=> PettyCashShipping::whereBetween('documentDate', [$this->dateStart, $this->dateEnd] )
+            'data'=> PettyCash::whereBetween('documentDate', [$this->dateStart, $this->dateEnd] )
             ->where($this->query)->orderBy('documentID', 'DESC')->paginate(20)
             ])->extends('layouts.main')->section('main-content');
     }

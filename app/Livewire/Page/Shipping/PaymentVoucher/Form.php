@@ -4,6 +4,7 @@ namespace App\Livewire\Page\Shipping\PaymentVoucher;
 
 use App\Models\AttachFile;
 use App\Models\Common\Charges;
+use App\Models\Marketing\JobOrder;
 use App\Models\Payment\PaymentVoucher;
 // use App\Models\Payment\ShipingPaymentVoucher;
 use App\Models\Payment\PaymentVoucherAttach;
@@ -171,7 +172,6 @@ class Form extends Component
     public function save() {
         $this->data->editID = Auth::user()->usercode;
         $this->data->save();
-        // $this->data->items()->delete();
         $this->data->items->filter(function($item){
             return !collect($this->payments->pluck('autoid'))->contains($item->autoid);
         })->each->delete();

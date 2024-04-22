@@ -4,7 +4,7 @@
 
     <div class="wrapper wrapper-content animated fadeInRight">
         {{-- loading --}}
-        <div wire:loading.flex class="loader-wrapper" wire:target='save'>
+        <div wire:loading.flex class="loader-wrapper" wire:target='save,approve'>
             <div class="loader"></div>
         </div>
 
@@ -410,7 +410,7 @@
                                          @disabled($data->documentstatus == 'A')>
                                         <i class="fa fa-save"></i> Save</button>
                                     @endif
-                                    <button name="approve" id="approve" class="btn btn-primary" type="button"
+                                    <button name="approve" id="approve" class="btn btn-primary" type="button" wire:click="approve"
                                         @disabled($data->documentstatus == 'A')>
                                         <i class="fa fa-check"></i> Approve</button>
                                     @if($data->documentID != null && $data->documentID != '')
