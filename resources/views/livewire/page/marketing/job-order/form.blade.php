@@ -22,7 +22,7 @@
                                                 <i class="fa fa-file-text"></i> 
                                             </div>
                                             <div class="file-name text"> 
-                                                Invoice
+                                                Invoice <span id="invoiceNoText"></span>
                                             </div>
                                         </a> 
                                     </div>
@@ -461,13 +461,19 @@
 <script>
     let invoiceNo = null;
     let billOfladingNo = null;
+    let documentID = null;
 
     document.addEventListener('livewire:initialized', () => {
         if($wire.job && $wire.job.invoiceNo) {
             invoiceNo = $wire.job.invoiceNo;
+            console.log('invoiceNo: ', invoiceNo);
+            $('#invoiceNoText').text(invoiceNo);
         }
         if($wire.job && $wire.job.billOfladingNo) {
             billOfladingNo = $wire.job.billOfladingNo;
+        }
+        if($wire.job && $wire.job.documentID) {
+            documentID = $wire.job.documentID;
         }
     });
 
@@ -479,21 +485,21 @@
             return false
         }
     });
-    $('#invoice').click(function() {
-        if(invoiceNo) {
-            var url = "{!! route('invoice.form', ['action' => 'edit']) !!}"+'&id='+invoiceNo;
+    $('#btnbill_of_lading').click(function() {
+        if(billOfladingNo) {
+            var url = "{{ route('bill-of-lading.form', ['action' => 'edit']) }}"+'&id='+documentID;
             window.open(url, '_blank');
         }else {
             return false
         }
     });
-    // $('#btnbill_of_lading').click(function() {
-    //     if(invoiceNo) {
-    //         var url = "{!! route('invoice.form', ['action' => 'edit']) !!}"+'&id='+invoiceNo;
-    //         window.open(url, '_blank');
-    //     }else {
-    //         return false
-    //     }
-    // });
+    $('#trailer_booking').click(function() {
+        if(billOfladingNo) {
+            var url = "{{ route('trailer-booking.form', ['action' => 'edit']) }}"+'&id='+documentID;
+            window.open(url, '_blank');
+        }else {
+            return false
+        }
+    });
 </script>
 @endscript
