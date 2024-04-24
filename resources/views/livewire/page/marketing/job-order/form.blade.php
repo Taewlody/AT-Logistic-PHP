@@ -462,15 +462,19 @@
     let invoiceNo = null;
     let billOfladingNo = null;
     let documentID = null;
+    let trailer_bookingNO = null;
 
     document.addEventListener('livewire:initialized', () => {
+        console.log('invoiceNo: ', $wire.billOfLanding);
         if($wire.job && $wire.job.invoiceNo) {
             invoiceNo = $wire.job.invoiceNo;
-            console.log('invoiceNo: ', invoiceNo);
             $('#invoiceNoText').text(invoiceNo);
         }
         if($wire.job && $wire.job.billOfladingNo) {
             billOfladingNo = $wire.job.billOfladingNo;
+        }
+        if($wire.job && $wire.job.trailer_bookingNO) {
+            trailer_bookingNO = $wire.job.trailer_bookingNO;
         }
         if($wire.job && $wire.job.documentID) {
             documentID = $wire.job.documentID;
@@ -494,7 +498,7 @@
         }
     });
     $('#trailer_booking').click(function() {
-        if(billOfladingNo) {
+        if(trailer_bookingNO) {
             var url = "{{ route('trailer-booking.form', ['action' => 'edit']) }}"+'&id='+documentID;
             window.open(url, '_blank');
         }else {
