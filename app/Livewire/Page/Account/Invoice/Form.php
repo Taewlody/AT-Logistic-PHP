@@ -92,13 +92,31 @@ class Form extends Component
 
     }
 
-    public function save() {
+    protected function save(bool|null $approve = false) {
         $this->data->editID = Auth::user()->usercode;
+        if($approve){
+            $this->data->documentStatus = 'A';
+        }
         $this->data->save();
         $this->data->items->filter(function(InvoiceItems $item){
             return !collect($this->payments->pluck('items'))->contains($item->items);
         })->each->delete();
         $this->data->items()->saveMany($this->payments);
+        // $this->redirectRoute(name: 'invoice', navigate: true);
+    }
+
+    public function submit(){
+        $this->save();
+        $this->backRoute();
+    }
+
+    public function approve()
+    {
+        $this->save(true);
+        $this->backRoute();
+    }
+
+    public function backRoute(){
         $this->redirectRoute(name: 'invoice', navigate: true);
     }
     
