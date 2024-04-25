@@ -56,7 +56,7 @@ class Charges extends Component
 
     public function addCharge()
     {
-        $this->validate();
+        // $this->validate();
         $this->dispatch('Add-Charge', $this->chargeCode);
         $this->reset('chargeCode');
     }
