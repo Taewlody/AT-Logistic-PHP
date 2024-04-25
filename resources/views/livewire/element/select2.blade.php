@@ -34,9 +34,9 @@
     //     // @this.set('value', e.target.value);
     // });
     $('#{{$this->__id}}').on('select2:select', function (e) {
-        var data = e.params.data;
+        var data = $(this).val();
         if(data) {
-            @this.set($wire.nameKey, data.id);
+            @this.set($wire.nameKey, data);
         }else {
             console.log('select2 not found');
         }
