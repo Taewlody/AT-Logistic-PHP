@@ -363,14 +363,14 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Create By</label>
                                     <div class="col-sm-10">
-                                        <label>{{ $data->createBy->username }} {{ $data->createTime ?? '' }}</label>
+                                        <label>{{ $data->createBy?->username }} {{ $data->createTime ?? '' }}</label>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Update By</label>
                                     <div class="col-sm-10">
-                                        <label>{{ $data->editBy->username }} {{ $data->editTime ?? '' }}</label>
+                                        <label>{{ $data->editBy?->username ?? "" }} {{ $data->editTime ?? '' }}</label>
                                     </div>
                                 </div>
                             @endif

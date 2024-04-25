@@ -51,21 +51,21 @@ services:
             retries: 3
             timeout: 5s
 
-    phpmyadmin:
-        image: phpmyadmin:latest
-        restart: always
-        links:
-        - mysql
-        ports:
-        - 8081:80
-        environment:
-            MYSQL_USER: '${DB_USERNAME}'
-            MYSQL_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
-            PMA_HOST: mysql
-            UPLOAD_LIMIT: 100000000
-        networks:
-            - laravel
+    # phpmyadmin:
+    #     image: phpmyadmin:latest
+    #     restart: always
+    #     links:
+    #     - mysql
+    #     ports:
+    #     - 8081:80
+    #     environment:
+    #         MYSQL_USER: '${DB_USERNAME}'
+    #         MYSQL_PASSWORD: '${DB_PASSWORD}'
+    #         MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+    #         PMA_HOST: mysql
+    #         UPLOAD_LIMIT: 100000000
+    #     networks:
+    #         - laravel
 networks:
     laravel:
         driver: bridge

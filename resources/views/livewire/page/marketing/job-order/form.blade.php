@@ -3,11 +3,11 @@
         breadcrumb_page="Job Orders" breadcrumb_page_title="Job Orders Form" />
 
     {{-- loading --}}
-    <div wire:loading.flex class="loader-wrapper" wire:target="save" >
+    <div wire:loading.flex class="loader-wrapper" wire:target="save,approve" >
         <div class="loader"></div>
     </div>
     
-    <form class="form-body" wire:submit="save">
+    <form class="form-body" wire:submit="save" onkeydown="return event.key != 'Enter';">
         <div class="wrapper wrapper-content animated fadeInRight">
 
             <div class="row">
@@ -424,7 +424,7 @@
                                     <button name="Approve" id="Approve" class="btn btn-success" 
                                         type="submit"><i class="fa fa-save"></i> Save</button>
                                     @if($action != 'create' && $job->documentstatus == 'P' && $checkApprove)
-                                        <button name="Approve" id="Approve" class="btn btn-success" wire:click="save"
+                                        <button name="Approve" id="Approve" class="btn btn-success" wire:click="approve"
                                         type="button"><i class="fa fa-check"></i> Approve</button>
                                     @endif
                                     @if($job->documentID != null ||$job->documentID != '')

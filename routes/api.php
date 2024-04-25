@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\VerifyCsrfToken;
 use App\Http\Resources\BlobFileResource;
 use App\Models\AttachFile;
 use Illuminate\Http\Request;
@@ -27,6 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // });
 
 Route::group(['middleware' => ['auth.basic:,usercode']], function () {
+    
     Route::post('/tokens/create', function (Request $request) {
         $token = $request->user()->createToken($request->token_name);
         return ['token' => $token->plainTextToken];
@@ -42,6 +44,11 @@ Route::group(['middleware' => ['auth.basic:,usercode']], function () {
 
     Route::post('/blobfile/add', [BlobFileResource::class, 'addFile']);
 
+});
+
+Route::group(['middleware' => ['web']], function () {
+
+   
     Route::get('print/advance_payment_pdf/{documentID}', [PrintFileResource::class, 'AdvancePaymentPdf']);
 
     // Route::get('print/advance_payment_pdf/{documentID}/download', [PrintFileResource::class, 'AdvancePaymentPdfDownload']);

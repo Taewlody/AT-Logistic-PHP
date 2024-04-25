@@ -13,6 +13,7 @@
  - ./vendor/bin/sail stop **for stop sail laravel**
  - ./vendor/bin/sail artisan <command> **for use run artisan**
  - ./vendor/bin/sail composer require <libname> **for install lib**
+ - npm run build **for build scss and js**
 
 ## Start server
  - php artisan serve --host 0.0.0.0

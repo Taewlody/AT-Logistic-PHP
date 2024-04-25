@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
 <head>
     <!-- All meta and title start-->
-    @include('layouts.themes.layout.head')
+    @include('layouts.themes.layout.head', ['title' => $title ?? null])
     <!-- meta and title end-->
+    <title>{{$title ?? "Koho - Premium Admin Template"}}</title>
 
     <!-- css start-->
     @include('layouts.themes.layout.css')

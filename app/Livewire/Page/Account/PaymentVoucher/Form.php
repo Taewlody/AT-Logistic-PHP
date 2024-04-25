@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 use Livewire\WithFileUploads;
@@ -200,6 +201,7 @@ class Form extends Component
         $this->redirectRoute(name: 'shipping-payment-voucher', navigate: true);
     }
 
+    #[Title('payment voucher')] 
     public function render()
     {
         return view('livewire.page.account.payment-voucher.form')->extends('layouts.main')->section('main-content');

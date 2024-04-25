@@ -55,6 +55,11 @@ class Page extends Component
         }
     }
 
+    public function delete($id) {
+        Invoice::find($id)->delete();
+        $this->render();
+    }
+
     public function render()
     {
         return view('livewire.page.account.invoice.page', [ 'data'=> Invoice::where($this->query)->orderBy('documentID', 'desc')->paginate(20)])->extends('layouts.main')->section('main-content');

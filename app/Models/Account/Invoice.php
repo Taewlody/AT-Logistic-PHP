@@ -103,6 +103,11 @@ class Invoice extends Model implements Wireable
         'taxivRef' => 'string',
     ];
 
+    protected $attributes = [
+        'comCode' => 'C01',
+        'documentstatus' => 'P',
+    ];
+
     public static function boot()
     {
         parent::boot();

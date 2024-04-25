@@ -3,15 +3,18 @@
 namespace App\Livewire\Page\Marketing\JobOrder;
 
 use App\Functions\CalculatorPrice;
+use App\Jobs\InvoiceService;
 use App\Models\AttachFile;
 use App\Models\Common\Charges;
 use App\Models\Marketing\JobOrder;
 use App\Models\Marketing\JobOrderAttach;
 use App\Models\Marketing\JobOrderCharge;
 use App\Models\Marketing\JobOrderContainer;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Process;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -19,6 +22,7 @@ use Livewire\Attributes\Url;
 use App\Models\Marketing\JobOrderPacked;
 use App\Models\Marketing\JobOrderGoods;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
+use Livewire\Pipe;
 
 
 class Form extends Component
@@ -179,7 +183,6 @@ class Form extends Component
         })->toArray();
 
         $this->checkApprove = $this->checkApprove();
-
     }
 
     private function checkApprove()
@@ -187,7 +190,7 @@ class Form extends Component
         if ($this->data->documentstatus == 'A') {
             return false;
         }
-        if ($this->data->PaymentVoucher->where('documentstatus', 'A')->count() > 0) {
+        if ($this->data->PaymentVoucher->where('documentstatus', 'P')->count() > 0) {
             return false;
         }
         if ($this->data->PettyCash->where('documentstatus', 'P')->count() > 0) {
@@ -196,6 +199,7 @@ class Form extends Component
         if($this->data->AdvancePayment->where('documentstatus', 'P')->count() > 0) {
             return false;
         }
+        return true;
 
     }
 
@@ -392,8 +396,19 @@ class Form extends Component
 
     public function approve()
     {
-        $this->job->documentstatus = 'A';
-        $this->job->save();
+        // $this->job->update([
+        //     'documentstatus' => 'A',
+        // ]);
+        // app(Pipeline::class)->through([
+        //     InvoiceService::generate($this->job->documentID)
+        // ])->thenReturn();
+        // Process::pipe([InvoiceService::generate($this->job->documentID)]);
+        // dd("Approve");
+        dispatch(new InvoiceService(JobOrder::find($this->job->documentID), Auth::user()->usercode))->onQueue('job-order');
+        // InvoiceService::dispatch($this->job->documentID, Auth::user())->onQueue('job-order');
+        // dd($runing_job);
+        // dispatch(new \App\Jobs\TestJob)->execute();
+        
         $this->redirectRoute(name: 'job-order', navigate: true);
     }
 

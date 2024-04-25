@@ -42,7 +42,7 @@ class Form extends Component
             $this->data->editID = Auth::user()->usercode;
             $this->data->editTime = Carbon::now()->format('Y-m-d H:i:s');
         }
-        Commodity::updateOrCreate(['commodityCode' => $this->data->commodityCode], $this->data->toArray());
+        $this->data->save();
         return $this->redirect(Page::class);
     }
     

@@ -167,6 +167,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\HorizonServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         // Collective\Html\HtmlServiceProvider::class,
         Spatie\Html\HtmlServiceProvider::class,
@@ -187,6 +188,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+        'Redis' => Illuminate\Support\Facades\Redis::class,
         // 'Example' => App\Facades\Example::class,
         // 'Form' => Collective\Html\FormFacade::class,
         // 'Html' => Collective\Html\HtmlFacade::class,

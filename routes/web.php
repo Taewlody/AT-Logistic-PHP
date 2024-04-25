@@ -42,6 +42,11 @@ use App\Livewire\Page\Test;
 
     Route::get("/dashboard", Dashboard::class)->name('dashboard');
 
+    Route::get('test-job-redis', function() {
+        // \App\Jobs\TestJob::dispatch()->onQueue("processing");
+        \App\Jobs\InvoiceService::dispatch(\App\Models\Marketing\JobOrder::find("REF2404-00001"))->onQueue('default');
+    });
+
     require_once(__DIR__.'/common/route.php');
     
     require_once(__DIR__.'/marketing/route.php');
@@ -57,6 +62,8 @@ use App\Livewire\Page\Test;
     require_once(__DIR__.'/report/route.php');
 
     require_once(__DIR__.'/administrator/route.php');
+
+    
 
 });
 

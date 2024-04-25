@@ -4,6 +4,7 @@ namespace App\Models\Common;
 use App\Casts\BooleanString;
 use App\Casts\CustomDateTime;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Livewire\Wireable;
@@ -49,6 +50,26 @@ class Commodity extends Model implements Wireable {
         'comCode' => 'C01',
         'isActive' => false,
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function($model){
+            $model->commodityCode = self::genarateKey();
+        });
+    }
+
+    public static function genarateKey(){
+        $prefix = "COM".Carbon::now()->format('ym');
+        $lastKey = self::where('commodityCode', 'LIKE', $prefix.'%')->max('commodityCode');
+        if($lastKey != null){
+            $lastKey = intval(explode('-', $lastKey)[1]) + 1;
+        }else{
+            $lastKey = 1;
+        }
+        $index = str_pad($lastKey, 5, '0', STR_PAD_LEFT);
+        return $prefix.'-'.$index;
+    }
 
     public function __construct($attributes = [])
     {

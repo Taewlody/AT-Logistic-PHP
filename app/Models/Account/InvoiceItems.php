@@ -42,6 +42,13 @@ class InvoiceItems extends Model implements Wireable
         'chargesbillReceive' => 'float',
     ];
 
+    protected $attributes = [
+        'comCode' => 'C01',
+        'chargesCost' => 0,
+        'chargesReceive' => 0,
+        'chargesbillReceive' => 0,
+    ];
+
     public function charges(): HasOne
     {
         return $this->hasOne(Charges::class, 'chargeCode', 'chargeCode');
