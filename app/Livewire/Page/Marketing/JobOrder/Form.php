@@ -64,6 +64,8 @@ class Form extends Component
 
     public $checkApprove = true;
 
+    public $chargeCode;
+
     protected array $rules = [
         'file' => 'mimes:png,jpg,jpeg,pdf|max:102400',
         'containerList.*' => 'unique:App\Models\Marketing\JobOrderContainer',
@@ -284,13 +286,14 @@ class Form extends Component
     }
 
     #[On('Add-Charge')]
-    public function addCharge($chargeCode)
+    public function addCharge()
     {
+        // dd($chargeCode);
         $charge = new JobOrderCharge;
         $charge->documentID = $this->job->documentID;
         $charge->comCode = 'C01';
-        $charge->chargeCode = $chargeCode;
-        $getCharge = Charges::find($chargeCode);
+        $charge->chargeCode = $this->chargeCode;
+        $getCharge = Charges::find($this->chargeCode);
         if ($getCharge != null) {
             $charge->detail = $getCharge->chargeName;
         }

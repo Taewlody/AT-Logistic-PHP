@@ -232,6 +232,18 @@
                             <div id="collapseCharges" role="tabpanel" class="collapse" aria-labelledby="headingCharges"
                                 data-bs-parent="#accordion-7" wire:ignore.self>
                                 <div class="card-body">
+                                    <div class="form-group  row">
+                                        <div class="col-md-6">
+                                            <livewire:element.select2 wire:model.live='chargeCode' name="chargeCode" :options="Service::ChargesSelecter()" 
+                                                itemKey="chargeCode" itemValue="chargeName" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
+                                        </div>
+                                        <div class="col-md-2" style="padding-left: 0px;">
+                                            <button class="btn btn-primary " type="button" name="addCharge" wire:click="addCharge"
+                                                id="addCharge" @disabled($chargeCode=='' )><i class="fa fa-plus"></i>
+                                                Add</button>
+                                        </div>
+                                        
+                                    </div>
                                     <livewire:page.marketing.job-order.element.charges
                                         wire:model.live.debounce.1000ms="chargeList" :$action
                                         :qty="$qty"

@@ -25,8 +25,8 @@ class Charges extends Component
     public Collection $value;
 
     // public Collection $container;
-    #[Validate('required|string')]
-    public String $chargeCode = '';
+    // #[Validate('required|string')]
+    // public String $chargeCode = '';
 
     #[Locked]
     public String|null $documentID = '';
@@ -42,7 +42,7 @@ class Charges extends Component
         'value.*.comCode'=> 'string',
         'value.*.documentID'=> 'required|string',
         'value.*.ref_paymentCode'=> 'string',
-        'value.*.chargeCode'=> 'required|string',
+        // 'value.*.chargeCode'=> 'required|string',
         'value.*.detail'=> 'string',
         'value.*.chargesCost'=> 'string',
         'value.*.chargesReceive'=> 'string',
@@ -54,12 +54,12 @@ class Charges extends Component
         return CalculatorPrice::cal_charge($this->value);
     }
 
-    public function addCharge()
-    {
-        // $this->validate();
-        $this->dispatch('Add-Charge', $this->chargeCode);
-        $this->reset('chargeCode');
-    }
+    // public function addCharge()
+    // {
+    //     // $this->validate();
+    //     $this->dispatch('Add-Charge', $this->chargeCode);
+    //     $this->reset('chargeCode');
+    // }
 
     #[On('Update-Container')]
     public function updateQty($newQty)
