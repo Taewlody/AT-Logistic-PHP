@@ -34,7 +34,6 @@ class InvoiceService implements ShouldQueue, ShouldBeUnique
      */
     public function __construct(JobOrder $joborder, $user)
     {
-        // $this->onQueue('processing');
         $this->item_change = $joborder->charge;
         $this->customer_piad = $joborder->AdvancePayment;
         $this->joborder = $joborder->withoutRelations();
@@ -109,9 +108,7 @@ class InvoiceService implements ShouldQueue, ShouldBeUnique
                 ]);
             });
         });
-        // Log::info("item_invoice" . print_r($Item_invoice, true));
         $invoice->items()->saveMany($Item_invoice);
-        // $this->release();
     }
 
     /**
@@ -120,7 +117,7 @@ class InvoiceService implements ShouldQueue, ShouldBeUnique
     public function failed($exception): void
     {
         Log::error("Generate Invoice for Job Order ID: " . $this->joborder->documentID . " failed with exception: " . $exception->getMessage());
-        // $this->release(delay: 60);
+        $this->release(delay: 60);
     }
 
     // public function retryUntil(): DateTime
