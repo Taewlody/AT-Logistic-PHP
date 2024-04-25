@@ -1,16 +1,6 @@
 <div>
-    <div class="form-group  row">
+    {{-- <div class="form-group  row">
         <div class="col-md-6">
-            {{-- <select class="select2_single form-control select2" style="width: 100%;"
-                id="chargeCode" wire:model.change="chargeCode">
-                <option value="">- select -</option>
-                @foreach (Service::ChargesSelecter() as $charge)
-                    <option value="{{ $charge->chargeCode }}">
-                        {{ $charge->chargeName }}
-                    </option>
-                @endforeach
-
-            </select> --}}
             <livewire:element.select2 wire:model.live='chargeCode' name="chargeCode" :options="Service::ChargesSelecter()" 
                 itemKey="chargeCode" itemValue="chargeName" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
         </div>
@@ -20,7 +10,7 @@
                 Add</button>
         </div>
         @error('chargeCode') <span class="text-danger">{{ $message }}</span> @enderror
-    </div>
+    </div> --}}
     <div class="form-group">
         <div class="table-responsive" id="containner_charge">
             <table class="table" width="100%" id="table_charge">
