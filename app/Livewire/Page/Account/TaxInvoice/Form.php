@@ -60,6 +60,8 @@ class Form extends Component
         }
     }
 
+    
+
     public function addPayment() {
         $charge = Charges::find($this->chargeCode);
         $newCharge = new TaxInvoiceItems;
@@ -76,12 +78,6 @@ class Form extends Component
     // }
 
     public function updatedPayments($value, $key) {
-        // $this->data->total_vat = $this->payments->filter(function (InvoiceItems $item) {
-        //     if($item->charge == null || $item->charge->chargesType == null) return false;
-        //     return $item->charges->chargesType->amount == 7;
-        // })->sum(function(InvoiceItems $payment) {
-        //     return $payment->chargesReceive - $payment->chargesbillReceive;
-        // });
         $this->data->total_vat = $this->payments->sum('chargesReceive') * 0.07;
         $this->data->total_amt = $this->data->total_vat + ($this->payments->sum('chargesReceive') + $this->payments->sum('chargesbillReceive'));
         $this->data->tax1 = $this->payments->filter(function (TaxInvoiceItems $item) {
@@ -100,13 +96,30 @@ class Form extends Component
 
     }
 
-    public function save() {
+    public function save(bool|null $approve = false) {
         $this->data->editID = Auth::user()->usercode;
+        if($approve){
+            $this->data->documentStatus = 'A';
+        }
         $this->data->save();
         $this->data->items->filter(function($item){
             return !collect($this->payments->pluck('items'))->contains($item->items);
         })->each->delete();
         $this->data->items()->saveMany($this->payments);
+    }
+
+    public function submit(){
+        $this->save();
+        $this->backRoute();
+    }
+
+    public function approve()
+    {
+        $this->save(true);
+        $this->backRoute();
+    }
+
+    public function backRoute(){
         $this->redirectRoute(name: 'tax-invoice', navigate: true);
     }
 

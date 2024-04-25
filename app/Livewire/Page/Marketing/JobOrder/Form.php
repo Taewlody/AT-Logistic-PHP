@@ -396,18 +396,10 @@ class Form extends Component
 
     public function approve()
     {
-        // $this->job->update([
-        //     'documentstatus' => 'A',
-        // ]);
-        // app(Pipeline::class)->through([
-        //     InvoiceService::generate($this->job->documentID)
-        // ])->thenReturn();
-        // Process::pipe([InvoiceService::generate($this->job->documentID)]);
-        // dd("Approve");
+        $this->job->update([
+            'documentstatus' => 'A',
+        ]);
         dispatch(new InvoiceService(JobOrder::find($this->job->documentID), Auth::user()->usercode))->onQueue('job-order');
-        // InvoiceService::dispatch($this->job->documentID, Auth::user())->onQueue('job-order');
-        // dd($runing_job);
-        // dispatch(new \App\Jobs\TestJob)->execute();
         
         $this->redirectRoute(name: 'job-order', navigate: true);
     }
