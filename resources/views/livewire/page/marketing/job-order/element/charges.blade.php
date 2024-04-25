@@ -11,12 +11,12 @@
                 @endforeach
 
             </select> --}}
-            <livewire:element.select2 wire:model.change='chargeCode' name="chargeCode" :options="Service::ChargesSelecter()" 
+            <livewire:element.select2 wire:model.live='chargeCode' name="chargeCode" :options="Service::ChargesSelecter()" 
                 itemKey="chargeCode" itemValue="chargeName" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
         </div>
         <div class="col-md-2" style="padding-left: 0px;">
             <button class="btn btn-primary " type="button" name="addCharge" wire:click="addCharge"
-                id="addCharge"><i class="fa fa-plus"></i>
+                id="addCharge" @disabled($chargeCode=='' )><i class="fa fa-plus"></i>
                 Add</button>
         </div>
         @error('chargeCode') <span class="text-danger">{{ $message }}</span> @enderror

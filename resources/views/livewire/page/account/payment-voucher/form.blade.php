@@ -40,12 +40,11 @@
                                             <label class="col-form-label" style="padding-top: 5px;">Document
                                                 Date</label>
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="input-group date"> <span class="input-group-addon"><i
-                                                        class="fa fa-calendar"></i></span>
+                                        <div class="col-md-4">
+                                            
                                                 <input type="date" name="documentDate" class="form-control"
                                                     wire:model="data.documentDate">
-                                            </div>
+                                            
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -66,7 +65,7 @@
                                         <div class="col-md-2">
                                             <label class="col-form-label" style="padding-top: 5px;">Ref. JobNo.</label>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <select class="select2_single form-control select2" name="refJobNo"
                                                 id="refJobNo" wire:model="data.refJobNo">
                                                 <option value="">- Select -</option>
@@ -170,11 +169,10 @@
                                             <label class="col-form-label" style="padding-top: 5px;">Due Date</label>
                                         </div>
                                         <div class="col-md-4">
-                                            <div class="input-group date"> <span class="input-group-addon"><i
-                                                        class="fa fa-calendar"></i></span>
+                                        
                                                 <input type="date" name="dueDate" class="form-control"
                                                     wire:model="data.dueDate">
-                                            </div>
+                                            
                                         </div>
 
                                     </div>
@@ -203,7 +201,7 @@
                                 <div class="card-body">
                                     <div class="form-group row">
                                         <div class="col-md-6">
-                                            <select class="select2_single form-control select2" style="width: 100%;"
+                                            {{-- <select class="select2_single form-control select2" style="width: 100%;"
                                                 id="chargeCode" wire:model.change="chargeCode">
                                                 <option value="">- select -</option>
                                                 @foreach (Service::ChargesSelecter() as $charge)
@@ -212,12 +210,13 @@
                                                 </option>
                                                 @endforeach
 
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model.live='chargeCode' id="chargeCode" :options="Service::ChargesSelecter()" itemKey="chargeCode" itemValue="chargeName" :searchable="true" >
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
-                                            <button class="btn btn-white " type="button" name="addPayment"
-                                                wire:click="addPayment" @disabled($chargeCode=='' ) id="addPayment"><i
-                                                    class="fa fa-plus"></i>
+                                            <button class="btn btn-primary " type="button" name="addPayment" @disabled($chargeCode=='' )
+                                                wire:click="addPayment" id="addPayment"><i
+                                                 class="fa fa-plus"></i>
                                                 Add</button>
                                         </div>
                                     </div>

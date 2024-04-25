@@ -213,7 +213,7 @@
                                         <div class="col-md-6">
                                             <select class="select2_single form-control select2" style="width: 100%;"
                                                 wire:model.lazy="chargeCode">
-                                                <option value="C-032">ลูกค้าสำรองจ่าย</option>
+                                                <option value="C-032">สำรองจ่าย</option>
                                             </select>
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
