@@ -207,7 +207,7 @@
                                             {{-- <input type="text" name="good_commodity" class="form-control" 
                                                 wire:model.live.debounce.500ms="good_commodity"> --}}
                                             <livewire:element.select2 wire:model.live='listCommodity' name="listCommodity" :options="Service::CommoditySelecter()" 
-                                                itemKey="commodityCode" itemValue="commodityNameTH" :multiple="true" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
+                                                itemKey="commodityCode" itemValue="commodityNameEN" :multiple="true" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
                                         </div>
                                     </div>
                                 </div>
