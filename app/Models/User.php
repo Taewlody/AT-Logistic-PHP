@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\CustomDateTime;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Casts\BooleanString;
@@ -115,6 +116,11 @@ class User extends Authenticatable implements Wireable {
     public function editBy(): HasOne
     {
         return $this->hasOne(User::class, 'userCode', 'editID');
+    }
+
+    public function hasRole($role)
+    {
+        return strtolower($this->UserType->userTypeName) == strtolower($role);
     }
 
     public function getAuthIdentifier() {

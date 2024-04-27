@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Page\Account\TaxInvoice;
 
+use App\Models\Account\Invoice;
 use App\Models\Account\TaxInvoice;
 use App\Models\Account\TaxInvoiceItems;
 use App\Models\Common\BankAccount;
@@ -27,6 +28,8 @@ class Form extends Component
     public string $chargeCode = '';
 
     public ?TaxInvoice $data;
+
+    public Collection $invoice;
 
     public Collection $payments;
 
@@ -56,11 +59,32 @@ class Form extends Component
             $this->action = 'create';
             $this->data = new TaxInvoice;
             $this->data->createID = Auth::user()->usercode;
-            $this->payments = new Collection;
+            // $this->payments = new Collection;
+            // $this->payments = $this->getInvoiceItem();
+            // dd($this->payments);
+            $this->getInvoiceItem();
+            // dd($this->payments);
         }
     }
 
-    
+
+    public function getInvoiceItem(){
+        $this->invoice = Invoice::where([['documentStatus', 'A'], ['taxivRef', null]])->get();
+        $this->payments = new Collection;
+        foreach($this->invoice as $inv){
+            $inv->items()->each(function($inv_item) use ($inv){
+                $newItem = new TaxInvoiceItems([
+                    'invNo' => $inv->documentID,
+                    'chargeCode' => $inv_item->chargeCode,
+                    'detail' => $inv_item->detail,
+                    'chargesCost' => $inv_item->chargesCost,
+                    'chargesReceive' => $inv_item->chargesReceive,
+                    'chargesbillReceive' => $inv_item->chargesReceive,
+                ]);
+                $this->payments->push($newItem);
+            });
+        }
+    }
 
     public function addPayment() {
         $charge = Charges::find($this->chargeCode);
@@ -93,7 +117,6 @@ class Form extends Component
             return $payment->chargesReceive - $payment->chargesbillReceive;
         });
         $this->data->total_netamt = $this->data->total_amt - ($this->data->tax1 + $this->data->tax3);
-
     }
 
     public function save(bool|null $approve = false) {
@@ -106,6 +129,7 @@ class Form extends Component
             return !collect($this->payments->pluck('items'))->contains($item->items);
         })->each->delete();
         $this->data->items()->saveMany($this->payments);
+        $this->invoice->each->update(['taxivRef' => $this->data->documentID]);
     }
 
     public function submit(){

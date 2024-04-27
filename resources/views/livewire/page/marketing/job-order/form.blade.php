@@ -3,10 +3,10 @@
         breadcrumb_page="Job Orders" breadcrumb_page_title="Job Orders Form" />
 
     {{-- loading --}}
-    <div wire:loading.flex class="loader-wrapper" wire:target="save,approve" >
+    <div wire:loading.flex class="loader-wrapper" wire:target="save,approve">
         <div class="loader"></div>
     </div>
-    
+
     <form class="form-body" wire:submit="save" onkeydown="return event.key != 'Enter';">
         <div class="wrapper wrapper-content animated fadeInRight">
 
@@ -16,39 +16,39 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col file-box">
-                                    <div class="file"> 
+                                    <div class="file">
                                         <a id="invoice">
-                                            <div class="icon"> 
-                                                <i class="fa fa-file-text"></i> 
+                                            <div class="icon">
+                                                <i class="fa fa-file-text"></i>
                                             </div>
-                                            <div class="file-name text"> 
+                                            <div class="file-name text">
                                                 Invoice <span id="invoiceNoText"></span>
                                             </div>
-                                        </a> 
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="col file-box">
-                                    <div class="file"> 
+                                    <div class="file">
                                         <a id="btnbill_of_lading">
-                                            <div class="icon"> 
-                                                <i class="fa fa-file-text"></i> 
+                                            <div class="icon">
+                                                <i class="fa fa-file-text"></i>
                                             </div>
-                                            <div class="file-name"> 
+                                            <div class="file-name">
                                                 Bill of landing
                                             </div>
-                                        </a> 
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="col file-box">
-                                    <div class="file"> 
+                                    <div class="file">
                                         <a id="trailer_booking">
-                                            <div class="icon"> 
-                                                <i class="fa fa-file-text"></i> 
+                                            <div class="icon">
+                                                <i class="fa fa-file-text"></i>
                                             </div>
-                                            <div class="file-name text-navy"> 
+                                            <div class="file-name text-navy">
                                                 Trailer Booking
                                             </div>
-                                        </a> 
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -143,8 +143,8 @@
                             <div id="collapseContainers" role="tabpanel" class="collapse"
                                 aria-labelledby="headingContainers" data-bs-parent="#accordion-4" wire:ignore.self>
                                 <div class="card-body">
-                                    <livewire:page.marketing.job-order.element.containers
-                                        wire:model="containerList" :$action />
+                                    <livewire:page.marketing.job-order.element.containers wire:model="containerList"
+                                        :$action />
 
                                 </div>
                             </div>
@@ -204,10 +204,12 @@
                                             <label style="padding-top: 5px;">Commodity</label>
                                         </div>
                                         <div class="col-md-4">
-                                            {{-- <input type="text" name="good_commodity" class="form-control" 
+                                            {{-- <input type="text" name="good_commodity" class="form-control"
                                                 wire:model.live.debounce.500ms="good_commodity"> --}}
-                                            <livewire:element.select2 wire:model.live='listCommodity' name="listCommodity" :options="Service::CommoditySelecter()" 
-                                                itemKey="commodityCode" itemValue="commodityNameTH" :multiple="true" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
+                                            <livewire:element.select2 wire:model.live='listCommodity'
+                                                name="listCommodity" :options="Service::CommoditySelecter()"
+                                                itemKey="commodityCode" itemValue="commodityNameTH" :multiple="true"
+                                                :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
                                         </div>
                                     </div>
                                 </div>
@@ -234,19 +236,21 @@
                                 <div class="card-body">
                                     <div class="form-group  row">
                                         <div class="col-md-6">
-                                            <livewire:element.select2 wire:model.live='chargeCode' name="chargeCode" :options="Service::ChargesSelecter()" 
-                                                itemKey="chargeCode" itemValue="chargeName" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
+                                            <livewire:element.select2 wire:model.live='chargeCode' name="chargeCode"
+                                                :options="Service::ChargesSelecter()" itemKey="chargeCode"
+                                                itemValue="chargeName" :searchable="true"
+                                                :disabled="$action != 'create' && $action != 'edit'">
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
-                                            <button class="btn btn-primary " type="button" name="addCharge" wire:click="addCharge"
-                                                id="addCharge" @disabled($chargeCode=='' )><i class="fa fa-plus"></i>
+                                            <button class="btn btn-primary " type="button" name="addCharge"
+                                                wire:click="addCharge" id="addCharge" @disabled($chargeCode=='' )><i
+                                                    class="fa fa-plus"></i>
                                                 Add</button>
                                         </div>
-                                        
+
                                     </div>
                                     <livewire:page.marketing.job-order.element.charges
-                                        wire:model.live.debounce.1000ms="chargeList" :$action
-                                        :qty="$qty"
+                                        wire:model.live.debounce.1000ms="chargeList" :$action :qty="$qty"
                                         :documentID="$job->documentID" />
                                 </div>
                             </div>
@@ -290,15 +294,15 @@
                                                     <td>{{$piad->note == '' ? 'ลูกค้าสำรองจ่าย' : $piad->note}}</td>
                                                     <td>{{Service::MoneyFormat($piad->sumTotal)}}</td>
                                                     @if ($piad->docStatus != null)
-                                                        <td class="center">
-                                                            <span @class([ 'badge' , 'label-primary'=>
-                                                                $piad->docStatus->status_code == 'A',
-                                                                'label-danger' => $piad->docStatus->status_code == 'D',
-                                                                'label-warning' => $piad->docStatus->status_code == 'P',
-                                                                ])>{{ $piad->docStatus->status_name }}</span>
-                                                        </td>
+                                                    <td class="center">
+                                                        <span @class([ 'badge' , 'label-primary'=>
+                                                            $piad->docStatus->status_code == 'A',
+                                                            'label-danger' => $piad->docStatus->status_code == 'D',
+                                                            'label-warning' => $piad->docStatus->status_code == 'P',
+                                                            ])>{{ $piad->docStatus->status_name }}</span>
+                                                    </td>
                                                     @else
-                                                        <td class="center"><span @class([ 'label' ])>Disabled</span>
+                                                    <td class="center"><span @class([ 'label' ])>Disabled</span>
                                                     </td>
                                                     @endif
                                                 </tr>
@@ -433,26 +437,26 @@
                                         wire.loading.attr="disabled">
                                         <i class="fa fa-reply"></i> Back</a>
 
-                                    <button name="Approve" id="Approve" class="btn btn-success" 
-                                        type="submit"><i class="fa fa-save"></i> Save</button>
+                                    <button name="Approve" id="Approve" class="btn btn-success" type="submit"><i
+                                            class="fa fa-save"></i> Save</button>
                                     @if($action != 'create' && $job->documentstatus == 'P' && $checkApprove)
-                                        <button name="Approve" id="Approve" class="btn btn-success" wire:click="approve"
+                                    <button name="Approve" id="Approve" class="btn btn-success" wire:click="approve"
                                         type="button"><i class="fa fa-check"></i> Approve</button>
                                     @endif
                                     @if($job->documentID != null ||$job->documentID != '')
-                                        <a class="btn btn-primary " target="_blank"
-                                            href="{{'/api/print/job_order_pdf/'.$job->documentID}}"><i
-                                                class="fa fa-print"></i> Job</a>
+                                    <a class="btn btn-primary " target="_blank"
+                                        href="{{'/api/print/job_order_pdf/'.$job->documentID}}"><i
+                                            class="fa fa-print"></i> Job</a>
                                     @endif
                                     @if($job->documentID != null ||$job->documentID != '')
-                                        <a class="btn btn-primary " target="_blank"
-                                            href="{{'/api/print/booking_job_pdf/'.$job->documentID}}"><i
-                                                class="fa fa-print"></i> Booking confirm</a>
+                                    <a class="btn btn-primary " target="_blank"
+                                        href="{{'/api/print/booking_job_pdf/'.$job->documentID}}"><i
+                                            class="fa fa-print"></i> Booking confirm</a>
                                     @endif
-                                    @if($job->trailerBooking != null)
-                                        <a class="btn btn-primary " target="_blank"
-                                            href="{{'/api/print/trailer_booking_pdf/'.$job->trailerBooking->documentID}}"
-                                            ><i class="fa fa-print"></i> Trailer booking</a>
+                                    @if($trailerBooking != null)
+                                    <a class="btn btn-primary " target="_blank"
+                                        href="{{'/api/print/trailer_booking_pdf/'.$trailerBooking->documentID}}"><i
+                                            class="fa fa-print"></i> Trailer booking</a>
                                     @endif
                                 </div>
                             </div>
@@ -466,7 +470,7 @@
 </div>
 
 @push('modal')
-    <livewire:modal.job-order.charges-alert />
+<livewire:modal.job-order.charges-alert />
 @endpush
 
 @script

@@ -154,8 +154,11 @@
                                                             href="{{ route('job-order.form', ['action' => 'view', 'id' => $item->documentID]) }}" wire:navigate>View</a>
                                                         <a class="btn btn-xs btn-primary"
                                                             href="{{ route('job-order.form', ['action' => 'edit', 'id' => $item->documentID]) }}" wire:navigate>Edit</a>
-                                                        <button class="btn btn-xs btn-danger"
+                                                        
+                                                        @if(!$item->charge->count() > 0 || Auth::user()->hasRole('admin'))
+                                                            <button class="btn btn-xs btn-danger"
                                                         wire:confirm="Are you sure want to delete {{$item->documentID}}" wire:click="delete('{{$item->documentID}}')" wire:refresh="$refresh">Delete</button>
+                                                        @endif
                                                     </div>
                                                 </td>
                                             </tr>

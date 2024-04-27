@@ -81,7 +81,9 @@ class Charges extends Component
     {
         $this->action = $action;
         $this->documentID = $documentID ?? '';
-        $this->customer_piad = CalculatorPrice::cal_customer_piad($this->documentID);
+        if($action != 'create'){
+            $this->customer_piad = CalculatorPrice::cal_customer_piad($this->documentID);
+        }
         // Log::debug("mount: ".print_r($this->value, true));
     }
 

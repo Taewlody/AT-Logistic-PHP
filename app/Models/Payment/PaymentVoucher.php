@@ -94,6 +94,12 @@ class PaymentVoucher extends Model implements Wireable
     protected $attributes = [
         'comCode'=> 'C01',
         'documentstatus'=> 'P',
+        'sumTotal' => 0,
+        'sumTax1' => 0,
+        'sumTax3' => 0,
+        'sumTax7' => 0,
+        'grandTotal' => 0,
+        'purchasevat' => false,
     ];
 
     public static function boot()

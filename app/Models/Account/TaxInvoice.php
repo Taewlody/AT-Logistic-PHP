@@ -91,6 +91,12 @@ class TaxInvoice extends Model implements Wireable
         'dueDate' => CustomDate::class,
         'dueTime' => 'string',
         'accountCode' => 'string',
+        'taxivRef'=> 'string'
+    ];
+
+    protected $attributes = [
+        'comCode' => 'C01',
+        'documentstatus' => 'P',
     ];
 
     public static function boot()

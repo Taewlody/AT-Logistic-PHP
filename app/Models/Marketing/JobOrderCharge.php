@@ -49,7 +49,7 @@ class JobOrderCharge extends Model implements Wireable
 
     protected $attributes = [
         // 'items' => 0,
-        // 'comCode' => '',
+        'comCode' => 'C01',
         // 'documentID' => '',
         // 'ref_paymentCode' => '',
         // 'chargeCode' => '',

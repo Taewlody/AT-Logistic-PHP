@@ -4,6 +4,7 @@ namespace App\Models\Account;
 
 use App\Models\Common\Charges;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Wireable;
@@ -44,6 +45,13 @@ class TaxInvoiceItems extends Model implements Wireable
         'chargesbillReceive' => 'float',
     ];
 
+    protected $attributes = [
+        'comCode' => 'C001',
+        'chargesCost' => 0,
+        'chargesReceive' => 0,
+        'chargesbillReceive' => 0,
+    ];
+
     public function __construct($attributes = [])
     {
         parent::__construct($attributes);
@@ -69,5 +77,10 @@ class TaxInvoiceItems extends Model implements Wireable
     public function charges(): HasOne
     {
         return $this->hasOne(Charges::class, 'chargeCode', 'chargeCode');
+    }
+
+    public function taxInvoice(): BelongsTo
+    {
+        return $this->belongsTo(TaxInvoice::class, 'documentID', 'documentID');
     }
 }

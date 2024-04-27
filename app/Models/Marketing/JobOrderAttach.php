@@ -12,8 +12,6 @@ class JobOrderAttach extends Model implements Wireable
 
     protected $table = 'joborder_attach';
 
-    // public $incrementing = false;
-    // protected $keyType = 'string';
     protected $primaryKey = 'items';
 
     public $timestamps = false;
@@ -34,6 +32,10 @@ class JobOrderAttach extends Model implements Wireable
         'cusCode' => 'string',
         'fileDetail' => 'string',
         'fileName' => 'string',
+    ];
+
+    protected $attributes = [
+        'comCode' => 'C01',
     ];
 
     public function __construct($attributes = [])

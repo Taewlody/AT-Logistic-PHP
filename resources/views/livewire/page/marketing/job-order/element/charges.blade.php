@@ -60,7 +60,7 @@
                                     {{-- wire:model="data.{{ $loop->index }}.exchange"> --}}
                             </td>
                             <td class="center">
-                                <input type="number" class="form-control full" step=".01"
+                                <input type="number" class="form-control full" step=".01" @readonly($item->items != null)
                                     wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.chargesCost">
                                     {{-- <livewire:element.input :keyName="'chargesCost-'.$item->items" type="number" wire:model.live="value.{{ $loop->index }}.chargesCost" /> --}}
                             </td>

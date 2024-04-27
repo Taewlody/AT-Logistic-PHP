@@ -35,6 +35,16 @@ class PackagedSize extends Component
     public function mount($action){
         $this->action = $action;
     }
+
+    public function updatedValue($valu, $key){
+        $index = explode('.', $key)[0];
+        $packed = $this->value[$index];
+        $width = $packed['packaed_width'] ?? 0;
+        $length = $packed['packaed_length'] ?? 0;
+        $height = $packed['packaed_height'] ?? 0;
+        $qty = $packed['packaed_qty'] ?? 1;
+        $packed['packaed_totalCBM'] = ($width * $length * $height) / (1000000 * $qty);
+    }
     
     public function render()
     {

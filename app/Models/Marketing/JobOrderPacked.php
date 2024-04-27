@@ -48,9 +48,16 @@ class JobOrderPacked extends Model implements Wireable
         'packaed_totalWeight' => 'float',
     ];
 
-    public function id(){
-        return $this->items;
-    }
+    protected $attributes = [
+        'comCode' => 'C01',
+        'packaed_width' => 0,
+        'packaed_length' => 0,
+        'packaed_height' => 0,
+        'packaed_qty' => 1,
+        'packaed_weight' => 0,
+        'packaed_totalCBM' => 0,
+        'packaed_totalWeight' => 0,
+    ];
 
     public function __construct($attributes = [])
     {

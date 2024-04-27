@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Page\Account\Invoice;
 
+use App\Enum\FormMode;
+use App\Enum\ViewMode;
 use App\Models\Account\Invoice;
 use App\Models\Account\InvoiceItems;
 use App\Models\Common\Charges;
@@ -13,9 +15,12 @@ use Livewire\Attributes\Url;
 class Form extends Component
 {
     #[Url]
-    public $action = '';
+    public $action = "";
     #[Url]
     public $id = '';
+
+    public ViewMode $mode;
+    public FormMode $formMode;
 
     public string $chargeCode = '';
     public ?Invoice $data = null;
@@ -50,6 +55,8 @@ class Form extends Component
             $this->data->createID = Auth::user()->usercode;
             $this->payments = new Collection;
         }
+        $this->mode = ViewMode::from($this->action);
+        $this->formMode = $this->mode->toFormMode();
     }
 
     public function addPayment() {
@@ -102,7 +109,6 @@ class Form extends Component
             return !collect($this->payments->pluck('items'))->contains($item->items);
         })->each->delete();
         $this->data->items()->saveMany($this->payments);
-        // $this->redirectRoute(name: 'invoice', navigate: true);
     }
 
     public function submit(){

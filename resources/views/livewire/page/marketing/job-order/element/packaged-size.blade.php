@@ -24,23 +24,23 @@
                                 {{ $loop->iteration }}
                             </td>
                             <td><span class="center">
-                                    <input type="number" class="form-control"
+                                    <input type="number" class="form-control" step="0.01"
                                         wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.packaed_width">
                                     
                                 </span></td>
                             <td><span class="center">
-                                    <input type="number" class="form-control"
+                                    <input type="number" class="form-control" step="0.01"
                                         wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.packaed_length">
                                 </span></td>
-                            <td><input type="number" class="form-control"
+                            <td><input type="number" class="form-control" step="0.01"
                                     wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.packaed_height">
                             </td>
                             <td class="center">
-                                <input type="number" class="form-control"
+                                <input type="number" class="form-control" step="1"
                                     wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.packaed_qty">
                             </td>
                             <td class="center">
-                                <input type="number" class="form-control"
+                                <input type="number" class="form-control" step="0.01"
                                     wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.packaed_weight">
                             </td>
                             <td class="center">
@@ -58,11 +58,11 @@
                                 </select>
                             </td>
                             <td class="center">
-                                <input type="number" class="form-control" step="0.01"
+                                <input type="number" class="form-control" step="0.000001"
                                     wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.packaed_totalCBM">
                             </td>
                             <td class="center">
-                                <input type="number" class="form-control"
+                                <input type="number" class="form-control" step="0.01"
                                     wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.packaed_totalWeight">
                             </td>
                             <td class="center">

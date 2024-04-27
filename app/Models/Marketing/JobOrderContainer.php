@@ -51,6 +51,20 @@ class JobOrderContainer extends Model implements Wireable
         'containerTareweight' => 'string',
     ];
 
+    protected $attributes = [
+        'comCode' => 'C01',
+        // 'documentID' => '',
+        // 'containerType' => '',
+        // 'containerSize' => '',
+        // 'containerNo' => '',
+        // 'containerSealNo' => '',
+        // 'containerGW' => '',
+        // 'containerGW_unit' => '',
+        // 'containerNW' => '',
+        // 'containerNW_Unit' => '',
+        // 'containerTareweight' => '',
+    ];
+
     public function id(){
         return $this->items;
     }

@@ -33,7 +33,7 @@ class Service
         if ($number == 0)
             return $ret;
         if ($number > 1000000) {
-            $ret .= ReadNumber(intval($number / 1000000)) . "ล้าน";
+            $ret .= self::ReadNumber(intval($number / 1000000)) . "ล้าน";
             $number = intval(fmod($number, 1000000));
         }
 
@@ -117,9 +117,9 @@ class Service
         });
     }
 
-    public static function CustomerSelecter()
+    public static function CustomerSelecter(bool|null $checkRole = true)
     {
-        return Cache::remember('customer-select', 15, function () {
+        return Cache::remember('customer-select', 15, function () use ($checkRole) {
             return Customer::select('cusCode', 'custNameEN')->where('isActive', '=', '1')->orderBy('custNameEN')->get();
         });
     }

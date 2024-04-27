@@ -30,7 +30,7 @@ class SessionTimeout
         }
 
         $request->session()->put('lastActivityTime', time());
-
+        
         return $next($request);
     }
 }

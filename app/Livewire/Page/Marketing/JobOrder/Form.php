@@ -10,19 +10,15 @@ use App\Models\Marketing\JobOrder;
 use App\Models\Marketing\JobOrderAttach;
 use App\Models\Marketing\JobOrderCharge;
 use App\Models\Marketing\JobOrderContainer;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Process;
-use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 use App\Models\Marketing\JobOrderPacked;
 use App\Models\Marketing\JobOrderGoods;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
-use Livewire\Pipe;
 
 
 class Form extends Component
@@ -58,17 +54,21 @@ class Form extends Component
 
     public Collection $commodity;
 
-    public $listCommodity;
+    public $trailerBooking;
+
+    public $listCommodity = [];
 
     public $file;
 
     public $checkApprove = true;
 
-    public $chargeCode;
+    public String $chargeCode = '';
 
     protected array $rules = [
         'file' => 'mimes:png,jpg,jpeg,pdf|max:102400',
         'containerList.*' => 'unique:App\Models\Marketing\JobOrderContainer',
+        'chargeCode' => 'string',
+        'listCommodity' => 'array',
         // 'job.stu_location' => 'string',
         // 'job.stu_contact' => 'string',
         // 'job.stu_mobile' => 'string',
@@ -147,11 +147,6 @@ class Form extends Component
 
     public function boot()
     {
-
-    }
-
-    public function mount()
-    {
         $this->data = new JobOrder;
         if ($this->action == '') {
             $this->action = 'view';
@@ -170,20 +165,24 @@ class Form extends Component
             // dd($this->data);
         }
         $this->job = $this->data->withoutRelations();
-        $this->createBy = $this->data->userCreate;
-        $this->editBy = $this->data->userEdit;
-        $this->containerList = $this->data->containerList;
-        $this->packagedList = $this->data->packedList;
-        $this->goodsList = $this->data->goodsList;
-        $this->chargeList = $this->data->charge;
-        $this->advancePayment = $this->data->AdvancePayment;
-        $this->attachs = $this->data->attachs;
+        $this->containerList = $this->data->containerList ?? new Collection;
+        $this->packagedList = $this->data->packedList ?? new Collection;
+        $this->goodsList = $this->data->goodsList ?? new Collection;
+        $this->chargeList = $this->data->charge ?? new Collection;
+        $this->advancePayment = $this->data->AdvancePayment ?? new Collection;
+        $this->attachs = $this->data->attachs ?? new Collection;
         // $this->qty = $this->groupedContainer();
         $this->commodity = $this->data->commodity;
         $this->listCommodity = $this->data->commodity->map(function ($item) {
             return $item->commodityCode;
         })->toArray();
+        $this->trailerBooking = $this->data->trailerBooking;
+        $this->createBy = $this->data->userCreate;
+        $this->editBy = $this->data->userEdit;
+    }
 
+    public function mount()
+    {
         $this->checkApprove = $this->checkApprove();
     }
 
@@ -227,8 +226,6 @@ class Form extends Component
         for ($i = 1; $i <= $quantityContainer; $i++) {
             $this->containerList->push($dataContainer);
         }
-        // $this->skipRender();
-        // $this->dispatch('Update-Container', $this->groupedContainer);
     }
 
     #[On('Remove-Container')]
@@ -236,7 +233,6 @@ class Form extends Component
     {
         $this->containerList->forget($index);
         $this->containerList = $this->containerList->values();
-        // $this->dispatch('Update-Container', $this->groupedContainer);
     }
 
     #[On('Add-Packaged')]
@@ -271,27 +267,10 @@ class Form extends Component
         $this->goodsList = $this->goodsList->values();
     }
 
-    #[On('Update-Good-Total-Num-Package')]
-    public function GoodTotalPackage($value)
-    {
-        $this->job->good_total_num_package = $value;
-        $this->skipRender();
-    }
-
-    #[On('Update-Good-Commodity')]
-    public function GoodCommodity($value)
-    {
-        $this->job->good_commodity = $value;
-        $this->skipRender();
-    }
-
     #[On('Add-Charge')]
     public function addCharge()
     {
-        // dd($chargeCode);
         $charge = new JobOrderCharge;
-        $charge->documentID = $this->job->documentID;
-        $charge->comCode = 'C01';
         $charge->chargeCode = $this->chargeCode;
         $getCharge = Charges::find($this->chargeCode);
         if ($getCharge != null) {
@@ -307,24 +286,16 @@ class Form extends Component
         $this->chargeList = $this->chargeList->values();
     }
 
-    #[On('Update-List-Commodity')]
-    public function getListCommodity($value)
-    {
-        $this->listCommodity = $value;
-        $this->skipRender();
-    }
-
-    public function groupedContainer()
-    {
-        if ($this->containerList->isNotEmpty()) {
-            return join(", ", $this->containerList->groupBy('referContainerSize.containersizeName')->map(function ($item, $key) {
-                return collect($item)->count().'x'.$key;
-            })->toArray());
-        } else {
-            return "";
-        }
-
-    }
+    // public function groupedContainer()
+    // {
+    //     if ($this->containerList->isNotEmpty()) {
+    //         return join(", ", $this->containerList->groupBy('referContainerSize.containersizeName')->map(function ($item, $key) {
+    //             return collect($item)->count().'x'.$key;
+    //         })->toArray());
+    //     } else {
+    //         return "";
+    //     }
+    // }
 
     public function removePreFile() {
         $this->reset('file');

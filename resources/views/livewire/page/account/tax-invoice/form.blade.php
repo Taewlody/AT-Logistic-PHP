@@ -10,10 +10,10 @@
       <div class="loader"></div>
     </div>
 
-    <form class="form-body" wire:submit="save">
+    <form class="form-body" wire:submit="submit">
       <div class="row">
 
-        {{-- Section 1 --}}
+        {{-- Section 1 Document --}}
         <div class="col-lg-6 mb-2">
           <div id="accordion-1" class="default-according">
             <div class="card">
@@ -96,7 +96,7 @@
         </div>
 
 
-        {{-- Section 2 --}}
+        {{-- Section 2 Payment --}}
         <div class="col-lg-6 mb-2">
           <div id="accordion-2" class="default-according">
             <div class="card">
@@ -123,14 +123,8 @@
                         <option value="{{ $account->accountCode }}">{{ $account->accountName }}</option>
                         @endforeach
                       </select>
-
                     </div>
-
-
                   </div>
-
-
-
                   <div class="form-group  row">
                     <label class="col-sm-3 col-form-label">โดย By</label>
                     <div class="col-md-9">
@@ -194,7 +188,7 @@
           </div>
         </div>
 
-        {{-- Section 3 --}}
+        {{-- Section 3 Invoice Ref --}}
         <div class="col-lg-12 mb-2">
           <div id="accordion-3" class="default-according">
             <div class="card">
@@ -247,24 +241,25 @@
                           <tr class='gradeX' wire:key="item-field-{{ $item->items }}">
                             <td>
                               <input type='text' readonly class='form-control'
-                              wire:model.live.debounce.500ms="payments.{{ $loop->index }}.invNo"></td>
+                                wire:model.live.debounce.500ms="payments.{{ $loop->index }}.invNo">
+                            </td>
                             </td>
                             <td>
                               <input type='text' class='form-control'
-                              wire:model.live.debounce.500ms="payments.{{ $loop->index }}.detail">
+                                wire:model.live.debounce.500ms="payments.{{ $loop->index }}.detail">
                             </td>
                             <td class='center'>
-                              <input type='number'
-                                class='form-control' wire:model.live.debounce.500ms.number="payments.{{ $loop->index }}.chargesCost">
-                              </td>
+                              <input type='number' class='form-control'
+                                wire:model.live.debounce.500ms.number="payments.{{ $loop->index }}.chargesCost">
+                            </td>
                             <td class='center'>
-                              <input type='number'
-                                class='form-control' wire:model.live.debounce.500ms.number="payments.{{ $loop->index }}.chargesReceive">
-                              </td>
+                              <input type='number' class='form-control'
+                                wire:model.live.debounce.500ms.number="payments.{{ $loop->index }}.chargesReceive">
+                            </td>
                             <td class='center'>
-                              <input type='number'
-                                class='form-control' wire:model.live.debounce.500ms.number="payments.{{ $loop->index }}.chargesbillReceive">
-                              </td>
+                              <input type='number' class='form-control'
+                                wire:model.live.debounce.500ms.number="payments.{{ $loop->index }}.chargesbillReceive">
+                            </td>
                           </tr>
                           @endforeach
                         </tbody>
@@ -364,22 +359,23 @@
               <div class="hr-line-dashed"></div>
               <div class="form-group row">
                 <div class="col-sm-10 col-sm-offset-2">
-                  <a name="back" class="btn btn-white" type="button" href="{{ route('tax-invoice') }}" wire.loading.attr="disabled">
+                  <a name="back" class="btn btn-white" type="button" href="{{ route('tax-invoice') }}"
+                    wire.loading.attr="disabled">
                     <i class="fa fa-reply"></i> Back</a>
 
-                  
-                    @if($data->documentstatus != 'A')
-                    <button name="save" id="save" class="btn  btn-success" type="button"
-                        wire:click='save' @disabled($data->documentstatus != 'A')>
-                        <i class="fa fa-save"></i> Save</button>
-                    @endif
-                    <button name="approve" id="approve" class="btn btn-primary" type="button"
-                        @disabled($data->documentstatus == 'A')>
-                        <i class="fa fa-check"></i> Approve</button>
-                    @if($data->documentID != null && $data->documentID != '')
-                        <a class="btn" target="_blank" href="{{'/api/print/tax_invoice_pdf/'.$data->documentID}}"><i class="fa fa-print"></i>
-                            Print</a>
-                    @endif
+
+                  @if($data->documentstatus != 'A')
+                  <button name="save" id="save" class="btn  btn-success" type="submit">
+                    <i class="fa fa-save"></i> Save</button>
+                  @endif
+                  <button name="approve" id="approve" class="btn btn-primary" type="button" wire:click="approve"
+                    @disabled($data->documentstatus == 'A')>
+                    <i class="fa fa-check"></i> Approve</button>
+                  @if($data->documentID != null && $data->documentID != '')
+                  <a class="btn" target="_blank" href="{{'/api/print/tax_invoice_pdf/'.$data->documentID}}"><i
+                      class="fa fa-print"></i>
+                    Print</a>
+                  @endif
                 </div>
               </div>
             </div>
