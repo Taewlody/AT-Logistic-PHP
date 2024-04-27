@@ -32,23 +32,20 @@
                                 <div class="card-body">
 
                                     <div class="form-group  row">
-                                        <label class="col-sm-1 col-form-label">Document No.</label>
+                                        <label class="col-sm-2 col-form-label">Document No.</label>
                                         <div class="col-md-4">
                                             <input type="text" name="documentID" id="documentID" class="form-control"
                                                 wire:model="data.documentID" readonly>
                                         </div>
-                                        <label class="col-sm-1 col-form-label">Document Date</label>
-                                        <div class="col-md-2">
-                                            <div class="input-group date"> <span class="input-group-addon"><i
-                                                        class="fa fa-calendar"></i></span>
+                                        <label class="col-sm-2 col-form-label">Document Date</label>
+                                        <div class="col-md-4">
                                                 <input type="date" name="documentDate" class="form-control"
                                                     wire:model="data.documentDate">
-                                            </div>
                                         </div>
                                     </div>
 
                                     <div class="form-group  row">
-                                        <label class="col-sm-1 col-form-label">จ่ายให้/Paid To</label>
+                                        <label class="col-sm-2 col-form-label">จ่ายให้/Paid To</label>
                                         <div class="col-md-4">
                                             <select name="supCode" class="select2_single form-control select2"
                                                 id="supCode" wire:model="data.supCode">
@@ -59,8 +56,8 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <label class="col-sm-1 col-form-label">Ref. JobNo.</label>
-                                        <div class="col-md-2">
+                                        <label class="col-sm-2 col-form-label">Ref. JobNo.</label>
+                                        <div class="col-md-4">
                                             <select class="select2_single form-control select2" name="refJobNo"
                                                 id="refJobNo" wire:model="data.refJobNo">
                                                 <option value="">-- Select --</option>
@@ -74,18 +71,15 @@
 
 
                                     <div class="form-group  row">
-                                        <label class="col-sm-1 col-form-label">Address</label>
+                                        <label class="col-sm-2 col-form-label">Address</label>
                                         <div class="col-md-4">
                                             <input type="text" name="cusCode" class="form-control">
                                         </div>
 
-                                        <label class="col-sm-1 col-form-label">วันชำระ</label>
-                                        <div class="col-md-2">
-                                            <div class="input-group date"> <span class="input-group-addon"><i
-                                                        class="fa fa-calendar"></i></span>
+                                        <label class="col-sm-2 col-form-label">วันชำระ</label>
+                                        <div class="col-md-4">
                                                 <input type="date" name="dueDate" class="form-control"
                                                     wire:model="data.dueDate">
-                                            </div>
                                         </div>
 
                                     </div>
@@ -125,7 +119,7 @@
                                             </select>
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
-                                            <button class="btn btn-white " type="button" wire:click='addPayment'><i class="fa fa-plus"></i> Add</button>
+                                            <button class="btn btn-primary " type="button" wire:click='addPayment'><i class="fa fa-plus"></i> Add</button>
                                         </div>
                                     </div>
 
@@ -160,7 +154,7 @@
                                                             </td>
                                                             <td class='center'>
                                                                 <button type='button'
-                                                                    class='btn-white btn btn-xs' wire:click='removePayment({{$loop->index}})'>Remove</button>
+                                                                    class='btn-danger btn btn-xs' wire:click='removePayment({{$loop->index}})'>Remove</button>
                                                             </td>
                                                     </tr>
                                                     @endforeach

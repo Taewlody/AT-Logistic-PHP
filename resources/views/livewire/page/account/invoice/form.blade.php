@@ -42,12 +42,9 @@
                                                 Date</label>
                                         </div>
                                         <div class="col-md-4">
-                                            <div class="input-group date">
-                                                <span class="input-group-addon"><i
-                                                        class="fa fa-calendar"></i></span><input type="text"
+                                            <input type="date"
                                                     name="documentDate" class="form-control"
                                                     wire:model="data.documentDate">
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group  row">
@@ -91,11 +88,9 @@
                                     <div class="form-group row">
                                         <label class="col-lg-2 col-form-label">On Board</label>
                                         <div class="col-md-4">
-                                            <div class="input-group date">
-                                                <span class="input-group-addon"><i
-                                                        class="fa fa-calendar"></i></span><input type="text"
+                                            <input type="date"
                                                     name="on_board" class="form-control" wire:model="data.on_board">
-                                            </div>
+                                           
                                         </div>
                                         <div class="col-md-2">
                                             <label class="col-form-label" style="padding-top: 5px;">Freight</label>
@@ -170,7 +165,7 @@
                                 <div class="card-body">
                                     <div class="form-group  row">
                                         <label class="col-sm-2 col-form-label">Sales</label>
-                                        <div class="col-md-4">
+                                        <div class="col-md-10">
                                             <select name="saleman" class="select2_single form-control select2"
                                                 id="saleman" wire:model="data.saleman">
                                                 <option value="">- Select -</option>
@@ -262,7 +257,7 @@
                                             </select>
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
-                                            <button class="btn btn-white " type="button" name="addPayment"
+                                            <button class="btn btn-primary " type="button" name="addPayment"
                                                 wire:click="addPayment" @disabled($chargeCode=='' ) id="addPayment"><i
                                                     class="fa fa-plus"></i>
                                                 Add</button>
@@ -400,7 +395,7 @@
                                         wire:click="approve" @disabled($data->documentstatus == 'A')>
                                         <i class="fa fa-check"></i> Approve</button>
                                     @if($data->documentID != null && $data->documentID != '')
-                                    <a class="btn" target="_blank"
+                                    <a class="btn btn-secondary" target="_blank"
                                         href="{{'/api/print/invoice_pdf/'.$data->documentID}}"><i
                                             class="fa fa-print"></i>
                                         Print</a>

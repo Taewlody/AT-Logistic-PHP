@@ -40,18 +40,17 @@
                       <label class="col-form-label" style="padding-top: 5px;">Document
                         Date</label>
                     </div>
-                    <div class="col-md-3">
-                      <div class="input-group date"> <span class="input-group-addon"><i
-                            class="fa fa-calendar"></i></span>
-                        <input type="text" name="documentDate" class="form-control" wire:model="data.documentDate">
-                      </div>
+                    <div class="col-md-4">
+                      
+                        <input type="date" name="documentDate" class="form-control" wire:model="data.documentDate">
+                      
                     </div>
                   </div>
 
                   <div class="form-group row">
                     <label class="col-lg-2 col-form-label"><span class="col-form-label"
                         style="padding-top: 5px;">Customer</span></label>
-                    <div class="col-md-9">
+                    <div class="col-md-10">
                       <select name="cusCode" class="select2_single form-control select2" id="cusCode"
                         wire:model="data.cusCode">
                         <option value="">Select Customer</option>
@@ -66,14 +65,14 @@
                   <div class="form-group row">
                     <label class="col-lg-2 col-form-label"><span class="col-form-label"
                         style="padding-top: 5px;">Tax</span></label>
-                    <div class="col-md-9">
+                    <div class="col-md-10">
                       <input type="text" name="taxID" class="form-control" id="taxID" wire:model="data.taxID">
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-lg-2 col-form-label"><span class="col-form-label"
                         style="padding-top: 5px;">Address</span></label>
-                    <div class="col-md-9">
+                    <div class="col-md-10">
                       <textarea rows="2" id="cus_address" name="cus_address" class="form-control"
                         wire:model="data.cus_address"></textarea>
                     </div>
@@ -85,7 +84,7 @@
                   <div class="form-group row">
                     <label class="col-lg-2 col-form-label"><span class="col-form-label"
                         style="padding-top: 5px;">Note</span></label>
-                    <div class="col-md-9">
+                    <div class="col-md-10">
                       <textarea rows="2" id="note" name="note" class="form-control" wire:model="data.note"></textarea>
                     </div>
                   </div>
@@ -113,9 +112,9 @@
                 data-bs-parent="#accordion-2">
                 <div class="card-body">
                   <div class="form-group row">
-                    <label class="col-lg-3 col-form-label"><span class="col-form-label"
+                    <label class="col-lg-2 col-form-label"><span class="col-form-label"
                         style="padding-top: 5px;">ชื่อบัญชี</span></label>
-                    <div class="col-md-9">
+                    <div class="col-md-10">
                       <select name="accountCode" id="accountCode" class="select2_single form-control select2"
                         wire:model="data.accountCode" style="width: 100%">
                         <option value="">Select Account</option>
@@ -132,8 +131,8 @@
 
 
                   <div class="form-group  row">
-                    <label class="col-sm-3 col-form-label">โดย By</label>
-                    <div class="col-md-9">
+                    <label class="col-sm-2 col-form-label">โดย By</label>
+                    <div class="col-md-10">
                       <div class="i-checks">
                         <input type="radio" id="chsh" value="c" name="payType" wire:model="data.payType">
                         <label for="chsh">เงินสด Cash </label>
@@ -155,12 +154,12 @@
 
 
                   <div class="form-group  row">
-                    <label class="col-sm-3 col-form-label">ธนาคาร สาขา</label>
-                    <div class="col-md-3">
+                    <label class="col-sm-2 col-form-label">ธนาคาร สาขา</label>
+                    <div class="col-md-4">
                       <input type="text" name="branch" id="branch" class="form-control" wire:model="data.branch">
                     </div>
                     <label class="col-sm-2 col-form-label">เลขที่เช็ค</label>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                       <input type="text" name="chequeNo" id="chequeNo" class="form-control" Wire:model="data.chequeNo">
                     </div>
                   </div>
@@ -171,20 +170,19 @@
                   <div class="form-group  row">
 
 
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                       <label class="col-form-label" style="padding-top: 5px;"> Date</label>
                     </div>
-                    <div class="col-md-3">
-                      <div class="input-group date"> <span class="input-group-addon"><i
-                            class="fa fa-calendar"></i></span>
-                        <input type="text" name="dueDate" class="form-control" wire:model="data.dueDate">
-                      </div>
+                    <div class="col-md-4">
+                      
+                        <input type="date" name="dueDate" class="form-control" wire:model="data.dueDate">
+                      
                     </div>
 
                     <div class="col-md-2">
                       <label class="col-form-label" style="padding-top: 5px;"> ยอดรวม</label>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                       <input type="text" name="dueTime" class="form-control" wire:model="data.dueTime">
                     </div>
                   </div>
@@ -224,7 +222,7 @@
                       </select>
                     </div>
                     <div class="col-md-2" style="padding-left: 0px;">
-                      <button class="btn btn-white " type="button" name="addPayment" wire:click="addPayment"
+                      <button class="btn btn-primary " type="button" name="addPayment" wire:click="addPayment"
                         @disabled($chargeCode=='' ) id="addPayment"><i class="fa fa-plus"></i>
                         Add</button>
                     </div>

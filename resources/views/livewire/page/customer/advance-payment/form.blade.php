@@ -39,12 +39,10 @@
                                             <label class="col-form-label" style="padding-top: 5px;">Document
                                                 Date</label>
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="input-group date"> <span class="input-group-addon"><i
-                                                        class="fa fa-calendar"></i></span>
+                                        <div class="col-md-4">
                                                 <input type="date" name="documentDate" class="form-control"
                                                     wire:model="data.documentDate">
-                                            </div>
+                                          
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -70,7 +68,7 @@
                                         <div class="col-md-2">
                                             <label class="col-form-label" style="padding-top: 5px;">Ref. JobNo.</label>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <select class="select2_single form-control select2" name="refJobNo"
                                                 id="refJobNo" wire:model="data.refJobNo">
                                                 {{--
@@ -86,7 +84,7 @@
 
                                     <div class="form-group row">
                                         <label class="col-lg-2 col-form-label">Note</label>
-                                        <div class="col-md-9">
+                                        <div class="col-md-10">
                                             <textarea name="note" rows="4" class="form-control"
                                                 wire:model="data.note"></textarea>
                                         </div>
@@ -154,34 +152,32 @@
                                         </div>
                                     </div>
                                     <div class="form-group  row">
-                                        <label class="col-sm-3 col-form-label">สาขา Branch</label>
-                                        <div class="col-md-3">
+                                        <label class="col-sm-2 col-form-label">สาขา Branch</label>
+                                        <div class="col-md-4">
                                             <input type="text" name="branch" id="branch" class="form-control"
                                                 wire:model="data.branch">
                                         </div>
 
                                         <label class="col-sm-2 col-form-label">เลขที่เช็ค</label>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <input type="text" name="chequeNo" id="chequeNo" class="form-control"
                                                 wire:model="data.chequeNo">
                                         </div>
                                     </div>
                                     <div class="form-group  row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <label class="col-form-label" style="padding-top: 5px;"> Date</label>
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="input-group date"> <span class="input-group-addon"><i
-                                                        class="fa fa-calendar"></i></span>
+                                        <div class="col-md-4">
                                                 <input type="date" name="dueDate" class="form-control"
                                                     qire:model="data.dueDate">
-                                            </div>
+                                           
                                         </div>
 
                                         <div class="col-md-2">
                                             <label class="col-form-label" style="padding-top: 5px;"> Time</label>
                                         </div>
-                                        <div class="col-md-1">
+                                        <div class="col-md-4">
                                             <input type="text" name="dueTime" class="form-control"
                                                 wire:model="data.dueTime">
                                         </div>
@@ -217,7 +213,7 @@
                                             </select>
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
-                                            <button class="btn btn-white " type="button" wire:click='addCharge'>
+                                            <button class="btn btn-primary " type="button" wire:click='addCharge'>
                                                 <i class="fa fa-plus"></i>
                                                 Add</button>
                                         </div>
@@ -250,7 +246,7 @@
                                                                 wire:model.live.debounce.500ms.number='payments.{{$loop->index}}.amount'>
                                                         </td>
                                                         <td class='center'>
-                                                            <button type='button' class='btn-white btn btn-xs'
+                                                            <button type='button' class='btn-danger btn btn-xs'
                                                                 wire:click='removeCharge({{$loop->index}})'>Remove</button>
                                                         </td>
                                                     </tr>

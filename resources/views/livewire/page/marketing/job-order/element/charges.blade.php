@@ -76,7 +76,7 @@
                             </td>
                             <td class='center'>
                                 <button type='button'
-                                    class='btn-white btn btn-xs'
+                                    class='btn-danger btn btn-xs'
                                     wire:click="$parent.removeCharge({{ $loop->index }})">Remove</button>
                             </td>
                         </tr>
