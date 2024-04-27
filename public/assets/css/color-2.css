@@ -22203,7 +22203,7 @@ ul.pro-services li:nth-child(n+2) {
 }
 
 .select2-container .select2-selection--single {
-    border-radius: .25rem !important;
+    border-radius: 8px !important;
     border-color: rgba(83, 70, 134, .1019607843) !important;
     height: 40px !important;
     padding: 5px

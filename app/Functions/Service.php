@@ -190,7 +190,7 @@ class Service
     public static function CommoditySelecter()
     {
         return Cache::remember('commodity-select', 15, function () {
-            return Commodity::select('commodityCode', 'commodityNameTH')->orderBy('commodityNameTH')->get();
+            return Commodity::select('commodityCode', 'commodityNameEN')->orderBy('commodityNameEN')->get();
         });
     }
 

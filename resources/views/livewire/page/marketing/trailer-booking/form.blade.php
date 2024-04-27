@@ -30,7 +30,7 @@
                                 <div class="card-body">
                                     <div class="form-group  row">
                                         <label class="col-sm-3 col-form-label">Document No.</label>
-                                        <div class="col-md-4">
+                                        <div class="col-md-9">
                                             <input type="text" name="documentID" id="documentID" class="form-control"
                                                 wire:model="data.documentID" readonly>
                                         </div>
@@ -39,14 +39,9 @@
 
                                     <div class="form-group  row">
                                         <label class="col-sm-3 col-form-label">Document Date</label>
-                                        <div class="col-md-4">
-                                            <div class="input-group date">
-                                                <span class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </span>
+                                        <div class="col-md-9">
                                                 <input type="date" name="documentDate" class="form-control"
                                                     wire:model="data.documentDate">
-                                            </div>
                                         </div>
                                     </div>
 

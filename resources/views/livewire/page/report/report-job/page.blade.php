@@ -96,7 +96,7 @@
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->documentID }}</td>
                                                 <td>{{ Service::DateFormat($item->documentDate, true) }}</td>
-                                                <td>{{ $item->customerRefer != null ? $item->customerRefer->custNameEN }}</td>
+                                                <td>{{ $item->customerRefer != null ?? $item->customerRefer->custNameEN }}</td>
                                                 <td>{{ $item->salemanRefer != null ? $item->salemanRefer->empName : '' }}</td>
                                                 <td>{{ Service::CurrentDateDiff($item->documentDate) }}</td>
                                                 <td>
