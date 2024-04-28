@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class InvoiceService implements ShouldQueue, ShouldBeUnique
@@ -83,7 +84,7 @@ class InvoiceService implements ShouldQueue, ShouldBeUnique
         $invoice->createTime = Carbon::now();
         $invoice->save();
         Log::info("Generate Invoice for Job Order ID: " . $invoice);
-        $this->item_change->each(function (JobOrderCharge $item) use ($invoice, $Item_invoice) {
+        $this->item_change->each(function (JobOrderCharge $item) use ($Item_invoice) {
             $i = new InvoiceItems;
             $i->documentID = $item->documentID;
             $i->chargeCode = $item->chargeCode;
@@ -109,6 +110,7 @@ class InvoiceService implements ShouldQueue, ShouldBeUnique
             });
         });
         $invoice->items()->saveMany($Item_invoice);
+        Cache::forget('job-order-select');
     }
 
     /**

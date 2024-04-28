@@ -7,6 +7,7 @@ use App\Enum\ViewMode;
 use App\Models\Account\Invoice;
 use App\Models\Account\InvoiceItems;
 use App\Models\Common\Charges;
+use App\Models\Marketing\JobOrder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -26,6 +27,12 @@ class Form extends Component
     public ?Invoice $data = null;
 
     public Collection $payments;
+
+    #[Url]
+    public $ref = '';
+
+    private ?JobOrder $job_order;
+
 
     protected array $rules = [
         'payments.*' => 'unique:App\Models\Account\InvoiceItems',
@@ -54,9 +61,18 @@ class Form extends Component
             $this->action = 'create';
             $this->data->createID = Auth::user()->usercode;
             $this->payments = new Collection;
+            if($this->ref != ''){
+                $this->job_order = JobOrder::find($this->ref);
+                $this->data->ref_jobID = $this->job_order->documentID;
+                $this->data->cusCode = $this->job_order->cusCode;
+                $this->data->saleman = $this->job_order->saleman;
+                $this->data->carrier = $this->job_order->agentCode;
+                $this->data->bound = $this->job_order->bound;
+                $this->data->freight = $this->job_order->freight;
+            }
         }
-        $this->mode = ViewMode::from($this->action);
-        $this->formMode = $this->mode->toFormMode();
+        // $this->mode = ViewMode::from($this->action);
+        // $this->formMode = $this->mode->toFormMode();
     }
 
     public function addPayment() {

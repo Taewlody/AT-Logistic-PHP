@@ -17,6 +17,11 @@ class Form extends Component
     #[Url]
     public $id = '';
 
+    #[Url]
+    public $ref = '';
+
+    private ?JobOrder $job_order;
+
     public ?BillOfLading $data = null;
 
     public function mount()
@@ -33,6 +38,12 @@ class Form extends Component
         } else {
             $this->action = 'create';
             $this->data->createID = Auth::user()->usercode;
+            if($this->ref != ''){
+                $this->job_order = JobOrder::find($this->ref);
+                $this->data->ref_jobID = $this->job_order->documentID;
+                $this->data->cusCode = $this->job_order->cusCode;
+                
+            }
         }
     }
 

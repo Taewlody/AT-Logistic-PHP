@@ -2,9 +2,6 @@
 
 namespace App\Livewire\Page\Marketing\TrailerBooking;
 
-use App\Models\Common\Customer;
-use App\Models\Common\Feeder;
-use App\Models\Common\Supplier;
 use App\Models\Marketing\JobOrder;
 use App\Models\Marketing\TrailerBooking;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +15,11 @@ class Form extends Component
     public $action = '';
     #[Url]
     public $id = '';
+
+    #[Url]
+    public $ref = '';
+
+    private ?JobOrder $job_order;
 
     public ?TrailerBooking $data = null;
 
@@ -35,6 +37,13 @@ class Form extends Component
         } else {
             $this->action = 'create';
             $this->data->createID = Auth::user()->usercode;
+            if($this->ref != ''){
+                $this->job_order = JobOrder::find($this->ref);
+                $this->data->ref_jobID = $this->job_order->documentID;
+                $this->data->cusCode = $this->job_order->cusCode;
+                $this->data->feeder = $this->job_order->feeder;
+                $this->data->agent = $this->job_order->agent;
+            }
         }
     }
 

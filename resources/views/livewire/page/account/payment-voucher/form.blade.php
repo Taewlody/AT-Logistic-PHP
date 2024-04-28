@@ -69,7 +69,7 @@
                                             <select class="select2_single form-control select2" name="refJobNo"
                                                 id="refJobNo" wire:model="data.refJobNo">
                                                 <option value="">- Select -</option>
-                                                @foreach (Service::JobOrderSelecter() as $job)
+                                                @foreach (Service::JobOrderSelecter(false) as $job)
                                                 <option value="{{ $job->documentID }}">{{ $job->documentID }}
                                                 </option>
                                                 @endforeach
@@ -311,13 +311,13 @@
                                                             <td><strong>Tax 1% :</strong></td>
                                                             <td><input name="tax1" id="tax1" class='form-control'
                                                                     value="{{ Service::MoneyFormat($this->cal_price->tax1) }}"
-                                                                    required readonly></td>
+                                                                    required @readonly(!Auth::user()->hasRole('admin'))></td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Tax 3% :</strong></td>
                                                             <td><input name="tax3" id="tax3" class='form-control'
                                                                     value="{{ Service::MoneyFormat($this->cal_price->tax3) }}"
-                                                                    required readonly></td>
+                                                                    required @readonly(!Auth::user()->hasRole('admin'))></td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Vat Total : </strong></td>

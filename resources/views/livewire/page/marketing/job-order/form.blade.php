@@ -17,36 +17,36 @@
                             <div class="row">
                                 <div class="col file-box">
                                     <div class="file">
-                                        <a id="invoice">
+                                        <a id="invoice" target="blank" href="{{route('invoice.form',$invoice != null ? array('action' => 'edit', 'id' => $invoice->documentID) : array('action'=>'create', 'ref' => ($job->documentID !=null ? $job->documentID : '')))}}" @disabled($action =="create")>
                                             <div class="icon">
                                                 <i class="fa fa-file-text"></i>
                                             </div>
                                             <div class="file-name text">
-                                                Invoice <span id="invoiceNoText"></span>
+                                                Invoice <span id="invoiceNoText">{{$invoice != null? $invoice->documentID : '' }}</span>
                                             </div>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="col file-box">
                                     <div class="file">
-                                        <a id="btnbill_of_lading">
+                                        <a id="btnbill_of_lading" target="blank" href="{{route('bill-of-lading.form', $billOfLanding != null ? array('action' => 'edit', 'id' => $billOfLanding->documentID) : array('action'=>'create', 'ref' => ($job->documentID !=null ? $job->documentID : '')))}}"  @disabled($action =="create")>
                                             <div class="icon">
                                                 <i class="fa fa-file-text"></i>
                                             </div>
                                             <div class="file-name">
-                                                Bill of landing
+                                                Bill of landing <span id="invoiceNoText">{{$billOfLanding != null? $billOfLanding->documentID : '' }}</span>
                                             </div>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="col file-box">
                                     <div class="file">
-                                        <a id="trailer_booking">
+                                        <a id="trailer_booking" target="blank" href="{{route('trailer-booking.form', $trailerBooking != null ? array('action' => 'edit', 'id' => $trailerBooking->documentID) : array('action'=>'create', 'ref' => ($job->documentID !=null ? $job->documentID : '')))}}" @disabled($action =="create")>
                                             <div class="icon">
                                                 <i class="fa fa-file-text"></i>
                                             </div>
                                             <div class="file-name text-navy">
-                                                Trailer Booking
+                                                Trailer Booking <span id="invoiceNoText">{{$trailerBooking != null? $trailerBooking->documentID : '' }}</span>
                                             </div>
                                         </a>
                                     </div>
@@ -471,53 +471,3 @@
 <livewire:modal.job-order.charges-alert />
 @endpush
 
-@script
-<script>
-    let invoiceNo = null;
-    let billOfladingNo = null;
-    let documentID = null;
-    let trailer_bookingNO = null;
-
-    document.addEventListener('livewire:initialized', () => {
-        console.log('invoiceNo: ', $wire.billOfLanding);
-        if($wire.job && $wire.job.invoiceNo) {
-            invoiceNo = $wire.job.invoiceNo;
-            $('#invoiceNoText').text(invoiceNo);
-        }
-        if($wire.job && $wire.job.billOfladingNo) {
-            billOfladingNo = $wire.job.billOfladingNo;
-        }
-        if($wire.job && $wire.job.trailer_bookingNO) {
-            trailer_bookingNO = $wire.job.trailer_bookingNO;
-        }
-        if($wire.job && $wire.job.documentID) {
-            documentID = $wire.job.documentID;
-        }
-    });
-
-    $('#invoice').click(function() {
-        if(invoiceNo) {
-            var url = "{!! route('invoice.form', ['action' => 'edit']) !!}"+'&id='+invoiceNo;
-            window.open(url, '_blank');
-        }else {
-            return false
-        }
-    });
-    $('#btnbill_of_lading').click(function() {
-        if(billOfladingNo) {
-            var url = "{{ route('bill-of-lading.form', ['action' => 'edit']) }}"+'&id='+documentID;
-            window.open(url, '_blank');
-        }else {
-            return false
-        }
-    });
-    $('#trailer_booking').click(function() {
-        if(trailer_bookingNO) {
-            var url = "{{ route('trailer-booking.form', ['action' => 'edit']) }}"+'&id='+documentID;
-            window.open(url, '_blank');
-        }else {
-            return false
-        }
-    });
-</script>
-@endscript

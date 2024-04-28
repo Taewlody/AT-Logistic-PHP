@@ -17,6 +17,7 @@ enum ViewMode: string
         ];
     }
 
+
     public function toFormMode(): FormMode
     {
         return match ($this) {

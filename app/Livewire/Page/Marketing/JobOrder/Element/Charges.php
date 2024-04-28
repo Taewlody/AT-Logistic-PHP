@@ -19,7 +19,7 @@ class Charges extends Component
 
     // public $chargesList = [];
 
-    public $customer_piad = [];
+    public Collection $customer_piad;
 
     #[Modelable]
     public Collection $value;
@@ -82,7 +82,7 @@ class Charges extends Component
         $this->action = $action;
         $this->documentID = $documentID ?? '';
         if($action != 'create'){
-            $this->customer_piad = CalculatorPrice::cal_customer_piad($this->documentID);
+            $this->customer_piad = CalculatorPrice::cal_customer_piad($this->documentID) ?? new Collection;
         }
         // Log::debug("mount: ".print_r($this->value, true));
     }

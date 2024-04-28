@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Page\Account\BillingReceipt;
 
+use App\Models\Marketing\JobOrder;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 

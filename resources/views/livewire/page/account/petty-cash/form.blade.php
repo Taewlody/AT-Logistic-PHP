@@ -61,7 +61,7 @@
                                             <select class="select2_single form-control select2" name="refJobNo"
                                                 id="refJobNo" wire:model="data.refJobNo">
                                                 <option value="">-- Select --</option>
-                                                @foreach (Service::JobOrderSelecter() as $job)
+                                                @foreach (Service::JobOrderSelecter(false) as $job)
                                                     <option value="{{ $job->documentID }}">{{ $job->documentID }}
                                                     </option>
                                                 @endforeach

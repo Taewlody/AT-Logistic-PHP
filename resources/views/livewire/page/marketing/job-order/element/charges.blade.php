@@ -178,7 +178,7 @@
                         <td colspan="4"></td>
                         <td colspan="3"><strong>ลูกค้าสำรองจ่าย</strong></td>
                         <td colspan="2"><span id="cus_paid">
-                                {{Service::MoneyFormat($customer_piad->sum('sumTotal'))}}
+                                {{Service::MoneyFormat($customer_piad?->sum('sumTotal'))}}
                             </span>
                                 
                         </td>
@@ -186,9 +186,8 @@
                     <tr>
                         <td colspan="4"></td>
                         <td colspan="3"><strong>คงเหลือจ่ายจริง</strong></td>
-                        <td colspan="2"><span id="net_pad">{{Service::MoneyFormat((($this->call_price['total'] + $value->sum('chargesbillReceive')) - $this->call_price['tax3'] - $this->call_price['tax1']) - $customer_piad->sum('sumTotal'))}}</span>
-                            <input type="hidden" id="h_net_pad" name="h_net_pad"
-                                value="">
+                        <td colspan="2"><span id="net_pad">{{Service::MoneyFormat((($this->call_price['total'] + $value->sum('chargesbillReceive')) - $this->call_price['tax3'] - $this->call_price['tax1']) - $customer_piad?->sum('sumTotal'))}}</span>
+                            
                         </td>
                     </tr>
                 {{-- </tbody> --}}

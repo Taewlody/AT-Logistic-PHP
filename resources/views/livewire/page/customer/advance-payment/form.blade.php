@@ -74,7 +74,7 @@
                                                 {{--
                                                 <?php $db->s_jobref_advance($refJobNo, $cusCode); ?> --}}
                                                 <option>- select -</option>
-                                                @foreach (Service::JobOrderSelecter() as $job)
+                                                @foreach (Service::JobOrderSelecter(false) as $job)
                                                 <option value="{{$job->documentID}}">{{$job->documentID}}</option>
                                                 @endforeach
                                             </select>

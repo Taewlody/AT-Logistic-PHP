@@ -4,12 +4,15 @@ namespace App\Livewire\Page\Marketing\JobOrder;
 
 use App\Functions\CalculatorPrice;
 use App\Jobs\InvoiceService;
+use App\Models\Account\Invoice;
 use App\Models\AttachFile;
 use App\Models\Common\Charges;
+use App\Models\Marketing\BillOfLading;
 use App\Models\Marketing\JobOrder;
 use App\Models\Marketing\JobOrderAttach;
 use App\Models\Marketing\JobOrderCharge;
 use App\Models\Marketing\JobOrderContainer;
+use App\Models\Marketing\TrailerBooking;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -54,8 +57,6 @@ class Form extends Component
 
     public Collection $commodity;
 
-    public $trailerBooking;
-
     public $listCommodity = [];
 
     public $file;
@@ -63,6 +64,12 @@ class Form extends Component
     public $checkApprove = true;
 
     public String $chargeCode = '';
+
+    public ?Invoice $invoice = null;
+
+    public ?BillOfLading $billOfLanding = null;
+
+    public ?TrailerBooking $trailerBooking= null;
 
     protected array $rules = [
         'file' => 'mimes:png,jpg,jpeg,pdf|max:102400',
@@ -177,6 +184,8 @@ class Form extends Component
             return $item->commodityCode;
         })->toArray();
         $this->trailerBooking = $this->data->trailerBooking;
+        $this->invoice = $this->data->invoice;
+        $this->billOfLanding = $this->data->billOfLanding;
         $this->createBy = $this->data->userCreate;
         $this->editBy = $this->data->userEdit;
     }

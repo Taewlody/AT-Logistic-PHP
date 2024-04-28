@@ -112,6 +112,8 @@ class JobOrder extends Model implements Wireable
         'freetimeEXP',
         'feederVOY',
         'vesselVOY',
+        'commission_sale',
+        'commission_customers',
     ];
 
     protected $casts = [
@@ -179,6 +181,8 @@ class JobOrder extends Model implements Wireable
         'freetimeEXP' => CustomDate::class,
         'feederVOY' => 'string',
         'vesselVOY' => 'string',
+        'commission_sale' => 'string',
+        'commission_customers' => 'string',
     ];
 
     protected $attributes = [
@@ -313,9 +317,19 @@ class JobOrder extends Model implements Wireable
         return $this->hasOne(Port::class, 'portCode', 'port_of_landing');
     }
 
-    public function trailerBooking(): BelongsTo
+    public function trailerBooking(): HasOne
     {
-        return $this->belongsTo(TrailerBooking::class, 'ref_jobID', 'documentID');
+        return $this->hasOne(TrailerBooking::class, 'ref_jobID', 'documentID');
+    }
+
+    public function invoice(): HasOne
+    {
+        return $this->hasOne(Invoice::class, 'ref_jobNo', 'documentID');
+    }
+
+    public function billOfLanding(): HasOne
+    {
+        return $this->hasOne(BillOfLading::class, 'ref_jobID', 'documentID');
     }
 
     public function dischargePort(): HasOne
@@ -351,16 +365,6 @@ class JobOrder extends Model implements Wireable
     {
         return $this->hasOne(Feeder::class, 'fCode', 'feeder');
     }
-
-    public function invoice(): BelongsTo
-    {
-        return $this->belongsTo(Invoice::class, 'ref_jobNo', 'documentID');
-    }
-
-    // public function referInvoice(): HasOne
-    // {
-    //     return $this->hasOne(Invoice::class, 'ref_jobNo', 'documentID');
-    // }
 
     public function PlaceFOB(): HasOne
     {
