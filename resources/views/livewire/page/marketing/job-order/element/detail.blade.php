@@ -1,6 +1,6 @@
 <div>
     <div class="form-group  row">
-        <label class="col-sm-2 col-form-label">Customer</label>
+        <label class="col-sm-2 col-form-label">Customer <span class="text-danger">*</span></label>
         <div class="col-md-10">
             {{-- <select name="cusCode" class="select2_single select2_search form-control select2"
                 id="cusCode" wire:model.live.change="value.cusCode"
@@ -12,7 +12,7 @@
                     </option>
                 @endforeach
             </select> --}}
-            <livewire:element.select2 wire:model='value.cusCode' name="cusCode" :options="Service::CustomerSelecter()" 
+            <livewire:element.select2 wire:model='value.cusCode' name="cusCode" :options="Service::CustomerSelecter()" :required="true"
                 itemKey="cusCode" itemValue="custNameEN" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
         </div>
     </div>

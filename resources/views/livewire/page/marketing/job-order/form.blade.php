@@ -217,20 +217,20 @@
                 </div>
 
                 {{-- Section 7 Charges --}}
-                <div class="col-lg-12 mb-2">
-                    <div id="accordion-7" class="default-according">
+                <div class="col-lg-12">
+                    {{-- <div id="accordion-7" class="default-according"> --}}
                         <div class="card">
                             <div class="card-header" id="headingCharges">
-                                <h2 class="mb-0">
-                                    <a role="button" class="accordion-button" data-bs-toggle="collapse"
+                                <h3 class="mb-0">
+                                    {{-- <a role="button" class="accordion-button" data-bs-toggle="collapse"
                                         data-bs-target="#collapseCharges" aria-expanded="false"
-                                        aria-controls="collapseCharges">
+                                        aria-controls="collapseCharges"> --}}
                                         Charges / ค่าใช้จ่าย
-                                    </a>
-                                </h2>
+                                    {{-- </a> --}}
+                                </h3>
                             </div>
-                            <div id="collapseCharges" role="tabpanel" class="collapse" aria-labelledby="headingCharges"
-                                data-bs-parent="#accordion-7" wire:ignore.self>
+                            {{-- <div id="collapseCharges" role="tabpanel" class="collapse" aria-labelledby="headingCharges"
+                                data-bs-parent="#accordion-7" wire:ignore.self> --}}
                                 <div class="card-body">
                                     <div class="form-group  row">
                                         <div class="col-md-6">
@@ -251,9 +251,9 @@
                                         wire:model.live.debounce.1000ms="chargeList" :$action :qty="$qty"
                                         :documentID="$job->documentID" />
                                 </div>
-                            </div>
+                            {{-- </div> --}}
                         </div>
-                    </div>
+                    {{-- </div> --}}
                 </div>
 
                 {{-- Section 8 --}}

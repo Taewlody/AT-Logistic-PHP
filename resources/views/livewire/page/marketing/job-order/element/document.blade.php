@@ -18,16 +18,17 @@
         </div>
     </div>
     <div class="form-group  row">
-        <label class="col-sm-2 col-form-label">Bound</label>
+        <label class="col-sm-2 col-form-label">Bound <span class="text-danger">*</span></label>
         <div class="col-md-4">
             <select name="bound" class="select2_single form-control select2"
-                id="bound" wire:model.change="value.bound" @disabled($action != 'create' && $action != 'edit')>
+                id="bound" wire:model.change="value.bound" @disabled($action != 'create' && $action != 'edit') required>
+                <option value="">select</option>
                 <option value="1">IN BOUND</option>
                 <option value="2">OUT BOUND</option>
             </select>
         </div>
         <div class="col-md-2">
-            <label class="col-form-label" style="padding-top: 5px;">Freight</label>
+            <label class="col-form-label" style="padding-top: 5px;">Freight <span class="text-danger">*</span></label>
         </div>
         <div class="col-md-4">
             {{-- <select name="freight" data-pharaonic="select2"  class="select2_single select2_search form-control select2"
@@ -38,7 +39,7 @@
                         {{ $transportType->transportName }}</option>
                 @endforeach
             </select> --}}
-            <livewire:element.select2 wire:model='value.freight' name="freight" :options="Service::TransportTypeSelecter()" 
+            <livewire:element.select2 wire:model='value.freight' name="freight" :options="Service::TransportTypeSelecter()" :required="true"
                 itemKey="transportCode" itemValue="transportName" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
         </div>
     </div>
@@ -54,7 +55,7 @@
                     </option>
                 @endforeach
             </select> --}}
-            <livewire:element.select2 wire:model='value.port_of_landing' name="port_of_landing" :options="Service::PortSelecter()" 
+            <livewire:element.select2 wire:model='value.port_of_landing' name="port_of_landing" :options="Service::PortSelecter()"
                 itemKey="portCode" itemValue="portNameEN" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
         </div>
         <div class="col-md-2">
@@ -158,9 +159,9 @@
         </div>
     </div>
     <div class="form-group row">
-        <label class="col-lg-2 col-form-label">INV No.</label>
+        <label class="col-lg-2 col-form-label">INV No. <span class="text-danger">*</span></label>
         <div class="col-md-4">
-            <input type="text" name="invNo" class="form-control" id="invNo"
+            <input type="text" name="invNo" class="form-control" id="invNo" required
                 wire:model.live.debounce.500ms="value.invNo" @disabled($action != 'create' && $action != 'edit')>
         </div>
         <div class="col-md-2">
@@ -172,20 +173,21 @@
         </div>
     </div>
     <div class="form-group row">
-        <label class="col-lg-2 col-form-label">Booking No.</label>
+        <label class="col-lg-2 col-form-label">Booking No. <span class="text-danger">*</span></label>
         <div class="col-md-4">
-            <input type="text" name="bookingNo" class="form-control"
+            <input type="text" name="bookingNo" class="form-control" required
                 id="bookingNo" wire:model.live.debounce.500ms="value.bookingNo"
                 @disabled($action != 'create' && $action != 'edit')>
         </div>
         <div class="col-md-2">
             <label class="col-form-label" style="padding-top: 5px;">Delivery
-                Type</label>
+                Type <span class="text-danger">*</span></label>
         </div>
         <div class="col-md-4">
             <select name="deliveryType" class="select2_single form-control select2"
-                id="deliveryType" wire:model.change="value.deliveryType"
+                id="deliveryType" wire:model.change="value.deliveryType" required
                 @disabled($action != 'create' && $action != 'edit')>
+                <option value="">select</option>
                 <option value="FCL">FCL</option>
                 <option value="LCL">LCL</option>
             </select>
