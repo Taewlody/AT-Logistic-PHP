@@ -6,11 +6,11 @@
     <div class="wrapper wrapper-content animated fadeInRight">
 
         {{-- loading --}}
-        <div wire:loading.flex class="loader-wrapper" wire:target='save,approve'>
+        <div wire:loading.flex class="loader-wrapper" wire:target='submit,approve'>
             <div class="loader"></div>
         </div>
 
-        <form class="form-body" wire:submit="save">
+        <form class="form-body" wire:submit="submit">
             <div class="row">
                 {{-- Section 1 --}}
                 <div class="col-lg-7 mb-2">
@@ -60,7 +60,9 @@
                                                 </option>
                                                 @endforeach
                                             </select>
-
+                                            @error('data.supCode')
+                                                <div class="text-danger m-2">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <div class="col-md-2">
                                             <label class="col-form-label" style="padding-top: 5px;">Ref. JobNo.</label>
@@ -169,10 +171,11 @@
                                             <label class="col-form-label" style="padding-top: 5px;">Due Date</label>
                                         </div>
                                         <div class="col-md-4">
-                                        
                                                 <input type="date" name="dueDate" class="form-control"
                                                     wire:model="data.dueDate">
-                                            
+                                                @error('data.dueDate')
+                                                    <div class="text-danger m-2">{{ $message }}</div>
+                                                @enderror
                                         </div>
 
                                     </div>
@@ -291,16 +294,16 @@
                                             </table>
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-lg-6 col-form-label"> remark
+                                            <label class="col-lg-7 col-form-label"> remark
                                                 <textarea rows="3" name="remark" class="form-control"></textarea>
                                             </label>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-5">
                                                 <table class="table invoice-total">
                                                     <tbody>
 
                                                         <tr>
                                                             <td><strong>TOTAL :</strong></td>
-                                                            <td style="min-width: 150px;">
+                                                            <td style="min-width: 150px; max-width: 200px;">
                                                                 <input name="sumTotal" id="sumTotal"
                                                                     class='form-control'
                                                                     value="{{ Service::MoneyFormat($this->cal_price->total) }}"

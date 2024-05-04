@@ -49,6 +49,10 @@ class Page extends Component
         }
     }
 
+    public function delete($id) {
+        PaymentVoucher::find($id)->delete();
+    }
+
     public function render()
     {
         return view('livewire.page.account.payment-voucher.page', [ 'data'=> PaymentVoucher::where($this->query)->orderBy('documentID', 'desc')->paginate(20)])->extends('layouts.main')->section('main-content');

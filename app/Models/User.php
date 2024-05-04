@@ -81,6 +81,13 @@ class User extends Authenticatable implements Wireable {
         'editTime' => CustomDateTime::class,
     ];
 
+    protected $attributes = [
+        'comCode' => 'C01',
+        // 'userpass' => (string)env('APP_DEFUALT_PASSWORD', '123456'),
+        'userpass' => '123456',
+        'isActive' => false,
+    ];
+
     public function __construct($attributes = [])
     {
         parent::__construct($attributes);

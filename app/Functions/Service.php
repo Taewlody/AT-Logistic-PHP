@@ -7,6 +7,7 @@ use App\Models\Common\Charges;
 use App\Models\Common\Commodity;
 use App\Models\Common\ContainerSize;
 use App\Models\Common\ContainerType;
+use App\Models\Common\Country;
 use App\Models\Common\CreditTerm;
 use App\Models\Common\Customer;
 use App\Models\Common\Feeder;
@@ -17,6 +18,8 @@ use App\Models\Common\Supplier;
 use App\Models\Common\TransportType;
 use App\Models\Common\UnitContainer;
 use App\Models\Marketing\JobOrder;
+use App\Models\User;
+use Auth;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Support\Facades\Cache;
@@ -82,11 +85,16 @@ class Service
         return $ret;
     }
 
-
-
     public static function DateFormat($date, bool|null $empty = false)
     {
         return Carbon::parse($date) == Carbon::createFromTimestamp(0) ? ($empty ? "" : "00/00/0000") : Carbon::parse($date)->format('d/m/Y');
+    }
+
+    public static function CountrySelecter()
+    {
+        return Cache::remember('country-select', 15, function () {
+            return Country::select('countryCode', 'countryNameEN')->orderBy('countryNameEN')->get();
+        });
     }
 
     public static function AccountSelecter()
@@ -120,7 +128,11 @@ class Service
     public static function CustomerSelecter(bool|null $checkRole = true)
     {
         return Cache::remember('customer-select', 15, function () use ($checkRole) {
-            return Customer::select('cusCode', 'custNameEN')->where('isActive', '=', '1')->orderBy('custNameEN')->get();
+            if ($checkRole && Auth::user()->UserType?->userTypeName == 'Customer'){
+                return Customer::select('cusCode', 'custNameEN')->where('isActive', '=', '1')->where('usercode', '=', Auth::user()->usercode)->orderBy('custNameEN')->get();
+            } else {
+                return Customer::select('cusCode', 'custNameEN')->where('isActive', '=', '1')->orderBy('custNameEN')->get();
+            }
         });
     }
 
@@ -191,6 +203,23 @@ class Service
     {
         return Cache::remember('commodity-select', 15, function () {
             return Commodity::select('commodityCode', 'commodityNameEN')->orderBy('commodityNameEN')->get();
+        });
+    }
+
+    public static function UserSelecter()
+    {
+        return Cache::remember('user-select', 15, function () {
+            return User::select('userCode', 'username')->where('isActive', '=', '1')->orderBy('username')->get();
+        });
+    }
+
+    public static function BusinessTypeSelecter()
+    {
+        return Cache::remember('business-type-select', 15, function () {
+            return (object) array(
+                ['id' => '1', 'name' => 'Corporation'], 
+                ['id' => '2', 'name' =>'individual']
+        );
         });
     }
 

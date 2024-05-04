@@ -33,6 +33,7 @@ class Form extends Component
             $this->action = 'create';
             $this->data = new User();
             $this->data->createID = Auth::user()->usercode;
+            $this->data->userpass = md5($this->data->userpass);
         }
 
         $this->userTypeList = UserType::all();
@@ -40,7 +41,8 @@ class Form extends Component
     }
 
     public function save() {
-        $this->data->eachByID = Auth::user()->usercode;
+        $this->data->editID = Auth::user()->usercode;
+       
         $this->data->save();
     }
 

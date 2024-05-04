@@ -23,7 +23,12 @@ class CustomDateTime implements CastsAttributes {
         if($value == null || $value == "" || $value == "0000-00-00 00:00:00") {
             return null;
         } else {
-            return Carbon::parse($value)->setTimezone('UTC')->format('Y-m-d H:i:s');
+            try {
+                return Carbon::parse($value)->setTimezone('UTC')->format('Y-m-d H:i:s');
+            } catch (\Exception $e) {
+                return null;
+            }
+            // return Carbon::parse($value)->setTimezone('UTC')->format('Y-m-d H:i:s');
         }
 
     }

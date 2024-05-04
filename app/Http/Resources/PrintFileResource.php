@@ -64,7 +64,7 @@ class PrintFileResource extends Controller
 
         ];
         if($data->containerList != null) {
-            $groupContainer = $data->containerList->groupBy('referContainerSize.containersizeName')->map(function ($item, $key) {
+            $groupContainer = $data->containerList->groupBy('size.containersizeName')->map(function ($item, $key) {
                 return collect($item)->count().'x'.$key;
             })->toArray();
         }
@@ -91,7 +91,7 @@ class PrintFileResource extends Controller
         }
         $groupContainer = [];
         if($data->containerList != null) {
-            $groupContainer = $data->containerList->groupBy('referContainerSize.containersizeName')->map(function ($item, $key) {
+            $groupContainer = $data->containerList->groupBy('size.containersizeName')->map(function ($item, $key) {
                 return collect($item)->count().'x'.$key;
             })->toArray();
         }
@@ -107,7 +107,7 @@ class PrintFileResource extends Controller
         }
         $groupContainer = [];
         if($data->jobOrder != null && $data->jobOrder->containerList != null) {
-            $groupContainer = $data->jobOrder->containerList->groupBy('referContainerSize.containersizeName')->map(function ($item, $key) {
+            $groupContainer = $data->jobOrder->containerList->groupBy('size.containersizeName')->map(function ($item, $key) {
                 return collect($item)->count().'x'.$key;
             })->toArray();
         }

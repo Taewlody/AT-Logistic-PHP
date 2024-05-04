@@ -22,13 +22,8 @@
                     <div class="form-group  row">
                         <label class="col-sm-2 col-form-label">Business Type</label>
                         <div class="col-md-2">
-                            <select class="select2_single form-control select2" name="businessType"
-                                id="businessType" wire:model="data.businessType" @disabled($action != 'create' && $action != 'edit')>
-                                <option value="1">Corporation</option>
-                                <option value="2">individual</option>
-                            </select>
-
-
+                            <livewire:element.select2 wire:model='data.businessType' name="Business Type" :options="Service::BusinessTypeSelecter()"
+                                itemKey="id" itemValue="name" :disabled="$action != 'create' && $action != 'edit'">
                         </div>
                     </div>
                     <div class="form-group  row">
@@ -55,14 +50,11 @@
                     <div class="form-group  row">
                         <label class="col-sm-2 col-form-label">Branch Name</label>
 
-
-
                         <div class="col-md-4">
                             <input type="text" name="branchTH" id="branchTH" autocomplete="empty"
                                 wire:model="data.branchTH" placeholder="Branch (TH)" class="form-control"
                                 @disabled($action != 'create' && $action != 'edit')>
                         </div>
-
 
                         <div class="col-md-4">
                             <input type="text" name="branchEN" id="branchEN" autocomplete="empty"
@@ -90,27 +82,21 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Zip Code</label>
                         <div class="col-md-2">
-                            <input type="number" class="form-control" name="zipCode" autocomplete="empty"
+                            <input type="text" class="form-control" name="zipCode" autocomplete="empty"
                                 wire:model="data.zipCode" id="zipCode" @disabled($action != 'create' && $action != 'edit')>
                         </div>
                     </div>
                     <div class="form-group  row">
                         <label class="col-sm-2 col-form-label">Country</label>
                         <div class="col-md-2">
-                            <select class="select2_single form-control select2" name="countryCode"
-                                wire:model="data.countryCode" id="countryCode" @disabled($action != 'create' && $action != 'edit')>
-                                <option value="">Select Country</option>
-                                @foreach ($countryList as $country)
-                                    <option value="{{ $country->countryCode }}">{{ $country->countryNameTH }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <livewire:element.select2 wire:model='data.countryCode' name="Country" :options="Service::CountrySelecter()"
+                                itemKey="countryCode" itemValue="countryNameEN" :disabled="$action != 'create' && $action != 'edit'">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Tax ID</label>
                         <div class="col-md-2">
-                            <input type="number" class="form-control" name="taxID" autocomplete="empty"
+                            <input type="text" class="form-control" name="taxID" autocomplete="empty"
                                 wire:model="data.taxID" id="taxID" @disabled($action != 'create' && $action != 'edit')>
                         </div>
                     </div>
@@ -138,32 +124,25 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Credit (Day)</label>
                         <div class="col-md-2">
-                            <select name="creditDay" class="select2_single form-control select2"
-                                wire:model="data.creditDay" id="creditDay" @disabled($action != 'create' && $action != 'edit')>
-                                <option value="">Select Credit</option>
-                                @foreach ($creditTermList as $creditTerm)
-                                    <option value="{{ $creditTerm->creditCode }}">{{ $creditTerm->creditName }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <livewire:element.select2 wire:model='data.creditDay' name="creditDay" :options="Service::CreditTermSelecter()"
+                                itemKey="creditCode" itemValue="creditName" :disabled="$action != 'create' && $action != 'edit'">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Sale</label>
                         <div class="col-md-2">
-                            <select name="salemanID" class="select2_single form-control select2"
-                                wire:model="data.salemanID" id="salemanID" @disabled($action != 'create' && $action != 'edit')>
-                                <option value="">Select Sale</option>
-                                @foreach ($salesmanList as $saleman)
-                                    <option value="{{ $saleman->usercode }}">{{ $saleman->empName }}
-                                    </option>
-                                @endforeach
-                            </select>
-
-
-
+                            <livewire:element.select2 wire:model='data.salemanID' name="Sale" :options="Service::SalemanSelecter()"
+                                itemKey="usercode" itemValue="empName" :disabled="$action != 'create' && $action != 'edit'">
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">User</label>
+                        <div class="col-md-2">
+                            <livewire:element.select2 wire:model='data.usercode' name="User" :options="Service::UserSelecter()"
+                                itemKey="userCode" itemValue="username" :disabled="$action != 'create' && $action != 'edit'">
+                        </div>
+                    </div>
+
                     <div class="form-group  row">
                         <label class="col-sm-2 col-form-label">
                             <h3>Contact Person info</h3>

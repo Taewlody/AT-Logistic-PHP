@@ -53,16 +53,15 @@ class JobOrderContainer extends Model implements Wireable
 
     protected $attributes = [
         'comCode' => 'C01',
-        // 'documentID' => '',
-        // 'containerType' => '',
-        // 'containerSize' => '',
-        // 'containerNo' => '',
-        // 'containerSealNo' => '',
-        // 'containerGW' => '',
-        // 'containerGW_unit' => '',
-        // 'containerNW' => '',
-        // 'containerNW_Unit' => '',
-        // 'containerTareweight' => '',
+        'containerType' => '',
+        'containerSize' => '',
+        'containerNo' => '',
+        'containerSealNo' => '',
+        'containerGW' => '0',
+        'containerGW_unit' => '',
+        'containerNW' => '0',
+        'containerNW_Unit' => '',
+        'containerTareweight' => '',
     ];
 
     public function id(){
@@ -91,12 +90,12 @@ class JobOrderContainer extends Model implements Wireable
         return $arr;
     }
 
-    public function referContainerType(): HasOne
+    public function type(): HasOne
     {
-        return $this->hasOne(ContainerType::class, 'containerType', 'containerType');
+        return $this->hasOne(ContainerType::class, 'containerType', 'containerType')->with;
     }
 
-    public function referContainerSize(): HasOne
+    public function size(): HasOne
     {
         return $this->hasOne(ContainerSize::class, 'containersizeCode', 'containerSize');
     }
