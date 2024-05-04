@@ -1,51 +1,5 @@
 <div>
-    <div class="form-group row">
-        <div class="col-md-1">
-            <label class="col-form-label" style="padding-top: 5px;">Type</label>
-        </div>
-        <div class="col-md-2">
-            <select name="containerTypeHeader" class="select2_single form-control select2" id="containerTypeHeader"
-                style="width: 100%" wire:model.change="typeContainer">
-                <option value="">- select -</option>
-                @foreach (Service::ContainerTypeSelecter() as $containerType)
-                <option value="{{ $containerType->containertypeCode }}">
-                    {{ $containerType->containertypeName }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="col-md-1">
-            <label class="col-form-label" style="padding-top: 5px;">Size</label>
-        </div>
-        <div class="col-md-2">
-            <select name="containerSizeHeader" id="containerSizeHeader" class="select2_single form-control select2"
-                style="width: 100%" wire:model.change="sizeContainer">
-                <option value="">- select -</option>
-                @foreach (Service::ContainerSizeSelecter() as $containerSize)
-                <option value="{{ $containerSize->containersizeCode }}">
-                    {{ $containerSize->containersizeName }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="col-md-1">
-            <label class="col-form-label" style="padding-top: 5px;">จำนวน</label>
-                
-        </div>
-        <div class="col-md-2">
-            <input name="containQty" type="number" class="form-control" id="containQty"
-                wire:model.live.debounce.500ms="quantityContainer">
-                
-        </div>
-        <div class="col" style="display: flex; align-items: flex-end;">
-            <button class="btn btn-primary" type="button" wire:click="addContainer">
-                <i class="fa fa-plus"></i>Add
-            </button>
-        </div>
-        @error('typeContainer') <span class="text-danger">{{ $message }}</span> @enderror
-        @error('sizeContainer') <span class="text-danger">{{ $message }}</span> @enderror
-        @error('quantityContainer')
-            <div class="text-danger m-2">{{ $message }}</div>
-        @enderror
-    </div>
+    
     <div class="form-group">
         <div class="table-responsive">
             <table id="table_container" class="table" width="100%">
@@ -66,80 +20,50 @@
                 </thead>
                 <tbody>
                     @foreach ($value as $container)
-                    <tr id="tr{{ $loop->iteration }}" wire:key="container-field-{{ $container->items }}">
+                    <tr id="tr{{ $loop->iteration }}" wire:key="container-{{$loop->index}}">
                         <td>
                             {{ $loop->iteration }}
                         </td>
                         <td>
-                            <select class="select2_single form-control select2"
-                                wire:key="containerType-field-{{$container->items}}"
-                                wire:model.live.change="value.{{ $loop->index }}.containerType"
-                                style="width: 100%">
-                                <option value="">- select -</option>
-                                @foreach (Service::ContainerTypeSelecter() as $containerType)
-                                <option value="{{ $containerType->containertypeCode }}">
-                                    {{ $containerType->containertypeName }}
-                                </option>
-                                @endforeach
-                            </select>
+                            <livewire:element.select2 :key="$loop->index" wire:model.defer="value.{{ $loop->index }}.containerType"
+                                :options="Service::ContainerTypeSelecter()" itemKey="containertypeCode"
+                                itemValue="containertypeName"/>
                         </td>
                         <td>
-                            <select class="select2_single form-control select2" style="width: 100%"
-                                wire:key="containerSize-field-{{$container->items}}"
-                                wire:model.live.change="value.{{ $loop->index }}.containerSize">
-                                <option value="">- select -</option>
-                                @foreach (Service::ContainerSizeSelecter() as $containerSize)
-                                <option value="{{ $containerSize->containersizeCode }}">
-                                    {{ $containerSize->containersizeName }}
-                                </option>
-                                @endforeach
-                            </select>
+                            <livewire:element.select2 :key="$loop->index" wire:model.defer="value.{{ $loop->index }}.containerSize"
+                                :options="Service::ContainerSizeSelecter()" itemKey="containersizeCode"
+                                itemValue="containersizeName"/>
                         </td>
                         <td>
-                            <input type="text" class="form-control" wire:key="containerNo-field-{{$container->items}}"
-                                wire:model.live.debounce.500ms="value.{{ $loop->index }}.containerNo">
+                            <input type="text" class="form-control"
+                                wire:model.lazy.debounce.700ms="value.{{ $loop->index }}.containerNo">
                         </td>
                         <td class="center">
                             <input type="text" class="form-control"
-                                wire:key="containerSealNo-field-{{$container->items}}"
-                                wire:model.live.debounce.500ms="value.{{ $loop->index }}.containerSealNo">
-                        </td>
-                        <td class="center">
-                            <input type="number" class="form-control" wire:key="containerGW-field-{{$container->items}}"
-                                wire:model.live.debounce.500ms="value.{{ $loop->index }}.containerGW">
-                        </td>
-                        <td class="center">
-                            <select name="containerGW_unit[]" class="select2_single form-control select2"
-                                style="width: 100%" wire:key="containerGW-unit-field-{{$container->items}}"
-                                wire:model.live.change="value.{{ $loop->index }}.containerGW_unit">
-                                <option value="">- select -</option>
-                                @foreach (Service::UnitContainerSelecter() as $unit)
-                                <option value="{{ $unit->unitCode }}">
-                                    {{ $unit->unitName }}
-                                </option>
-                                @endforeach
-                            </select>
-                        </td>
-                        <td class="center">
-                            <input type="text" class="form-control" wire:key="containerNW-field-{{$container->items}}"
-                                wire:model.live.debounce.500ms="value.{{ $loop->index }}.containerNW">
-                        </td>
-                        <td class="center">
-                            <select class="select2_single form-control select2" style="width: 100%"
-                                wire:key="containerNW-Unit-field-{{$container->items}}"
-                                wire:model.change="value.{{ $loop->index }}.containerNW_Unit">
-                                <option value="">- select -</option>
-                                @foreach (Service::UnitContainerSelecter() as $unit)
-                                <option value="{{ $unit->unitCode }}">
-                                    {{ $unit->unitName }}
-                                </option>
-                                @endforeach
-                            </select>
+                                wire:model.lazy.debounce.700ms="value.{{ $loop->index }}.containerSealNo">
                         </td>
                         <td class="center">
                             <input type="number" class="form-control"
-                                wire:key="containerTareweight-Unit-field-{{$container->items}}"
-                                wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.containerTareweight">
+                                wire:model.number.lazy.debounce.700ms="value.{{ $loop->index }}.containerGW">
+                        </td>
+                        <td class="center">
+                            <livewire:element.select2 :key="$loop->index" wire:model.defer="value.{{ $loop->index }}.containerGW_unit"
+                                :options="Service::UnitContainerSelecter()" itemKey="unitCode"
+                                itemValue="unitName"/>
+                        </td>
+                        <td class="center">
+                            <input type="text" class="form-control" wire:key="containerNW-field-{{$loop->index}}"
+                                wire:model.lazy.debounce.700ms="value.{{ $loop->index }}.containerNW">
+                        </td>
+                        <td class="center">
+                            <livewire:element.select2 :key="$loop->index" wire:model.defer="value.{{ $loop->index }}.containerNW_Unit"
+                                :options="Service::UnitContainerSelecter()" itemKey="unitCode"
+                                itemValue="unitName"/>
+                        </td>
+                        <td class="center">
+                            <input type="number" class="form-control"
+                                wire:key="containerTareweight-Unit-field-{{$loop->index}}"
+                                wire:model.number.lazy.debounce.700ms="value.{{ $loop->index }}.containerTareweight">
                         </td>
                         <td class="center">
                             <button type="button" class="btn-danger btn btn-xs"

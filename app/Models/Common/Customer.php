@@ -49,6 +49,7 @@ class Customer extends Model implements Wireable
         'contactName',
         'contactMobile',
         'contactEmail',
+        'usercode',
         'createID',
         'createTime',
         'editID',
@@ -78,6 +79,7 @@ class Customer extends Model implements Wireable
         'contactName' => 'string',
         'contactMobile' => 'string',
         'contactEmail' => 'string',
+        'usercode' => 'string',
         'createID' => 'string',
         'createTime' => CustomDateTime::class,
         'editID' => 'string',
@@ -124,6 +126,11 @@ class Customer extends Model implements Wireable
     public function creditType(): HasOne
     {
         return $this->hasOne(CreditTerm::class, 'creditCode', 'creditDay');
+    }
+
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class, 'userCode', 'usercode');
     }
 
     public function createBy(): HasOne

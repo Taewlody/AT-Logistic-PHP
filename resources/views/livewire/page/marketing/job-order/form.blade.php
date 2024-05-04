@@ -3,11 +3,11 @@
         breadcrumb_page="Job Orders" breadcrumb_page_title="Job Orders Form" />
 
     {{-- loading --}}
-    <div wire:loading.flex class="loader-wrapper" wire:target="save,approve">
+    <div wire:loading.flex class="loader-wrapper" wire:target="submit,approve">
         <div class="loader"></div>
     </div>
 
-    <form class="form-body" wire:submit="save" onkeydown="return event.key != 'Enter';">
+    <form class="form-body" wire:submit="submit" onkeydown="return event.key != 'Enter';">
         <div class="wrapper wrapper-content animated fadeInRight">
 
             <div class="row">
@@ -17,36 +17,45 @@
                             <div class="row">
                                 <div class="col file-box">
                                     <div class="file">
-                                        <a id="invoice" target="blank" href="{{route('invoice.form',$invoice != null ? array('action' => 'edit', 'id' => $invoice->documentID) : array('action'=>'create', 'ref' => ($job->documentID !=null ? $job->documentID : '')))}}" @disabled($action =="create")>
+                                        <a id="invoice" target="blank"
+                                            href="{{route('invoice.form',$invoice != null ? array('action' => 'edit', 'id' => $invoice->documentID) : array('action'=>'create', 'ref' => ($job->documentID !=null ? $job->documentID : '')))}}"
+                                            @disabled($action=="create" )>
                                             <div class="icon">
                                                 <i class="fa fa-file-text"></i>
                                             </div>
                                             <div class="file-name text">
-                                                Invoice <span id="invoiceNoText">{{$invoice != null? $invoice->documentID : '' }}</span>
+                                                Invoice <span id="invoiceNoText">{{$invoice != null?
+                                                    $invoice->documentID : '' }}</span>
                                             </div>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="col file-box">
                                     <div class="file">
-                                        <a id="btnbill_of_lading" target="blank" href="{{route('bill-of-lading.form', $billOfLanding != null ? array('action' => 'edit', 'id' => $billOfLanding->documentID) : array('action'=>'create', 'ref' => ($job->documentID !=null ? $job->documentID : '')))}}"  @disabled($action =="create")>
+                                        <a id="btnbill_of_lading" target="blank"
+                                            href="{{route('bill-of-lading.form', $billOfLanding != null ? array('action' => 'edit', 'id' => $billOfLanding->documentID) : array('action'=>'create', 'ref' => ($job->documentID !=null ? $job->documentID : '')))}}"
+                                            @disabled($action=="create" )>
                                             <div class="icon">
                                                 <i class="fa fa-file-text"></i>
                                             </div>
                                             <div class="file-name">
-                                                Bill of landing <span id="invoiceNoText">{{$billOfLanding != null? $billOfLanding->documentID : '' }}</span>
+                                                Bill of landing <span id="invoiceNoText">{{$billOfLanding != null?
+                                                    $billOfLanding->documentID : '' }}</span>
                                             </div>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="col file-box">
                                     <div class="file">
-                                        <a id="trailer_booking" target="blank" href="{{route('trailer-booking.form', $trailerBooking != null ? array('action' => 'edit', 'id' => $trailerBooking->documentID) : array('action'=>'create', 'ref' => ($job->documentID !=null ? $job->documentID : '')))}}" @disabled($action =="create")>
+                                        <a id="trailer_booking" target="blank"
+                                            href="{{route('trailer-booking.form', $trailerBooking != null ? array('action' => 'edit', 'id' => $trailerBooking->documentID) : array('action'=>'create', 'ref' => ($job->documentID !=null ? $job->documentID : '')))}}"
+                                            @disabled($action=="create" )>
                                             <div class="icon">
                                                 <i class="fa fa-file-text"></i>
                                             </div>
                                             <div class="file-name text-navy">
-                                                Trailer Booking <span id="invoiceNoText">{{$trailerBooking != null? $trailerBooking->documentID : '' }}</span>
+                                                Trailer Booking <span id="invoiceNoText">{{$trailerBooking != null?
+                                                    $trailerBooking->documentID : '' }}</span>
                                             </div>
                                         </a>
                                     </div>
@@ -55,7 +64,7 @@
                         </div>
                     </div>
                 </div>
-                {{-- Section 1_1 --}}
+                {{-- Section 1_1 Document --}}
                 <div class="col-lg-7 mb-2">
                     <div id="accordion-1" class="default-according">
                         <div class="card">
@@ -70,17 +79,17 @@
                             </div>
 
                             <div id="collapseDocument" role="tabpanel" class="collapse show"
-                                aria-labelledby="headingDocument" data-bs-parent="#accordion-1" wire:ignore.self>
+                                aria-labelledby="headingDocument" data-bs-parent="#accordion-1" >
                                 <div class="card-body">
-                                    <livewire:page.marketing.job-order.element.document wire:model.live="job"
-                                        :$action />
+                                    <livewire:page.marketing.job-order.element.document wire:key='job-document'
+                                         wire:model="job" :$action />
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {{-- Section 1_2 --}}
+                {{-- Section 1_2 Sale --}}
                 <div class="col-lg-5 mb-2">
                     <div id="accordion-2" class="default-according">
                         <div class="card">
@@ -94,16 +103,17 @@
                                 </h2>
                             </div>
                             <div id="collapseSale" role="tabpanel" class="collapse show" aria-labelledby="headingSale"
-                                data-bs-parent="#accordion-2" wire:ignore.self>
+                                data-bs-parent="#accordion-2">
                                 <div class="card-body">
-                                    <livewire:page.marketing.job-order.element.detail wire:model.live="job" :$action />
+                                    <livewire:page.marketing.job-order.element.detail wire:model="job" 
+                                        :$action />
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {{-- Section 3 --}}
+                {{-- Section 3 Location --}}
                 <div class="col-lg-12 mb-2">
                     <div id="accordion-3" class="default-according">
                         <div class="card">
@@ -120,14 +130,14 @@
                                 aria-labelledby="headingLocation" data-bs-parent="#accordion-3" wire:ignore.self>
                                 <div class="card-body">
                                     <livewire:page.marketing.job-order.element.location wire:model.live="job"
-                                        :$action />
+                                         :$action />
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {{-- Section 4 --}}
+                {{-- Section 4 Containers --}}
                 <div class="col-lg-12 mb-2">
                     <div id="accordion-4" class="default-according">
                         <div class="card">
@@ -143,16 +153,147 @@
                             <div id="collapseContainers" role="tabpanel" class="collapse"
                                 aria-labelledby="headingContainers" data-bs-parent="#accordion-4" wire:ignore.self>
                                 <div class="card-body">
-                                    <livewire:page.marketing.job-order.element.containers wire:model="containerList"
-                                        :$action />
+                                    <div class="form-group row">
+                                        <div class="col-md-1">
+                                            <label class="col-form-label" style="padding-top: 5px;">Type</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <livewire:element.select2 wire:model="typeContainer" name="typeContainer"
+                                                :options="Service::ContainerTypeSelecter()" itemKey="containertypeCode" 
+                                                itemValue="containertypeName"/>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label class="col-form-label" style="padding-top: 5px;">Size</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <livewire:element.select2 wire:model="sizeContainer" name="sizeContainer"
+                                                :options="Service::ContainerSizeSelecter()" itemKey="containersizeCode"
+                                                itemValue="containersizeName"/>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label class="col-form-label" style="padding-top: 5px;">จำนวน</label>
 
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input name="containQty" type="number" class="form-control" id="containQty" min="1"
+                                                wire:model.change.number="quantityContainer">
+
+                                        </div>
+                                        <div class="col" style="display: flex; align-items: flex-end;">
+                                            <button class="btn btn-primary" type="button" wire:click="addContainer" @disabled($typeContainer == '' || $sizeContainer == '')>
+                                                <i class="fa fa-plus"></i>Add
+                                            </button>
+                                        </div>
+                                        @error('typeContainer') <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                        @error('sizeContainer') <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                        @error('quantityContainer')
+                                        <div class="text-danger m-2">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                        <div class="form-group">
+                                            <div class="table-responsive">
+                                                <table id="table_container" class="table" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width:5%">No.</th>
+                                                            <th style="width:10%">Container Type</th>
+                                                            <th style="width:10%">Size</th>
+                                                            <th style="width:10%">Container No.</th>
+                                                            <th style="width:10%">Seal No.</th>
+                                                            <th style="width:10%">Gross Weight</th>
+                                                            <th style="width:10%">GW.Unit</th>
+                                                            <th style="width:10%"> Net Weight</th>
+                                                            <th style="width:10%">NW.Unit</th>
+                                                            <th style="width:10%">Tare Weight</th>
+                                                            <th style="width:10%">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($containerList as $container)
+                                                        <tr id="tr{{ $loop->iteration }}" wire:key="container-{{$loop->index}}">
+                                                            <td>
+                                                                {{ $loop->iteration }}
+                                                            </td>
+                                                            <td>
+                                                                <select :key="$loop->index" class="form-control"
+                                                                    wire:model.lazy="containerList.{{ $loop->index }}.containerType">
+                                                                    <option value="">Select</option>
+                                                                    @foreach (Service::ContainerTypeSelecter() as $type)
+                                                                    <option value="{{ $type->containertypeCode }}">
+                                                                        {{ $type->containertypeName }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <select :key="$loop->index" class="form-control" 
+                                                                    wire:model.lazy="containerList.{{ $loop->index }}.containerSize">
+                                                                    <option value="">Select</option>
+                                                                    @foreach (Service::ContainerSizeSelecter() as $size)
+                                                                    <option value="{{ $size->containersizeCode }}">
+                                                                        {{ $size->containersizeName }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control" :key="$loop->index"
+                                                                    wire:model.lazy.debounce.700ms="containerList.{{ $loop->index }}.containerNo">
+                                                            </td>
+                                                            <td class="center">
+                                                                <input type="text" class="form-control" :key="$loop->index"
+                                                                    wire:model.lazy.debounce.700ms="containerList.{{ $loop->index }}.containerSealNo">
+                                                            </td>
+                                                            <td class="center">
+                                                                <input type="number" class="form-control" :key="$loop->index"
+                                                                    wire:model.number.lazy.debounce.700ms="containerList.{{ $loop->index }}.containerGW">
+                                                            </td>
+                                                            <td class="center">
+                                                                <select :key="$loop->index" class="form-control" wire:model.lazy="containerList.{{ $loop->index }}.containerGW_unit">
+                                                                    <option value="">Select</option>
+                                                                    @foreach (Service::UnitContainerSelecter() as $unit)
+                                                                    <option value="{{ $unit->unitCode }}">
+                                                                        {{ $unit->unitName }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </td>
+                                                            <td class="center">
+                                                                <input type="text" class="form-control" :key="$loop->index"
+                                                                    wire:model.lazy.debounce.700ms="containerList.{{ $loop->index }}.containerNW">
+                                                            </td>
+                                                            <td class="center">
+                                                                <select :key="$loop->index" class="form-control" wire:model.lazy="containerList.{{ $loop->index }}.containerNW_Unit">
+                                                                    <option value="">Select</option>
+                                                                    @foreach (Service::UnitContainerSelecter() as $unit)
+                                                                    <option value="{{ $unit->unitCode }}">
+                                                                        {{ $unit->unitName }}</option>
+                                                                    @endforeach
+                                                                </select>
+
+                                                            </td>
+                                                            <td class="center">
+                                                                <input type="number" class="form-control"
+                                                                :key="$loop->index"
+                                                                    wire:model.number.lazy.debounce.700ms="containerList.{{ $loop->index }}.containerTareweight">
+                                                            </td>
+                                                            <td class="center">
+                                                                <button type="button" class="btn-danger btn btn-xs"
+                                                                    wire:click="removeContainer('{{ $loop->index }}')">Remove</button>
+                                                            </td>
+                                                        </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {{-- Section 5 --}}
+                {{-- Section 5 Packaged Size --}}
                 <div class="col-lg-12 mb-2">
                     <div id="accordion-5" class="default-according">
                         <div class="card">
@@ -168,7 +309,7 @@
                             <div id="collapsePackaged" role="tabpanel" class="collapse"
                                 aria-labelledby="headingPackaged" data-bs-parent="#accordion-5" wire:ignore.self>
                                 <div class="card-body">
-                                    <livewire:page.marketing.job-order.element.packaged-size
+                                    <livewire:page.marketing.job-order.element.packaged-size 
                                         wire:model.live="packagedList" :$action />
                                 </div>
                             </div>
@@ -192,7 +333,8 @@
                             <div id="collapseGoods" role="tabpanel" class="collapse" aria-labelledby="headingGoods"
                                 data-bs-parent="#accordion-6" wire:ignore.self>
                                 <div class="card-body">
-                                    <livewire:page.marketing.job-order.element.goods wire:model="goodsList" :$action />
+                                    <livewire:page.marketing.job-order.element.goods 
+                                        wire:model="goodsList" :$action />
                                     <div class="form-group row">
                                         <label class="col-lg-2 col-form-label">Total Number of Package (in
                                             words)</label>
@@ -204,10 +346,10 @@
                                             <label style="padding-top: 5px;">Commodity</label>
                                         </div>
                                         <div class="col-md-4">
-                                            {{-- <input type="text" name="good_commodity" class="form-control"
-                                                wire:model.live.debounce.500ms="good_commodity"> --}}
-                                            <livewire:element.select2 wire:model.live='listCommodity' name="listCommodity" :options="Service::CommoditySelecter()" 
-                                                itemKey="commodityCode" itemValue="commodityNameEN" :multiple="true" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
+                                            <livewire:element.select2 wire:model.live='listCommodity'
+                                                name="listCommodity" :options="Service::CommoditySelecter()"
+                                                itemKey="commodityCode" itemValue="commodityNameEN" :multiple="true"
+                                                :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
                                         </div>
                                     </div>
                                 </div>
@@ -234,21 +376,22 @@
                                 <div class="card-body">
                                     <div class="form-group  row">
                                         <div class="col-md-6">
-                                            <livewire:element.select2 wire:model.live='chargeCode' name="chargeCode"
+                                            <livewire:element.select2 wire:model.live="chargeCode" name="chargeCode"
                                                 :options="Service::ChargesSelecter()" itemKey="chargeCode"
                                                 itemValue="chargeName" :searchable="true"
                                                 :disabled="$action != 'create' && $action != 'edit'">
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
-                                            <button class="btn btn-primary " type="button" name="addCharge"
-                                                wire:click="addCharge" id="addCharge" @disabled($chargeCode=='' )><i
+                                            <button class="btn btn-primary " type="button" 
+                                                wire:click="addCharge" @disabled($chargeCode=='' )><i
                                                     class="fa fa-plus"></i>
                                                 Add</button>
                                         </div>
-
                                     </div>
-                                    <livewire:page.marketing.job-order.element.charges
-                                        wire:model.live.debounce.1000ms="chargeList" :$action :qty="$qty"
+                                    <livewire:page.marketing.job-order.element.charges 
+                                        wire:model.live="chargeList" :$action lazy="on-load"
+                                        :groupTypeContainer="$this->groupedContainer"
+                                        :commisionSale="$job->commission_sale" :commisionCustomers="$job->commission_customers"
                                         :documentID="$job->documentID" />
                                 </div>
                             {{-- </div> --}}
@@ -256,7 +399,7 @@
                     {{-- </div> --}}
                 </div>
 
-                {{-- Section 8 --}}
+                {{-- Section 8 Advance Payment --}}
                 <div class="col-lg-12 mb-2">
                     <div id="accordion-8" class="default-according">
                         <div class="card">
@@ -316,7 +459,7 @@
                     </div>
                 </div>
 
-                {{-- Section 9 --}}
+                {{-- Section 9 Attach File --}}
                 <div class="col-lg-12 mb-2">
                     <div id="accordion-9" class="default-according">
                         <div class="card">
@@ -356,11 +499,8 @@
                                                             @disabled($attach->items != null)>
                                                     </td>
                                                     <td class='center'>
-                                                        {{-- <a class='btn-white btn btn-xs' href=''
-                                                            target='_blank'>View</a> --}}
                                                         <a href='/api/blobfile/{{$attach->fileName}}'
                                                             target="_blank">View</a>
-                                                        {{-- </button> --}}
                                                         &nbsp;
                                                         <button type='button' class='btn-white btn btn-xs'
                                                             wire:click='removeFile({{$loop->index}})'>Remove</button>
@@ -470,4 +610,3 @@
 @push('modal')
 <livewire:modal.job-order.charges-alert />
 @endpush
-

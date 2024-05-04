@@ -35,7 +35,7 @@ class Form extends Component
     }
 
     public function save() {
-        $this->data->eachByID = Auth::user()->usercode;
+        $this->data->editID = Auth::user()->usercode;
         $this->data->save();
     }
 

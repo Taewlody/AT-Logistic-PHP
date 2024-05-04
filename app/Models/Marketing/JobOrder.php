@@ -258,7 +258,7 @@ class JobOrder extends Model implements Wireable
         return Attribute::make(
             get: function() {
                 if($this->containerList != null)
-                    return $this->containerList->groupBy('referContainerSize.containersizeName')->map(function ($item, $key) {
+                    return $this->containerList->groupBy('size.containersizeName')->map(function ($item, $key) {
                         return collect($item)->count().'x'.$key;
                     })->toArray();
                 return [];

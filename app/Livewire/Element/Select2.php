@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Element;
 
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Modelable;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Select2 extends Component
@@ -18,40 +20,64 @@ class Select2 extends Component
 
     public $itemValue;
 
-    public string $nameKey = 'value';
+    public string $changefn = '';
 
+    public bool $searchable = false;
     public bool $multiple = false;
     public bool $disabled = false;
     public bool $required = false;
     public bool $readonly = false;
+
+    public bool $hasNan = false;
+
+    public string $valueNan = 'N/A';
+    public string $textNan = 'N/A';
     public string $placeholder = 'Select';
 
     public $class = ['form-control', 'select2'];
 
-    public function mount($options, $itemKey, $itemValue, string|null $nameKey = null, string|null $name = null, bool|null $multiple = null, bool|null $disabled = null, bool|null $required = null, bool|null $readonly = null, bool|null $searchable = null, bool|null $placeholder = null)
+    public function mount($options, $itemKey, $itemValue, string|null $changefn = null, string|null $name = null, bool|null $hasNan = null, string|null $valueNan = null, string|null $textNan = null, bool|null $multiple = null, bool|null $disabled = null, bool|null $required = null, bool|null $readonly = null, bool|null $searchable = null, bool|null $placeholder = null)
     {
-        $this->nameKey = $nameKey ?? $this->nameKey;
+        $this->changefn = $changefn ?? '';
         $this->name = $name ?? $this->name;
         $this->options = $options;
         $this->itemKey = $itemKey;
         $this->itemValue = $itemValue;
+        $this->hasNan = $hasNan ?? $this->hasNan;
+        $this->valueNan = $valueNan ?? $this->valueNan;
+        $this->textNan = $textNan ?? $this->textNan;
+        $this->searchable = $searchable ?? $this->searchable;
         $this->multiple = $multiple ?? $this->multiple;
         $this->disabled = $disabled ?? $this->disabled;
         $this->required = $required ?? $this->required;
         $this->readonly = $readonly ?? $this->readonly;
         $this->placeholder = $placeholder ?? $this->placeholder;
-        // if($multiple) {
-        //     $this->class[] = 'select2-multiple';
-        // }else {
-        //     $this->class[] = 'select2-single';
-        // }
-        // if($searchable) {
-        //     $this->class[] = 'select2-search';
-        // }
+    }
+
+    // public function updatedValue()
+    // {
+    //     Log::info('send updatedValue', ['value' => $this->value]);
+    //     // $this->dispatch('updated-'.$this->name, $this->value);
+    //     $this->dispatch('updated', $this->value)->self();
+    // }
+
+    #[On('change-select2-{name}')]
+    public function change($value)
+    {
+        $this->value = $value;
+    }
+
+    #[On('reset-select2-{name}')]
+    public function resetValue()
+    {
+        $this->reset('value');
+        $this->render();
     }
 
     public function render()
     {
-        return view('livewire.element.select2');
+        return view('livewire.element.select2', [
+            'value' => $this->value,
+        ]);
     }
 }

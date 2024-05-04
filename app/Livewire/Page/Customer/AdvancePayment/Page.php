@@ -4,6 +4,7 @@ namespace App\Livewire\Page\Customer\AdvancePayment;
 
 use App\Models\Common\Customer;
 use App\Models\Payment\AdvancePayment;
+use Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Carbon\Carbon;
@@ -18,6 +19,8 @@ class Page extends Component
     public $customerSearch = "";
     public $documentNo = "";
     public $jobNo = "";
+
+    public $invoiceNo = "";
     public $query = [];
 
     public function mount(){
@@ -38,6 +41,9 @@ class Page extends Component
         if($this->jobNo != null) {
             $this->query[] = ['refJobNo', 'like', '%'.$this->jobNo.'%'];
         }
+        if($this->invoiceNo != null) {
+            $this->query[] = ['refInvoiceNo', 'like', '%'.$this->invoiceNo.'%'];
+        }
         if($this->documentNo != null) {
             $this->query[] = ['documentID', 'like', '%'.$this->documentNo.'%'];
         }
@@ -48,6 +54,14 @@ class Page extends Component
 
     public function render()
     {
-        return view('livewire.page.customer.advance-payment.page', [ 'data'=> AdvancePayment::where($this->query)->orderBy('documentID', 'DESC')->paginate(20)])->extends('layouts.main')->section('main-content');
+        if(Auth::user()->UserType->userTypeName == 'Customer'){
+            $data = AdvancePayment::whereHas('customer', function($q) {
+                $q->where('usercode', Auth::user()->usercode);
+            
+            })->where($this->query)->orderBy('documentID', 'DESC')->paginate(20);
+        }else{
+            $data = AdvancePayment::with(['customer'])->where($this->query)->orderBy('documentID', 'DESC')->paginate(20);
+        }   
+        return view('livewire.page.customer.advance-payment.page', [ 'data'=> $data])->extends('layouts.main')->section('main-content');
     }
 }

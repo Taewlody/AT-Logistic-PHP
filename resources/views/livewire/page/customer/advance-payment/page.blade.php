@@ -37,6 +37,15 @@
                                         </div>
                                     </div>
                                 </div>
+                                {{-- <div class="col-4">
+                                    <div class="form-group col-margin0">
+                                        <label class="font-normal">Invoice No.</label>
+                                        <div>
+                                            <input type='text' class='form-control'
+                                                wire:model="invoiceNo">
+                                        </div>
+                                    </div>
+                                </div> --}}
                                 <div class="col-4">
                                     <div class="form-group col-margin0">
                                         <label class="font-normal">Customer</label>
@@ -44,7 +53,7 @@
                                             <select class="select2_single form-control select2"
                                                 name="cusCode" id="cusCode" wire:model="customerSearch">
                                                 <option value="">- select -</option>
-                                                @foreach ($customerList as $customer)
+                                                @foreach (Service::CustomerSelecter() as $customer)
                                                     <option value="{{ $customer->cusCode }}">
                                                         {{ $customer->custNameEN ? $customer->custNameEN : $customer->custNameTH }}</option>
                                                 @endforeach
@@ -139,8 +148,10 @@
                                                             href="{{ route('advance-payment.form', ['action' => 'view', 'id' => $item->documentID]) }}">View</a>
                                                         <a class="btn btn-xs btn-primary"
                                                             href="{{ route('advance-payment.form', ['action' => 'edit', 'id' => $item->documentID]) }}">Edit</a>
-                                                        <button class="btn btn-xs btn-danger"
+                                                        @if((Auth::user()->hasRole('admin') && $item->documentstatus == 'A') || $item->documentstatus != 'A')
+                                                            <button class="btn btn-xs btn-danger"
                                                             onClick="return confirmDel('{{ $item->fCode }}','port_action.php');">Delete</button>
+                                                        @endif
                                                     </div>
                                                 </td>
                                             </tr>

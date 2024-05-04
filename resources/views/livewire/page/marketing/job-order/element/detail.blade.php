@@ -12,8 +12,11 @@
                     </option>
                 @endforeach
             </select> --}}
-            <livewire:element.select2 wire:model='value.cusCode' name="cusCode" :options="Service::CustomerSelecter()" :required="true"
-                itemKey="cusCode" itemValue="custNameEN" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
+            <livewire:element.select2 wire:model='value.cusCode' name="cusCode" :options="Service::CustomerSelecter()" changefn="updatedContact"
+                itemKey="cusCode"  itemValue="custNameEN" :hasNan="true" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
+            @error('cusCode')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
         </div>
     </div>
     <div class="form-group  row">
@@ -28,7 +31,7 @@
                     </option>
                 @endforeach
             </select> --}}
-            <livewire:element.select2 wire:model='value.saleman' name="saleman" :options="Service::SalemanSelecter()" 
+            <livewire:element.select2 wire:model='value.saleman' name="saleman" :options="Service::SalemanSelecter()"
                 itemKey="usercode" itemValue="empName" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
         </div>
     </div>
@@ -53,7 +56,10 @@
                 @endforeach
             </select> --}}
             <livewire:element.select2 wire:model='value.agentCode' name="agentCode" :options="Service::SupplierSelecter()" 
-                itemKey="supCode" itemValue="supNameTH" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
+                itemKey="supCode" itemValue="supNameTH" :hasNan="true" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
+            @error('agentCode')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
         </div>
     </div>
     <div class="form-group row">
@@ -76,8 +82,11 @@
                 @endforeach
             </select> --}}
             <livewire:element.select2 wire:model='value.feeder' name="feeder" :options="Service::FeederSelecter()" 
-                itemKey="fCode" itemValue="fName" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
-        </div>
+                itemKey="fCode" itemValue="fName" :hasNan="true" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
+            @error('feeder')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+            </div>
         <div class="col-md-1">
             <label class="col-form-label" style="padding-top: 5px;">VOY</label>
         </div>

@@ -163,6 +163,9 @@
         <div class="col-md-4">
             <input type="text" name="invNo" class="form-control" id="invNo" required
                 wire:model.live.debounce.500ms="value.invNo" @disabled($action != 'create' && $action != 'edit')>
+                @error('invNo')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
         </div>
         <div class="col-md-2">
             <label class="col-form-label" style="padding-top: 5px;">Bill</label>
@@ -178,6 +181,9 @@
             <input type="text" name="bookingNo" class="form-control" required
                 id="bookingNo" wire:model.live.debounce.500ms="value.bookingNo"
                 @disabled($action != 'create' && $action != 'edit')>
+                @error('bookingNo')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
         </div>
         <div class="col-md-2">
             <label class="col-form-label" style="padding-top: 5px;">Delivery

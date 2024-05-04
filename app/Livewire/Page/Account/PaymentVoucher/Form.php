@@ -61,6 +61,13 @@ class Form extends Component
         'attachs.*.fileName' => 'string',
     ];
 
+    public function rules() {
+        return [
+        'data.dueDate' => 'required|date',
+        'data.supCode' => 'required|string',
+        ];
+    }
+
     #[Computed]
     public function calPrice() {
         $cal_price = [
@@ -171,33 +178,32 @@ class Form extends Component
         $this->attachs = $this->attachs->values();
     }
 
-    public function save() {
+    public function save(bool|null $approve = false) {
         $this->data->editID = Auth::user()->usercode;
+        if($approve) {
+            $this->data->documentstatus = 'A';
+        }
         $this->data->save();
-        // $this->data->items()->delete();
         $this->data->items->filter(function($item){
             return !collect($this->payments->pluck('autoid'))->contains($item->autoid);
         })->each->delete();
         $this->data->items()->saveMany($this->payments);
+    }
+
+    public function submit(){
+        $this->validate();
+        // if($this->data->duedate == null || $this->data->duedate == '') {
+        //     // dd($this->data->duedate);
+        //     $this->addError('duedate', 'Please select due date');
+        //     return;
+        // }
+        $this->save();
         $this->redirectRoute(name: 'account-payment-voucher', navigate: true);
     }
 
     public function approve() {
-        $this->data->editID = Auth::user()->usercode;
-        $this->data->documentstatus = 'A';
-        $this->data->save();
-        $this->job = JobOrder::find($this->data->refJobNo);
-        $this->data->items->each(function($item){
-            $this->job->charge()->create([
-                'documentID' => $this->job->documentID,
-                'ref_paymentCode' => $this->data->documentID,
-                'chargeCode' => $item->chargeCode,
-                'detail' => $item->chartDetail,
-                'chargesCost' => $item->amount,
-                // 'chargesReceive' => $item->amount,
-                // 'chargesbillReceive' => $item->amount,
-            ]);
-        });
+        $this->validate();
+        $this->save(true);
         $this->redirectRoute(name: 'shipping-payment-voucher', navigate: true);
     }
 
