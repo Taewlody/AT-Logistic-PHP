@@ -132,10 +132,6 @@ class PettyCash extends Model implements Wireable
         return $this->hasOne(Supplier::class, 'supCode', 'supCode');
     }
 
-    public function user(): HasOne{
-        return $this->hasOne(User::class, 'userCode', 'createID');
-    }
-
     public function docStatus(): HasOne
     {
         return $this->hasOne(RefDocumentStatus::class, 'status_code', 'documentstatus');

@@ -34,8 +34,6 @@ class Form extends Component
             $this->action = 'create';
             $this->data = new Supplier();
         }
-        // $this->id;
-        
     }
 
     public function save()

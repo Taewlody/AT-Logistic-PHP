@@ -310,6 +310,21 @@ class Form extends Component
         $this->chargeList = $this->chargeList->values();
     }
 
+    #[On('commission-sale')]
+    public function commissionSale(string $value)
+    {
+        // dd($value);
+        $this->job->commission_sale = $value;
+    }
+
+    #[On('commission-customers')]
+    public function commissionCustomers(string $value)
+    {
+        // dd($value);
+        $this->job->commission_customers = $value;
+        // dd($this->job->commission_customers);
+    }
+
     #[Computed]
     public function groupedContainer()
     {
@@ -398,6 +413,7 @@ class Form extends Component
         $this->data->total_amt = ($this->data->charge->sum('chargesReceive') + $this->data->total_vat) + $this->data->charge->sum('chargesbillReceive');
         $this->data->total_netamt =  $this->data->total_amt - ($this->data->tax3 + $this->data->tax1);
         $this->data->cus_paid =  CalculatorPrice::cal_customer_piad($this->id)->sum('sumTotal');
+        // dd($this->data);
         $this->data->save();
         $this->data->containerList->filter(function($item){
             return !collect($this->containerList->pluck('items'))->contains($item->items);

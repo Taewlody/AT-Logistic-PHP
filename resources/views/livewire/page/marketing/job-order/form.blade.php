@@ -389,9 +389,9 @@
                                         </div>
                                     </div>
                                     <livewire:page.marketing.job-order.element.charges 
-                                        wire:model.live="chargeList" :$action lazy="on-load"
+                                        wire:model.live="chargeList" :$action
                                         :groupTypeContainer="$this->groupedContainer"
-                                        :commisionSale="$job->commission_sale" :commisionCustomers="$job->commission_customers"
+                                        :commissionSale="$job->commission_sale" :commissionCustomers="$job->commission_customers"
                                         :documentID="$job->documentID" />
                                 </div>
                             </div>

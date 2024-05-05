@@ -2,6 +2,7 @@
 
 namespace App\Functions;
 
+use App\Enum\Role;
 use App\Models\Common\BankAccount;
 use App\Models\Common\Charges;
 use App\Models\Common\Commodity;
@@ -19,6 +20,7 @@ use App\Models\Common\TransportType;
 use App\Models\Common\UnitContainer;
 use App\Models\Marketing\JobOrder;
 use App\Models\User;
+use App\Models\UserType;
 use Auth;
 use Carbon\Carbon;
 use DateTime;
@@ -206,10 +208,17 @@ class Service
         });
     }
 
-    public static function UserSelecter()
+    public static function UserSelecter(string|null $role = null)
     {
-        return Cache::remember('user-select', 15, function () {
-            return User::select('userCode', 'username')->where('isActive', '=', '1')->orderBy('username')->get();
+        return Cache::remember('user-role-select', 15, function () use ($role) {
+            if ($role !== null) {
+                return User::whereHas('UserType', function($q) use ($role) {
+                    $q->where('userTypeName', $role);
+                
+                })->select('userCode', 'username')->where('isActive', '=', '1')->orderBy('username')->get();
+            }else{
+                return User::select('userCode', 'username')->where('isActive', '=', '1')->orderBy('username')->get();
+            }
         });
     }
 

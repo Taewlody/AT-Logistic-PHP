@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Page\Shipping\Deposit;
 
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Carbon\Carbon;

@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Page\Marketing\JobOrder;
 
+use App\Enum\Role;
+use Auth;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -62,6 +64,9 @@ class Page extends Component
 
     public function render()
     {
+        if(Auth::user()->hasRole(Role::CUSTOMER)){
+           
+        }
         return view('livewire.page.marketing.job-order.page',[ 
             'data'=> JobOrder::where($this->query)->orderBy('documentID', 'DESC')->paginate(20)
             ])->extends('layouts.main')->section('main-content');
