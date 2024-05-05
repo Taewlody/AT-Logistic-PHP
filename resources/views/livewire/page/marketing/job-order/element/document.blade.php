@@ -21,11 +21,14 @@
         <label class="col-sm-2 col-form-label">Bound <span class="text-danger">*</span></label>
         <div class="col-md-4">
             <select name="bound" class="select2_single form-control select2"
-                id="bound" wire:model.change="value.bound" @disabled($action != 'create' && $action != 'edit') required>
+                id="bound" wire:model.change="value.bound" @disabled($action != 'create' && $action != 'edit')>
                 <option value="">select</option>
                 <option value="1">IN BOUND</option>
                 <option value="2">OUT BOUND</option>
             </select>
+            @error('bound')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
         </div>
         <div class="col-md-2">
             <label class="col-form-label" style="padding-top: 5px;">Freight <span class="text-danger">*</span></label>
@@ -39,8 +42,11 @@
                         {{ $transportType->transportName }}</option>
                 @endforeach
             </select> --}}
-            <livewire:element.select2 wire:model='value.freight' name="freight" :options="Service::TransportTypeSelecter()" :required="true"
+            <livewire:element.select2 wire:model='value.freight' name="freight" :options="Service::TransportTypeSelecter()"
                 itemKey="transportCode" itemValue="transportName" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
+            @error('freight')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
         </div>
     </div>
     <div class="form-group  row">
@@ -161,7 +167,7 @@
     <div class="form-group row">
         <label class="col-lg-2 col-form-label">INV No. <span class="text-danger">*</span></label>
         <div class="col-md-4">
-            <input type="text" name="invNo" class="form-control" id="invNo" required
+            <input type="text" name="invNo" class="form-control" id="invNo"
                 wire:model.live.debounce.500ms="value.invNo" @disabled($action != 'create' && $action != 'edit')>
                 @error('invNo')
                     <span class="text-danger">{{ $message }}</span>
@@ -178,7 +184,7 @@
     <div class="form-group row">
         <label class="col-lg-2 col-form-label">Booking No. <span class="text-danger">*</span></label>
         <div class="col-md-4">
-            <input type="text" name="bookingNo" class="form-control" required
+            <input type="text" name="bookingNo" class="form-control" 
                 id="bookingNo" wire:model.live.debounce.500ms="value.bookingNo"
                 @disabled($action != 'create' && $action != 'edit')>
                 @error('bookingNo')
@@ -191,12 +197,15 @@
         </div>
         <div class="col-md-4">
             <select name="deliveryType" class="select2_single form-control select2"
-                id="deliveryType" wire:model.change="value.deliveryType" required
+                id="deliveryType" wire:model.change="value.deliveryType" 
                 @disabled($action != 'create' && $action != 'edit')>
                 <option value="">select</option>
                 <option value="FCL">FCL</option>
                 <option value="LCL">LCL</option>
             </select>
+            @error('deliveryType')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
         </div>
     </div>
     <div class="form-group row">

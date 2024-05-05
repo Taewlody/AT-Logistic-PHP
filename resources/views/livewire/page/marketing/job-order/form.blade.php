@@ -149,6 +149,9 @@
                                         Containers
                                     </a>
                                 </h2>
+                                @error('containerList')
+                                    <h4 class="text-danger" style="padding-left: 20px">{{ $message }}</h4>
+                                @enderror
                             </div>
                             <div id="collapseContainers" role="tabpanel" class="collapse"
                                 aria-labelledby="headingContainers" data-bs-parent="#accordion-4" wire:ignore.self>
@@ -304,6 +307,9 @@
                                         aria-controls="collapsePackaged">
                                         Packaged Size
                                     </a>
+                                    @error('packagedList')
+                                        <h4 class="text-danger" style="padding-left: 20px">{{ $message }}</h4>
+                                    @enderror
                                 </h2>
                             </div>
                             <div id="collapsePackaged" role="tabpanel" class="collapse"
