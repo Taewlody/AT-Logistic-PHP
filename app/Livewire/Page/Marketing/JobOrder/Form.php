@@ -370,6 +370,7 @@ class Form extends Component
     }
 
     public function vaildJob(){
+        // dd($this->job);
         if($this->job->invNo == null || $this->job->invNo == '') {
             $this->addError('invNo', 'Please enter invoice no');
             return false;
@@ -396,11 +397,33 @@ class Form extends Component
 
     public function save(bool|null $approve = false)
     {
-
+        
         if(!$this->vaildJob()) {
             return false;
         }
         $this->data = new JobOrder($this->job->toArray());
+
+        // check delivery type to validate
+        if($this->data->deliveryType) {
+            if($this->data->deliveryType === 'FCL') {
+                $this->resetValidation();
+                if(count($this->containerList) == 0) {
+                    $this->addError('containerList', 'Please enter container');
+                    return false;
+                }else {
+                    return true;
+                }
+            }else if($this->data->deliveryType === 'LCL') {
+                $this->resetValidation();
+                if(count($this->packagedList) == 0) {
+                    $this->addError('packagedList', 'Please enter packaged');
+                    return false;
+                }else {
+                    return true;
+                }
+            }
+        }
+
         $this->data->exists = $this->job->exists;
         if($approve) {
             $this->data->documentstatus = 'A';

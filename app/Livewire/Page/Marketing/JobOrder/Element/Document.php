@@ -35,6 +35,15 @@ class Document extends Component
             $this->addError('bookingNo', 'Please enter booking no');
             // return false;
         }
+        if($this->value->bound == null || $this->value->bound == '') {
+            $this->addError('bound', 'Please enter bound');
+        }
+        if($this->value->freight == null || $this->value->freight == '') {
+            $this->addError('freight', 'Please enter freight');
+        }
+        if($this->value->deliveryType == null || $this->value->deliveryType == '') {
+            $this->addError('deliveryType', 'Please enter delivery type');
+        }
     }
 
     public function render()
