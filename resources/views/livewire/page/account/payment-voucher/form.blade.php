@@ -52,14 +52,17 @@
                                                 style="padding-top: 5px;">จ่ายให้/Paid
                                                 To</span></label>
                                         <div class="col-md-4">
-                                            <select name="supCode" class="select2_single form-control select2"
+                                            {{-- <select name="supCode" class="select2_single form-control select2"
                                                 id="supCode" wire:model="data.supCode">
                                                 <option value="">- Select -</option>
                                                 @foreach (Service::SupplierSelecter() as $supplier)
                                                 <option value="{{ $supplier->supCode }}">{{ $supplier->supNameTH }}
                                                 </option>
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model="data.supCode" name="supCode" :searchable="true"
+                                                :options="Service::SupplierSelecter()" itemKey="supCode" 
+                                                itemValue="supNameEN"/>
                                             @error('data.supCode')
                                                 <div class="text-danger m-2">{{ $message }}</div>
                                             @enderror
@@ -68,14 +71,17 @@
                                             <label class="col-form-label" style="padding-top: 5px;">Ref. JobNo.</label>
                                         </div>
                                         <div class="col-md-4">
-                                            <select class="select2_single form-control select2" name="refJobNo"
+                                            {{-- <select class="select2_single form-control select2" name="refJobNo"
                                                 id="refJobNo" wire:model="data.refJobNo">
                                                 <option value="">- Select -</option>
                                                 @foreach (Service::JobOrderSelecter(false) as $job)
                                                 <option value="{{ $job->documentID }}">{{ $job->documentID }}
                                                 </option>
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model="data.refJobNo" name="refJobNo" :searchable="true"
+                                                :options="Service::JobOrderSelecter(false)" itemKey="documentID" 
+                                                itemValue="documentID"/>
                                         </div>
 
                                     </div>

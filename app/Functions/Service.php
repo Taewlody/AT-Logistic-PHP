@@ -148,7 +148,7 @@ class Service
     public static function SupplierSelecter()
     {
         return Cache::remember('supplier-select', 15, function () {
-            return Supplier::select('supCode', 'supNameTH')->where('isActive', '=', '1')->orderBy('supNameTH')->get();
+            return Supplier::select('supCode', 'supNameTH', 'supNameEN')->where('isActive', '=', '1')->orderBy('supNameEN')->get();
         });
     }
 

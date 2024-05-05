@@ -31,7 +31,7 @@
             console.log('select2 not found');
         }
     });
-
+    
     Livewire.on('change-select2-' + $wire.name, (data) => {
         $('#{{$this->__id}}').val(data).trigger('change');
         console.log('change-select2-'+ $wire.name, data);
