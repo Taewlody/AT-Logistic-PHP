@@ -395,16 +395,12 @@ class Form extends Component
                 if(count($this->containerList) == 0) {
                     $this->addError('containerList', 'Please enter container');
                     return false;
-                }else {
-                    return true;
                 }
             }else if($this->data->deliveryType === 'LCL') {
                 $this->resetValidation();
                 if(count($this->packagedList) == 0) {
                     $this->addError('packagedList', 'Please enter packaged');
                     return false;
-                }else {
-                    return true;
                 }
             }
         }
