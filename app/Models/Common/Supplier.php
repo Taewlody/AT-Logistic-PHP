@@ -43,6 +43,7 @@ class Supplier extends Model implements Wireable
         'contactName',
         'contactMobile',
         'contactEmail',
+        'usercode',
         'createID',
         'createTime',
         'editID',
@@ -71,6 +72,7 @@ class Supplier extends Model implements Wireable
         'contactName' => 'string',
         'contactMobile' => 'string',
         'contactEmail' => 'string',
+        'usercode' => 'string',
         'createID' => 'string',
         'createTime' => CustomDateTime::class,
         'editID' => 'string',
@@ -108,6 +110,11 @@ class Supplier extends Model implements Wireable
     public function country(): HasOne
     {
         return $this->hasOne(Country::class, 'countryCode','countryCode');
+    }
+
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class, 'userCode','usercode');
     }
 
     public function createBy(): HasOne

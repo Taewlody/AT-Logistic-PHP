@@ -1,7 +1,8 @@
 <?php 
 namespace App\Models\Marketing;
+use Livewire\Wireable;
 
-class JobOrderWithoutRef extends JobOrder
+class JobOrderWithoutRef extends JobOrder implements Wireable
 {
     /**
      * The attributes that should be hidden for arrays.

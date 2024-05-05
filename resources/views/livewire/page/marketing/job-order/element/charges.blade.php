@@ -140,6 +140,7 @@
                         </td>
                         <td style="width:5%"></td>
                     </tr>
+                    @if(Auth::user()->hasRole('admin'))
                     <tr>
                         <td style="width:5%"></td>
                         <td style="width:50%; text-align: right;">&nbsp;</td>
@@ -149,7 +150,7 @@
                                 style="width:50%; text-align: right;">Commission Sale</span>
                         </td>
                         <td style="width:10%">
-                            <input type="text" name="commission_sale" class="form-control" id="commission_sale" wire:model.live.debounce.700ms='commission_sale'>
+                            <input type="text" class="form-control" wire:model.live.debounce.700ms='commissionSale'>
                         </td>
                         <td style="width:10%"></td>
                         <td style="width:10%"></td>
@@ -164,12 +165,13 @@
                                 style="width:50%; text-align: right;">Commission Customers</span>
                         </td>
                         <td style="width:10%">
-                            <input type="text" name="commission_customers" class="form-control"  id="commission_customers" wire:model.live.debounce.700ms='commission_customers'>
+                            <input type="text" class="form-control" wire:model.live.debounce.700ms='commissionCustomers'>
                         </td>
                         <td style="width:10%"></td>
                         <td style="width:10%"></td>
                         <td style="width:5%"></td>
                     </tr>
+                    @endif
                 {{-- </tfoot>
             </table>
             <table class="table invoice-total">

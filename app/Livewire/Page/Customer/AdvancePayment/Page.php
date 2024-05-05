@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Page\Customer\AdvancePayment;
 
+use App\Enum\Role;
 use App\Models\Common\Customer;
 use App\Models\Payment\AdvancePayment;
 use Auth;
@@ -54,7 +55,7 @@ class Page extends Component
 
     public function render()
     {
-        if(Auth::user()->UserType->userTypeName == 'Customer'){
+        if(Auth::user()->UserType->userTypeName == Role::CUSTOMER){
             $data = AdvancePayment::whereHas('customer', function($q) {
                 $q->where('usercode', Auth::user()->usercode);
             

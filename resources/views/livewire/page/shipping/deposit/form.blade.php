@@ -9,7 +9,7 @@
             <div class="loader"></div>
         </div>
 
-        <form class="form-body" wire:submit="save">
+        <form class="form-body" wire:submit="submit">
             <div class="row">
 
                 {{-- Section 1 --}}
@@ -416,13 +416,18 @@
                                     <i class="fa fa-reply"></i> Back</a>
 
                                 @if($data->documentstatus != 'A')
-                                <button name="save" id="save" class="btn  btn-success" type="button"
-                                    wire:click='save' @disabled($data->documentstatus != 'A')>
+                                <button name="save" id="save" class="btn  btn-success" type="submit"
+                                    @disabled($data->documentstatus != 'A')>
                                     <i class="fa fa-save"></i> Save</button>
                                 @endif
-                                <button name="approve" id="approve" class="btn btn-primary" type="button"
+                                <button name="approve" id="approve" class="btn btn-primary" type="button" wire:click="approve"
                                     @disabled($data->documentstatus == 'A')>
                                     <i class="fa fa-check"></i> Approve</button>
+                                @if((now()->diffInDays($data->editTime) >= 15 && $data->documentstatus == 'A')&&Auth::user()->hasRole(Role::ADMIN))
+                                <button name="complete" id="complete" class="btn btn-info" type="button" wire:click="complete"
+                                    @disabled($data->documentstatus != 'A')>
+                                    <i class="fa fa-check"></i> Complete</button>
+                                @endif
                                 @if($data->documentID != null && $data->documentID != '')
                                     <a class="btn" target="_blank" href="{{'/api/print/deposit_pdf/'.$data->documentID}}"><i class="fa fa-print"></i>
                                         Print</a>

@@ -2,6 +2,8 @@
 
 namespace App\Livewire\page\Account\PettyCash;
 
+use App\Enum\Role;
+use Auth;
 use Livewire\Attributes\On;
 use App\Models\PettyCash\PettyCash;
 use App\Models\Common\Customer;
@@ -57,6 +59,14 @@ class Page extends Component
     }
     public function render()
     {
-        return view('livewire.page.account.petty-cash.page', [ 'data'=> PettyCash::where($this->query)->orderBy('documentDate', 'desc')->paginate(20)])->extends('layouts.main')->section('main-content');
+        if(Auth::user()->UserType->userTypeName == Role::SUPPLIER){
+            $data = PettyCash::whereHas('supplier', function($q) {
+                $q->where('usercode', Auth::user()->usercode);
+            
+            })->where($this->query)->orderBy('documentID', 'DESC')->paginate(20);
+        }else{
+            $data = PettyCash::where($this->query)->orderBy('documentDate', 'desc')->paginate(20);
+        }   
+        return view('livewire.page.account.petty-cash.page', [ 'data'=> $data])->extends('layouts.main')->section('main-content');
     }
 }

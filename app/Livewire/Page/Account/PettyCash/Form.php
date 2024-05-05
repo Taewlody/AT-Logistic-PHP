@@ -39,6 +39,12 @@ class Form extends Component
         'payments.*.amount' => 'float',
     ];
 
+    public function rules() {
+        return [
+            'data.dueDate' => 'required|date',
+        ];
+    }
+
     #[Computed]
     public function calPrice() {
         $cal_price = [

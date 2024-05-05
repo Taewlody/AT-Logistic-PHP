@@ -197,6 +197,9 @@ return [
         'Service' => App\Functions\Service::class,
         'ThaiDate' => App\Functions\ThaiDate::class,
         'EngDate' => App\Functions\EngDate::class,
+        'Role' => App\Enum\Role::class,
+        'ViewMode' => App\Enum\ViewMode::class,
+        'FormMode' => App\Enum\FormMode::class,
         // 'PDF' => Barryvdh\DomPDF\Facade::class,
     ])->toArray(),
 

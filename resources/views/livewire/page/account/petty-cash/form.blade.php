@@ -81,6 +81,9 @@
                                                 <input type="date" name="dueDate" class="form-control"
                                                     wire:model="data.dueDate">
                                         </div>
+                                        @error('data.dueDate')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
 
                                     </div>
 
@@ -171,31 +174,31 @@
                                                 <table class="table invoice-total">
                                                     <tbody>
                                                         <tr>
-                                                            <td><strong>TOTAL :</strong></td>
-                                                            <td>
+                                                            <td style="border: none;text-align: end;"><strong>TOTAL :</strong></td>
+                                                            <td style="width: 30%;">
                                                                 <input name="sumTotal" id="sumTotal"
                                                                     class='form-control' value="{{ Service::MoneyFormat($this->calPrice()->total) }}"
                                                                     required readonly>
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>Tax 1% :</strong></td>
+                                                            <td style="border: none;text-align: end;"><strong>Tax 1% :</strong></td>
                                                             <td><input name="tax1" id="tax1"
                                                                      class='form-control' value="{{ Service::MoneyFormat($this->calPrice()->tax1) }}"
                                                                     required readonly></td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>Tax 3% :</strong></td>
+                                                            <td style="border: none;text-align: end;"><strong>Tax 3% :</strong></td>
                                                             <td><input name="tax3" id="tax3" class='form-control' value="{{  Service::MoneyFormat($this->calPrice()->tax3) }}"
                                                                     required></td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>Vat7% :</strong></td>
+                                                            <td style="border: none;text-align: end;"><strong>Vat7% :</strong></td>
                                                             <td><input name="tax7" id="tax7" class='form-control' value="{{  Service::MoneyFormat($this->calPrice()->tax7) }}"
                                                                     required></td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>GRAND TOTAL:</strong></td>
+                                                            <td style="border: none;text-align: end;"><strong>GRAND TOTAL:</strong></td>
                                                             <td style="text-align: left"><span
                                                                     id="showgrandTotal">{{ Service::MoneyFormat($this->calPrice()->grandTotal)}}</span>
                                                             </td>

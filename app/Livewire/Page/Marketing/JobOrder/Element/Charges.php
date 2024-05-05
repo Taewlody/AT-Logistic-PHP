@@ -20,11 +20,11 @@ class Charges extends Component
     #[Modelable]
     public Collection $value;
 
-    #[Reactive]
+    // #[Reactive]
     public $commissionSale;
 
-    #[Reactive]
-    public $commisionCustomers;
+    // #[Reactive]
+    public $commissionCustomers;
 
     #[Locked]
     public String|null $documentID = '';
@@ -62,28 +62,36 @@ class Charges extends Component
     public function boot(){
     }
 
-    public function mount($action, String|null $documentID = null, String|null $groupTypeContainer = null)
+    public function mount($action, String|null $documentID = null, String|null $groupTypeContainer = null, String|null $commissionSale = null, String|null $commissionCustomers = null)
+
     {
         $this->action = $action;
         $this->documentID = $documentID ?? '';
         $this->groupTypeContainer = $groupTypeContainer ?? '';
+        $this->commissionSale = $commissionSale ?? '';
+        $this->commissionCustomers = $commissionCustomers ?? '';
+        // dd($this->commissionSale, $this->commissionCustomers);
         if($action != 'create'){
             $this->customer_piad = CalculatorPrice::cal_customer_piad($this->documentID) ?? new Collection;
         }
     }
 
     public function updatedCommissionSale(){
-        
+        // dd($this->commissionSale);
+        $this->dispatch('commission-sale', $this->commissionSale);
     }
 
-    public function changeCommissionSale(){
-        dd($this->commissionSale);
+    public function updatedCommissionCustomers(){
+        // dd($this->commisionCustomers);
+        $this->dispatch('commission-customers', $this->commissionCustomers);
     }
+
+    // public function changeCommissionSale(){
+    //     dd($this->commissionSale);
+    // }
 
     public function render()
     {
-        return view('livewire.page.marketing.job-order.element.charges', [
-            'commission_sale' => $this->commissionSale,
-            'commision_sustomers' => $this->commisionCustomers]);
+        return view('livewire.page.marketing.job-order.element.charges');
     }
 }

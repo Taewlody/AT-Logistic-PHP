@@ -118,7 +118,9 @@
                                                                 'label-primary' => $item->docStatus->status_code == 'A',
                                                                 'label-danger' => $item->docStatus->status_code == 'D',
                                                                 'label-warning' => $item->docStatus->status_code == 'P',
-                                                            ])>{{ $item->docStatus->status_name }}</span>
+                                                                'label-info' => (now()->diffInDays($item->editTime) >= 15 && $item->docStatus->status_code == 'A'),
+                                                                'label-success' => $item->docStatus->status_code == 'C',
+                                                            ])>{{ (now()->diffInDays($item->editTime) >= 15 && $item->docStatus->status_code == 'A') ? 'ติดตามเงิน' : $item->docStatus->status_name }}</span>
                                                     </td>
                                                 @else
                                                     <td class="center"><span

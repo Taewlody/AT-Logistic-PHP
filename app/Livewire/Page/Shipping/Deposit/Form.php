@@ -125,13 +125,32 @@ class Form extends Component
         $this->attachs = $this->attachs->values();
     }
 
-    public function save() {
+    public function save(bool|null $approve = false) {
         $this->data->editID = Auth::user()->usercode;
+        if($approve) {
+            $this->data->documentStatus = 'A';
+        }
         $this->data->save();
         $this->data->items->filter(function($item){
             return !collect($this->payments->pluck('autoid'))->contains($item->autoid);
         })->each->delete();
         $this->data->items()->saveMany($this->payments);
+        
+    }
+
+    public function submit() {
+        $this->save();
+        $this->redirectRoute(name: 'deposit', navigate: true);
+    }
+
+    public function approve() {
+        $this->save();
+        $this->redirectRoute(name: 'deposit', navigate: true);
+    }
+
+    public function complete() {
+        $this->data->documentStatus = 'C';
+        $this->data->save();
         $this->redirectRoute(name: 'deposit', navigate: true);
     }
 
