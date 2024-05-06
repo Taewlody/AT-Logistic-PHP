@@ -10,7 +10,7 @@
             <div class="loader"></div>
         </div>
 
-        <form class="form-body" wire:submit="submit">
+        <form class="form-body" wire:submit="submit" onkeydown="return event.key != 'Enter';">
             <div class="row">
                 {{-- Section 1 --}}
                 <div class="col-lg-7 mb-2">
@@ -52,14 +52,6 @@
                                                 style="padding-top: 5px;">จ่ายให้/Paid
                                                 To</span></label>
                                         <div class="col-md-4">
-                                            {{-- <select name="supCode" class="select2_single form-control select2"
-                                                id="supCode" wire:model="data.supCode">
-                                                <option value="">- Select -</option>
-                                                @foreach (Service::SupplierSelecter() as $supplier)
-                                                <option value="{{ $supplier->supCode }}">{{ $supplier->supNameTH }}
-                                                </option>
-                                                @endforeach
-                                            </select> --}}
                                             <livewire:element.select2 wire:model="data.supCode" name="supCode" :searchable="true"
                                                 :options="Service::SupplierSelecter()" itemKey="supCode" 
                                                 itemValue="supNameEN"/>
@@ -71,14 +63,6 @@
                                             <label class="col-form-label" style="padding-top: 5px;">Ref. JobNo.</label>
                                         </div>
                                         <div class="col-md-4">
-                                            {{-- <select class="select2_single form-control select2" name="refJobNo"
-                                                id="refJobNo" wire:model="data.refJobNo">
-                                                <option value="">- Select -</option>
-                                                @foreach (Service::JobOrderSelecter(false) as $job)
-                                                <option value="{{ $job->documentID }}">{{ $job->documentID }}
-                                                </option>
-                                                @endforeach
-                                            </select> --}}
                                             <livewire:element.select2 wire:model="data.refJobNo" name="refJobNo" :searchable="true"
                                                 :options="Service::JobOrderSelecter(false)" itemKey="documentID" 
                                                 itemValue="documentID"/>
@@ -210,16 +194,6 @@
                                 <div class="card-body">
                                     <div class="form-group row">
                                         <div class="col-md-6">
-                                            {{-- <select class="select2_single form-control select2" style="width: 100%;"
-                                                id="chargeCode" wire:model.change="chargeCode">
-                                                <option value="">- select -</option>
-                                                @foreach (Service::ChargesSelecter() as $charge)
-                                                <option value="{{ $charge->chargeCode }}">
-                                                    {{ $charge->chargeName }}
-                                                </option>
-                                                @endforeach
-
-                                            </select> --}}
                                             <livewire:element.select2 wire:model.live='chargeCode' id="chargeCode" :options="Service::ChargesSelecter()" itemKey="chargeCode" itemValue="chargeName" :searchable="true" >
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
@@ -394,7 +368,8 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($attachs as $attach)
-                                                <tr class='gradeX' wire:key='attach-field-{{ $attach->items }}'>
+                                                {{-- {{dd($attach);}} --}}
+                                                <tr class='gradeX'>
                                                     <td>{{ $attach->documentID }}</td>
                                                     <td>
                                                         <input type='text' class='form-control'

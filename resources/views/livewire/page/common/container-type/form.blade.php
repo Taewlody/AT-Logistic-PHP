@@ -13,7 +13,7 @@
 
         <div class="card ">
             <div class="card-body">
-                <form class="form-body" wire:submit="save">
+                <form class="form-body" wire:submit="save" onkeydown="return event.key != 'Enter';">
                     <div class="form-group  row">
                         <label class="col-form-label">
                             <h3>Container Type info</h3>

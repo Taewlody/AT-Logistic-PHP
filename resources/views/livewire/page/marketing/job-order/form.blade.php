@@ -161,7 +161,7 @@
                                             <label class="col-form-label" style="padding-top: 5px;">Type</label>
                                         </div>
                                         <div class="col-md-2">
-                                            <livewire:element.select2 wire:model="typeContainer" name="typeContainer"
+                                            <livewire:element.select2 wire:model.change="typeContainer" name="typeContainer"
                                                 :options="Service::ContainerTypeSelecter()" itemKey="containertypeCode" 
                                                 itemValue="containertypeName"/>
                                         </div>
@@ -169,7 +169,7 @@
                                             <label class="col-form-label" style="padding-top: 5px;">Size</label>
                                         </div>
                                         <div class="col-md-2">
-                                            <livewire:element.select2 wire:model="sizeContainer" name="sizeContainer"
+                                            <livewire:element.select2 wire:model.change="sizeContainer" name="sizeContainer"
                                                 :options="Service::ContainerSizeSelecter()" itemKey="containersizeCode"
                                                 itemValue="containersizeName"/>
                                         </div>

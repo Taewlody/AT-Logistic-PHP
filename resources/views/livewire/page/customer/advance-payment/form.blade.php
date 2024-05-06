@@ -9,7 +9,7 @@
         </div>
 
         <!-- Body-->
-        <form class="form-body" wire:submit="save">
+        <form class="form-body" wire:submit="save" onkeydown="return event.key != 'Enter';">
             <div class="row">
 
                 {{-- Section 1 --}}

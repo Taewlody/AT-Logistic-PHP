@@ -104,6 +104,11 @@
                                             <input type="password" class="form-control" placeholder="Password"  autocomplete="new-password" id="password" name="password" required=true>
                                         </div>
                                     </div>
+                                    @if ($errors->any())
+                                        @foreach ($errors->all() as $error)
+                                            <span class="text-danger m-2">{{$error}}</span> 
+                                        @endforeach
+                                    @endif
                                     <div class="form-group mb-0">
                                         <div class="checkbox p-0">
                                             {{ csrf_field() }}

@@ -8,7 +8,7 @@
             <div class="loader"></div>
         </div>
 
-        <form class="form-body" wire:submit="save">
+        <form class="form-body" wire:submit="save" onkeydown="return event.key != 'Enter';">
 
             {{-- <input type="hidden" name="jobID" id="jobID" value="<?php echo $jobID; ?>"> --}}
             <div class="row">

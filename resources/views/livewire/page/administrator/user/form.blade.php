@@ -12,7 +12,7 @@
 
         <div class="card ">
             <div class="card-body">
-                <form class="form-body" wire:submit="save">
+                <form class="form-body" wire:submit="save" onkeydown="return event.key != 'Enter';">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="ibox ">

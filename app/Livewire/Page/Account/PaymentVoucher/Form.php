@@ -39,7 +39,9 @@ class Form extends Component
     public $file;
 
     protected array $rules = [
-        'file' => 'mimes:png,jpg,jpeg,pdf|max:102400',
+        'file' => 'nullable|mimes:png,jpg,jpeg,pdf|max:102400',
+        'data.dueDate' => 'required|date',
+        'data.supCode' => 'required|string',
         'payments.*' => 'unique:App\Models\Payment\PaymentVoucherItems',
         'payments.*.autoid' => 'integer',
         'payments.*.comCode' => 'string',
@@ -47,11 +49,11 @@ class Form extends Component
         'payments.*.invNo' => 'string',
         'payments.*.chargeCode' => 'string',
         'payments.*.chartDetail' => 'string',
-        'payments.*.amount' => 'float',
+        'payments.*.amount' => 'regex:/^\d*(\.\d{2})?$/',
         'payments.*.tax' => 'integer',
-        'payments.*.taxamount' => 'float',
+        'payments.*.taxamount' => 'regex:/^\d*(\.\d{2})?$/',
         'payments.*.vat' => 'integer',
-        'payments.*.vatamount' => 'float',
+        'payments.*.vatamount' => 'regex:/^\d*(\.\d{2})?$/',
         'attachs.*' => 'unique:App\Models\Payment\PaymentVoucherAttach',
         'attachs.*.items' => 'integer',
         'attachs.*.comCode' => 'string',
@@ -61,12 +63,12 @@ class Form extends Component
         'attachs.*.fileName' => 'string',
     ];
 
-    public function rules() {
-        return [
-        'data.dueDate' => 'required|date',
-        'data.supCode' => 'required|string',
-        ];
-    }
+    // public function rules() {
+    //     return [
+    //     'data.dueDate' => 'required|date',
+    //     'data.supCode' => 'required|string'
+    //     ];
+    // }
 
     #[Computed]
     public function calPrice() {
@@ -188,15 +190,29 @@ class Form extends Component
             return !collect($this->payments->pluck('autoid'))->contains($item->autoid);
         })->each->delete();
         $this->data->items()->saveMany($this->payments);
+        $this->data->attachs->filter(function($item){
+            return !collect($this->attachs->pluck('items'))->contains($item->items);
+        })->each->delete();
+        $this->data->attachs()->saveMany($this->attachs);
+    }
+
+    public function valid() {
+        $vaidate = true;
+        if($this->data->dueDate == null || $this->data->dueDate == '') {
+            $this->addError('data.dueDate', 'Please select due date');
+            $vaidate = false;
+        }
+        if($this->data->supCode == null || $this->data->supCode == '') {
+            $this->addError('data.supCode', 'Please select supplier');
+            $vaidate = false;
+        }
+        return $vaidate;
     }
 
     public function submit(){
-        $this->validate();
-        // if($this->data->duedate == null || $this->data->duedate == '') {
-        //     // dd($this->data->duedate);
-        //     $this->addError('duedate', 'Please select due date');
-        //     return;
-        // }
+        if(!$this->valid()) {
+            return;
+        }
         $this->save();
         $this->redirectRoute(name: 'account-payment-voucher', navigate: true);
     }

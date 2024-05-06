@@ -9,7 +9,7 @@
             <div class="loader"></div>
         </div>
 
-        <form class="form-body" wire:submit="submit">
+        <form class="form-body" wire:submit="submit" onkeydown="return event.key != 'Enter';">
             <div class="row">
 
                 {{-- Section 1 --}}
