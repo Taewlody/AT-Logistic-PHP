@@ -22,6 +22,7 @@ class Page extends Component
     public $salemanList = [];
     public $salemanSearch = "";
     public $query = [];
+    public $querySale;
     public $queryJoborder = [];
 
     public function mount(){
@@ -45,7 +46,7 @@ class Page extends Component
             $this->query[] = ['joborder.saleman', '=', $this->salemanSearch];
         }
         if($this->customerSearch != null) {
-            $this->query[] = ['joborder.cusCode', $this->customerSearch];
+            $this->query[] = ['trailer_booking.cusCode', $this->customerSearch];
         }
     }
 
@@ -56,10 +57,10 @@ class Page extends Component
 
     public function render()
     {
-        
+        // dd(TrailerBooking::join('joborder', 'joborder.documentID', 'trailer_booking.ref_jobID')->where($this->query)->orderBy('trailer_booking.documentID', 'DESC')->first());
         return view('livewire.page.marketing.trailer-booking.page', [ 
-            // 'data'=> TrailerBooking::join('joborder', 'joborder.documentID', 'trailer_booking.ref_jobID')->where($this->query)->orderBy('trailer_booking.documentID', 'DESC')->paginate(20)
-            'data'=> TrailerBooking::where($this->query)->orderBy('documentID', 'DESC')->paginate(20)
+            'data'=> TrailerBooking::join('joborder', 'joborder.documentID', 'trailer_booking.ref_jobID')->where($this->query)->orderBy('trailer_booking.documentID', 'DESC')->paginate(20)
+            // 'data'=> TrailerBooking::where($this->query)->orderBy('documentID', 'DESC')->paginate(20)
             ])->extends('layouts.main')->section('main-content');
     }
 }

@@ -49,27 +49,35 @@
                                     <div class="form-group  row">
                                         <label class="col-sm-3 col-form-label">Customer</label>
                                         <div class="col-md-9">
-                                            <select class="select2_single form-control select2" name="cusCode"
+                                            {{-- <select class="select2_single form-control select2" name="cusCode"
                                                 wire:model="data.cusCode">
                                                 <option value="">Select Customer</option>
                                                 @foreach (Service::CustomerSelecter() as $customer)
                                                     <option value="{{ $customer->cusCode }}">{{ $customer->custNameEN }}
                                                     </option>
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model='data.cusCode'
+                                                name="cusCode" :options="Service::CustomerSelecter()"
+                                                itemKey="cusCode" itemValue="custNameEN" 
+                                                :searchable="true">
                                         </div>
                                     </div>
 
                                     <div class="form-group  row">
                                         <label class="col-sm-3 col-form-label">Feeder</label>
                                         <div class="col-md-9">
-                                            <select name="feeder" class="select2_single form-control select2"
+                                            {{-- <select name="feeder" class="select2_single form-control select2"
                                                 id="feeder" wire:model="data.feeder">
                                                 <option value="">Select Feeder</option>
                                                 @foreach (Service::FeederSelecter() as $feeder)
                                                     <option value="{{ $feeder->fCode }}">{{ $feeder->fName }}</option>
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model='data.feeder'
+                                                name="feeder" :options="Service::FeederSelecter()"
+                                                itemKey="fCode" itemValue="fName" 
+                                                :searchable="true">
                                         </div>
                                     </div>
 
@@ -77,14 +85,18 @@
                                     <div class="form-group  row">
                                         <label class="col-sm-3 col-form-label">Agent</label>
                                         <div class="col-md-9">
-                                            <select name="agentCode" class="select2_single form-control select2"
+                                            {{-- <select name="agentCode" class="select2_single form-control select2"
                                                 id="agentCode" wire:model="data.agent">
                                                 <option value="">Select Agent</option>
                                                 @foreach (Service::SupplierSelecter() as $supplier)
                                                     <option value="{{ $supplier->supCode }}">{{ $supplier->supNameTH }}
                                                     </option>
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model='data.agent'
+                                                name="agent" :options="Service::SupplierSelecter()"
+                                                itemKey="supCode" itemValue="supNameTH" 
+                                                :searchable="true">
                                         </div>
                                     </div>
 
@@ -126,14 +138,18 @@
                                     <div class="form-group  row">
                                         <label class="col-sm-2 col-form-label">ถึงบริษัท</label>
                                         <div class="col-md-5">
-                                            <select class="select2_single form-control select2" name="tocompany"
+                                            {{-- <select class="select2_single form-control select2" name="tocompany"
                                                 wire:model="data.tocompany">
                                                 <option value="">Select Company</option>
                                                 @foreach (Service::SupplierSelecter() as $supplier)
                                                     <option value="{{ $supplier->supCode }}">{{ $supplier->supNameTH }}
                                                     </option>
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model='data.tocompany'
+                                                name="tocompany" :options="Service::SupplierSelecter()"
+                                                itemKey="supCode" itemValue="supNameTH" 
+                                                :searchable="true">
                                         </div>
 
                                         <label class="col-sm-1 col-form-label">คุณ</label>

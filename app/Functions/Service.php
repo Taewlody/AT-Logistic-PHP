@@ -145,6 +145,13 @@ class Service
         });
     }
 
+    public static function AllSalemanSelecter()
+    {
+        return Cache::remember('salename-select', 15, function () {
+            return Saleman::select('usercode', 'empName')->orderBy('empName')->get();
+        });
+    }
+
     public static function SupplierSelecter()
     {
         return Cache::remember('supplier-select', 15, function () {
