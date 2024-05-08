@@ -39,14 +39,18 @@
                                     <div class="form-group col-margin0">
                                         <label class="font-normal">Customer</label>
                                         <div>
-                                            <select class="select2_single form-control select2" 
+                                            {{-- <select class="select2_single form-control select2" 
                                                 name="cusCode" id="cusCode" wire:model="customerSearch">
                                                 <option value="">- select -</option>
                                                 @foreach ($customerList as $customer)
                                                     <option value="{{ $customer->cusCode }}">
                                                         {{ $customer->custNameEN }}</option>
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model='customerSearch'
+                                                name="cusCode" :options="Service::CustomerSelecter()"
+                                                itemKey="cusCode" itemValue="custNameEN"
+                                                :searchable="true">
                                         </div>
                                     </div>
                                 </div>
@@ -56,14 +60,18 @@
                                     <div class="form-group col-margin0">
                                         <label class="font-normal">Sale</label>
                                         <div>
-                                            <select class="select2_single form-control select2"
+                                            {{-- <select class="select2_single form-control select2"
                                                 name="saleman" id="saleman" wire:model="salemanSearch">
                                                 <option value="">- select -</option>
                                                 @foreach ($salemanList as $saleman)
                                                     <option value="{{ $saleman->empCode }}">
                                                         {{ $saleman->empName }}</option>
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model='salemanSearch'
+                                                name="saleman" :options="Service::AllSalemanSelecter()"
+                                                itemKey="empName" itemValue="empName"
+                                                :searchable="true">
                                         </div>
                                     </div>
                                 </div>
@@ -102,12 +110,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @if( count($data) > 0 )
                                     @foreach ($data as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $item->documentID }}</td>
                                             <td>{{ $item->documentDate }}</td>
-                                            <td>{{ $item->customer != null ? $item->customer->custNameTH : '' }}</td>
+                                            <td>{{ $item->customer != null ? $item->customer->custNameEN : '' }}</td>
                                             <td><a href="job_form?action=view&documentID={{$item->ref_jobID}}" target="blank">{{$item->ref_jobID}}</a></td>
                                             <td>{{ $item->jobOrder != null && $item->jobOrder->salemanRef != null ? $item->jobOrder->salemanRef->empName : '' }}</td>
     
@@ -142,6 +151,11 @@
                                             </td>
                                         </tr>
                                     @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="9" class="text-center">Data Not Found</td>
+                                        </tr>
+                                    @endif
                             </table>
                             <br/>
                                 <div class="row">

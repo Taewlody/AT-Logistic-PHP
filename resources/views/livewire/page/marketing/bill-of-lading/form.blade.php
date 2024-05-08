@@ -49,24 +49,32 @@
                                     <div class="form-group  row">
                                         <label class="col-sm-3 col-form-label">Customer</label>
                                         <div class="col-md-9">
-                                            <select class="select2_single form-control select2" name="cusCode" wire:model="data.cusCode">
+                                            {{-- <select class="select2_single form-control select2" name="cusCode" wire:model="data.cusCode">
                                                 <option value="">Select Customer</option>
                                                 @foreach(Service::CustomerSelecter() as $customer)
                                                     <option value="{{ $customer->cusCode }}">{{ $customer->custNameEN }}</option>
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model='data.cusCode'
+                                                name="listCocusCodemmodity" :options="Service::CustomerSelecter()"
+                                                itemKey="cusCode" itemValue="custNameEN"
+                                                :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
                                         </div>
                                     </div>
         
                                     <div class="form-group  row">
                                         <label class="col-sm-3 col-form-label">Shipper</label>
                                         <div class="col-md-9">
-                                            <select class="select2_single form-control select2" name="shipperCode" wire:model="data.shipperCode">
+                                            {{-- <select class="select2_single form-control select2" name="shipperCode" wire:model="data.shipperCode">
                                                 <option value="">Select Shipper</option>
                                                 @foreach(Service::SupplierSelecter() as $supplier)
                                                     <option value="{{ $supplier->supCode }}">{{ $supplier->supNameTH }}</option>
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model='data.shipperCode'
+                                                name="shipperCode" :options="Service::SupplierSelecter()"
+                                                itemKey="supCode" itemValue="supNameTH"
+                                                :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
                                         </div>
                                     </div>
         
@@ -74,24 +82,32 @@
                                     <div class="form-group  row">
                                         <label class="col-sm-3 col-form-label">Consignee</label>
                                         <div class="col-md-9">
-                                            <select class="select2_single form-control select2" name="consigneeCode" wire:model="data.consigneeCode">
+                                            {{-- <select class="select2_single form-control select2" name="consigneeCode" wire:model="data.consigneeCode">
                                                 <option value="">Select Consignee</option>
                                                 @foreach(Service::SupplierSelecter() as $supplier)
                                                     <option value="{{ $supplier->supCode }}">{{ $supplier->supNameTH }}</option>
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model='data.consigneeCode'
+                                                name="consigneeCode" :options="Service::SupplierSelecter()"
+                                                itemKey="supCode" itemValue="supNameTH"
+                                                :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
                                         </div>
                                     </div>
         
                                     <div class="form-group  row">
                                         <label class="col-sm-3 col-form-label">Ref. JobNo.</label>
                                         <div class="col-md-9">
-                                            <select class="select2_single form-control select2" name="ref_jobID" wire:model="data.ref_jobID">
+                                            {{-- <select class="select2_single form-control select2" name="ref_jobID" wire:model="data.ref_jobID">
                                                 <option value="">Select JobNo</option>
                                                 @foreach(Service::JobOrderSelecter() as $job)
                                                     <option value="{{ $job->documentID }}">{{ $job->documentID }}</option>
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model='data.ref_jobID'
+                                                name="ref_jobID" :options="Service::JobOrderSelecter()"
+                                                itemKey="documentID" itemValue="documentID"
+                                                :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
                                         </div>
                                     </div>
                                 </div>

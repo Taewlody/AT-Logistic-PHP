@@ -53,13 +53,17 @@
                                     <div class="form-group col-margin0">
                                         <label class="font-normal">Supplier</label>
                                         <div>
-                                            <select class="select2_single form-control select2" name="supCode" id="supCode" wire:model="supplierSearch">
+                                            {{-- <select class="select2_single form-control select2" name="supCode" id="supCode" wire:model="supplierSearch">
                                                 <option value="">- select -</option>
                                                 @foreach ($supplierList as $supplier)
                                                     <option value="{{ $supplier->supCode }}">
                                                         {{ $supplier->supNameEN ? $supplier->supNameEN : $supplier->supNameTH }}</option>
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model='supplierSearch'
+                                                name="supCode" :options="Service::SupplierSelecter()"
+                                                itemKey="supCode" itemValue="supNameEN"
+                                                :searchable="true">
                                         </div>
                                     </div>
                                 </div>

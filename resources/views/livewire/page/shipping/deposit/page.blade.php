@@ -39,14 +39,18 @@
                                     <div class="form-group">
                                         <label class="font-normal">Customer</label>
                                         <div>
-                                            <select class="select2_single form-control select2"
+                                            {{-- <select class="select2_single form-control select2"
                                                 name="cusCode" id="cusCode" wire:model="customerSearch">
                                                 <option value="">- select -</option>
                                                 @foreach ($customerList as $customer)
                                                     <option value="{{ $customer->cusCode }}">
                                                         {{ $customer->custNameEN ? $customer->custNameEN : $customer->custNameTH }}</option>
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model='customerSearch'
+                                                name="cusCode" :options="Service::CustomerSelecter()"
+                                                itemKey="cusCode" itemValue="custNameEN"
+                                                :searchable="true" >
                                         </div>
                                     </div>
                                 </div>
