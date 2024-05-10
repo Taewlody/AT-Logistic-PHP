@@ -2,11 +2,12 @@
 
 namespace App\Enum;
 
+use App\Enum\FormMode;
 enum ViewMode: string 
 {
-    public const CREATE = 'create';
-    public const EDIT = 'edit';
-    public const VIEW = 'view';
+    case CREATE = 'create';
+    case EDIT = 'edit';
+    case VIEW = 'view';
 
     public static function getValues(): array
     {
@@ -17,13 +18,12 @@ enum ViewMode: string
         ];
     }
 
-
     public function toFormMode(): FormMode
     {
         return match ($this) {
-            'view' => FormMode::from('readonly'),
-            'disabled'=> FormMode::from('disabled'),
-            ['edit', 'create'] => FormMode::from('none'),
+            self::CREATE => FormMode::from('none'),
+            self::EDIT => FormMode::from('none'),
+            self::VIEW => FormMode::from('disabled'),
         };
     }
 

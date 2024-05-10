@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Page\Customer\AdvancePayment;
 
+use App\Enum\FormMode;
+use App\Enum\ViewMode;
 use App\Models\AttachFile;
 use App\Models\Common\Charges;
 use App\Models\Marketing\JobOrder;
@@ -37,6 +39,10 @@ class Form extends Component
 
     public $file;
 
+    public ViewMode $viewMode;
+
+    public FormMode $formMode;
+
     protected array $rules = [
         'file' => 'mimes:png,jpg,jpeg,pdf|max:102400',
         'payments.*' => 'unique:App\Models\Payment\AdvancePaymentItems',
@@ -60,22 +66,22 @@ class Form extends Component
         $this->data = new AdvancePayment();
         if ($this->action == '') {
             $this->action = 'view';
-        } else {
-            $this->action;
         }
-
-        if ($this->id != '') {
-            $this->data = AdvancePayment::find($this->id);
-            $this->payments = $this->data->items;
-            $this->attachs = $this->data->attachs;
-        } else {
+        $this->data = AdvancePayment::findOrNew($this->id);
+        if(!$this->data->exists) {
+            $this->id = '';
             $this->action = 'create';
             $this->data->createID = Auth::user()->usercode;
-            $this->payments = new Collection;
-            $this->attachs = new Collection;
-        }
+        } 
+        $this->payments = $this->data->items;
+        $this->attachs = $this->data->attachs;
         
-        // dd($this->attachs->get(0)->blobFile);
+            $this->viewMode = ViewMode::from($this->action);
+            $this->formMode = $this->viewMode->toFormMode();
+
+        if($this->data->documentstatus == 'A' && !Auth::user()->hasRole('admin') && $this->viewMode == ViewMode::EDIT) {
+            $this->formMode = FormMode::from('disabled');
+        } 
     }
 
     public function addCharge(){
@@ -127,7 +133,14 @@ class Form extends Component
         $this->attachs = $this->attachs->values();
     }
 
-    public function save() {
+    public function save(bool|null $approve = false) {
+        if($this->data->cusCode == null || $this->data->cusCode == '') {
+            $this->addError('cusCode', 'Please select customer');
+            return false;
+        } 
+        if($approve) {
+            $this->data->documentstatus = 'A';
+        }
         $this->data->editID = Auth::user()->usercode;
         $this->data->save();
         $this->data->items->filter(function($item){
@@ -135,26 +148,36 @@ class Form extends Component
         })->each->delete();
         $this->data->items()->saveMany($this->payments);
         $this->data->attachs()->saveMany($this->attachs);
-        $this->redirectRoute(name: 'advance-payment', navigate: true);
+        return true;
+        // $this->redirectRoute(name: 'advance-payment', navigate: true);
+    }
+
+    public function submit() {
+        if($this->save()) {
+            $this->redirectRoute(name: 'advance-payment', navigate: true);
+        }
     }
 
     public function approve() {
-        $this->data->editID = Auth::user()->usercode;
-        $this->data->documentstatus = 'A';
-        $this->data->save();
-        $this->job = JobOrder::find($this->data->refJobNo);
-        $this->data->items->each(function($item){
-            $this->job->charge()->create([
-                'documentID' => $this->job->documentID,
-                'ref_paymentCode' => $this->data->documentID,
-                'chargeCode' => $item->chargeCode,
-                'detail' => $item->chartDetail,
-                'chargesCost' => $item->amount,
-                // 'chargesReceive' => $item->amount,
-                // 'chargesbillReceive' => $item->amount,
-            ]);
-        });
-        $this->redirectRoute(name: 'shipping-payment-voucher', navigate: true);
+        // $this->data->editID = Auth::user()->usercode;
+        // $this->data->documentstatus = 'A';
+        // $this->data->save();
+        // $this->job = JobOrder::find($this->data->refJobNo);
+        // $this->data->items->each(function($item){
+        //     $this->job->charge()->create([
+        //         'documentID' => $this->job->documentID,
+        //         'ref_paymentCode' => $this->data->documentID,
+        //         'chargeCode' => $item->chargeCode,
+        //         'detail' => $item->chartDetail,
+        //         'chargesCost' => $item->amount,
+        //         // 'chargesReceive' => $item->amount,
+        //         // 'chargesbillReceive' => $item->amount,
+        //     ]);
+        // });
+        if($this->save(true)) {
+            $this->redirectRoute(name: 'advance-payment', navigate: true);
+        }
+        // $this->redirectRoute(name: 'shipping-payment-voucher', navigate: true);
     }
 
     public function render()

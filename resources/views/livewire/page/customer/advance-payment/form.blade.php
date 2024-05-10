@@ -4,14 +4,15 @@
 
     <div class="wrapper wrapper-content animated fadeInRight">
         {{-- loading --}}
-        <div wire:loading.flex class="loader-wrapper" wire:target='save,approve'>
+        <div wire:loading.flex class="loader-wrapper" wire:target='submit,approve'>
             <div class="loader"></div>
         </div>
 
         <!-- Body-->
-        <form class="form-body" wire:submit="save" onkeydown="return event.key != 'Enter';">
+        <form class="form-body" wire:submit="submit" onkeydown="return event.key != 'Enter';">
+            <fieldset @disabled($formMode == FormMode::DISABLED || $formMode == FormMode::READONLY)>
             <div class="row">
-
+                
                 {{-- Section 1 --}}
                 <div class="col-lg-7" style="margin-bottom: 1px; ">
                     <div id="accordion-1" class="default-according">
@@ -63,7 +64,9 @@
                                                 </option>
                                                 @endforeach
                                             </select>
-
+                                            @error('cusCode')
+                                                <div class="text-danger m-2">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <div class="col-md-2">
                                             <label class="col-form-label" style="padding-top: 5px;">Ref. JobNo.</label>
@@ -205,7 +208,8 @@
                             <div id="collapseCustomerPayment" role="tabpanel" class="collapse"
                                 aria-labelledby="headingCustomerPayment" data-bs-parent="#accordion-3" wire:ignore.self>
                                 <div class="card-body">
-                                    <div class="form-group  row">
+                                    @if($formMode ==FormMode::NONE || $formMode ==FormMode::READONLY)
+                                    <div class="form-group row">
                                         <div class="col-md-6">
                                             <select class="select2_single form-control select2" style="width: 100%;"
                                                 wire:model.lazy="chargeCode">
@@ -218,6 +222,7 @@
                                                 Add</button>
                                         </div>
                                     </div>
+                                    @endif
 
                                     <div class="form-group">
                                         <div class="table-responsive" id="containner_charge">
@@ -335,16 +340,13 @@
                                             <tfoot>
                                             </tfoot>
                                         </table>
+
+                                        @if($formMode ==FormMode::NONE || $formMode ==FormMode::READONLY)
                                         <div class="form-group row">
-                                            {{-- <label class="col-lg-2 col-form-label">File Name</label>
-                                            <div class="col-md-4">
-                                                <input type="text" name="attach_name" class="form-control" id="attach_name">
-                                            </div> --}}
                                             <div id="container_attach" class="fileinput fileinput-new"
                                                 data-provides="fileinput"> 
                                                 <span class="btn btn-primary btn-file">
                                                     <span class="fileinput-new">Select file</span>
-                                                        {{-- <span class="fileinput-exists">Change</span> --}}
                                                     <input type="file" wire:model.change="file">
                                                     @error('file')
                                                         <div class="text-danger m-2">{{ $message }}</div>
@@ -365,6 +367,8 @@
                                                 @enderror
                                             </div>
                                         </div>
+                                        @endif
+
                                     </div>
                                 </div>
                             </div>
@@ -399,18 +403,20 @@
                             <div class="form-group row">
 
                                 <div class="col-sm-10 col-sm-offset-2">
-                                    <a name="back" class="btn btn-white" type="button" href="{{ route('advance-payment') }}" wire.loading.attr="disabled">
+                                    <a name="back" class="btn btn-white" style="pointer-events: visible; opacity: 1;" type="button" href="{{ route('advance-payment') }}" wire.loading.attr="disabled">
                                     <i class="fa fa-reply"></i> Back</a>
                                     @if($data->documentstatus != 'A')
                                     <button name="save" id="save" class="btn btn-success" type="submit"
                                          @disabled($data->documentstatus == 'A')>
                                         <i class="fa fa-save"></i> Save</button>
                                     @endif
+                                    @if($formMode == FormMode::NONE)
                                     <button name="approve" id="approve" class="btn btn-primary" type="button" wire:click="approve"
                                         @disabled($data->documentstatus == 'A')>
                                         <i class="fa fa-check"></i> Approve</button>
+                                    @endif
                                     @if($data->documentID != null && $data->documentID != '')
-                                        <a class="btn" target="_blank" href="{{'/api/print/advance_payment_pdf/'.$data->documentID}}"><i class="fa fa-print"></i>
+                                        <a class="btn" style="pointer-events: visible; opacity: 1;" target="_blank" href="{{'/api/print/advance_payment_pdf/'.$data->documentID}}"><i class="fa fa-print"></i>
                                             Print</a>
                                     @endif
                                 </div>
@@ -420,6 +426,7 @@
                 </div>
 
             </div>
+        </fieldset>
 
     </div>
     </form>

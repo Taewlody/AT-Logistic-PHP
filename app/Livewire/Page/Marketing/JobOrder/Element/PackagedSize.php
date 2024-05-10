@@ -36,8 +36,10 @@ class PackagedSize extends Component
         $this->action = $action;
     }
 
-    public function updatedValue($valu, $key){
+    public function updatedValue($value, $key){
         $index = explode('.', $key)[0];
+        $name = explode('.', $key)[1];
+        if($name == 'packaed_totalCBM') return;
         $packed = $this->value[$index];
         $width = $packed['packaed_width'] ?? 0;
         $length = $packed['packaed_length'] ?? 0;

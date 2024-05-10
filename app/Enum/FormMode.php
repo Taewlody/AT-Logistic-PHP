@@ -4,9 +4,9 @@ namespace App\Enum;
 
 enum FormMode: string 
 {
-    public const READONLY = 'readonly';
-    public const DISABLED = 'disabled';
-    public const NONE = 'none';
+    case READONLY = 'readonly';
+    case DISABLED = 'disabled';
+    case NONE = 'none';
 
     public static function getValues(): array
     {

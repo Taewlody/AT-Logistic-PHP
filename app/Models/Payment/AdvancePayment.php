@@ -6,6 +6,7 @@ use App\Casts\CustomDate;
 use App\Casts\CustomDateTime;
 use App\Models\Common\BankAccount;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -130,12 +131,12 @@ class AdvancePayment extends Model implements Wireable
 
     public function items(): HasMany
     {
-        return $this->hasMany(AdvancePaymentItems::class, 'documentID', 'documentID');
+        return $this->hasMany(AdvancePaymentItems::class, 'documentID', 'documentID')?? new Collection;
     }
 
     public function attachs(): HasMany
     {
-        return $this->hasMany(AdvancePaymentAttach::class, 'documentID', 'documentID');
+        return $this->hasMany(AdvancePaymentAttach::class, 'documentID', 'documentID') ?? new Collection;
     }
 
     public function jobOrder(): HasOne

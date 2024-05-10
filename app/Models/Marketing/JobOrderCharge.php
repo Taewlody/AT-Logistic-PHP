@@ -80,6 +80,9 @@ class JobOrderCharge extends Model implements Wireable
     {
         // return $this->toArray();
         $arr = $this->toArray();
+        if($this->charges != null) {
+            $arr['charges'] = $this->charges->toLiveWire();
+        }
         $arr['exists'] = $this->exists;
         $arr['connection'] = $this->getConnectionName();
         return $arr;
