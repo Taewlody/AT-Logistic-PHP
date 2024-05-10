@@ -218,7 +218,9 @@ class Form extends Component
     }
 
     public function approve() {
-        $this->validate();
+        if(!$this->valid()) {
+            return;
+        }
         $this->save(true);
         $this->redirectRoute(name: 'shipping-payment-voucher', navigate: true);
     }
