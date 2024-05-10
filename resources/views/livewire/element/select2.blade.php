@@ -23,7 +23,7 @@
     $('#{{$this->__id}}').on('change', function (e) {
         var data = $(this).val();
         if(data) {
-            @this.set('value', data);
+            @this.set('value',  data);
             $wire.dispatch('updated-' + $wire.name, {value: data});
             $wire.dispatchSelf('change', data);
             console.log('change item: {{$this->__id}} ->', data)
@@ -38,7 +38,10 @@
     });
 
     Livewire.on('reset-select2-' + $wire.name, () => {
-        $('#{{$this->__id}}').val('').trigger('change');
+        if($('#{{$this->__id}}').val() !== ''){
+            $('#{{$this->__id}}').val('').trigger('change');
+        }
+        console.log('reset-select2-'+ $wire.name);
     });
 </script>
 @endscript

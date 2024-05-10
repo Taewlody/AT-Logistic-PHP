@@ -61,18 +61,18 @@ class Select2 extends Component
     //     $this->dispatch('updated', $this->value)->self();
     // }
 
-    #[On('change-select2-{name}')]
-    public function change($value)
-    {
-        $this->value = $value;
-    }
+    // #[On('change-select2-{name}')]
+    // public function change($value)
+    // {
+    //     $this->value = $value;
+    // }
 
-    #[On('reset-select2-{name}')]
-    public function resetValue()
-    {
-        $this->reset('value');
-        $this->render();
-    }
+    // #[On('reset-select2-{name}')]
+    // public function resetValue()
+    // {
+    //     $this->reset('value');
+    //     $this->render();
+    // }
 
     public function render()
     {
