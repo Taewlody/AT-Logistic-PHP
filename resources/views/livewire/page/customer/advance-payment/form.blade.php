@@ -50,20 +50,18 @@
                                         <label class="col-lg-2 col-form-label"><span class="col-form-label"
                                                 style="padding-top: 5px;">ลูกค้า</span></label>
                                         <div class="col-md-4">
-                                            <select name="cusCode" class="select2_single form-control select2"
+                                            {{-- <select name="cusCode" class="select2_single form-control select2"
                                                 id="cusCode" wire:model="data.cusCode">
-                                                {{--
-                                                <?php
-                                                if ($_SESSION['userTypecode'] == '4') {
-                                                    $cusCode = $_SESSION['userID'];
-                                                }
-                                                $db->s_customer_advance($cusCode, $_SESSION['userTypecode']); ?> --}}
                                                 <option>- select -</option>
                                                 @foreach (Service::CustomerSelecter() as $customer)
                                                 <option value="{{$customer->cusCode}}">{{$customer->custNameEN}}
                                                 </option>
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model='data.cusCode'
+                                            name="cusCode" :options="Service::CustomerSelecter()"
+                                            itemKey="cusCode" itemValue="custNameEN" 
+                                            :searchable="true">
                                             @error('cusCode')
                                                 <div class="text-danger m-2">{{ $message }}</div>
                                             @enderror
@@ -72,15 +70,17 @@
                                             <label class="col-form-label" style="padding-top: 5px;">Ref. JobNo.</label>
                                         </div>
                                         <div class="col-md-4">
-                                            <select class="select2_single form-control select2" name="refJobNo"
+                                            {{-- <select class="select2_single form-control select2" name="refJobNo"
                                                 id="refJobNo" wire:model="data.refJobNo">
-                                                {{--
-                                                <?php $db->s_jobref_advance($refJobNo, $cusCode); ?> --}}
                                                 <option>- select -</option>
                                                 @foreach (Service::JobOrderSelecter(false) as $job)
                                                 <option value="{{$job->documentID}}">{{$job->documentID}}</option>
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model='data.refJobNo'
+                                            name="refJobNo" :options="Service::JobOrderSelecter()"
+                                            itemKey="documentID" itemValue="documentID" 
+                                            :searchable="true">
                                         </div>
 
                                     </div>

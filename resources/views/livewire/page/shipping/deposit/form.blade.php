@@ -1,6 +1,6 @@
 <div>
-    <livewire:component.page-heading title_main="Bill of lading" title_sub="ใบตราส่งสินค้า" breadcrumb_title="Marketing"
-        breadcrumb_page="Bill of lading" breadcrumb_page_title="Bill of lading Form" />
+    <livewire:component.page-heading title_main="Deposite" title_sub="เงินมัดจำ" breadcrumb_title="Shipping"
+        breadcrumb_page="Deposite" breadcrumb_page_title="Deposite Form" />
 
     <div class="wrapper wrapper-content animated fadeInRight">
 
@@ -40,44 +40,44 @@
                                             <label class="col-form-label" style="padding-top: 5px;">Document
                                                 Date</label>
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="input-group date"> <span class="input-group-addon"><i
-                                                        class="fa fa-calendar"></i></span>
+                                        <div class="col-md-4">
                                                 <input type="date" name="documentDate" class="form-control"
                                                     wire:model="data.documentDate">
-                                            </div>
+                                            
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-lg-2 col-form-label"><span class="col-form-label"
                                                 style="padding-top: 5px;">Customer</span></label>
                                         <div class="col-md-4">
-                                            <select name="cusCode" class="select2_single form-control select2"
+                                            {{-- <select name="cusCode" class="select2_single form-control select2"
                                                 id="cusCode" wire:model="data.cusCode">
-                                                {{-- <?php
-                                                if ($_SESSION['userTypecode'] == '4') {
-                                                    $cusCode = $_SESSION['userID'];
-                                                }
-                                                $db->s_customer_advance($cusCode, $_SESSION['userTypecode']); ?> --}}
+                                               
                                                 <option value="">- Select -</option>
                                                 @foreach (Service::CustomerSelecter() as $customer)
                                                     <option value="{{ $customer->cusCode }}">{{ $customer->custNameEN }}</option>
                                                 @endforeach
-                                            </select>
-
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model='data.cusCode'
+                                            name="cusCode" :options="Service::CustomerSelecter()"
+                                            itemKey="cusCode" itemValue="custNameEN"
+                                            :searchable="true" >
                                         </div>
                                         <div class="col-md-2">
                                             <label class="col-form-label" style="padding-top: 5px;">Ref. JobNo.</label>
                                         </div>
                                         <div class="col-md-4" id="containner_job">
-                                            <select class="select2_single form-control select2" name="refJobNo"
+                                            {{-- <select class="select2_single form-control select2" name="refJobNo"
                                                 id="refJobNo" wire:model="data.refJobNo">
-                                                {{-- <?php $db->s_jobref_advance($refJobNo, $cusCode); ?> --}}
                                                 <option value="">- Select -</option>
                                                 @foreach (Service::JobOrderSelecter() as $job)
                                                     <option value="{{ $job->documentID }}">{{ $job->documentID }}</option>
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model='data.refJobNo'
+                                            name="refJobNo" :options="Service::JobOrderSelecter()"
+                                            itemKey="documentID" itemValue="documentID"
+                                            :searchable="true" >
                                         </div>
 
                                     </div>
@@ -85,14 +85,17 @@
                                     <div class="form-group  row">
                                         <label class="col-sm-2 col-form-label">Agent</label>
                                         <div class="col-md-4" id="containner_agent">
-                                            <select name="agentCode" class="select2_single form-control select2"
+                                            {{-- <select name="agentCode" class="select2_single form-control select2"
                                                 id="agentCode" wire:model="data.agentCode">
-                                                {{-- <?php $db->s_supplier("$agentCode"); ?> --}}
                                                 <option value="">- Select -</option>
                                                 @foreach (Service::SupplierSelecter() as $supplier)
                                                     <option value="{{ $supplier->supCode }}">{{ $supplier->supNameTH }}</option>
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model='data.agentCode'
+                                            name="agentCode" :options="Service::SupplierSelecter()"
+                                            itemKey="supCode" itemValue="supNameTH"
+                                            :searchable="true" >
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -129,14 +132,17 @@
                                         <label class="col-lg-3 col-form-label"><span class="col-form-label"
                                                 style="padding-top: 5px;">ชื่อบัญชี</span></label>
                                         <div class="col-md-9">
-                                            <select name="accountCode" id="accountCode" wire:model="data.accountCode"
+                                            {{-- <select name="accountCode" id="accountCode" wire:model="data.accountCode"
                                                 class="select2_single form-control select2" style="width: 100%">
-                                                {{-- <?php $db->s_account(''); ?> --}}
                                                 <option value="">- Select -</option>
                                                 @foreach (Service::AccountSelecter() as $account)
                                                     <option value="{{ $account->accountCode }}">{{ $account->accountName }}</option>
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model='data.accountCode'
+                                            name="accountCode" :options="Service::AccountSelecter()"
+                                            itemKey="accountCode" itemValue="accountName"
+                                            :searchable="true" >
                                         </div>
                                     </div>
                                     <div class="form-group  row">
@@ -163,35 +169,32 @@
                                         </div>
                                     </div>
                                     <div class="form-group  row">
-                                        <label class="col-sm-3 col-form-label">สาขา Branch</label>
-                                        <div class="col-md-3">
+                                        <label class="col-sm-2 col-form-label">สาขา Branch</label>
+                                        <div class="col-md-4">
                                             <input type="text" name="branch" id="branch" class="form-control"
                                                 wire:model="data.branch">
                                         </div>
 
                                         <label class="col-sm-2 col-form-label">เลขที่เช็ค</label>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <input type="text" name="chequeNo" id="chequeNo"
                                                 class="form-control" wire:model="data.chequeNo">
                                         </div>
                                     </div>
                                     <div class="form-group  row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <label class="col-form-label" style="padding-top: 5px;"> Date</label>
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="input-group date"> <span class="input-group-addon"><i
-                                                        class="fa fa-calendar"></i></span>
+                                        <div class="col-md-4">
                                                 <input type="date" name="dueDate" class="form-control"
                                                     wire:model="data.dueDate">
-                                            </div>
                                         </div>
 
                                         <div class="col-md-2">
                                             <label class="col-form-label" style="padding-top: 5px;"> Time</label>
                                         </div>
-                                        <div class="col-md-1">
-                                            <input type="text" name="dueTime" class="form-control"
+                                        <div class="col-md-4">
+                                            <input type="time" name="dueTime" class="form-control"
                                                 wire:model="data.dueTime">
                                         </div>
                                     </div>
@@ -222,7 +225,7 @@
                             <div class="card-body">
                                 <div class="form-group row">
                                     <div class="col-md-6">
-                                        <select class="select2_single form-control select2" style="width: 100%;"
+                                        {{-- <select class="select2_single form-control select2" style="width: 100%;"
                                             id="chargeCode" wire:model.change="chargeCode">
                                             <option value="">- select -</option>
                                             @foreach (Service::ChargesSelecter() as $charge)
@@ -231,10 +234,14 @@
                                                 </option>
                                             @endforeach
                             
-                                        </select>
+                                        </select> --}}
+                                        <livewire:element.select2 wire:model='data.chargeCode'
+                                            name="chargeCode" :options="Service::ChargesSelecter()"
+                                            itemKey="chargeCode" itemValue="chargeName"
+                                            :searchable="true" >
                                     </div>
                                     <div class="col-md-2" style="padding-left: 0px;">
-                                        <button class="btn btn-white " type="button" name="addPayment" wire:click="addPayment" @disabled($chargeCode == '')
+                                        <button class="btn btn-primary " type="button" name="addPayment" wire:click="addPayment" @disabled($chargeCode == '')
                                             id="addPayment"><i class="fa fa-plus"></i>
                                             Add</button>
                                     </div>

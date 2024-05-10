@@ -41,9 +41,9 @@ class Page extends Component
         // if($this->salemanSearch != null) {
         //     $this->query[] = ['saleman', '=', $this->salemanSearch];
         // }
-        // if($this->customerSearch != null) {
-        //     $this->query[] = ['customerSearch', $this->customerSearch];
-        // }
+        if($this->customerSearch != null) {
+            $this->query[] = ['cusCode', $this->customerSearch];
+        }
     }
 
     public function render()

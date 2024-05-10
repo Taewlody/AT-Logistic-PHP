@@ -52,7 +52,7 @@
                                                             {{ $saleman->empName }}</option>
                                                     @endforeach
                                             </select> --}}
-                                            <livewire:element.select2 wire:model.live='salemanSearch'
+                                            <livewire:element.select2 wire:model='salemanSearch'
                                                 name="salemanSearch" :options="Service::AllSalemanSelecter()"
                                                 itemKey="usercode" itemValue="empName" 
                                                 :searchable="true">

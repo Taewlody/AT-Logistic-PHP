@@ -31,14 +31,18 @@
                                     <div class="form-group col-margin0">
                                         <label class="font-normal">Customer</label>
                                         <div>
-                                            <select class="select2_single form-control select2"
+                                            {{-- <select class="select2_single form-control select2"
                                                 name="cusCode" id="cusCode" wire:model="customerSearch">
                                                 <option value="">- select -</option>
                                                 @foreach ($customerList as $customer)
                                                     <option value="{{ $customer->cusCode }}">
                                                         {{ $customer->custNameEN ? $customer->custNameEN : $customer->custNameTH }}</option>
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model='customerSearch'
+                                                name="cusCode" :options="Service::CustomerSelecter()"
+                                                itemKey="cusCode" itemValue="custNameEN" 
+                                                :searchable="true">
                                         </div>
                                     </div>
                                 </div>
@@ -46,14 +50,18 @@
                                     <div class="form-group col-margin0">
                                         <label class="font-normal">Sale</label>
                                         <div>
-                                            <select class="select2_single form-control select2"
+                                            {{-- <select class="select2_single form-control select2"
                                                     name="saleman" id="saleman" wire:model="salemanSearch">
                                                     <option value="">- select -</option>
                                                     @foreach ($salemanList as $saleman)
                                                         <option value="{{ $saleman->empName }}">
                                                             {{ $saleman->empName }}</option>
                                                     @endforeach
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model='salemanSearch'
+                                                name="salemanSearch" :options="Service::AllSalemanSelecter()"
+                                                itemKey="usercode" itemValue="empName" 
+                                                :searchable="true">
                                         </div>
                                     </div>
                                 </div>
@@ -96,7 +104,7 @@
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->documentID }}</td>
                                                 <td>{{ Service::DateFormat($item->documentDate, true) }}</td>
-                                                <td>{{ $item->customerRefer != null ?? $item->customerRefer->custNameEN }}</td>
+                                                <td>{{ $item->customerRefer != null ? $item->customerRefer->custNameEN : '' }}</td>
                                                 <td>{{ $item->salemanRefer != null ? $item->salemanRefer->empName : '' }}</td>
                                                 <td>{{ Service::CurrentDateDiff($item->documentDate) }}</td>
                                                 <td>
