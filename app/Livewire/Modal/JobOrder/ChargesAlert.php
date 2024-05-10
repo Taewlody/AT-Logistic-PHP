@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Modal\JobOrder;
 
-use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ChargesAlert extends Component

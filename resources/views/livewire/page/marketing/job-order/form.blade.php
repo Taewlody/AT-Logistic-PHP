@@ -9,8 +9,9 @@
 
     <form class="form-body" wire:submit="submit" onkeydown="return event.key != 'Enter';">
         <div class="wrapper wrapper-content animated fadeInRight">
-
             <div class="row">
+
+                {{-- Header file --}}
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
@@ -82,7 +83,7 @@
                                 aria-labelledby="headingDocument" data-bs-parent="#accordion-1" >
                                 <div class="card-body">
                                     <livewire:page.marketing.job-order.element.document wire:key='job-document'
-                                         wire:model="job" :$action />
+                                        wire:model="job" :$action />
                                 </div>
                             </div>
                         </div>
@@ -130,7 +131,7 @@
                                 aria-labelledby="headingLocation" data-bs-parent="#accordion-3" wire:ignore.self>
                                 <div class="card-body">
                                     <livewire:page.marketing.job-order.element.location wire:model.live="job"
-                                         :$action />
+                                        :$action />
                                 </div>
                             </div>
                         </div>
@@ -178,12 +179,12 @@
 
                                         </div>
                                         <div class="col-md-2">
-                                            <input name="containQty" type="number" class="form-control" id="containQty" min="1"
+                                            <input name="containQty" type="number" class="form-control" id="containQty" min="0"
                                                 wire:model.change.number="quantityContainer">
 
                                         </div>
                                         <div class="col" style="display: flex; align-items: flex-end;">
-                                            <button class="btn btn-primary" type="button" wire:click="addContainer" @disabled($typeContainer == '' || $sizeContainer == '')>
+                                            <button class="btn btn-primary" type="button" wire:click="addContainer" @disabled($typeContainer == '' || $sizeContainer == '' || $quantityContainer < 1)>
                                                 <i class="fa fa-plus"></i>Add
                                             </button>
                                         </div>
@@ -611,8 +612,13 @@
             </div>
         </div>
     </form>
+
+    {{-- Alert Modal --}}
+    
 </div>
 
 @push('modal')
+<livewire:modal.modal-alert /> 
 <livewire:modal.job-order.charges-alert />
 @endpush
+

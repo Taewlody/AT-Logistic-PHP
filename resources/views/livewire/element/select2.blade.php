@@ -38,8 +38,7 @@
     });
 
     Livewire.on('reset-select2-' + $wire.name, () => {
-        $('#{{$this->__id}}').empty().trigger('change');
-        // console.log('select2Reset');
+        $('#{{$this->__id}}').val('').trigger('change');
     });
 </script>
 @endscript

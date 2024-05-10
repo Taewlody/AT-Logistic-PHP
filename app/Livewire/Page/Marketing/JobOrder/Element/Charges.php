@@ -3,6 +3,9 @@
 namespace App\Livewire\Page\Marketing\JobOrder\Element;
 
 use App\Functions\CalculatorPrice;
+use App\Livewire\Page\Marketing\JobOrder\Element\Models\JobCharge;
+use App\Livewire\Page\Marketing\JobOrder\Element\Models\JobChargeType;
+use App\Models\Marketing\JobOrderCharge;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Lazy;
@@ -10,6 +13,7 @@ use Livewire\Attributes\Locked;
 use Livewire\Attributes\Modelable;
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
+use Livewire\Livewire;
 
 // #[Lazy(isolate: true)]
 class Charges extends Component
@@ -45,7 +49,8 @@ class Charges extends Component
         'value.*.detail'=> 'string',
         'value.*.chargesCost'=> 'string',
         'value.*.chargesReceive'=> 'string',
-        'value.*.chargesbillReceive'=> 'string'
+        'value.*.chargesbillReceive'=> 'string',
+        'value.*.charges.chargeType' => 'unique:App\Models\Common\ChargesType',
     ];
 
     #[Computed]
@@ -60,11 +65,23 @@ class Charges extends Component
     }
 
     public function boot(){
+        // Livewire::propertySynthesizer(JobCharge::class);
+        // Livewire::propertySynthesizer(JobChargeType::class);
     }
+
+    // public function updatedValue($value, $key){
+    //     $index = explode('.', $key)[0];
+    //     $name = explode('.', $key)[1];
+    //     // dd($value, $key, $index);
+    //     if($name == "chargesbillReceive" && $this->value[$index]['chargesbillReceive'] < $this->value[$index]['chargesCost']) {
+    //         $this->dispatch('modal.job-order.charges-alert', showModal: true);
+    //     }
+    // }
 
     public function mount($action, String|null $documentID = null, String|null $groupTypeContainer = null, String|null $commissionSale = null, String|null $commissionCustomers = null)
 
     {
+        $this->value;
         $this->action = $action;
         $this->documentID = $documentID ?? '';
         $this->groupTypeContainer = $groupTypeContainer ?? '';
@@ -89,6 +106,8 @@ class Charges extends Component
     // public function changeCommissionSale(){
     //     dd($this->commissionSale);
     // }
+
+
 
     public function render()
     {

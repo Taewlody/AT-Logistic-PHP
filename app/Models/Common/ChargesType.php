@@ -71,7 +71,6 @@ class ChargesType extends Model implements Wireable
 
     public function toLiveWire() : array
     {
-        // return $this->toArray();
         $arr = $this->toArray();
         $arr['exists'] = $this->exists;
         $arr['connection'] = $this->getConnectionName();

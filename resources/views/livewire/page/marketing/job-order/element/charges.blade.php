@@ -102,7 +102,7 @@
                         </td>
                         <td style="width:10%">
                             <input type="text" name="vat_total_chargesReceive"
-                                readonly class="form-control" value="{{ Service::MoneyFormat($this->call_price['tax7']) }}"
+                                readonly class="form-control" value="{{ Service::MoneyFormat($this->call_price->tax7) }}"
                                 id="vat_total_chargesReceive">
                         </td>
                         <td style="width:10%">
@@ -129,7 +129,7 @@
                         <td style="width:10%">
                             <input type="text"
                                 name="total_chargesReceive" readonly
-                                class="form-control" value="{{ Service::MoneyFormat($this->call_price['total']) }}"
+                                class="form-control" value="{{ Service::MoneyFormat($this->call_price->total) }}"
                                 id="total_chargesReceive">
                         </td>
                         <td style="width:10%">
@@ -180,25 +180,25 @@
                         <td colspan="4" style="border: none;"></td>
                         <td colspan="3" style="border: none; text-align: end;"><strong>รวม :</strong></td>
                         <td colspan="2" style="text-align: end;">
-                            <span id="total">{{ Service::MoneyFormat($this->call_price['total'] + $value->sum('chargesbillReceive')) }}</span>
+                            <span id="total">{{ Service::MoneyFormat($this->call_price->total + $value->sum('chargesbillReceive')) }}</span>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="4" style="border: none;"></td>
                         <td colspan="3" style="border: none; text-align: end;"><strong>ค่าบริการ Tax (3%) :</strong></td>
-                        <td colspan="2" style="text-align: end;"><span id="tax3">{{ Service::MoneyFormat($this->call_price['tax3']) }}</span>
+                        <td colspan="2" style="text-align: end;"><span id="tax3">{{ Service::MoneyFormat($this->call_price->tax3) }}</span>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="4" style="border: none;"></td>
                         <td colspan="3" style="border: none; text-align: end;"><strong>ค่าขนส่ง Tax (1%) :</strong></td>
-                        <td colspan="2" style="text-align: end;"><span id="tax1">{{ Service::MoneyFormat($this->call_price['tax1']) }}</span>
+                        <td colspan="2" style="text-align: end;"><span id="tax1">{{ Service::MoneyFormat($this->call_price->tax1) }}</span>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="4" style="border: none;"></td>
                         <td colspan="3" style="border: none; text-align: end;"><strong>รวม :</strong></td>
-                        <td colspan="2" style="text-align: end;"><span id="grand_total">{{Service::MoneyFormat(($this->call_price['total'] + $value->sum('chargesbillReceive')) - $this->call_price['tax3'] - $this->call_price['tax1'])}}</span>
+                        <td colspan="2" style="text-align: end;"><span id="grand_total">{{Service::MoneyFormat(($this->call_price->total + $value->sum('chargesbillReceive')) - $this->call_price->tax3 - $this->call_price->tax1)}}</span>
                             {{-- <input type="hidden" id="h_grand_total"
                                 name="h_grand_total" value="{{Service::MoneyFormat(($cal_charge['total'] + $data->charge->sum('chargesbillReceive')) - $cal_charge['tax3'] - $cal_charge['tax1']) }}"> --}}
                         </td>
@@ -215,7 +215,7 @@
                     <tr>
                         <td colspan="4" style="border: none;"></td>
                         <td colspan="3" style="border: none; text-align: end;"><strong>คงเหลือจ่ายจริง</strong></td>
-                        <td colspan="2" style="text-align: end;"><span id="net_pad">{{Service::MoneyFormat((($this->call_price['total'] + $value->sum('chargesbillReceive')) - $this->call_price['tax3'] - $this->call_price['tax1']) - $customer_piad?->sum('sumTotal'))}}</span>
+                        <td colspan="2" style="text-align: end;"><span id="net_pad">{{Service::MoneyFormat((($this->call_price->total + $value->sum('chargesbillReceive')) - $this->call_price->tax3 - $this->call_price->tax1) - $customer_piad?->sum('sumTotal'))}}</span>
                             
                         </td>
                     </tr>
