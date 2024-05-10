@@ -71,7 +71,7 @@
                                                 @endforeach
                                             </select> --}}
                                             <livewire:element.select2 wire:model='data.refJobNo'
-                                                name="refJobNo" :options="Service::SupplierSelecter()"
+                                                name="refJobNo" :options="Service::JobOrderSelecter()"
                                                 itemKey="documentID" itemValue="documentID"
                                                 :searchable="true" >
                                         </div>
@@ -129,7 +129,7 @@
                                                 @endforeach
                                             </select> --}}
                                             <livewire:element.select2 wire:model='chargeCode'
-                                                name="chargeCode" :options="Service::SupplierSelecter()"
+                                                name="chargeCode" :options="Service::ChargesSelecter()"
                                                 itemKey="chargeCode" itemValue="chargeName"
                                                 :searchable="true">
                                         </div>
