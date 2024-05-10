@@ -47,13 +47,13 @@ class Form extends Component
 
     public ?User $editBy;
 
-    #[Validate('required|string')]
+    // #[Validate('string')]
     public string $typeContainer = '';
-    #[Validate('required|string')]
+    // #[Validate('string')]
     public string $sizeContainer = '';
 
-    #[Validate('required|numeric|min:1')]
-    public int $quantityContainer = 1;
+    // #[Validate('numeric|min:0')]
+    public int $quantityContainer = 0;
 
     public Collection $containerList;
 
@@ -157,16 +157,6 @@ class Form extends Component
         'attachs.*.fileDetail' => 'string',
         'attachs.*.fileName' => 'string',
     ];
-
-    // public function rules() {
-    //     return [
-    //         'job.invNo' => 'required|string',
-    //         'job.bookingNo' => 'required|string',
-    //         'job.cusCode' => 'required|string',
-    //         'job.agentCode' => 'required|string',
-    //         'job.feeder' => 'required|string',
-    //     ];
-    // }
 
     public function boot()
     {
@@ -301,6 +291,7 @@ class Form extends Component
         }
         $this->chargeList->push($charge);
         $this->reset('chargeCode');
+        $this->dispatch('reset-select2-chargeCode');
     }
 
     #[On('Remove-Charge')]
@@ -397,7 +388,6 @@ class Form extends Component
 
     public function save(bool|null $approve = false)
     {
-        
         if(!$this->vaildJob()) {
             return false;
         }
@@ -459,9 +449,11 @@ class Form extends Component
     public function submit(){
         $success = $this->save();
         if($success){
-            $this->redirectRoute(name: 'job-order', navigate: true);
+            // $this->redirectRoute(name: 'job-order', navigate: true);\
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
         }else{
             $this->dispatch('vaildated');
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
         }
     }
 
@@ -469,8 +461,8 @@ class Form extends Component
     {
         $this->save(true);
         dispatch(new InvoiceService(JobOrder::find($this->data->documentID), Auth::user()->usercode))->onQueue('job-order');
-        
-        $this->redirectRoute(name: 'job-order', navigate: true);
+        $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'Approve สำเร็จ', type: 'success');
+        // $this->redirectRoute(name: 'job-order', navigate: true);
     }
 
     public function exception($e, $stopProgation){
