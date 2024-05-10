@@ -57,8 +57,8 @@ class PrintFileResource extends Controller
             'totalReceive' => 0,
             'totalBill' => 0,
             'total' => 0,
-            'vat3' => 0,
-            'vat1'=> 0,
+            'tax3' => 0,
+            'tax1'=> 0,
             'cusPaid'=> 0,
             'netTotal' => 0,
 
@@ -70,7 +70,7 @@ class PrintFileResource extends Controller
         }
         $calCharge->vat7 = $data->total_vat;
         $calCharge->total = $data->total_amt;
-        $calCharge->vat3 = $data->tax3;
+        $calCharge->tat3 = $data->tax3;
         $calCharge->tax1 = $data->tax1;
         $calCharge->cusPaid = $data->cus_paid;
         $calCharge->netTotal = $data->total_netamt;

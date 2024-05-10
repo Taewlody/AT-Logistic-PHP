@@ -79,7 +79,7 @@
                                             </select> --}}
                                             <livewire:element.select2 wire:model='data.refJobNo'
                                             name="refJobNo" :options="Service::JobOrderSelecter()"
-                                            itemKey="documentID" itemValue="documentID" 
+                                            itemKey="documentID" itemValue="documentID" :disabled="$data->documentstatus=='A'"
                                             :searchable="true">
                                         </div>
 
@@ -211,13 +211,13 @@
                                     @if($formMode ==FormMode::NONE || $formMode ==FormMode::READONLY)
                                     <div class="form-group row">
                                         <div class="col-md-6">
-                                            <select class="select2_single form-control select2" style="width: 100%;"
+                                            <select class="select2_single form-control select2" style="width: 100%;" @disabled($data->documentstatus=='A')
                                                 wire:model.lazy="chargeCode">
                                                 <option value="C-032">สำรองจ่าย</option>
                                             </select>
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
-                                            <button class="btn btn-primary " type="button" wire:click='addCharge'>
+                                            <button class="btn btn-primary " type="button" wire:click='addCharge' @disabled($data->documentstatus=='A')>
                                                 <i class="fa fa-plus"></i>
                                                 Add</button>
                                         </div>

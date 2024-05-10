@@ -64,7 +64,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <livewire:element.select2 wire:model="data.refJobNo" name="refJobNo" :searchable="true"
-                                                :options="Service::JobOrderSelecter(false)" itemKey="documentID" 
+                                                :options="Service::JobOrderSelecter(false)" itemKey="documentID" :disabled="$data->documentstatus=='A'"
                                                 itemValue="documentID"/>
                                         </div>
 
@@ -194,10 +194,10 @@
                                 <div class="card-body">
                                     <div class="form-group row">
                                         <div class="col-md-6">
-                                            <livewire:element.select2 wire:model.live='chargeCode' id="chargeCode" :options="Service::ChargesSelecter()" itemKey="chargeCode" itemValue="chargeName" :searchable="true" >
+                                            <livewire:element.select2 wire:model.live='chargeCode' id="chargeCode" :options="Service::ChargesSelecter()" itemKey="chargeCode" itemValue="chargeName" :searchable="true" :disabled="$data->documentstatus=='A'" >
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
-                                            <button class="btn btn-primary " type="button" name="addPayment" @disabled($chargeCode=='' )
+                                            <button class="btn btn-primary " type="button" name="addPayment" @disabled($chargeCode==''||$data->documentstatus=='A')
                                                 wire:click="addPayment" id="addPayment"><i
                                                  class="fa fa-plus"></i>
                                                 Add</button>
@@ -262,7 +262,7 @@
                                                                 readonly>
                                                         </td>
                                                         <td class='center'>
-                                                            <button type='button' class='btn-white btn btn-xs'
+                                                            <button type='button' class='btn-white btn btn-xs' @disabled($data->documentstatus=='A')
                                                                 wire:click='removePayment({{ $loop->index }})'>Remove</button>
                                                         </td>
                                                     </tr>

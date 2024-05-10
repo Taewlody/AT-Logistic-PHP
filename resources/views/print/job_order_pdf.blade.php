@@ -172,11 +172,11 @@
                         </tr>
                         <tr>
                             <td class="sum-block header"><b>ค่าขนส่ง 3%</b></td>
-                            <td class="money sum-block"><b>{{Service::MoneyFormat($calCharge->vat3)}}</b></td>
+                            <td class="money sum-block"><b>{{Service::MoneyFormat($calCharge->tax3)}}</b></td>
                         </tr>
                         <tr>
                             <td class="sum-block header"><b>ค่าขนส่ง 1%</b></td>
-                            <td class="money sum-block"><b>{{Service::MoneyFormat($calCharge->vat1)}}</b></td>
+                            <td class="money sum-block"><b>{{Service::MoneyFormat($calCharge->tax1)}}</b></td>
                         </tr>
                         <tr>
                             <td class="sum-block header"><b>ลูกค้าสำรองจ่าย</b></td>
