@@ -58,7 +58,7 @@
                         <option value="{{ $cus->cusCode }}">{{ $cus->custNameEN }}</option>
                         @endforeach
                       </select> --}}
-                      <livewire:element.select2 wire:model='data.cusCode' name="cusCode" :options="Service::CustomerSelecter()" itemKey="accountCode" itemValue="accountName" :searchable="true" >
+                      <livewire:element.select2 wire:model='data.cusCode' name="cusCode" :options="Service::CustomerSelecter()" itemKey="cusCode" itemValue="custNameEN" :searchable="true" >
                     </div>
                   </div>
 

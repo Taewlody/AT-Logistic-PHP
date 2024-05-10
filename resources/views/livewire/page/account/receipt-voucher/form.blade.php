@@ -51,28 +51,29 @@
                                                 style="padding-top: 5px;">จ่ายให้/Paid
                                                 To</span></label>
                                         <div class="col-md-4">
-                                            <select name="cusCode" class="select2_single form-control select2"
+                                            {{-- <select name="cusCode" class="select2_single form-control select2"
                                                 id="cusCode" wire:model="data.cusCode">
                                                 <option value="">- Select -</option>
                                                 @foreach (Service::CustomerSelecter() as $customer)
                                                     <option value="{{ $customer->cusCode }}">{{ $customer->custNameEN }}
                                                     </option>
                                                 @endforeach
-                                            </select>
-
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model='data.cusCode' name="cusCode" :options="Service::CustomerSelecter()" itemKey="cusCode" itemValue="custNameEN" :searchable="true" >
                                         </div>
                                         <div class="col-md-2">
                                             <label class="col-form-label" style="padding-top: 5px;">Ref. JobNo.</label>
                                         </div>
                                         <div class="col-md-4">
-                                            <select class="select2_single form-control select2" name="refJobNo"
+                                            {{-- <select class="select2_single form-control select2" name="refJobNo"
                                                 id="refJobNo" wire:model="data.refJobNo">
                                                 <option value="">- Select -</option>
                                                 @foreach (Service::JobOrderSelecter() as $job)
                                                     <option value="{{ $job->documentID }}">{{ $job->documentID }}
                                                     </option>
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model='data.refJobNo' name="refJobNo" :options="Service::JobOrderSelecter()" itemKey="documentID" itemValue="documentID" :searchable="true" >
                                         </div>
 
                                     </div>
@@ -200,7 +201,7 @@
                                 <div class="card-body">
                                     <div class="form-group row">
                                         <div class="col-md-6">
-                                            <select class="select2_single form-control select2" style="width: 100%;"
+                                            {{-- <select class="select2_single form-control select2" style="width: 100%;"
                                                 id="chargeCode" wire:model.change="chargeCode">
                                                 <option value="">- select -</option>
                                                 @foreach (Service::ChargesSelecter() as $charge)
@@ -209,7 +210,8 @@
                                                 </option>
                                                 @endforeach
 
-                                            </select>
+                                            </select> --}}
+                                            <livewire:element.select2 wire:model.live='data.chargeCode' name="chargeCode" :options="Service::ChargesSelecter()" itemKey="chargeCode" itemValue="chargeName" :searchable="true" >
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
                                             <button class="btn btn-primary " type="button" name="addPayment"
