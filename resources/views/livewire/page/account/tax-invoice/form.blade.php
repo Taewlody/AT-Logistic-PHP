@@ -51,13 +51,14 @@
                     <label class="col-lg-2 col-form-label"><span class="col-form-label"
                         style="padding-top: 5px;">Customer</span></label>
                     <div class="col-md-10">
-                      <select name="cusCode" class="select2_single form-control select2" id="cusCode"
+                      {{-- <select name="cusCode" class="select2_single form-control select2" id="cusCode"
                         wire:model="data.cusCode">
                         <option value="">Select Customer</option>
                         @foreach (Service::CustomerSelecter() as $cus)
                         <option value="{{ $cus->cusCode }}">{{ $cus->custNameEN }}</option>
                         @endforeach
-                      </select>
+                      </select> --}}
+                      <livewire:element.select2 wire:model='data.cusCode' name="cusCode" :options="Service::CustomerSelecter()" itemKey="accountCode" itemValue="accountName" :searchable="true" >
                     </div>
                   </div>
 
@@ -115,13 +116,14 @@
                     <label class="col-lg-2 col-form-label"><span class="col-form-label"
                         style="padding-top: 5px;">ชื่อบัญชี</span></label>
                     <div class="col-md-10">
-                      <select name="accountCode" id="accountCode" class="select2_single form-control select2"
+                      {{-- <select name="accountCode" id="accountCode" class="select2_single form-control select2"
                         wire:model="data.accountCode" style="width: 100%">
                         <option value="">Select Account</option>
                         @foreach (Service::AccountSelecter() as $account)
                         <option value="{{ $account->accountCode }}">{{ $account->accountName }}</option>
                         @endforeach
-                      </select>
+                      </select> --}}
+                      <livewire:element.select2 wire:model='data.accountCode' name="accountCode" :options="Service::AccountSelecter()" itemKey="accountCode" itemValue="accountName" :searchable="true" >
                     </div>
                   </div>
                   <div class="form-group  row">
@@ -204,7 +206,7 @@
                 <div class="card-body">
                   <div class="form-group row">
                     <div class="col-md-6">
-                      <select class="select2_single form-control select2" style="width: 100%;" id="chargeCode"
+                      {{-- <select class="select2_single form-control select2" style="width: 100%;" id="chargeCode"
                         wire:model.change="chargeCode">
                         <option value="">- select -</option>
                         @foreach (Service::ChargesSelecter() as $charge)
@@ -213,7 +215,8 @@
                         </option>
                         @endforeach
 
-                      </select>
+                      </select> --}}
+                      <livewire:element.select2 wire:model.live='chargeCode' name="chargeCode" :options="Service::ChargesSelecter()" itemKey="chargeCode" itemValue="chargeName" :searchable="true" >
                     </div>
                     <div class="col-md-2" style="padding-left: 0px;">
                       <button class="btn btn-primary " type="button" name="addPayment" wire:click="addPayment"
