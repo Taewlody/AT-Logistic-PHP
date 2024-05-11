@@ -153,8 +153,17 @@ class Form extends Component
     }
 
     public function submit() {
-        if($this->save()) {
-            $this->redirectRoute(name: 'advance-payment', navigate: true);
+        // if($this->save()) {
+        //     $this->redirectRoute(name: 'advance-payment', navigate: true);
+        // }
+
+        $success = $this->save();
+        if($success){
+            // $this->redirectRoute(name: 'job-order', navigate: true);\
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
+        }else{
+            $this->dispatch('vaildated');
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
         }
     }
 

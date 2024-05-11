@@ -473,3 +473,6 @@
     </div>
 
 </div>
+@push('modal')
+<livewire:modal.modal-alert /> 
+@endpush
