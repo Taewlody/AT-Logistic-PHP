@@ -39,11 +39,11 @@ class Form extends Component
         'payments.*.amount' => 'float',
     ];
 
-    public function rules() {
-        return [
-            'data.dueDate' => 'required|date',
-        ];
-    }
+    // public function rules() {
+    //     return [
+    //         'data.dueDate' => 'required|date',
+    //     ];
+    // }
 
     #[Computed]
     public function calPrice() {
@@ -105,6 +105,9 @@ class Form extends Component
     }
 
     public function save() {
+        if($this->data->dueDate == null) {
+            $this->addError('data.dueDate', 'Please select due date');
+        }
         $this->data->editID = Auth::user()->usercode;
         $this->data->save();
         $this->data->items->filter(function($item){

@@ -41,7 +41,7 @@
                                                 Date</label>
                                         </div>
                                         <div class="col-md-4">
-                                                <input type="date" name="documentDate" class="form-control"
+                                                <input type="date" name="documentDate" class="form-control" 
                                                     wire:model="data.documentDate">
                                           
                                         </div>

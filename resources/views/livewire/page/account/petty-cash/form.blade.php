@@ -157,7 +157,7 @@
 
                                                             <td>
                                                                 <input type='text' class='form-control'
-                                                                    wire:model.live.debounce.500ms="payments.{{ $loop->index }}.invNo">
+                                                                wire:model.live.debounce.500ms="payments.{{ $loop->index }}.invNo">
                                                             </td>
                                                             <td>
                                                                 <input type='text' class='form-control'
@@ -165,7 +165,7 @@
                                                             </td>
                                                             <td class='center'>
                                                                 <input type='number' class='form-control'
-                                                                    wire:model.live.debounce.500ms.number="payments.{{ $loop->index }}.amount">
+                                                                wire:model.live.debounce.500ms.number="payments.{{ $loop->index }}.amount">
                                                             </td>
                                                             <td class='center'>
                                                                 <button type='button'

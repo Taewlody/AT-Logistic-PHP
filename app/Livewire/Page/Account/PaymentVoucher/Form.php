@@ -116,6 +116,7 @@ class Form extends Component
             $this->attachs = $this->data->attachs;
         } else {
             $this->action = 'create';
+            $this->data->documentDate = Carbon::now()->toDateString();
             $this->data->createID = Auth::user()->usercode;
             $this->payments = new Collection;
             $this->attachs = new Collection;
@@ -185,6 +186,11 @@ class Form extends Component
         if($approve) {
             $this->data->documentstatus = 'A';
         }
+        $this->data->sumTotal = $this->calPrice->total;
+        $this->data->sumTax3 = $this->calPrice->tax3;
+        $this->data->sumTax1 = $this->calPrice->tax1;
+        $this->data->sumTax7 = $this->calPrice->vatTotal;
+        $this->data->grandTotal = $this->calPrice->grandTotal;
         $this->data->save();
         $this->data->items->filter(function($item){
             return !collect($this->payments->pluck('autoid'))->contains($item->autoid);
@@ -222,6 +228,16 @@ class Form extends Component
             return;
         }
         $this->save(true);
+        $this->job = JobOrder::find($this->data->refJobNo);
+        $this->payments->each(function($item){
+            $this->job->charge()->create([
+                'documentID' => $this->job->documentID,
+                'ref_paymentCode' => $this->data->documentID,
+                'chargeCode' => $item->chargeCode,
+                'detail' => $item->chartDetail,
+                'chargesCost' => $item->amount
+            ]);
+        });
         $this->redirectRoute(name: 'shipping-payment-voucher', navigate: true);
     }
 

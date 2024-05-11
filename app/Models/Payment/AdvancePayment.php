@@ -84,7 +84,7 @@ class AdvancePayment extends Model implements Wireable
 
     protected $attributes = [
         'comCode' => 'C01',
-        'documentstatus' => 'P',
+        'documentstatus' => 'P'
     ];
 
     public static function boot()
