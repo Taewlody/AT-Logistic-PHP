@@ -416,7 +416,6 @@ class Form extends Component
         }
         $this->data->editID = Auth::user()->usercode;
         $calCharge = CalculatorPrice::cal_charge($this->chargeList);
-        dd($calCharge);
         $this->data->total_vat = $calCharge->tax7;
         $this->data->tax3 = $calCharge->tax3;
         $this->data->tax1 = $calCharge->tax1;

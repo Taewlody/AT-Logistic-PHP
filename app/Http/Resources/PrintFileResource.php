@@ -70,7 +70,7 @@ class PrintFileResource extends Controller
         }
         $calCharge->vat7 = $data->total_vat;
         $calCharge->total = $data->total_amt;
-        $calCharge->tat3 = $data->tax3;
+        $calCharge->tax3 = $data->tax3;
         $calCharge->tax1 = $data->tax1;
         $calCharge->cusPaid = $data->cus_paid;
         $calCharge->netTotal = $data->total_netamt;
