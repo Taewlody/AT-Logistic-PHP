@@ -182,6 +182,9 @@ class Form extends Component
     }
 
     public function save(bool|null $approve = false) {
+        if(!$this->valid()) {
+            return false;
+        }
         $this->data->editID = Auth::user()->usercode;
         if($approve) {
             $this->data->documentstatus = 'A';
@@ -217,9 +220,6 @@ class Form extends Component
     }
 
     public function submit(){
-        if(!$this->valid()) {
-            return;
-        }
         // $this->save();
         // $this->redirectRoute(name: 'account-payment-voucher', navigate: true);
         $success = $this->save();
