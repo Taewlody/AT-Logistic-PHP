@@ -238,6 +238,7 @@ class Form extends Component
         }
         $this->save(true);
         $this->job = JobOrder::find($this->data->refJobNo);
+        $this->job->charge()->where('ref_paymentCode', $this->data->documentID)->delete();
         $this->payments->each(function($item){
             $this->job->charge()->create([
                 'documentID' => $this->job->documentID,

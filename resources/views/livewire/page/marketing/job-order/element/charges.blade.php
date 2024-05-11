@@ -42,22 +42,19 @@
                                     {{-- <livewire:element.input :keyName="'detail-'.$item->items" wire:model.live="value.{{ $loop->index }}.detail" /> --}}
                             </td>
                             <td class="center">
-                                <input type="number" class="form-control full"
-                                    {{-- onkeyup="call_price(),call_exchange(<?php echo $rowIdx; ?>)" --}}
+                                <input type="number" class="form-control full" id="price-{{$loop->index}}"
+                                    wire:keyup="dispatch('call_price', {{$loop->index}})"
                                     value="1">
-                                    {{-- wire:model="data.{{ $loop->index }}.price"> --}}
                             </td>
                             <td class="center">
-                                <input type="number" class="form-control full"
-                                    {{-- onkeyup="call_price(),call_exchange(<?php echo $rowIdx; ?>)" --}}
+                                <input type="number" class="form-control full" id="volum-{{$loop->index}}"
+                                wire:keyup="dispatch('call_price', {{$loop->index}})"
                                     value="1">
-                                    {{-- wire:model="data.{{ $loop->index }}.volum"> --}}
                             </td>
                             <td class="center">
-                                <input type="number" class="form-control full"
-                                    {{-- onkeyup="call_price(),call_exchange(<?php echo $rowIdx; ?>)" --}}
+                                <input type="number" class="form-control full" id="exchange-{{$loop->index}}"
+                                wire:keyup="dispatch('call_price', {{$loop->index}})"
                                     value="1">
-                                    {{-- wire:model="data.{{ $loop->index }}.exchange"> --}}
                             </td>
                             <td class="center">
                                 <input type="number" class="form-control full" step=".01" @readonly($item->items != null)
@@ -225,16 +222,23 @@
         </div>
     </div>
 </div>
-{{-- 
+
 @script
     <script>
-        $wire.on('cal-price', (event)=> {
-            console.log("cal-price");
-        })
-
-        $wire.on('cal-success', (event)=> {
-            console.log("cal-success");
+        // function call_price(index) {
+        //     let price = document.getElementById('price-'+index).value;
+        //     let volum = document.getElementById('volum-'+index).value;
+        //     let exchange = document.getElementById('exchange-'+index).value;
+        //     let cost = price * volum * exchange;
+        //     @this.set('value.'+index+'.chargesReceive', cost);
+        // }
+        Livewire.on('call_price', (index) => {
+            let price = document.getElementById('price-'+index).value;
+            let volum = document.getElementById('volum-'+index).value;
+            let exchange = document.getElementById('exchange-'+index).value;
+            let cost = price * volum * exchange;
+            @this.set('value.'+index+'.chargesReceive', cost);
         })
     </script>
-@endscript --}}
+@endscript
 

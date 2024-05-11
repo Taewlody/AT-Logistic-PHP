@@ -105,8 +105,10 @@ class Form extends Component
     }
 
     public function save() {
+        $vaildated = true;
         if($this->data->dueDate == null) {
             $this->addError('data.dueDate', 'Please select due date');
+            $vaildated = false;
         }
         $this->data->editID = Auth::user()->usercode;
         $this->data->save();
@@ -115,7 +117,7 @@ class Form extends Component
         })->each->delete();
         $this->data->items()->saveMany($this->payments);
         // $this->redirectRoute(name: 'account-petty-cash', navigate: true);
-        return true;
+        return $vaildated;
     }
 
     public function submit(){
@@ -124,7 +126,7 @@ class Form extends Component
             // $this->redirectRoute(name: 'job-order', navigate: true);\
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
         }else{
-            $this->dispatch('vaildated');
+            // $this->dispatch('vaildated');
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
         }
     }

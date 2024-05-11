@@ -47,9 +47,12 @@ class Charges extends Component
         'value.*.ref_paymentCode'=> 'string',
         'value.*.chargeCode'=> 'required|string',
         'value.*.detail'=> 'string',
-        'value.*.chargesCost'=> 'string',
-        'value.*.chargesReceive'=> 'string',
-        'value.*.chargesbillReceive'=> 'string',
+        'value.*.price'=> 'integer',
+        'value.*.volume'=> 'integer',
+        'value.*.exchange'=> 'integer',
+        'value.*.chargesCost'=> 'numeric',
+        'value.*.chargesReceive'=> 'numeric',
+        'value.*.chargesbillReceive'=> 'numeric',
         'value.*.charges.chargeType' => 'unique:App\Models\Common\ChargesType',
     ];
 
@@ -79,9 +82,8 @@ class Charges extends Component
     // }
 
     public function mount($action, String|null $documentID = null, String|null $groupTypeContainer = null, String|null $commissionSale = null, String|null $commissionCustomers = null)
-
     {
-        $this->value;
+        // $this->value;
         $this->action = $action;
         $this->documentID = $documentID ?? '';
         $this->groupTypeContainer = $groupTypeContainer ?? '';
@@ -107,6 +109,25 @@ class Charges extends Component
     //     dd($this->commissionSale);
     // }
 
+    // public function calReceive($index){
+       
+    // }
+
+    // public function updatingValue($value, $key){
+    //     $index = explode('.', $key)[0];
+    //     $name = explode('.', $key)[1];
+    //     if($name == "price") {
+    //         // dd($value, $key, $index);
+    //         $this->value->get($index)->price = $value;
+    //         // dd($this->value->get($index));
+    //     }
+    //     if($name == "volume") {
+    //         $this->value->get($index)->volume = $value;
+    //     }
+    //     if($name == "exchange") {
+    //         $this->value->get($index)->exchange = $value;
+    //     }
+    // }
 
 
     public function render()

@@ -4,6 +4,7 @@ namespace App\Models\Marketing;
 
 use App\Models\Payment\PaymentVoucher;
 use App\Models\Payment\ShipingPaymentVoucher;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -22,6 +23,10 @@ class JobOrderCharge extends Model implements Wireable
     protected $primaryKey = 'items';
 
     public $timestamps = false;
+
+    public int $price = 1;
+    public int $volume = 1;
+    public int $exchange = 1;
 
     protected $fillable = [
         'items',
@@ -42,22 +47,21 @@ class JobOrderCharge extends Model implements Wireable
         'ref_paymentCode' => 'string',
         'chargeCode' => 'string',
         'detail' => 'string',
+        'price' => 'integer',
+        'volume' => 'integer',
+        'exchange' => 'integer',
         'chargesCost' => 'float',
         'chargesReceive' => 'float',
         'chargesbillReceive' => 'float',
     ];
 
     protected $attributes = [
-        // 'items' => 0,
         'comCode' => 'C01',
-        // 'documentID' => '',
-        // 'ref_paymentCode' => '',
-        // 'chargeCode' => '',
-        // 'detail' => '',
         'chargesCost' => 0,
         'chargesReceive' => 0,
         'chargesbillReceive' => 0,
     ];
+
 
     public function id(){
         return $this->items;
@@ -73,6 +77,7 @@ class JobOrderCharge extends Model implements Wireable
 
     public static function fromLivewire($value): self
     {
+        // dd($value);
         return new static($value);
     }
 
@@ -83,20 +88,13 @@ class JobOrderCharge extends Model implements Wireable
         if($this->charges != null) {
             $arr['charges'] = $this->charges->toLiveWire();
         }
+        $arr['price'] = $this->price;
+        $arr['volume'] = $this->volume;
+        $arr['exchange'] = $this->exchange;
         $arr['exists'] = $this->exists;
         $arr['connection'] = $this->getConnectionName();
         return $arr;
     }
-
-    // public function payment(): HasMany
-    // {
-    //     return $this->hasMany(PaymentVoucher::class, 'documentID', 'ref_paymentCode');
-    // }
-
-    // public function paymentVoucherShipping(): HasMany
-    // {
-    //     return $this->hasMany(ShipingPaymentVoucher::class, 'documentID', 'ref_paymentCode');
-    // }
 
     public function payment(){
         if($this->ref_paymentCode){
@@ -108,5 +106,26 @@ class JobOrderCharge extends Model implements Wireable
     public function charges(): BelongsTo
     {
         return $this->belongsTo(Charges::class, 'chargeCode', 'chargeCode');
+    }
+
+    public function price(): Attribute {
+        return Attribute::make(
+            get: fn() => $this->price,
+            set: fn(int $value) => $this->price = $value,
+        );
+    }
+
+    public function volume(): Attribute {
+        return Attribute::make(
+            get: fn() => $this->volume,
+            set: fn(int $value) => $this->volume = $value,
+        );
+    }
+
+    public function exchange(): Attribute {
+        return Attribute::make(
+            get: fn() => $this->exchange,
+            set: fn(int $value) => $this->exchange = $value,
+        );
     }
 }
