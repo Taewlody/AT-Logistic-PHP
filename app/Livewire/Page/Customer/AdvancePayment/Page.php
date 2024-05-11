@@ -53,6 +53,10 @@ class Page extends Component
         }
     }
 
+    public function delete($id) {
+        AdvancePayment::find($id)->delete();
+    }
+
     public function render()
     {
         if(Auth::user()->UserType->userTypeName == Role::CUSTOMER){

@@ -114,7 +114,19 @@ class Form extends Component
             return !collect($this->payments->pluck('autoid'))->contains($item->autoid);
         })->each->delete();
         $this->data->items()->saveMany($this->payments);
-        $this->redirectRoute(name: 'account-petty-cash', navigate: true);
+        // $this->redirectRoute(name: 'account-petty-cash', navigate: true);
+        return true;
+    }
+
+    public function submit(){
+        $success = $this->save();
+        if($success){
+            // $this->redirectRoute(name: 'job-order', navigate: true);\
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
+        }else{
+            $this->dispatch('vaildated');
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
+        }
     }
 
     public function approve() {

@@ -200,6 +200,7 @@ class Form extends Component
             return !collect($this->attachs->pluck('items'))->contains($item->items);
         })->each->delete();
         $this->data->attachs()->saveMany($this->attachs);
+        return true;
     }
 
     public function valid() {
@@ -219,8 +220,16 @@ class Form extends Component
         if(!$this->valid()) {
             return;
         }
-        $this->save();
-        $this->redirectRoute(name: 'account-payment-voucher', navigate: true);
+        // $this->save();
+        // $this->redirectRoute(name: 'account-payment-voucher', navigate: true);
+        $success = $this->save();
+        if($success){
+            // $this->redirectRoute(name: 'job-order', navigate: true);\
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
+        }else{
+            $this->dispatch('vaildated');
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
+        }
     }
 
     public function approve() {

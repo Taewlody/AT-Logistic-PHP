@@ -154,7 +154,7 @@
                                                             href="{{ route('advance-payment.form', ['action' => 'edit', 'id' => $item->documentID]) }}">Edit</a>
                                                         @if((Auth::user()->hasRole('admin') && $item->documentstatus == 'A') || $item->documentstatus != 'A')
                                                             <button class="btn btn-xs btn-danger"
-                                                            onClick="return confirmDel('{{ $item->fCode }}','port_action.php');">Delete</button>
+                                                            wire:confirm="Are you sure want to delete {{$item->documentID}}" wire:click="delete('{{$item->documentID}}')" wire:refresh="$refresh">Delete</button>
                                                         @endif
                                                     </div>
                                                 </td>

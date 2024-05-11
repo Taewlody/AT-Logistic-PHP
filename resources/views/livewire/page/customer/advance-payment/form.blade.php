@@ -426,9 +426,13 @@
                 </div>
 
             </div>
-        </fieldset>
+            </fieldset>
 
+        
+        </form>
     </div>
-    </form>
 </div>
-</div>
+
+@push('modal')
+<livewire:modal.modal-alert /> 
+@endpush
