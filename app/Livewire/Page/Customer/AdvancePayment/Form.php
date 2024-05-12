@@ -141,6 +141,7 @@ class Form extends Component
         if($approve) {
             $this->data->documentstatus = 'A';
         }
+        $this->data->sumTotal = $this->payments->sum('amount');
         $this->data->editID = Auth::user()->usercode;
         $this->data->save();
         $this->data->items->filter(function($item){
@@ -153,10 +154,6 @@ class Form extends Component
     }
 
     public function submit() {
-        // if($this->save()) {
-        //     $this->redirectRoute(name: 'advance-payment', navigate: true);
-        // }
-
         $success = $this->save();
         if($success){
             // $this->redirectRoute(name: 'job-order', navigate: true);\

@@ -41,10 +41,10 @@
                                                 Date</label>
                                         </div>
                                         <div class="col-md-4">
-                                            
-                                                <input type="date" name="documentDate" class="form-control"
-                                                    wire:model="data.documentDate">
-                                            
+
+                                            <input type="date" name="documentDate" class="form-control"
+                                                wire:model="data.documentDate">
+
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -52,20 +52,21 @@
                                                 style="padding-top: 5px;">จ่ายให้/Paid
                                                 To</span></label>
                                         <div class="col-md-4">
-                                            <livewire:element.select2 wire:model="data.supCode" name="supCode" :searchable="true"
-                                                :options="Service::SupplierSelecter()" itemKey="supCode" 
-                                                itemValue="supNameEN"/>
+                                            <livewire:element.select2 wire:model="data.supCode" name="supCode"
+                                                :searchable="true" :options="Service::SupplierSelecter()"
+                                                itemKey="supCode" itemValue="supNameEN" />
                                             @error('data.supCode')
-                                                <div class="text-danger m-2">{{ $message }}</div>
+                                            <div class="text-danger m-2">{{ $message }}</div>
                                             @enderror
                                         </div>
                                         <div class="col-md-2">
                                             <label class="col-form-label" style="padding-top: 5px;">Ref. JobNo.</label>
                                         </div>
                                         <div class="col-md-4">
-                                            <livewire:element.select2 wire:model="data.refJobNo" name="refJobNo" :searchable="true"
-                                                :options="Service::JobOrderSelecter(false)" itemKey="documentID" :disabled="$data->documentstatus=='A'"
-                                                itemValue="documentID"/>
+                                            <livewire:element.select2 wire:model="data.refJobNo" name="refJobNo"
+                                                :searchable="true" :options="Service::JobOrderSelecter(false)"
+                                                itemKey="documentID" :disabled="$data->documentstatus=='A'"
+                                                itemValue="documentID" />
                                         </div>
 
                                     </div>
@@ -161,11 +162,11 @@
                                             <label class="col-form-label" style="padding-top: 5px;">Due Date</label>
                                         </div>
                                         <div class="col-md-4">
-                                                <input type="date" name="dueDate" class="form-control"
-                                                    wire:model="data.dueDate">
-                                                @error('data.dueDate')
-                                                    <div class="text-danger m-2">{{ $message }}</div>
-                                                @enderror
+                                            <input type="date" name="dueDate" class="form-control"
+                                                wire:model="data.dueDate">
+                                            @error('data.dueDate')
+                                            <div class="text-danger m-2">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                     </div>
@@ -194,12 +195,15 @@
                                 <div class="card-body">
                                     <div class="form-group row">
                                         <div class="col-md-6">
-                                            <livewire:element.select2 wire:model.live='chargeCode' id="chargeCode" :options="Service::ChargesSelecter()" itemKey="chargeCode" itemValue="chargeName" :searchable="true" :disabled="$data->documentstatus=='A'" >
+                                            <livewire:element.select2 wire:model.live='chargeCode' id="chargeCode"
+                                                :options="Service::ChargesSelecter()" itemKey="chargeCode"
+                                                itemValue="chargeName" :searchable="true"
+                                                :disabled="$data->documentstatus=='A'">
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
-                                            <button class="btn btn-primary " type="button" name="addPayment" @disabled($chargeCode==''||$data->documentstatus=='A')
-                                                wire:click="addPayment" id="addPayment"><i
-                                                 class="fa fa-plus"></i>
+                                            <button class="btn btn-primary " type="button" name="addPayment"
+                                                @disabled($chargeCode=='' ||$data->documentstatus=='A')
+                                                wire:click="addPayment" id="addPayment"><i class="fa fa-plus"></i>
                                                 Add</button>
                                         </div>
                                     </div>
@@ -231,6 +235,7 @@
                                                         </td>
                                                         <td class='center'>
                                                             <input type='number' class='form-control'
+                                                                wire:change="calPrice"
                                                                 wire:model.live.debounce.500ms.number="payments.{{ $loop->index }}.amount">
                                                         </td>
 
@@ -262,8 +267,10 @@
                                                                 readonly>
                                                         </td>
                                                         <td class='center'>
-                                                            <button type='button' class='btn-white btn btn-xs' @disabled($data->documentstatus=='A')
-                                                                wire:click='removePayment({{ $loop->index }})'>Remove</button>
+                                                            <button type='button' class='btn-white btn btn-xs'
+                                                                @disabled($data->documentstatus=='A')
+                                                                wire:click='removePayment({{ $loop->index
+                                                                }})'>Remove</button>
                                                         </td>
                                                     </tr>
                                                     @endforeach
@@ -280,32 +287,37 @@
                                             <div class="col-lg-5">
                                                 <table class="table invoice-total">
                                                     <tbody>
-
                                                         <tr>
                                                             <td><strong>TOTAL :</strong></td>
                                                             <td style="min-width: 150px; max-width: 200px;">
                                                                 <input name="sumTotal" id="sumTotal"
                                                                     class='form-control'
-                                                                    value="{{ Service::MoneyFormat($this->cal_price->total) }}"
+                                                                    value="{{ Service::MoneyFormat($priceSum->total) }}"
                                                                     readonly>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Tax 1% :</strong></td>
-                                                            <td><input name="tax1" id="tax1" class='form-control'
-                                                                    value="{{ Service::MoneyFormat($this->cal_price->tax1) }}"
-                                                                    required @readonly(!Auth::user()->hasRole('admin'))></td>
+                                                            <td><input type="number" name="tax1" id="tax1"
+                                                                    class='form-control'
+                                                                    wire:keyup.debounce.700ms='calTax1($event.target.value)'
+                                                                    value="{{ Service::MoneyFormat($priceSum->tax1) }}"
+                                                                    required @readonly(!Auth::user()->hasRole('admin'))>
+                                                            </td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Tax 3% :</strong></td>
-                                                            <td><input name="tax3" id="tax3" class='form-control'
-                                                                    value="{{ Service::MoneyFormat($this->cal_price->tax3) }}"
-                                                                    required @readonly(!Auth::user()->hasRole('admin'))></td>
+                                                            <td><input type="number" name="tax3" id="tax3"
+                                                                    class='form-control'
+                                                                    wire:keyup.debounce.700ms='calTax3($event.target.value)'
+                                                                    value="{{ Service::MoneyFormat($priceSum->tax3) }}"
+                                                                    required @readonly(!Auth::user()->hasRole('admin'))>
+                                                            </td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Vat Total : </strong></td>
                                                             <td><input name="tax7" id="tax7" class='form-control'
-                                                                    value="{{ Service::MoneyFormat($this->cal_price->vatTotal) }}"
+                                                                    value="{{ Service::MoneyFormat($priceSum->vatTotal) }}"
                                                                     required readonly></td>
                                                         </tr>
 
@@ -314,7 +326,7 @@
                                                         <tr>
                                                             <td><strong>GRAND TOTAL:</strong></td>
                                                             <td style="text-align: left"><span id="showgrandTotal">{{
-                                                                    Service::MoneyFormat($this->cal_price->grandTotal)
+                                                                    Service::MoneyFormat($priceSum->grandTotal)
                                                                     }}</span>
                                                         </tr>
 
@@ -381,12 +393,14 @@
                                                             @disabled($attach->items != null)>
                                                     </td>
                                                     <td class='center'>
-                                                        {{-- <a class='btn-white btn btn-xs' href='' target='_blank'>View</a> --}}
-                                                        <a href='/api/blobfile/{{$attach->fileName}}' target="_blank">View</a>
+                                                        {{-- <a class='btn-white btn btn-xs' href=''
+                                                            target='_blank'>View</a> --}}
+                                                        <a href='/api/blobfile/{{$attach->fileName}}'
+                                                            target="_blank">View</a>
                                                         {{-- </button> --}}
                                                         &nbsp;
-                                                        <button type='button'
-                                                            class='btn-white btn btn-xs' wire:click='removeFile({{$loop->index}})'>Remove</button>
+                                                        <button type='button' class='btn-white btn btn-xs'
+                                                            wire:click='removeFile({{$loop->index}})'>Remove</button>
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -396,26 +410,28 @@
                                         </table>
                                         <div class="form-group row">
                                             <div id="container_attach" class="fileinput fileinput-new"
-                                                data-provides="fileinput"> 
+                                                data-provides="fileinput">
                                                 <span class="btn btn-primary btn-file">
                                                     <span class="fileinput-new">Select file</span>
                                                     <input type="file" wire:model.change='file'>
                                                     @error('file')
-                                                        <div class="text-danger m-2">{{ $message }}</div>
+                                                    <div class="text-danger m-2">{{ $message }}</div>
                                                     @enderror
-                                                </span> 
-                                                <span class="fileinput-filename"></span> 
-                                                <button type="button" wire:click='removePreFile' class="close fileinput-exists" data-dismiss="fileinput" style="float: none; border: none;
-                                                background: transparent;" @disabled(!$file)>&times;</button> 
+                                                </span>
+                                                <span class="fileinput-filename"></span>
+                                                <button type="button" wire:click='removePreFile'
+                                                    class="close fileinput-exists" data-dismiss="fileinput" style="float: none; border: none;
+                                                background: transparent;" @disabled(!$file)>&times;</button>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-lg-2 col-form-label">Action</label>
                                             <div class="col-md-4">
-                                                <button class="btn btn-primary " type="button" wire:click="uploadFile" @disabled(!$file)>
+                                                <button class="btn btn-primary " type="button" wire:click="uploadFile"
+                                                    @disabled(!$file)>
                                                     <i class="fa fa-save"></i> Upload File</button>
                                                 @error('supCodeEmpty')
-                                                    <div class="text-danger m-2">{{ $message }}</div>
+                                                <div class="text-danger m-2">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
@@ -451,15 +467,18 @@
                             <div class="hr-line-dashed"></div>
                             <div class="form-group row">
                                 <div class="col-sm-10 col-sm-offset-2">
-                                    <a name="back" class="btn btn-white" type="button" href="{{ route('account-payment-voucher') }}" wire.loading.attr="disabled">
+                                    <a name="back" class="btn btn-white" type="button"
+                                        href="{{ route('account-payment-voucher') }}" wire.loading.attr="disabled">
                                         <i class="fa fa-reply"></i> Back</a>
                                     @if($data->documentstatus == 'P')
-                                    <button name="Save" id="Save" class="btn btn-success" type="submit"><i class="fa fa-save"></i> Save</button>
+                                    <button name="Save" id="Save" class="btn btn-success" type="submit"><i
+                                            class="fa fa-save"></i> Save</button>
                                     @endif
-                                    <button name="Approve" id="Approve" class="btn btn-primary" type="button" wire:click='approve'><i
-                                            class="fa fa-check"></i> Approve</button>
+                                    <button name="Approve" id="Approve" class="btn btn-primary" type="button"
+                                        wire:click='approve'><i class="fa fa-check"></i> Approve</button>
                                     @if($data->documentID!=null||$data->documentID!='')
-                                    <a class="btn" target="_blank" href="/api/print/payment_voucher_pdf/{{$data->documentID}}"><i
+                                    <a class="btn" target="_blank"
+                                        href="/api/print/payment_voucher_pdf/{{$data->documentID}}"><i
                                             class="fa fa-print"></i> Print</a>
                                     @endif
                                 </div>
@@ -474,5 +493,31 @@
 
 </div>
 @push('modal')
-<livewire:modal.modal-alert /> 
+<livewire:modal.modal-alert />
 @endpush
+
+{{-- @script
+<script>
+    Livewire.hook('component.init', ({component, cleanup}) => {
+        // $('#tax1').mask("#,##0.00" , {reverse: true});
+        // $('#tax3').mask("#,##0.00" , {reverse: true});
+    })
+    Livewire.on('cal-update', function() {
+            // const formatter = new Intl.NumberFormat('th-TH', {
+            //     style: 'currency',
+            //     currency: 'THB',
+            //     currencyDisplay: "code",
+            //     minimumFractionDigits: 2,
+            //     });
+            //     console.log($wire.priceSum);
+            // if($('#tax1').val() == ''){
+            //     $('#tax1').val(0.00);
+            // }
+            // if($('#tax3').val() == ''){
+            //     $('#tax3').val(0.00);
+            // }
+            // $('#tax1').val($wire.priceSum.tax1);
+            // $('#tax3').val($wire.priceSum.tax3);
+        });
+</script>
+@endscript --}}

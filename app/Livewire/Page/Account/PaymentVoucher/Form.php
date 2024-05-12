@@ -38,6 +38,8 @@ class Form extends Component
 
     public $file;
 
+    public $priceSum;
+
     protected array $rules = [
         'file' => 'nullable|mimes:png,jpg,jpeg,pdf|max:102400',
         'data.dueDate' => 'required|date',
@@ -70,9 +72,20 @@ class Form extends Component
     //     ];
     // }
 
-    #[Computed]
-    public function calPrice() {
-        $cal_price = [
+    public function calTax1($value) {
+        $this->calPrice(tax1: $value);
+        $this->dispatch('refresh');
+    }
+
+    public function calTax3($value) {
+        $this->calPrice(tax3: $value);
+
+        $this->dispatch('refresh');
+    }
+
+    // #[Computed]
+    public function calPrice(int|null $tax1 = null, int|null $tax3 = null) {
+        $cal_price = (object) [
             'total' => 0,
             'tax3' => 0,
             'tax1' => 0,
@@ -80,20 +93,33 @@ class Form extends Component
             'grandTotal' => 0,
         ];
         if(!isset($this->payments)||$this->payments == null) {
-            return (object) $cal_price;
+            // return $cal_price;
+            $this->priceSum = $cal_price;
         }
-        $cal_charge['total'] = $this->payments->sum('amount');
-        $cal_charge['tax3'] = $this->payments->filter(function ($item) {
-            return $item->tax == 3;
-        })->sum('taxamount');
-        $cal_charge['tax1'] = $this->payments->filter(function ($item) {
-            return $item->tax == 1;
-        })->sum('taxamount');
-        $cal_charge['vatTotal'] = $this->payments->filter(function ($item) {
+        $cal_price->total = $this->payments->sum('amount');
+        if($tax3 != null) {
+            // dd($tax3);
+            $cal_price->tax3 = $tax3;
+        } else {
+            $cal_price->tax3 = $this->payments->filter(function ($item) {
+                return $item->tax == 3;
+            })->sum('taxamount');
+        }
+        if($tax1 != null) {
+            // dd($tax1);
+            $cal_price->tax1 = $tax1;
+        } else {
+            $cal_price->tax1 = $this->payments->filter(function ($item) {
+                return $item->tax == 1;
+            })->sum('taxamount');
+        }
+        $cal_price->vatTotal = $this->payments->filter(function ($item) {
             return $item->vat == 7;
         })->sum('vatamount');
-        $cal_charge['grandTotal'] = ($cal_charge['total'] - ($cal_charge['tax1'] + $cal_charge['tax3'])) +  $cal_charge['vatTotal'];
-        return (object) $cal_charge;
+        $cal_price->grandTotal = ($cal_price->total - ($cal_price->tax1 + $cal_price->tax3)) + $cal_price->vatTotal;
+        // return $cal_price;
+        $this->priceSum = $cal_price;
+        $this->dispatch('cal-update');
     }
 
     public function mount()
@@ -121,6 +147,7 @@ class Form extends Component
             $this->payments = new Collection;
             $this->attachs = new Collection;
         }
+        $this->calPrice();
     }
 
     public function addPayment() {
@@ -142,10 +169,12 @@ class Form extends Component
 
     public function changeTax(int $value, int $index){
         $this->payments[$index]->taxamount = round($this->payments->get($index)->amount * ($value / 100), 2);
+        $this->calPrice();
     }
 
     public function changeVat(int $value, int $index) {
         $this->payments[$index]->vatamount = round($this->payments->get($index)->amount * ($value / 100), 2);
+        $this->calPrice();
     }
 
     public function removePreFile() {
