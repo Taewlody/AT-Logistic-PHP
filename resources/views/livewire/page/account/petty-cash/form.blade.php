@@ -11,6 +11,7 @@
         </div>
 
         <form class="form-body" wire:submit="submit" onkeydown="return event.key != 'Enter';">
+            <fieldset @disabled($formMode == FormMode::DISABLED || $formMode == FormMode::READONLY)>
             <div class="row">
 
                 {{-- Section 1 --}}
@@ -45,7 +46,7 @@
                                     </div>
 
                                     <div class="form-group  row">
-                                        <label class="col-sm-2 col-form-label">จ่ายให้/Paid To</label>
+                                        <label class="col-sm-2 col-form-label">จ่ายให้/Paid To <span class="text-danger">*</span></label>
                                         <div class="col-md-4">
                                             {{-- <select name="supCode" class="select2_single form-control select2"
                                                 id="supCode" wire:model="data.supCode">
@@ -59,8 +60,12 @@
                                                 name="supCode" :options="Service::SupplierSelecter()"
                                                 itemKey="supCode" itemValue="supNameTH"
                                                 :searchable="true" >
+
+                                            @error('supCode')
+                                                <div class="text-danger m-2">{{ $message }}</div>
+                                            @enderror
                                         </div>
-                                        <label class="col-sm-2 col-form-label">Ref. JobNo.</label>
+                                        <label class="col-sm-2 col-form-label">Ref. JobNo. <span class="text-danger">*</span></label>
                                         <div class="col-md-4">
                                             {{-- <select class="select2_single form-control select2" name="refJobNo"
                                                 id="refJobNo" wire:model="data.refJobNo">
@@ -72,8 +77,11 @@
                                             </select> --}}
                                             <livewire:element.select2 wire:model='data.refJobNo'
                                                 name="refJobNo" :options="Service::JobOrderSelecter(false)"
-                                                itemKey="documentID" itemValue="documentID" :disabled="$data->documentstatus=='A'"
+                                                itemKey="documentID" itemValue="documentID" 
                                                 :searchable="true" >
+                                            @error('refJobNo')
+                                                <div class="text-danger m-2">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
 
@@ -130,11 +138,11 @@
                                             </select> --}}
                                             <livewire:element.select2 wire:model='chargeCode'
                                                 name="chargeCode" :options="Service::ChargesSelecter()"
-                                                itemKey="chargeCode" itemValue="chargeName" :disabled="$data->documentstatus=='A'"
+                                                itemKey="chargeCode" itemValue="chargeName" 
                                                 :searchable="true">
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
-                                            <button class="btn btn-primary " type="button" wire:click='addPayment' @disabled($data->documentstatus=='A')><i class="fa fa-plus"></i> Add</button>
+                                            <button class="btn btn-primary " type="button" wire:click='addPayment'><i class="fa fa-plus"></i> Add</button>
                                         </div>
                                     </div>
 
@@ -169,7 +177,7 @@
                                                             </td>
                                                             <td class='center'>
                                                                 <button type='button'
-                                                                    class='btn-danger btn btn-xs' wire:click='removePayment({{$loop->index}})' @disabled($data->documentstatus=='A')>Remove</button>
+                                                                    class='btn-danger btn btn-xs' wire:click='removePayment({{$loop->index}})'>Remove</button>
                                                             </td>
                                                     </tr>
                                                     @endforeach
@@ -271,6 +279,7 @@
 
 
             </div>
+            </fieldset>
         </form>
     </div>
 

@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Page\Account\PettyCash;
 
+use App\Enum\FormMode;
+use App\Enum\ViewMode;
 use App\Models\Common\Charges;
 use App\Models\Common\Supplier;
 use App\Models\Marketing\JobOrder;
@@ -27,6 +29,10 @@ class Form extends Component
     public string $chargeCode = '';
 
     public Collection $payments;
+
+    public ViewMode $viewMode;
+
+    public FormMode $formMode;
 
     protected array $rules = [
         'payments.*' => 'unique:App\Models\PettyCash\PettyCashItems',
@@ -87,6 +93,13 @@ class Form extends Component
             $this->data->dueDate = Carbon::now()->endOfMonth()->toDateString();
             $this->payments = new Collection;
         }
+
+        $this->viewMode = ViewMode::from($this->action);
+        $this->formMode = $this->viewMode->toFormMode();
+
+        if($this->data->documentstatus == 'A' && !Auth::user()->hasRole('admin') && $this->viewMode == ViewMode::EDIT) {
+            $this->formMode = FormMode::from('disabled');
+        } 
     }
 
     public function addPayment() {
@@ -105,11 +118,10 @@ class Form extends Component
     }
 
     public function save() {
-        $vaildated = true;
-        if($this->data->dueDate == null) {
-            $this->addError('data.dueDate', 'Please select due date');
-            $vaildated = false;
+        if(!$this->valid()) {
+            return false;
         }
+        
         $this->data->sumTotal = $this->calPrice->total;
         $this->data->sumTax1 = $this->calPrice->tax1;
         $this->data->sumTax3 = $this->calPrice->tax3;
@@ -123,6 +135,24 @@ class Form extends Component
         $this->data->items()->saveMany($this->payments);
         // $this->redirectRoute(name: 'account-petty-cash', navigate: true);
         return $vaildated;
+    }
+
+    public function valid() {
+        $vaildated = true;
+        if($this->data->dueDate == null) {
+            $this->addError('data.dueDate', 'Please select due date');
+            $vaildated = false;
+        }
+        if($this->data->supCode == null || $this->data->supCode == '') {
+            $this->addError('supCode', 'Please select supplier');
+            $vaidate = false;
+        }
+        if($this->data->refJobNo == null || $this->data->refJobNo == '') {
+            $this->addError('refJobNo', 'Please select Ref. JobNo.');
+            $vaidate = false;
+        }
+        
+        return $vaidate;
     }
 
     public function submit(){

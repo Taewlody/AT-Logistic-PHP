@@ -134,10 +134,9 @@ class Form extends Component
     }
 
     public function save(bool|null $approve = false) {
-        if($this->data->cusCode == null || $this->data->cusCode == '') {
-            $this->addError('cusCode', 'Please select customer');
+        if(!$this->valid()) {
             return false;
-        } 
+        }
         if($approve) {
             $this->data->documentstatus = 'A';
         }
@@ -151,6 +150,35 @@ class Form extends Component
         $this->data->attachs()->saveMany($this->attachs);
         return true;
         // $this->redirectRoute(name: 'advance-payment', navigate: true);
+    }
+
+    public function valid() {
+        $vaidate = true;
+        if($this->data->cusCode == null || $this->data->cusCode == '') {
+            $this->addError('cusCode', 'Please select customer');
+            $vaidate = false;
+        }
+        if($this->data->refJobNo == null || $this->data->refJobNo == '') {
+            $this->addError('refJobNo', 'Please select Ref. JobNo.');
+            $vaidate = false;
+        }
+        if($this->data->accountCode == null || $this->data->accountCode == '') {
+            $this->addError('accountCode', 'Please select account');
+            $vaidate = false;
+        }
+        if($this->data->payType == null || $this->data->payType == '') {
+            $this->addError('payType', 'Please select pay type');
+            $vaidate = false;
+        }
+        if($this->data->branch == null || $this->data->branch == '') {
+            $this->addError('branch', 'Please select branch');
+            $vaidate = false;
+        }
+        if($this->data->chequeNo == null || $this->data->chequeNo == '') {
+            $this->addError('chequeNo', 'Please select cheque');
+            $vaidate = false;
+        }
+        return $vaidate;
     }
 
     public function submit() {

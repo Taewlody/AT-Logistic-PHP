@@ -48,16 +48,8 @@
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-lg-2 col-form-label"><span class="col-form-label"
-                                                style="padding-top: 5px;">ลูกค้า</span></label>
+                                                style="padding-top: 5px;">ลูกค้า</span> <span class="text-danger">*</span></label>
                                         <div class="col-md-4">
-                                            {{-- <select name="cusCode" class="select2_single form-control select2"
-                                                id="cusCode" wire:model="data.cusCode">
-                                                <option>- select -</option>
-                                                @foreach (Service::CustomerSelecter() as $customer)
-                                                <option value="{{$customer->cusCode}}">{{$customer->custNameEN}}
-                                                </option>
-                                                @endforeach
-                                            </select> --}}
                                             <livewire:element.select2 wire:model='data.cusCode'
                                             name="cusCode" :options="Service::CustomerSelecter()"
                                             itemKey="cusCode" itemValue="custNameEN" 
@@ -67,20 +59,16 @@
                                             @enderror
                                         </div>
                                         <div class="col-md-2">
-                                            <label class="col-form-label" style="padding-top: 5px;">Ref. JobNo.</label>
+                                            <label class="col-form-label" style="padding-top: 5px;">Ref. JobNo.<span class="text-danger">*</span></label>
                                         </div>
                                         <div class="col-md-4">
-                                            {{-- <select class="select2_single form-control select2" name="refJobNo"
-                                                id="refJobNo" wire:model="data.refJobNo">
-                                                <option>- select -</option>
-                                                @foreach (Service::JobOrderSelecter(false) as $job)
-                                                <option value="{{$job->documentID}}">{{$job->documentID}}</option>
-                                                @endforeach
-                                            </select> --}}
                                             <livewire:element.select2 wire:model='data.refJobNo'
                                             name="refJobNo" :options="Service::JobOrderSelecter(false)"
-                                            itemKey="documentID" itemValue="documentID" :disabled="$data->documentstatus=='A'"
+                                            itemKey="documentID" itemValue="documentID" 
                                             :searchable="true">
+                                            @error('refJobNo')
+                                                <div class="text-danger m-2">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                     </div>
@@ -116,23 +104,24 @@
                                 <div class="card-body">
                                     <div class="form-group row">
                                         <label class="col-lg-3 col-form-label"><span class="col-form-label"
-                                                style="padding-top: 5px;">ชื่อบัญชี</span></label>
+                                                style="padding-top: 5px;">ชื่อบัญชี</span> <span class="text-danger">*</span></label>
                                         <div class="col-md-9">
                                             <select name="accountCode" id="accountCode"
                                                 class="select2_single form-control select2"
                                                 wire:model="data.accountCode" style="width: 100%">
-                                                {{--
-                                                <?php $db->s_account(''); ?> --}}
                                                 <option>- select -</option>
                                                 @foreach (Service::AccountSelecter() as $account)
                                                 <option value="{{$account->accountCode}}">{{$account->accountName}}
                                                 </option>
                                                 @endforeach
                                             </select>
+                                            @error('accountCode')
+                                                <div class="text-danger m-2">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="form-group  row">
-                                        <label class="col-sm-3 col-form-label">โดย By</label>
+                                        <label class="col-sm-3 col-form-label">โดย By <span class="text-danger">*</span></label>
                                         <div class="col-md-9">
                                             <div class="i-checks">
                                                 <input type="radio" id="cash" value="c" name="payType"
@@ -152,19 +141,29 @@
                                                     class="form-control col-sm-6" wire:model="data.payTypeOther">
                                                 @endif
                                             </div>
+                                            @error('payType')
+                                                <div class="text-danger m-2">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="form-group  row">
-                                        <label class="col-sm-2 col-form-label">สาขา Branch</label>
+                                        <label class="col-sm-2 col-form-label">สาขา Branch <span class="text-danger">*</span></label>
                                         <div class="col-md-4">
                                             <input type="text" name="branch" id="branch" class="form-control"
                                                 wire:model="data.branch">
+                                            @error('branch')
+                                                <div class="text-danger m-2">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
-                                        <label class="col-sm-2 col-form-label">เลขที่เช็ค</label>
+                                        <label class="col-sm-2 col-form-label">เลขที่เช็ค <span class="text-danger">*</span></label>
                                         <div class="col-md-4">
                                             <input type="text" name="chequeNo" id="chequeNo" class="form-control"
                                                 wire:model="data.chequeNo">
+
+                                            @error('chequeNo')
+                                                <div class="text-danger m-2">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="form-group  row">
@@ -181,7 +180,7 @@
                                             <label class="col-form-label" style="padding-top: 5px;"> Time</label>
                                         </div>
                                         <div class="col-md-4">
-                                            <input type="text" name="dueTime" class="form-control"
+                                            <input type="time" name="dueTime" class="form-control"
                                                 wire:model="data.dueTime">
                                         </div>
                                     </div>
@@ -208,21 +207,21 @@
                             <div id="collapseCustomerPayment" role="tabpanel" class="collapse"
                                 aria-labelledby="headingCustomerPayment" data-bs-parent="#accordion-3" wire:ignore.self>
                                 <div class="card-body">
-                                    @if($formMode ==FormMode::NONE || $formMode ==FormMode::READONLY)
+                                    {{-- @if($formMode ==FormMode::NONE || $formMode ==FormMode::READONLY) --}}
                                     <div class="form-group row">
                                         <div class="col-md-6">
-                                            <select class="select2_single form-control select2" style="width: 100%;" @disabled($data->documentstatus=='A')
+                                            <select class="select2_single form-control select2" style="width: 100%;"
                                                 wire:model.lazy="chargeCode">
                                                 <option value="C-032">สำรองจ่าย</option>
                                             </select>
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
-                                            <button class="btn btn-primary " type="button" wire:click='addCharge' @disabled($data->documentstatus=='A')>
+                                            <button class="btn btn-primary " type="button" wire:click='addCharge'>
                                                 <i class="fa fa-plus"></i>
                                                 Add</button>
                                         </div>
                                     </div>
-                                    @endif
+                                    {{-- @endif --}}
 
                                     <div class="form-group">
                                         <div class="table-responsive" id="containner_charge">
