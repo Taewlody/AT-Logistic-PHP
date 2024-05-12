@@ -110,6 +110,11 @@ class Form extends Component
             $this->addError('data.dueDate', 'Please select due date');
             $vaildated = false;
         }
+        $this->data->sumTotal = $this->calPrice->total;
+        $this->data->sumTax1 = $this->calPrice->tax1;
+        $this->data->sumTax3 = $this->calPrice->tax3;
+        $this->data->sumTax7 = $this->calPrice->tax7;
+        $this->data->grandTotal = $this->calPrice->grandTotal;
         $this->data->editID = Auth::user()->usercode;
         $this->data->save();
         $this->data->items->filter(function($item){
