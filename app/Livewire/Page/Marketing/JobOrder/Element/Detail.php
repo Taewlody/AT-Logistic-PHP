@@ -43,12 +43,12 @@ class Detail extends Component
 
     #[On('updated-cusCode')]
     public function changeContact($value){
-        Log::info('changeContact', ['value' => $value]);
+        // Log::info('changeContact', ['value' => $value]);
         $customer = Customer::find($value);
         if($customer) {
             $this->value->cusContact = $customer->contactName;
             // $this->value->saleman = $customer->salemanID;
-            $this->dispatch('change-select2-saleman', $customer->salemanID);
+            $this->dispatch('change-select2-saleman', data: $customer->salemanID);
         }
     }
 

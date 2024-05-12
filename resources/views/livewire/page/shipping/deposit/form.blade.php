@@ -62,6 +62,9 @@
                                             name="cusCode" :options="Service::CustomerSelecter()"
                                             itemKey="cusCode" itemValue="custNameEN"
                                             :searchable="true" >
+                                            @error('cusCode')
+                                                    <div class="text-danger m-2">{{ $message }}</div>
+                                                @enderror
                                         </div>
                                         <div class="col-md-2">
                                             <label class="col-form-label" style="padding-top: 5px;">Ref. JobNo.</label>
@@ -423,8 +426,7 @@
                                         <i class="fa fa-reply"></i> Back</a>
 
                                     @if($data->documentstatus !== 'A')
-                                    <button name="save" id="save" class="btn  btn-success" type="submit"
-                                        @disabled($data->documentstatus !== 'A')>
+                                    <button name="save" id="save" class="btn  btn-success" type="submit">
                                         <i class="fa fa-save"></i> Save</button>
                                     @endif
                                     <button name="approve" id="approve" class="btn btn-primary" type="button" wire:click="approve"

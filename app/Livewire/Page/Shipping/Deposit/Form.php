@@ -128,6 +128,12 @@ class Form extends Component
     }
 
     public function save(bool|null $approve = false) {
+        $vaild = true;
+        if($this->data->cuscode == null || $this->data->cuscode == '') {
+            $this->addError('cusCode', 'Please select customer');
+            $vaild = false;
+            return $vaild;
+        }
         $this->data->editID = Auth::user()->usercode;
         if($approve) {
             $this->data->documentStatus = 'A';
@@ -137,17 +143,19 @@ class Form extends Component
             return !collect($this->payments->pluck('autoid'))->contains($item->autoid);
         })->each->delete();
         $this->data->items()->saveMany($this->payments);
-        
+        return $vaild;
     }
 
     public function submit() {
-        $this->save();
-        $this->redirectRoute(name: 'deposit', navigate: true);
+
+        $success = $this->save();
+        if($success) $this->redirectRoute(name: 'deposit', navigate: true);
     }
 
     public function approve() {
-        $this->save();
-        $this->redirectRoute(name: 'deposit', navigate: true);
+        $this->save(true);
+        $success = $this->save();
+        if($success) $this->redirectRoute(name: 'deposit', navigate: true);
     }
 
     public function complete() {

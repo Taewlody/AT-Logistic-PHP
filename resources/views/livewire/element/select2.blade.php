@@ -20,28 +20,37 @@
         // multiple: $wire.multiple ? true : false,
         minimumResultsForSearch: $wire.searchable ? 0 : Infinity,
     });
+
     $('#{{$this->__id}}').on('change', function (e) {
-        var data = $(this).val();
+        const data = $(this).val();
         if(data) {
-            @this.set('value',  data);
+            @this.set('value', data);
             $wire.dispatch('updated-' + $wire.name, {value: data});
-            $wire.dispatchSelf('change', data);
+            // $wire.dispatchSelf('change', data);
             console.log('change item: {{$this->__id}} ->', data)
         }else {
             console.log('select2 not found');
         }
     });
     
-    Livewire.on('change-select2-' + $wire.name, (data) => {
-        $('#{{$this->__id}}').val(data).trigger('change');
-        console.log('change-select2-'+ $wire.name, data);
+    Livewire.on('change-select2-' + $wire.name, ({data}) => {
+        if($('#{{$this->__id}}').val() !== data) {
+            $('#{{$this->__id}}').val(data).trigger('change');
+            @this.set('value', data);
+            console.log('change-select2-'+ $wire.name, data);
+        }
+        
+        // $wire.set('value', data);
     });
 
     Livewire.on('reset-select2-' + $wire.name, () => {
         if($('#{{$this->__id}}').val() !== ''){
             $('#{{$this->__id}}').val('').trigger('change');
+            @this.set('value',  '');
+            console.log('reset-select2-'+ $wire.name);
         }
-        console.log('reset-select2-'+ $wire.name);
+        // @this.set('value',  '');
+        
     });
 </script>
 @endscript
