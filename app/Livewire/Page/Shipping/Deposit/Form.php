@@ -74,6 +74,8 @@ class Form extends Component
             $this->data->createID = Auth::user()->usercode;
             $this->payments = new Collection;
             $this->attachs = new Collection;
+            $this->data->dueDate = Carbon::now()->endOfMonth()->toDateString();
+            $this->data->dueTime = Carbon::now('GMT+7')->format('H:i');
         }
     }
 
