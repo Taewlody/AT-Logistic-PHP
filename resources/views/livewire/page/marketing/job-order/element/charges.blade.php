@@ -13,18 +13,27 @@
     </div> --}}
     <div class="form-group">
         <div class="table-responsive" id="containner_charge">
-            <table class="table" width="100%" id="table_charge">
+            <table class="table" id="table_charge" style="table-layout: fixed;">
                 <thead>
                     <tr>
-                        <th style="width:5%">No.</th>
-                        <th style="width:10%;min-width: 200px;">Detail</th>
-                        <th style="width:10%;min-width: 80px;">Price</th>
-                        <th style="width:10%;min-width: 80px;">Volum</th>
-                        <th style="width:10%;min-width: 80px;">Exchange</th>
-                        <th style="width:10%;min-width: 100px;">Cost</th>
-                        <th style="width:10%;min-width: 100px;">Receive</th>
-                        <th style="width:10%;min-width: 100px;">Bill of receipt</th>
-                        <th style="width:5%">Action</th>
+                        {{-- <th style="width:5%">No.</th>
+                        <th style="width:10%;min-width: 190px;">Detail</th>
+                        <th style="width:10%;min-width: 50px;">Price</th>
+                        <th style="width:10%;min-width: 50px;">Volum</th>
+                        <th style="width:10%;min-width: 50px;">Exchange</th>
+                        <th style="width:10%;min-width: 150px;">Cost</th>
+                        <th style="width:10%;min-width: 150px;">Receive</th>
+                        <th style="width:10%;min-width: 150px;">Bill of receipt</th>
+                        <th style="width:5%">Action</th> --}}
+                        <th width="50px">No.</th>
+                        <th width="300px">Detail</th>
+                        <th width="80px">Price</th>
+                        <th width="80px">Volum</th>
+                        <th width="80px">Exchange</th>
+                        <th width="130px">Cost</th>
+                        <th width="130px">Receive</th>
+                        <th width="130px">Bill of receipt</th>
+                        <th width="70px">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -142,8 +151,8 @@
                         <td style="width:5%"></td>
                         <td style="width:50%; text-align: right;">&nbsp;</td>
                         <td style="width:10%">&nbsp;</td>
-                        <td style="width:10%">&nbsp;</td>
-                        <td style="width:10%"><span
+                        
+                        <td style="width:10%; text-align:end" colspan="2"><span
                                 style="width:50%; text-align: right;">Commission Sale</span>
                         </td>
                         <td style="width:10%">
@@ -157,8 +166,7 @@
                         <td style="width:5%"></td>
                         <td style="width:50%; text-align: right;">&nbsp;</td>
                         <td style="width:10%">&nbsp;</td>
-                        <td style="width:10%">&nbsp;</td>
-                        <td style="width:10%"><span
+                        <td style="width:10%; text-align:end" colspan="2"><span
                                 style="width:50%; text-align: right;">Commission Customers</span>
                         </td>
                         <td style="width:10%">
