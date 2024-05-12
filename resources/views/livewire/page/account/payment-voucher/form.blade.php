@@ -11,6 +11,7 @@
         </div>
 
         <form class="form-body" wire:submit="submit" onkeydown="return event.key != 'Enter';">
+            <fieldset @disabled($formMode == FormMode::DISABLED || $formMode == FormMode::READONLY)>
             <div class="row">
                 {{-- Section 1 --}}
                 <div class="col-lg-7 mb-2">
@@ -50,7 +51,7 @@
                                     <div class="form-group row">
                                         <label class="col-lg-2 col-form-label"><span class="col-form-label"
                                                 style="padding-top: 5px;">จ่ายให้/Paid
-                                                To</span></label>
+                                                To</span> <span class="text-danger">*</span></label>
                                         <div class="col-md-4">
                                             <livewire:element.select2 wire:model="data.supCode" name="supCode" :searchable="true"
                                                 :options="Service::SupplierSelecter()" itemKey="supCode" 
@@ -64,7 +65,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <livewire:element.select2 wire:model="data.refJobNo" name="refJobNo" :searchable="true"
-                                                :options="Service::JobOrderSelecter(false)" itemKey="documentID" :disabled="$data->documentstatus=='A'"
+                                                :options="Service::JobOrderSelecter(false)" itemKey="documentID" 
                                                 itemValue="documentID"/>
                                         </div>
 
@@ -100,8 +101,9 @@
                                 aria-labelledby="headingPayment" data-bs-parent="#accordion-2">
                                 <div class="card-body">
                                     <div class="form-group row">
-                                        <label class="col-lg-2 col-form-label"><span class="col-form-label"
-                                                style="padding-top: 5px;">ชื่อบัญชี</span></label>
+                                        <label class="col-lg-2 col-form-label">
+                                            <span class="col-form-label" style="padding-top: 5px;">ชื่อบัญชี</span> <span class="text-danger">*</span>
+                                        </label>
                                         <div class="col-md-10">
                                             <select name="accountCode" id="accountCode"
                                                 class="select2_single form-control select2" style="width: 100%"
@@ -113,11 +115,14 @@
                                                 </option>
                                                 @endforeach
                                             </select>
+                                            @error('data.accountCode')
+                                                <div class="text-danger m-2">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label">โดย By</label>
+                                        <label class="col-sm-2 col-form-label">โดย By <span class="text-danger">*</span></label>
                                         <div class="col-md-10">
                                             <div class="i-checks">
                                                 <input type="radio" id="chsh" value="c" name="payType"
@@ -137,7 +142,9 @@
                                                     class="form-control col-sm-6" wire:model="data.payTypeOther">
                                                 @endif
                                             </div>
-
+                                            @error('data.accountCode')
+                                                <div class="text-danger m-2">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
 
@@ -158,7 +165,7 @@
 
 
                                         <div class="col-md-2">
-                                            <label class="col-form-label" style="padding-top: 5px;">Due Date</label>
+                                            <label class="col-form-label" style="padding-top: 5px;">Due Date <span class="text-danger">*</span></label>
                                         </div>
                                         <div class="col-md-4">
                                                 <input type="date" name="dueDate" class="form-control"
@@ -194,10 +201,10 @@
                                 <div class="card-body">
                                     <div class="form-group row">
                                         <div class="col-md-6">
-                                            <livewire:element.select2 wire:model.live='chargeCode' id="chargeCode" :options="Service::ChargesSelecter()" itemKey="chargeCode" itemValue="chargeName" :searchable="true" :disabled="$data->documentstatus=='A'" >
+                                            <livewire:element.select2 wire:model.live='chargeCode' id="chargeCode" :options="Service::ChargesSelecter()" itemKey="chargeCode" itemValue="chargeName" :searchable="true">
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
-                                            <button class="btn btn-primary " type="button" name="addPayment" @disabled($chargeCode==''||$data->documentstatus=='A')
+                                            <button class="btn btn-primary " type="button" name="addPayment" @disabled($chargeCode=='')
                                                 wire:click="addPayment" id="addPayment"><i
                                                  class="fa fa-plus"></i>
                                                 Add</button>
@@ -262,8 +269,7 @@
                                                                 readonly>
                                                         </td>
                                                         <td class='center'>
-                                                            <button type='button' class='btn-white btn btn-xs' @disabled($data->documentstatus=='A')
-                                                                wire:click='removePayment({{ $loop->index }})'>Remove</button>
+                                                            <button type='button' class='btn-white btn btn-xs' wire:click='removePayment({{ $loop->index }})'>Remove</button>
                                                         </td>
                                                     </tr>
                                                     @endforeach
@@ -469,6 +475,7 @@
                 </div>
 
             </div>
+            </fieldset>
         </form>
     </div>
 

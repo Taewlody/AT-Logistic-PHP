@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Page\Account\PaymentVoucher;
 
+use App\Enum\FormMode;
+use App\Enum\ViewMode;
 use App\Models\AttachFile;
 use App\Models\Common\BankAccount;
 use App\Models\Common\Charges;
@@ -38,10 +40,15 @@ class Form extends Component
 
     public $file;
 
+    public ViewMode $viewMode;
+
+    public FormMode $formMode;
+
     protected array $rules = [
         'file' => 'nullable|mimes:png,jpg,jpeg,pdf|max:102400',
         'data.dueDate' => 'required|date',
         'data.supCode' => 'required|string',
+        'data.accountCode' => 'required|string',
         'payments.*' => 'unique:App\Models\Payment\PaymentVoucherItems',
         'payments.*.autoid' => 'integer',
         'payments.*.comCode' => 'string',
@@ -121,6 +128,13 @@ class Form extends Component
             $this->payments = new Collection;
             $this->attachs = new Collection;
         }
+
+        $this->viewMode = ViewMode::from($this->action);
+        $this->formMode = $this->viewMode->toFormMode();
+
+        if($this->data->documentstatus == 'A' && !Auth::user()->hasRole('admin') && $this->viewMode == ViewMode::EDIT) {
+            $this->formMode = FormMode::from('disabled');
+        } 
     }
 
     public function addPayment() {
@@ -214,6 +228,14 @@ class Form extends Component
         }
         if($this->data->supCode == null || $this->data->supCode == '') {
             $this->addError('data.supCode', 'Please select supplier');
+            $vaidate = false;
+        }
+        if($this->data->accountCode == null || $this->data->accountCode == '') {
+            $this->addError('data.accountCode', 'Please select account');
+            $vaidate = false;
+        }
+        if($this->data->payType == null || $this->data->payType == '') {
+            $this->addError('data.payType', 'Please select pay type');
             $vaidate = false;
         }
         return $vaidate;
