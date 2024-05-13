@@ -47,9 +47,9 @@ services:
             - '.:/var/www/html'
         networks:
             - laravel
-        command: ["sail", "/var/www/html/artisan", "horizon"]
         depends_on:
             - laravel
+        command: ["sail", "/var/www/html/artisan", "horizon"]
 
     mysql:
         image: 'mysql/mysql-server:8.0'

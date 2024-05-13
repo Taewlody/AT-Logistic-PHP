@@ -5,6 +5,7 @@ namespace App\Livewire\Page\Marketing\JobOrder;
 use App\Functions\CalculatorPrice;
 use App\Jobs\InvoiceService;
 use App\Models\Account\Invoice;
+use App\Models\Account\InvoiceItems;
 use App\Models\AttachFile;
 use App\Models\Common\Charges;
 use App\Models\Marketing\BillOfLading;
@@ -14,11 +15,15 @@ use App\Models\Marketing\JobOrderCharge;
 use App\Models\Marketing\JobOrderContainer;
 use App\Models\Marketing\JobOrderWithoutRef;
 use App\Models\Marketing\TrailerBooking;
+use App\Models\Payment\AdvancePayment;
+use App\Models\Payment\AdvancePaymentItems;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Queue\Attributes\WithoutRelations;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
@@ -463,7 +468,8 @@ class Form extends Component
     public function approve()
     {
         $this->save(true);
-        dispatch(new InvoiceService(JobOrder::find($this->data->documentID), Auth::user()->usercode))->onQueue('job-order');
+        // dispatch(new InvoiceService(JobOrder::find($this->data->documentID), Auth::user()->usercode))->onQueue('job-order');
+        $this->createInvoice();
         $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'Approve สำเร็จ', type: 'success');
         // $this->redirectRoute(name: 'job-order', navigate: true);
     }
@@ -471,6 +477,49 @@ class Form extends Component
     public function exception($e, $stopProgation){
         dd($e, $stopProgation);
         // Log::error($e);
+    }
+
+    private function createInvoice() {
+        $Item_invoice = new Collection;
+        $invoice = new Invoice;
+        // $invoice->documentID = Invoice::genarateKey();
+        $invoice->documentDate = $this->data->documentDate;
+        $invoice->ref_jobNo = $this->data->documentID;
+        $invoice->cusCode = $this->data->cusCode;
+        $invoice->saleman = $this->data->saleman;
+        $invoice->carrier = $this->data->agentCode;
+        $invoice->bound = $this->data->bound;
+        $invoice->freight = $this->data->freight;
+        $invoice->createID = Auth::user()->usercode;
+        $invoice->createTime = Carbon::now();
+        $invoice->save();
+        Log::info("Generate Invoice for Job Order ID: " . $invoice);
+        $this->data->charge->each(function (JobOrderCharge $item) use ($Item_invoice) {
+            $i = new InvoiceItems;
+            $i->documentID = $item->documentID;
+            $i->chargeCode = $item->chargeCode;
+            $i->detail = $item->detail;
+            $i->chargesCost = $item->chargesCost ?? 0;
+            $i->chargesReceive = $item->chargesReceive ?? 0;
+            $i->chargesbillReceive = $item->chargesbillReceive ?? 0;
+            $Item_invoice->push($i);
+
+        });
+        $this->data->AdvancePayment->each(function(AdvancePayment $advancePayment) use ($invoice, $Item_invoice){
+            $advancePayment->items->each(function(AdvancePaymentItems $item) use ($invoice, $Item_invoice){
+                $i = new InvoiceItems;
+                $i->documentID = $item->documentID;
+                $i->chargeCode = $item->chargeCode;
+                $i->detail = $item->detail;
+                $i->chargesCost = $item->amount ?? 0;
+                $Item_invoice->push($i);
+                $item->update([
+                    "invNo" => $invoice->documentID,
+                ]);
+            });
+        });
+        $invoice->items()->saveMany($Item_invoice);
+        Cache::forget('job-order-select');
     }
 
     public function render()
