@@ -46,7 +46,7 @@
     Livewire.on('reset-select2-' + $wire.name, () => {
         if($('#{{$this->__id}}').val() !== ''){
             $('#{{$this->__id}}').val('').trigger('change');
-            @this.set('value',  '');
+            @this.set('value',  null);
             console.log('reset-select2-'+ $wire.name);
         }
         // @this.set('value',  '');

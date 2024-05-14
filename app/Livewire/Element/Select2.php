@@ -76,6 +76,6 @@ class Select2 extends Component
 
     public function render()
     {
-        return view('livewire.element.select2');
+        return view('livewire.element.select2', ['value' => $this->value]);
     }
 }
