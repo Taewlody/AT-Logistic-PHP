@@ -469,10 +469,12 @@ class Form extends Component
 
     public function approve()
     {
-        $this->save(true);
+        $success = $this->save(true);
+        if($success) {
+            $this->createInvoice();
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'Approve สำเร็จ', type: 'success');
+        }
         // dispatch(new InvoiceService(JobOrder::find($this->data->documentID), Auth::user()->usercode))->onQueue('job-order');
-        $this->createInvoice();
-        $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'Approve สำเร็จ', type: 'success');
         // $this->redirectRoute(name: 'job-order', navigate: true);
     }
 
@@ -484,8 +486,10 @@ class Form extends Component
 
     private function createInvoice()
     {
+        $this->data->refresh();
         $Item_invoice = new Collection;
         $invoice = Invoice::where('ref_jobNo', $this->data->documentID)->firstOrCreate();
+        // dd($invoice);
         $invoice->documentDate = $this->data->documentDate;
         $invoice->ref_jobNo = $this->data->documentID;
         $invoice->cusCode = $this->data->cusCode;
@@ -503,6 +507,8 @@ class Form extends Component
         $invoice->save();
         Log::info("Generate Invoice for Job Order ID: " . $invoice);
         if ($invoice->exists) {
+            $invoice->items()->delete();
+        }
             $this->data->charge->each(function (JobOrderCharge $item) use ($Item_invoice) {
                 $i = new InvoiceItems;
                 $i->documentID = $item->documentID;
@@ -528,7 +534,7 @@ class Form extends Component
                 });
             });
             $invoice->items()->saveMany($Item_invoice);
-        }
+        
         Cache::forget('job-order-select');
     }
 

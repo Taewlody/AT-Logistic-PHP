@@ -584,7 +584,7 @@
 
                                     <button name="Approve" id="Approve" class="btn btn-success" type="submit"><i
                                             class="fa fa-save"></i> Save</button>
-                                    @if($action != 'create' && $job->documentstatus == 'P' && $checkApprove)
+                                    @if($action != 'create')
                                     <button name="Approve" id="Approve" class="btn btn-success" wire:click="approve"
                                         type="button"><i class="fa fa-check"></i> Approve</button>
                                     @endif
