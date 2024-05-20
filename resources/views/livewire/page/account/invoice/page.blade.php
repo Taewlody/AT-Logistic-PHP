@@ -160,8 +160,8 @@
                                                     <div class="btn-group">
                                                         <a class="btn btn-xs btn-success"
                                                             href="{{ route('invoice.form', ['action' => 'view', 'id' => $item->documentID]) }}">View</a>
-                                                        <a class="btn btn-xs btn-primary"
-                                                            href="{{ route('invoice.form', ['action' => 'edit', 'id' => $item->documentID]) }}">Edit</a>
+                                                        {{-- <a class="btn btn-xs btn-primary"
+                                                            href="{{ route('invoice.form', ['action' => 'edit', 'id' => $item->documentID]) }}">Edit</a> --}}
                                                         <button class="btn btn-xs btn-danger"
                                                         wire:confirm="Are you sure want to delete {{$item->documentID}}" wire:click="delete('{{$item->documentID}}')" wire:refresh="$refresh">Delete</button>
                                                     </div>
