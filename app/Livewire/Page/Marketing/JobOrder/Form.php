@@ -80,13 +80,13 @@ class Form extends Component
 
     public $checkApprove = true;
 
-    public String $chargeCode = '';
+    public string $chargeCode = '';
 
     public ?Invoice $invoice = null;
 
     public ?BillOfLading $billOfLanding = null;
 
-    public ?TrailerBooking $trailerBooking= null;
+    public ?TrailerBooking $trailerBooking = null;
 
     protected array $rules = [
         'file' => 'mimes:png,jpg,jpeg,pdf|max:102400',
@@ -217,21 +217,22 @@ class Form extends Component
         if ($this->data->PettyCash->where('documentstatus', 'P')->count() > 0) {
             return false;
         }
-        if($this->data->AdvancePayment->where('documentstatus', 'P')->count() > 0) {
+        if ($this->data->AdvancePayment->where('documentstatus', 'P')->count() > 0) {
             return false;
         }
         return true;
 
     }
 
-    public function copyCyToRtn() {
-        if($this->job->cy_location ?? "" != "")
+    public function copyCyToRtn()
+    {
+        if ($this->job->cy_location ?? "" != "")
             $this->job->rtn_location = $this->job->cy_location;
-        if($this->job->cy_contact ?? "" != "")
+        if ($this->job->cy_contact ?? "" != "")
             $this->job->rtn_contact = $this->job->cy_contact;
-        if($this->job->cy_mobile ?? "" != "")
+        if ($this->job->cy_mobile ?? "" != "")
             $this->job->rtn_mobile = $this->job->cy_mobile;
-        if($this->job->cy_date ?? "" != "")
+        if ($this->job->cy_date ?? "" != "")
             $this->job->rtn_date = $this->job->cy_date;
     }
 
@@ -329,19 +330,21 @@ class Form extends Component
     {
         if ($this->containerList->isNotEmpty()) {
             return join(", ", $this->containerList->groupBy('size.containersizeName')->map(function ($item, $key) {
-                return collect($item)->count().'x'.$key;
+                return collect($item)->count() . 'x' . $key;
             })->toArray());
         } else {
             return "";
         }
     }
 
-    public function removePreFile() {
+    public function removePreFile()
+    {
         $this->reset('file');
     }
 
-    public function uploadFile() {
-        if($this->job->cusCode == null|| $this->job->cusCode == '') {
+    public function uploadFile()
+    {
+        if ($this->job->cusCode == null || $this->job->cusCode == '') {
             $this->addError('cusCodeEmpty', 'Please select customer');
             return;
         }
@@ -352,7 +355,7 @@ class Form extends Component
         $new_attach->cusCode = $this->job->cusCode ?? '';
         $new_file->mimetype = $this->file->getMimeType();
         $new_file->blobfile = file_get_contents($this->file->getRealPath());
-        $filename = $new_attach->cusCode.'-'.$date->format('ymd').$date->timestamp.'.'.$this->file->extension();
+        $filename = $new_attach->cusCode . '-' . $date->format('ymd') . $date->timestamp . '.' . $this->file->extension();
         $new_file->filename = $filename;
         $new_attach->fileName = $filename;
         $new_attach->save();
@@ -361,57 +364,55 @@ class Form extends Component
         $this->reset('file');
     }
 
-    public function removeFile(int $index) {
+    public function removeFile(int $index)
+    {
         $removeFile = $this->attachs->get($index);
         $removeFile->delete();
         $this->attachs->forget($index);
         $this->attachs = $this->attachs->values();
     }
 
-    public function vaildJob(){
+    public function vaildJob()
+    {
         // dd($this->job);
-        if($this->job->invNo == null || $this->job->invNo == '') {
+        if ($this->job->invNo == null || $this->job->invNo == '') {
             $this->addError('invNo', 'Please enter invoice no');
             return false;
-        }
-        else if($this->job->bookingNo == null || $this->job->bookingNo == '') {
+        } else if ($this->job->bookingNo == null || $this->job->bookingNo == '') {
             $this->addError('bookingNo', 'Please enter booking no');
             return false;
-        }
-        else if($this->job->cusCode == null || $this->job->cusCode == '') {
+        } else if ($this->job->cusCode == null || $this->job->cusCode == '') {
             $this->addError('cusCode', 'Please select customer');
             return false;
-        }
-        else if($this->job->agentCode == null || $this->job->agentCode == '') {
+        } else if ($this->job->agentCode == null || $this->job->agentCode == '') {
             $this->addError('agentCode', 'Please select agent');
             return false;
-        }
-        else if($this->job->feeder == null || $this->job->feeder == '') {
+        } else if ($this->job->feeder == null || $this->job->feeder == '') {
             $this->addError('feeder', 'Please enter feeder');
             return false;
-        }else {
+        } else {
             return true;
         }
     }
 
     public function save(bool|null $approve = false)
     {
-        if(!$this->vaildJob()) {
+        if (!$this->vaildJob()) {
             return false;
         }
         $this->data = new JobOrder($this->job->toArray());
 
         // check delivery type to validate
-        if($this->data->deliveryType) {
-            if($this->data->deliveryType === 'FCL') {
+        if ($this->data->deliveryType) {
+            if ($this->data->deliveryType === 'FCL') {
                 $this->resetValidation();
-                if(count($this->containerList) == 0) {
+                if (count($this->containerList) == 0) {
                     $this->addError('containerList', 'Please enter container');
                     return false;
                 }
-            }else if($this->data->deliveryType === 'LCL') {
+            } else if ($this->data->deliveryType === 'LCL') {
                 $this->resetValidation();
-                if(count($this->packagedList) == 0) {
+                if (count($this->packagedList) == 0) {
                     $this->addError('packagedList', 'Please enter packaged');
                     return false;
                 }
@@ -419,7 +420,7 @@ class Form extends Component
         }
 
         $this->data->exists = $this->job->exists;
-        if($approve) {
+        if ($approve) {
             $this->data->documentstatus = 'A';
         }
         $this->data->editID = Auth::user()->usercode;
@@ -428,23 +429,23 @@ class Form extends Component
         $this->data->tax3 = $calCharge->tax3;
         $this->data->tax1 = $calCharge->tax1;
         $this->data->total_amt = ($this->data->charge->sum('chargesReceive') + $this->data->total_vat) + $this->data->charge->sum('chargesbillReceive');
-        $this->data->total_netamt =  $this->data->total_amt - ($this->data->tax3 + $this->data->tax1);
-        $this->data->cus_paid =  CalculatorPrice::cal_customer_piad($this->id)->sum('sumTotal');
+        $this->data->total_netamt = $this->data->total_amt - ($this->data->tax3 + $this->data->tax1);
+        $this->data->cus_paid = CalculatorPrice::cal_customer_piad($this->id)->sum('sumTotal');
         // dd($this->data);
         $this->data->save();
-        $this->data->containerList->filter(function($item){
+        $this->data->containerList->filter(function ($item) {
             return !collect($this->containerList->pluck('items'))->contains($item->items);
         })->each->delete();
         $this->data->containerList()->saveMany($this->containerList);
-        $this->data->packedList->filter(function($item){
+        $this->data->packedList->filter(function ($item) {
             return !collect($this->packagedList->pluck('items'))->contains($item->items);
         })->each->delete();
         $this->data->packedList()->saveMany($this->packagedList);
-        $this->data->goodsList->filter(function($item){
+        $this->data->goodsList->filter(function ($item) {
             return !collect($this->goodsList->pluck('items'))->contains($item->items);
         })->each->delete();
         $this->data->goodsList()->saveMany($this->goodsList);
-        $this->data->charge->filter(function($item){
+        $this->data->charge->filter(function ($item) {
             return !collect($this->chargeList->pluck('items'))->contains($item->items);
         })->each->delete();
         $this->data->charge()->saveMany($this->chargeList);
@@ -454,12 +455,13 @@ class Form extends Component
         return true;
     }
 
-    public function submit(){
+    public function submit()
+    {
         $success = $this->save();
-        if($success){
+        if ($success) {
             // $this->redirectRoute(name: 'job-order', navigate: true);\
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
-        }else{
+        } else {
             $this->dispatch('vaildated');
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
         }
@@ -474,15 +476,16 @@ class Form extends Component
         // $this->redirectRoute(name: 'job-order', navigate: true);
     }
 
-    public function exception($e, $stopProgation){
+    public function exception($e, $stopProgation)
+    {
         dd($e, $stopProgation);
         // Log::error($e);
     }
 
-    private function createInvoice() {
+    private function createInvoice()
+    {
         $Item_invoice = new Collection;
-        $invoice = new Invoice;
-        // $invoice->documentID = Invoice::genarateKey();
+        $invoice = Invoice::where('ref_jobNo', $this->data->documentID)->firstOrCreate();
         $invoice->documentDate = $this->data->documentDate;
         $invoice->ref_jobNo = $this->data->documentID;
         $invoice->cusCode = $this->data->cusCode;
@@ -490,35 +493,42 @@ class Form extends Component
         $invoice->carrier = $this->data->agentCode;
         $invoice->bound = $this->data->bound;
         $invoice->freight = $this->data->freight;
-        $invoice->createID = Auth::user()->usercode;
-        $invoice->createTime = Carbon::now();
+        if ($invoice->exists) {
+            $invoice->editID = Auth::user()->usercode;
+            $invoice->editTime = Carbon::now();
+        } else {
+            $invoice->createID = Auth::user()->usercode;
+            $invoice->createTime = Carbon::now();
+        }
         $invoice->save();
         Log::info("Generate Invoice for Job Order ID: " . $invoice);
-        $this->data->charge->each(function (JobOrderCharge $item) use ($Item_invoice) {
-            $i = new InvoiceItems;
-            $i->documentID = $item->documentID;
-            $i->chargeCode = $item->chargeCode;
-            $i->detail = $item->detail;
-            $i->chargesCost = $item->chargesCost ?? 0;
-            $i->chargesReceive = $item->chargesReceive ?? 0;
-            $i->chargesbillReceive = $item->chargesbillReceive ?? 0;
-            $Item_invoice->push($i);
-
-        });
-        $this->data->AdvancePayment->each(function(AdvancePayment $advancePayment) use ($invoice, $Item_invoice){
-            $advancePayment->items->each(function(AdvancePaymentItems $item) use ($invoice, $Item_invoice){
+        if ($invoice->exists) {
+            $this->data->charge->each(function (JobOrderCharge $item) use ($Item_invoice) {
                 $i = new InvoiceItems;
                 $i->documentID = $item->documentID;
                 $i->chargeCode = $item->chargeCode;
                 $i->detail = $item->detail;
-                $i->chargesCost = $item->amount ?? 0;
+                $i->chargesCost = $item->chargesCost ?? 0;
+                $i->chargesReceive = $item->chargesReceive ?? 0;
+                $i->chargesbillReceive = $item->chargesbillReceive ?? 0;
                 $Item_invoice->push($i);
-                $item->update([
-                    "invNo" => $invoice->documentID,
-                ]);
             });
-        });
-        $invoice->items()->saveMany($Item_invoice);
+
+            $this->data->AdvancePayment->each(function (AdvancePayment $advancePayment) use ($invoice, $Item_invoice) {
+                $advancePayment->items->each(function (AdvancePaymentItems $item) use ($invoice, $Item_invoice) {
+                    $i = new InvoiceItems;
+                    $i->documentID = $item->documentID;
+                    $i->chargeCode = $item->chargeCode;
+                    $i->detail = $item->detail;
+                    $i->chargesCost = $item->amount ?? 0;
+                    $Item_invoice->push($i);
+                    $item->update([
+                        "invNo" => $invoice->documentID,
+                    ]);
+                });
+            });
+            $invoice->items()->saveMany($Item_invoice);
+        }
         Cache::forget('job-order-select');
     }
 

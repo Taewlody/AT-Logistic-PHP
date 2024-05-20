@@ -208,7 +208,8 @@ class Form extends Component
         //         // 'chargesbillReceive' => $item->amount,
         //     ]);
         // });
-        if($this->save(true)) {
+        $success = $this->save();
+        if($success) {
             $this->redirectRoute(name: 'advance-payment', navigate: true);
         }
         // $this->redirectRoute(name: 'shipping-payment-voucher', navigate: true);

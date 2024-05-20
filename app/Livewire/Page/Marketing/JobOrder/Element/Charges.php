@@ -11,6 +11,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Modelable;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
 use Livewire\Livewire;
@@ -61,6 +62,7 @@ class Charges extends Component
         return CalculatorPrice::cal_charge($this->value);
     }
 
+    #[On("checkBill")]
     public function checkBill($index) {
         if($this->value[$index]['chargesbillReceive'] < $this->value[$index]['chargesCost']) {
             $this->dispatch('modal.job-order.charges-alert', showModal: true);

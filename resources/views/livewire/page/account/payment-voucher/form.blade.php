@@ -142,7 +142,7 @@
                                                     class="form-control col-sm-6" wire:model="data.payTypeOther">
                                                 @endif
                                             </div>
-                                            @error('data.accountCode')
+                                            @error('data.payType')
                                                 <div class="text-danger m-2">{{ $message }}</div>
                                             @enderror
                                         </div>

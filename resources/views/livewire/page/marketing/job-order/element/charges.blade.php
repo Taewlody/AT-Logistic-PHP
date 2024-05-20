@@ -66,21 +66,21 @@
                                     value="1">
                             </td>
                             <td class="center">
-                                {{-- <input type="number" class="form-control full" step=".01" @readonly($item->items != null)
+                                {{-- <input type="text" class="form-control full currency" step=".01" @readonly($item->items != null)
                                     wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.chargesCost"> --}}
                                     <livewire:element.currency key="chargesCost-{{$loop->index}}" class="form-control full" name="chargesCost-{{$loop->index}}" type="number" wire:model.live="value.{{ $loop->index }}.chargesCost" :readonly="$item->ref_paymentCode" />
                                     {{-- <livewire:element.input :keyName="'chargesCost-'.$item->items" type="number" wire:model.live="value.{{ $loop->index }}.chargesCost" /> --}}
                             </td>
                             <td class="center">
-                                {{-- <input type="number" class="form-control full" step=".01"
+                                {{-- <input type="text" class="form-control full currency" step=".01"
                                     wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.chargesReceive"> --}}
                                     <livewire:element.currency key="chargesReceive-{{$loop->index}}" class="form-control full" name="chargesReceive-{{$loop->index}}" type="number" wire:model.live="value.{{ $loop->index }}.chargesReceive" />
                                     {{-- <livewire:element.input :keyName="'chargesReceive-'.$item->items" type="number" wire:model.live="value.{{ $loop->index }}.chargesReceive" /> --}}
                             </td>
                             <td class="center">
-                                {{-- <input type="number" class="form-control full" step=".01" wire:change="checkBill({{ $loop->index }})"
+                                {{-- <input type="text" class="form-control full currency" step=".01" wire:change="checkBill({{ $loop->index }})"
                                     wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.chargesbillReceive"> --}}
-                                    <livewire:element.currency key="chargesbillReceive-{{$loop->index}}" class="form-control full" name="chargesbillReceive-{{$loop->index}}" type="number" wire:model.live="value.{{ $loop->index }}.chargesbillReceive" />
+                                    <livewire:element.currency key="chargesbillReceive-{{$loop->index}}" class="form-control full" index="{{$loop->index}}" changeEvent="checkBill" name="chargesbillReceive-{{$loop->index}}" type="number" wire:model.live="value.{{ $loop->index }}.chargesbillReceive" />
                                     {{-- <livewire:element.input :keyName="'chargesbillReceive-'.$item->items" type="number" wire:model.live="value.{{ $loop->index }}.chargesbillReceive" /> --}}
                             </td>
                             <td class='center'>
@@ -236,13 +236,6 @@
 
 @script
     <script>
-        // function call_price(index) {
-        //     let price = document.getElementById('price-'+index).value;
-        //     let volum = document.getElementById('volum-'+index).value;
-        //     let exchange = document.getElementById('exchange-'+index).value;
-        //     let cost = price * volum * exchange;
-        //     @this.set('value.'+index+'.chargesReceive', cost);
-        // }
         Livewire.on('call_price', (index) => {
             let price = document.getElementById('price-'+index).value;
             let volum = document.getElementById('volum-'+index).value;

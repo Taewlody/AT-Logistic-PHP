@@ -231,11 +231,11 @@ class Form extends Component
         if($approve) {
             $this->data->documentstatus = 'A';
         }
-        $this->data->sumTotal = $this->calPrice->total;
-        $this->data->sumTax3 = $this->calPrice->tax3;
-        $this->data->sumTax1 = $this->calPrice->tax1;
-        $this->data->sumTax7 = $this->calPrice->vatTotal;
-        $this->data->grandTotal = $this->calPrice->grandTotal;
+        $this->data->sumTotal = $this->priceSum->total;
+        $this->data->sumTax3 = $this->priceSum->tax3;
+        $this->data->sumTax1 = $this->priceSum->tax1;
+        $this->data->sumTax7 = $this->priceSum->vatTotal;
+        $this->data->grandTotal = $this->priceSum->grandTotal;
         $this->data->save();
         $this->data->items->filter(function($item){
             return !collect($this->payments->pluck('autoid'))->contains($item->autoid);

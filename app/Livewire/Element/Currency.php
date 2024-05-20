@@ -15,21 +15,32 @@ class Currency extends Component
 
     public $class = "";
 
+    public $changeEvent;
+
+    public $index;
+
     public $disabled = false;
     public $readonly = false;
 
-    public function mount( string $name, String|null $class = null, bool|null $disabled = null, bool|null $readonly = null)
+    public function mount( string $name, String|null $class = null, bool|null $disabled = null, bool|null $readonly = null, String|null $changeEvent = null, int|null $index = null)
     {
         $this->name = $name;
         $this->class = $class ?? $this->class;
         $this->disabled = $disabled ?? $this->disabled;
         $this->readonly = $readonly ?? $this->readonly;
+        if($changeEvent){
+            $this->changeEvent = $changeEvent;
+        }
+        if($index){
+            $this->index = $index;
+        }
     }
-    
-    public function getValue(String $value)
+
+    public function updatedValue()
     {
-        // dd($value);
-        $this->value = floatval($value);
+        if($this->changeEvent){
+            $this->dispatch($this->changeEvent, $this->index);
+        }
     }
 
     public function render()
