@@ -121,10 +121,10 @@ class Form extends Component
             $this->data->documentStatus = 'A';
         }
         $this->data->save();
-        $this->data->items->filter(function(InvoiceItems $item){
-            return !collect($this->payments->pluck('items'))->contains($item->items);
-        })->each->delete();
-        $this->data->items()->saveMany($this->payments);
+        // $this->data->items->filter(function(InvoiceItems $item){
+        //     return !collect($this->payments->pluck('items'))->contains($item->items);
+        // })->each->delete();
+        // $this->data->items()->saveMany($this->payments);
     }
 
     public function submit(){

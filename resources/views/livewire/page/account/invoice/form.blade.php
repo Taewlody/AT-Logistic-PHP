@@ -390,13 +390,13 @@
                                         wire.loading.attr="disabled">
                                         <i class="fa fa-reply"></i> Back</a>
 
-                                    @if($data->documentstatus != 'A')
+                                    {{-- @if($data->documentstatus != 'A')
                                     <button name="save" id="save" class="btn  btn-success" type="submit">
                                         <i class="fa fa-save"></i> Save</button>
                                     @endif
                                     <button name="approve" id="approve" class="btn btn-primary" type="button"
                                         wire:click="approve" @disabled($data->documentstatus == 'A')>
-                                        <i class="fa fa-check"></i> Approve</button>
+                                        <i class="fa fa-check"></i> Approve</button> --}}
                                     @if($data->documentID != null && $data->documentID != '')
                                     <a class="btn btn-secondary" target="_blank"
                                         href="{{'/api/print/invoice_pdf/'.$data->documentID}}"><i
