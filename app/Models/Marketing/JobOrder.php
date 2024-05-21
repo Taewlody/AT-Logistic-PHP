@@ -298,7 +298,8 @@ class JobOrder extends Model implements Wireable
 
     public function charge(): HasMany
     {
-        return $this->hasMany(JobOrderCharge::class, 'documentID', 'documentID');
+        return $this->hasMany(JobOrderCharge::class, 'documentID', 'documentID')
+                    ->orderBy('chargeCode', 'ASC');
     }
 
     public function PaymentVoucher(): HasMany
