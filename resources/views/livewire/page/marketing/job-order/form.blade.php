@@ -18,9 +18,11 @@
                             <div class="row">
                                 <div class="col file-box">
                                     <div class="file">
-                                        <a id="invoice" target="blank"
-                                            href="{{route('invoice.form',$invoice != null ? array('action' => 'edit', 'id' => $invoice->documentID) : array('action'=>'create', 'ref' => ($job->documentID !=null ? $job->documentID : '')))}}"
-                                            @disabled($action=="create" )>
+                                        {{-- <a id="invoice" target="blank"
+                                            href="{{route('invoice.form',$invoice != null ? array('action' => 'edit', 'id' => $invoice->documentID) : array('action'=>'create', 'ref' => ($job->documentID !=null ? $job->documentID : '')))}}" @disabled($action=="create" )> --}}
+                                        @if($invoice != null)
+                                        <a target="_blank"
+                                            href="{{'/api/print/invoice_pdf/'.$invoice->documentID}}">
                                             <div class="icon">
                                                 <i class="fa fa-file-text"></i>
                                             </div>
@@ -29,6 +31,14 @@
                                                     $invoice->documentID : '' }}</span>
                                             </div>
                                         </a>
+                                        @else
+                                        <div class="icon">
+                                            <i class="fa fa-file-text"></i>
+                                        </div>
+                                        <div class="file-name text">
+                                            Invoice</span>
+                                        </div>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col file-box">
