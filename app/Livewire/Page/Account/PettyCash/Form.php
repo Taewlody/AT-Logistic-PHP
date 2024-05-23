@@ -117,11 +117,15 @@ class Form extends Component
         $this->payments = $this->payments->values();
     }
 
-    public function save() {
+    public function save(bool|null $approve = false) {
         if(!$this->valid()) {
             return false;
         }
-        
+        $this->data->editID = Auth::user()->usercode;
+        if($approve) {
+            $this->data->documentstatus = 'A';
+        }
+
         $this->data->sumTotal = $this->calPrice->total;
         $this->data->sumTax1 = $this->calPrice->tax1;
         $this->data->sumTax3 = $this->calPrice->tax3;
@@ -134,7 +138,7 @@ class Form extends Component
         })->each->delete();
         $this->data->items()->saveMany($this->payments);
         // $this->redirectRoute(name: 'account-petty-cash', navigate: true);
-        return $vaildated;
+        return true;
     }
 
     public function valid() {
@@ -145,44 +149,45 @@ class Form extends Component
         }
         if($this->data->supCode == null || $this->data->supCode == '') {
             $this->addError('supCode', 'Please select supplier');
-            $vaidate = false;
+            $vaildated = false;
         }
         if($this->data->refJobNo == null || $this->data->refJobNo == '') {
             $this->addError('refJobNo', 'Please select Ref. JobNo.');
-            $vaidate = false;
+            $vaildated = false;
         }
         
-        return $vaidate;
+        return $vaildated;
     }
 
     public function submit(){
         $success = $this->save();
         if($success){
-            // $this->redirectRoute(name: 'job-order', navigate: true);\
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
         }else{
-            // $this->dispatch('vaildated');
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
         }
     }
 
     public function approve() {
-        $this->data->editID = Auth::user()->usercode;
-        $this->data->documentstatus = 'A';
-        $this->data->save();
-        $this->job = JobOrder::find($this->data->refJobNo);
-        $this->data->items->each(function($item){
-            $this->job->charge()->create([
-                'documentID' => $this->job->documentID,
-                'ref_paymentCode' => $this->data->documentID,
-                'chargeCode' => $item->chargeCode,
-                'detail' => $item->chartDetail,
-                'chargesCost' => $item->amount,
-                // 'chargesReceive' => $item->amount,
-                // 'chargesbillReceive' => $item->amount,
-            ]);
-        });
-        $this->redirectRoute(name: 'shipping-payment-voucher', navigate: true);
+        $success = $this->save(true);
+        if($success){
+            $this->job = JobOrder::find($this->data->refJobNo);
+            $this->data->items->each(function($item){
+                $this->job->charge()->create([
+                    'documentID' => $this->job->documentID,
+                    'ref_paymentCode' => $this->data->documentID,
+                    'chargeCode' => $item->chargeCode,
+                    'detail' => $item->chartDetail,
+                    'chargesCost' => $item->amount,
+                ]);
+            });
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
+
+        }else{
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
+        }
+        
+        // $this->redirectRoute(name: 'shipping-petty-cash', navigate: true);
     }
 
 
