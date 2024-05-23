@@ -92,10 +92,13 @@
                                             <input type="text" name="cusCode" class="form-control">
                                         </div>
 
-                                        <label class="col-sm-2 col-form-label">วันชำระ</label>
+                                        <label class="col-sm-2 col-form-label">วันชำระ <span class="text-danger">*</span></label>
                                         <div class="col-md-4">
                                                 <input type="date" name="dueDate" class="form-control"
                                                     wire:model="data.dueDate">
+                                                    @error('data.dueDate')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
                                         </div>
                                         @error('dueDate')
                                             <div class="text-danger m-2">{{ $message }}</div>
@@ -201,7 +204,7 @@
                                                                     required readonly>
                                                             </td>
                                                         </tr>
-                                                        <tr>
+                                                        {{-- <tr>
                                                             <td style="border: none;text-align: end;"><strong>Tax 1% :</strong></td>
                                                             <td><input name="tax1" id="tax1"
                                                                      class='form-control' value="{{ Service::MoneyFormat($this->calPrice()->tax1) }}"
@@ -216,7 +219,7 @@
                                                             <td style="border: none;text-align: end;"><strong>Vat7% :</strong></td>
                                                             <td><input name="tax7" id="tax7" class='form-control' value="{{  Service::MoneyFormat($this->calPrice()->tax7) }}"
                                                                     required></td>
-                                                        </tr>
+                                                        </tr> --}}
                                                         <tr>
                                                             <td style="border: none;text-align: end;"><strong>GRAND TOTAL:</strong></td>
                                                             <td style="text-align: left"><span
@@ -262,11 +265,14 @@
                                 <div class="col-sm-10 col-sm-offset-2">
                                     <a name="back" class="btn btn-white" type="button" href="{{ route('account-petty-cash') }}" wire.loading.attr="disabled">
                                         <i class="fa fa-reply"></i> Back</a>
-
+                                    @if(!$data->documentID)
                                     <button name="Save" id="Save" class="btn btn-success" type="submit"><i
                                             class="fa fa-save"></i> Save</button>
+                                    @else
                                     <button name="Approve" id="Approve" class="btn btn-primary" type="button" wire:click='approve'><i
                                             class="fa fa-check"></i> Approve</button>
+                                    @endif
+
                                     @if($data->documentID!=null||$data->documentID!='')
                                     <a class="btn" target="_blank" href="/api/print/petty_cash_pdf/{{$data->documentID}}"><i
                                             class="fa fa-print"></i> Print</a>

@@ -404,16 +404,14 @@
                                 <div class="col-sm-10 col-sm-offset-2">
                                     <a name="back" class="btn btn-white" style="pointer-events: visible; opacity: 1;" type="button" href="{{ route('advance-payment') }}" wire.loading.attr="disabled">
                                     <i class="fa fa-reply"></i> Back</a>
-                                    @if($data->documentstatus != 'A')
-                                    <button name="save" id="save" class="btn btn-success" type="submit"
-                                         @disabled($data->documentstatus == 'A')>
+                                    @if(!$data->documentID)
+                                    <button name="save" id="save" class="btn btn-success" type="submit">
                                         <i class="fa fa-save"></i> Save</button>
-                                    @endif
-                                    @if($formMode == FormMode::NONE)
-                                    <button name="approve" id="approve" class="btn btn-primary" type="button" wire:click="approve"
-                                        @disabled($data->documentstatus == 'A')>
+                                    @else
+                                    <button name="approve" id="approve" class="btn btn-primary" type="button" wire:click="approve">
                                         <i class="fa fa-check"></i> Approve</button>
                                     @endif
+
                                     @if($data->documentID != null && $data->documentID != '')
                                         <a class="btn" style="pointer-events: visible; opacity: 1;" target="_blank" href="{{'/api/print/advance_payment_pdf/'.$data->documentID}}"><i class="fa fa-print"></i>
                                             Print</a>
