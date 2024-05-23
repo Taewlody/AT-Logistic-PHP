@@ -491,7 +491,7 @@ class Form extends Component
     {
         $this->data->refresh();
         $Item_invoice = new Collection;
-        $invoice = Invoice::where('ref_jobNo', $this->data->documentID)->firstOrCreate();
+        $invoice = Invoice::where('ref_jobNo', $this->data->documentID)->firstOrNew();
         // dd($invoice);
         $invoice->documentDate = $this->data->documentDate;
         $invoice->ref_jobNo = $this->data->documentID;

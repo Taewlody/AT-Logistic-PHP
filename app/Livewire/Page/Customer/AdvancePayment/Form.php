@@ -13,6 +13,7 @@ use App\Models\Payment\AdvancePaymentItems;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\Attributes\Url;
@@ -85,6 +86,12 @@ class Form extends Component
         if($this->data->documentstatus == 'A' && !Auth::user()->hasRole('admin') && $this->viewMode == ViewMode::EDIT) {
             $this->formMode = FormMode::from('disabled');
         } 
+    }
+
+    #[On("updated-refJobNo")]
+    public function updateRefJob(){
+        $selectedJob = JobOrder::find($this->data->refJobNo);
+        $this->dispatch("change-select2-cusCode", data: $selectedJob->cusCode);
     }
 
     public function addCharge(){

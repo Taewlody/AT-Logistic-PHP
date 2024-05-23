@@ -182,11 +182,13 @@ class Form extends Component
 
     public function changeTax(int $value, int $index){
         $this->payments[$index]->taxamount = round($this->payments->get($index)->amount * ($value / 100), 2);
+        $this->payments[$index]->GrandTotal = $this->payments[$index]->amount + ($this->payments[$index]->vatamount - $this->payments[$index]->taxamount);
         $this->calPrice();
     }
 
     public function changeVat(int $value, int $index) {
         $this->payments[$index]->vatamount = round($this->payments->get($index)->amount * ($value / 100), 2);
+        $this->payments[$index]->GrandTotal = $this->payments[$index]->amount + ($this->payments[$index]->vatamount - $this->payments[$index]->taxamount);
         $this->calPrice();
     }
 

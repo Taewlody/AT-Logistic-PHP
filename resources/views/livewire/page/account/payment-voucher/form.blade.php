@@ -112,7 +112,6 @@
                                                 @foreach (Service::AccountSelecter() as $account)
                                                 <option value="{{ $account->accountCode }}">
                                                     {{ $account->accountName }}
-                                                </option>
                                                 @endforeach
                                             </select>
                                             @error('data.accountCode')
@@ -221,7 +220,7 @@
                                                         <th style="width:5%; min-width: 80px;">Tax </th>
                                                         <th style="width:5%; min-width: 120px;">Tax รวม</th>
                                                         <th style="width:5%; min-width: 80px;">Vat</th>
-                                                        <th style="width:5%; min-width: 120px;">Vat รวม</th>
+                                                        <th style="width:5%; min-width: 120px;">Grand Total</th>
                                                         <th style="width:5%">Action</th>
                                                     </tr>
                                                 </thead>
@@ -266,7 +265,7 @@
                                                         </td>
                                                         <td class='center'>
                                                             <input type="text" class="form-control"
-                                                                wire:model="payments.{{ $loop->index }}.vatamount"
+                                                                wire:model="payments.{{ $loop->index }}.GrandTotal"
                                                                 readonly>
                                                         </td>
                                                         <td class='center'>

@@ -32,6 +32,6 @@ class CalculatorPrice
     }
 
     public static function cal_customer_piad($documentID) {
-        return AdvancePayment::where('refJobNo', $documentID)->where('documentstatus', 'A')->get();
+        return AdvancePayment::where(['refJobNo'=> $documentID, 'documentstatus'=> 'A'])->get();
     }
 }

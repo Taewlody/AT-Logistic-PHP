@@ -138,7 +138,7 @@
                         </td>
                         <td>
                             <b>Stuffing Date : </b>
-                            {{Carbon\Carbon::parse($data->stu_date) == Carbon\Carbon::createFromTimestamp(0) ?  "00/00/0000": Carbon\Carbon::parse($data->stu_date)->format('d/m/Y')}}
+                            {{Service::DateFormat($data->stu_date, true)}}
                         </td>
                     </tr>
                     <tr>
@@ -161,7 +161,7 @@
                         </td>
                         <td>
                             <b>CY Date : </b>
-                            {{Carbon\Carbon::parse($data->cy_date) == Carbon\Carbon::createFromTimestamp(0) ?  "00/00/0000": Carbon\Carbon::parse($data->cy_date)->format('d/m/Y')}}
+                            {{Service::DateFormat($data->cy_date, true)}}
                         </td>
                     </tr>
                     <tr>
@@ -181,7 +181,7 @@
                         </td>
                         <td>
                             <b>RTN Date : </b>
-                            {{Carbon\Carbon::parse($data->rtn_date) == Carbon\Carbon::createFromTimestamp(0) ?  "00/00/0000": Carbon\Carbon::parse($data->rtn_date)->format('d/m/Y')}}
+                            {{Service::DateFormat($data->rtn_date, true)}}
                         </td>
                     </tr>
                     <tr>
@@ -197,7 +197,7 @@
                     <tr>
                         <td>
                             <b>CLOSTING TIME : </b>
-                            {{(Carbon\Carbon::parse($data->closingDate) == Carbon\Carbon::createFromTimestamp(0) ?  "00/00/0000": Carbon\Carbon::parse($data->closingDate)->format('d/m/Y'))." ".($data->closingTime)}}
+                            {{Service::DateFormat($data->closingDate)." ".($data->closingTime)}}
                         </td>
                     </tr>
                     <tr>

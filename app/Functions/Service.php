@@ -89,7 +89,8 @@ class Service
 
     public static function DateFormat($date, bool|null $empty = false)
     {
-        return Carbon::parse($date) == Carbon::createFromTimestamp(0) ? ($empty ? "" : "00/00/0000") : Carbon::parse($date)->format('d/m/Y');
+        
+        return $date == null || Carbon::parse($date) == Carbon::createFromTimestamp(0) ? ($empty ? "" : "00/00/0000") : Carbon::parse($date)->format('d/m/Y');
     }
 
     public static function CountrySelecter()

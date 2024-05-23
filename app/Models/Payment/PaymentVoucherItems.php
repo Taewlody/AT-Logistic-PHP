@@ -33,6 +33,7 @@ class PaymentVoucherItems extends Model implements Wireable
         'taxamount',
         'vat',
         'vatamount',
+        'GrandTotal',
     ];
 
     protected $casts = [
@@ -47,6 +48,7 @@ class PaymentVoucherItems extends Model implements Wireable
         'taxamount' => 'float',
         'vat' => 'integer',
         'vatamount' => 'float',
+        'GrandTotal' => 'float',
     ];
 
     protected $attributes = [

@@ -28,6 +28,9 @@
             $wire.dispatch('updated-' + $wire.name, {value: data});
             // $wire.dispatchSelf('change', data);
             console.log('change item: {{$this->__id}} ->', data)
+        }
+        else if(data == null) {
+            console.log('reset item: {{$this->__id}}');
         }else {
             console.log('select2 not found');
         }
@@ -44,12 +47,12 @@
     });
 
     Livewire.on('reset-select2-' + $wire.name, () => {
-        // if($('#{{$this->__id}}').val() !== ''){
-           
-        // }
-        $('#{{$this->__id}}').val('').trigger('change');
-        @this.set('value',  null);
-        console.log('reset-select2-'+ $wire.name);
+        if($('#{{$this->__id}}').val() !== ''){
+            $('#{{$this->__id}}').val(null).trigger('change');
+                @this.set('value', null);
+            console.log('reset-select2-'+ $wire.name);
+        }
+        
         // @this.set('value',  '');
         
     });
