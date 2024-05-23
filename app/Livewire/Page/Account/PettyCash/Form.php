@@ -134,25 +134,25 @@ class Form extends Component
         })->each->delete();
         $this->data->items()->saveMany($this->payments);
         // $this->redirectRoute(name: 'account-petty-cash', navigate: true);
-        return $vaildated;
+        return true;
     }
 
     public function valid() {
         $vaildated = true;
-        if($this->data->dueDate == null) {
-            $this->addError('data.dueDate', 'Please select due date');
+        if($this->data->dueDate == null || $this->data->dueDate == '') {
+            $this->addError('dueDate', 'Please select due date');
             $vaildated = false;
         }
         if($this->data->supCode == null || $this->data->supCode == '') {
             $this->addError('supCode', 'Please select supplier');
-            $vaidate = false;
+            $vaildated = false;
         }
         if($this->data->refJobNo == null || $this->data->refJobNo == '') {
             $this->addError('refJobNo', 'Please select Ref. JobNo.');
-            $vaidate = false;
+            $vaildated = false;
         }
         
-        return $vaidate;
+        return $vaildated;
     }
 
     public function submit(){

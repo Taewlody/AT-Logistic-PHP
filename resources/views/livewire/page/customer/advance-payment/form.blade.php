@@ -172,7 +172,7 @@
                                         </div>
                                         <div class="col-md-4">
                                                 <input type="date" name="dueDate" class="form-control"
-                                                    qire:model="data.dueDate">
+                                                    wire:model="data.dueDate">
                                            
                                         </div>
 

@@ -25,25 +25,27 @@ class Form extends Component
 
     public function mount()
     {
-        $this->data = new TrailerBooking;
+        $this->data = TrailerBooking::findOrNew($this->id);
         if ($this->action == '') {
             $this->action = 'view';
         } else {
             $this->action;
         }
 
-        if ($this->id != '') {
-            $this->data = TrailerBooking::find($this->id);
-        } else {
+        if (!$this->data->exists) {
             $this->action = 'create';
             $this->data->createID = Auth::user()->usercode;
             if($this->ref != ''){
                 $this->job_order = JobOrder::find($this->ref);
-                $this->data->ref_jobID = $this->job_order->documentID;
-                $this->data->cusCode = $this->job_order->cusCode;
-                $this->data->feeder = $this->job_order->feeder;
-                $this->data->agent = $this->job_order->agent;
+                if($this->job_order != null){
+                    $this->data->ref_jobID = $this->job_order->documentID;
+                    $this->data->cusCode = $this->job_order->cusCode;
+                    $this->data->feeder = $this->job_order->feeder;
+                    $this->data->agent = $this->job_order->agent;
+                }
             }
+        }else {
+            $this->data->editID = Auth::user()->usercode;
         }
     }
 

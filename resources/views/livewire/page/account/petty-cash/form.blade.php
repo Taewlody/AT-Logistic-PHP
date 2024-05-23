@@ -97,8 +97,8 @@
                                                 <input type="date" name="dueDate" class="form-control"
                                                     wire:model="data.dueDate">
                                         </div>
-                                        @error('data.dueDate')
-                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @error('dueDate')
+                                            <div class="text-danger m-2">{{ $message }}</div>
                                         @enderror
 
                                     </div>

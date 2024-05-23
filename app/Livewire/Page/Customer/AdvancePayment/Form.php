@@ -75,9 +75,12 @@ class Form extends Component
         } 
         $this->payments = $this->data->items;
         $this->attachs = $this->data->attachs;
+        $this->data->documentDate = Carbon::now()->toDateString();
+        $this->data->dueDate = Carbon::now()->toDateString();
+        $this->data->dueTime = Carbon::now()->toTimeString();
         
-            $this->viewMode = ViewMode::from($this->action);
-            $this->formMode = $this->viewMode->toFormMode();
+        $this->viewMode = ViewMode::from($this->action);
+        $this->formMode = $this->viewMode->toFormMode();
 
         if($this->data->documentstatus == 'A' && !Auth::user()->hasRole('admin') && $this->viewMode == ViewMode::EDIT) {
             $this->formMode = FormMode::from('disabled');

@@ -59,8 +59,8 @@ class Page extends Component
     {
         // dd(TrailerBooking::join('joborder', 'joborder.documentID', 'trailer_booking.ref_jobID')->where($this->query)->orderBy('trailer_booking.documentID', 'DESC')->first());
         return view('livewire.page.marketing.trailer-booking.page', [ 
-            'data'=> TrailerBooking::join('joborder', 'joborder.documentID', 'trailer_booking.ref_jobID')->where($this->query)->orderBy('trailer_booking.documentID', 'DESC')->paginate(20)
-            // 'data'=> TrailerBooking::where($this->query)->orderBy('documentID', 'DESC')->paginate(20)
+            // 'data'=> TrailerBooking::join('joborder', 'joborder.documentID', 'trailer_booking.ref_jobID')->where($this->query)->orderBy('trailer_booking.documentID', 'DESC')->paginate(20)
+            'data'=> TrailerBooking::where($this->query)->orderBy('documentID', 'DESC')->paginate(20)
             ])->extends('layouts.main')->section('main-content');
     }
 }
