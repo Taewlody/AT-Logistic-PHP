@@ -170,14 +170,17 @@ class Form extends Component
             $this->addError('payType', 'Please select pay type');
             $vaidate = false;
         }
-        if($this->data->branch == null || $this->data->branch == '') {
-            $this->addError('branch', 'Please select branch');
-            $vaidate = false;
+        if($this->data->payType !== 'c'){
+            if($this->data->branch == null || $this->data->branch == '') {
+                $this->addError('branch', 'Please select branch');
+                $vaidate = false;
+            }
+            if($this->data->chequeNo == null || $this->data->chequeNo == '') {
+                $this->addError('chequeNo', 'Please select cheque');
+                $vaidate = false;
+            }
         }
-        if($this->data->chequeNo == null || $this->data->chequeNo == '') {
-            $this->addError('chequeNo', 'Please select cheque');
-            $vaidate = false;
-        }
+        
         return $vaidate;
     }
 
@@ -208,9 +211,12 @@ class Form extends Component
         //         // 'chargesbillReceive' => $item->amount,
         //     ]);
         // });
-        $success = $this->save();
+        $success = $this->save(true);
         if($success) {
-            $this->redirectRoute(name: 'advance-payment', navigate: true);
+            // $this->redirectRoute(name: 'advance-payment', navigate: true);
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
+        }else {
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
         }
         // $this->redirectRoute(name: 'shipping-payment-voucher', navigate: true);
     }
