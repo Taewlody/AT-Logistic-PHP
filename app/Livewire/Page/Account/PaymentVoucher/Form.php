@@ -191,6 +191,11 @@ class Form extends Component
         $this->payments[$index]->GrandTotal = $this->payments[$index]->amount + ($this->payments[$index]->vatamount - $this->payments[$index]->taxamount);
         $this->calPrice();
     }
+    
+    public function changeGrandTotal(int $index) {
+        $this->payments[$index]->GrandTotal = $this->payments[$index]->amount + ($this->payments[$index]->vatamount - $this->payments[$index]->taxamount);
+        $this->calPrice();
+    }
 
     public function removePreFile() {
         $this->reset('file');

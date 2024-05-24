@@ -237,7 +237,7 @@
                                                         </td>
                                                         <td class='center'>
                                                             <input type='number' class='form-control'
-                                                                wire:change="calPrice"
+                                                                wire:change="changeGrandTotal({{$loop->index}})"
                                                                 wire:model.live.debounce.500ms.number="payments.{{ $loop->index }}.amount">
                                                         </td>
 
