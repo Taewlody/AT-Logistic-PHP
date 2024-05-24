@@ -96,13 +96,10 @@
                                         <div class="col-md-4">
                                                 <input type="date" name="dueDate" class="form-control"
                                                     wire:model="data.dueDate">
-                                                    @error('data.dueDate')
+                                                    @error('dueDate')
                                                         <div class="text-danger">{{ $message }}</div>
                                                     @enderror
                                         </div>
-                                        @error('dueDate')
-                                            <div class="text-danger m-2">{{ $message }}</div>
-                                        @enderror
 
                                     </div>
 
