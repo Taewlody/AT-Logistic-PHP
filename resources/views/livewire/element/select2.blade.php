@@ -47,11 +47,11 @@
     });
 
     Livewire.on('reset-select2-' + $wire.name, () => {
-        if($('#{{$this->__id}}').val() !== ''){
+        // if($('#{{$this->__id}}').val() !== ''){
             $('#{{$this->__id}}').val(null).trigger('change');
-                @this.set('value', null);
+            @this.set('value', null);
             console.log('reset-select2-'+ $wire.name);
-        }
+        // }
         
         // @this.set('value',  '');
         

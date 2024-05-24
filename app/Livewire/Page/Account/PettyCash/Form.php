@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 
@@ -102,6 +103,12 @@ class Form extends Component
         } 
     }
 
+    #[On("updated-refJobNo")]
+    public function updateRefJob(){
+        $selectedJob = JobOrder::find($this->data->refJobNo);
+        $this->dispatch("change-select2-supCode", data: $selectedJob->agentCode);
+    }
+
     public function addPayment() {
         $charge = Charges::find($this->chargeCode);
         $newCharge = new PettyCashItems;
@@ -140,6 +147,8 @@ class Form extends Component
         // $this->redirectRoute(name: 'account-petty-cash', navigate: true);
         return true;
     }
+
+
 
     public function valid() {
         $vaildated = true;
