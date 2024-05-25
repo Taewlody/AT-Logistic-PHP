@@ -35,18 +35,27 @@ class Page extends Component
     #[On('post-search')] 
     public function search() {
         $this->query = [];
-        $this->queryJoborder = [];
+        // $this->queryJoborder = [];
+        // if($this->dateStart != null) {
+        //     $this->query[] = ['trailer_booking.documentDate', '>=', $this->dateStart];
+        // }
+        // if($this->dateEnd != null) {
+        //     $this->query[] = ['trailer_booking.documentDate', '<=', $this->dateEnd];
+        // }
+        // if($this->salemanSearch != null) {
+        //     $this->query[] = ['joborder.saleman', '=', $this->salemanSearch];
+        // }
+        // if($this->customerSearch != null) {
+        //     $this->query[] = ['trailer_booking.cusCode', $this->customerSearch];
+        // }
         if($this->dateStart != null) {
-            $this->query[] = ['trailer_booking.documentDate', '>=', $this->dateStart];
+            $this->query[] = ['documentDate', '>=', $this->dateStart];
         }
         if($this->dateEnd != null) {
-            $this->query[] = ['trailer_booking.documentDate', '<=', $this->dateEnd];
-        }
-        if($this->salemanSearch != null) {
-            $this->query[] = ['joborder.saleman', '=', $this->salemanSearch];
+            $this->query[] = ['documentDate', '<=', $this->dateEnd];
         }
         if($this->customerSearch != null) {
-            $this->query[] = ['trailer_booking.cusCode', $this->customerSearch];
+            $this->query[] = ['cusCode', '=', $this->customerSearch];
         }
     }
 
@@ -60,7 +69,11 @@ class Page extends Component
         // dd(TrailerBooking::join('joborder', 'joborder.documentID', 'trailer_booking.ref_jobID')->where($this->query)->orderBy('trailer_booking.documentID', 'DESC')->first());
         return view('livewire.page.marketing.trailer-booking.page', [ 
             // 'data'=> TrailerBooking::join('joborder', 'joborder.documentID', 'trailer_booking.ref_jobID')->where($this->query)->orderBy('trailer_booking.documentID', 'DESC')->paginate(20)
-            'data'=> TrailerBooking::where($this->query)->orderBy('documentID', 'DESC')->paginate(20)
+            'data'=> TrailerBooking::with('jobOrder')->where($this->query)->whereHas('jobOrder', function($q){
+                if($this->salemanSearch != null) {
+                    $q->where('saleman', $this->salemanSearch);
+                }
+                })->orderBy('documentID', 'DESC')->paginate(20)
             ])->extends('layouts.main')->section('main-content');
     }
 }
