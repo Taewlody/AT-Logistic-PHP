@@ -45,7 +45,7 @@
         
         Livewire.on('change-select2-' + $wire.name, ({data}) => {
             if($('#{{$this->__id}}').val() !== data) {
-                $('#{{$this->__id}}').val(data).trigger('change');
+                select2Element.val(data).trigger('change');
                 @this.set('value', data);
                 console.log('change-select2-'+ $wire.name, data);
             }
