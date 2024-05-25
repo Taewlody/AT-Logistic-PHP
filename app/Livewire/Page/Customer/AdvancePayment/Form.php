@@ -78,7 +78,7 @@ class Form extends Component
         $this->attachs = $this->data->attachs;
         $this->data->documentDate = Carbon::now()->toDateString();
         $this->data->dueDate = Carbon::now()->toDateString();
-        $this->data->dueTime = Carbon::now()->toTimeString();
+        $this->data->dueTime = Carbon::now()->timezone('Asia/Bangkok')->format('H:i');
         
         $this->viewMode = ViewMode::from($this->action);
         $this->formMode = $this->viewMode->toFormMode();
@@ -180,7 +180,7 @@ class Form extends Component
             $this->addError('payType', 'Please select pay type');
             $vaidate = false;
         }
-        if($this->data->payType !== 'c'){
+        if($this->data->payType === 'b'){
             if($this->data->branch == null || $this->data->branch == '') {
                 $this->addError('branch', 'Please select branch');
                 $vaidate = false;
@@ -200,7 +200,6 @@ class Form extends Component
             // $this->redirectRoute(name: 'job-order', navigate: true);\
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
         }else{
-            $this->dispatch('vaildated');
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
         }
     }

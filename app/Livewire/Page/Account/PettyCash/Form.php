@@ -90,6 +90,7 @@ class Form extends Component
             $this->payments = $this->data->items;
         } else {
             $this->action = 'create';
+            $this->data->documentDate = Carbon::now()->toDateString();
             $this->data->createID = Auth::user()->usercode;
             $this->data->dueDate = Carbon::now()->endOfMonth()->toDateString();
             $this->payments = new Collection;
@@ -103,11 +104,11 @@ class Form extends Component
         } 
     }
 
-    #[On("updated-refJobNo")]
-    public function updateRefJob(){
-        $selectedJob = JobOrder::find($this->data->refJobNo);
-        $this->dispatch("change-select2-supCode", data: $selectedJob->agentCode);
-    }
+    // #[On("updated-refJobNo")]
+    // public function updateRefJob(){
+    //     $selectedJob = JobOrder::find($this->data->refJobNo);
+    //     $this->dispatch("change-select2-supCode", data: $selectedJob->agentCode);
+    // }
 
     public function addPayment() {
         $charge = Charges::find($this->chargeCode);

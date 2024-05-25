@@ -181,7 +181,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <input type="time" name="dueTime" class="form-control"
-                                                wire:model="data.dueTime">
+                                                wire:model="data.dueTime"/>
                                         </div>
                                     </div>
                                 </div>

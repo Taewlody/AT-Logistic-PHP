@@ -31,26 +31,6 @@ services:
             - mailpit
             # - selenium
 
-    laravel-worker:
-        image: sail8.2/app
-        volumes:
-            - '.:/var/www/html'
-        networks:
-            - laravel
-        depends_on:
-            - laravel
-        command: ["sail", "/var/www/html/artisan", "queue:work", "--queue=default,processing,job-order", '--timeout=60', '--tries=1']
-
-    laravel-horizon:
-        image: sail8.2/app
-        volumes:
-            - '.:/var/www/html'
-        networks:
-            - laravel
-        depends_on:
-            - laravel
-        command: ["sail", "/var/www/html/artisan", "horizon"]
-
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:

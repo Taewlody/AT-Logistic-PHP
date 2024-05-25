@@ -8,15 +8,15 @@ services:
             dockerfile: Dockerfile.prod
             args:
                 WWWGROUP: '${WWWGROUP}'
-        image: notheart/at-logistic
+        image: taewlody/at-logistic
         extra_hosts:      
             - 'host.docker.internal:host-gateway'
         ports:
             - '${APP_PORT:-8090}:80'
             - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
         env_file:
-            - ./.env.prod
-            # - ./.env
+            # - ./.env.prod
+            - ./.env
         environment:
             WWWUSER: '${WWWUSER}'
             LARAVEL_SAIL: 1
