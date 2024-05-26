@@ -474,6 +474,7 @@ class Form extends Component
         if($success) {
             $this->createInvoice();
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'Approve สำเร็จ', type: 'success');
+            return redirect()->route('job-order.form', ['action' => 'edit', 'id' => $this->data->documentID]);
         }else {
             $this->dispatch('vaildated');
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'Approve ไม่สำเร็จ', type: 'error');
