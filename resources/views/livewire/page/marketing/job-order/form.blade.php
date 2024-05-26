@@ -190,7 +190,7 @@
                                         </div>
                                         <div class="col-md-2">
                                             <input name="containQty" type="number" class="form-control" id="containQty" min="0"
-                                                wire:model.change.number="quantityContainer">
+                                                wire:model.live.number="quantityContainer">
 
                                         </div>
                                         <div class="col" style="display: flex; align-items: flex-end;">
