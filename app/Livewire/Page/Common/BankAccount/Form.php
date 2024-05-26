@@ -22,13 +22,18 @@ class Form extends Component
 
     public function mount()
     {
+        $check = BankAccount::find($this->id);
         // $this->ChargesTypeList = ChargesType::all();
         if($this->action==''){
             $this->action = 'view';
         }else{
             $this->action;
         }
+
         if($this->id!=''){
+            $this->data = BankAccount::find($this->id);
+        }else if( $this->id === '' && $this->action === 'edit' && $check !== null) {
+            
             $this->data = BankAccount::find($this->id);
         }else{
             $this->action = 'create';
@@ -39,10 +44,10 @@ class Form extends Component
 
     public function save()
     {
-        if($this->data->accountCode==''){
-            $this->data->accountCode = 'C-' . str_pad(BankAccount::count() + 1, 8, '0', STR_PAD_LEFT);
-        }
         if($this->action=='create'){
+            if($this->data->accountCode==''){
+                $this->data->accountCode = 'C-' . str_pad(BankAccount::count() + 1, 8, '0', STR_PAD_LEFT);
+            }
             $this->data->createID = Auth::user()->usercode;
             $this->data->createTime = Carbon::now()->format('Y-m-d H:i:s');
             $this->data->editID = Auth::user()->usercode;
