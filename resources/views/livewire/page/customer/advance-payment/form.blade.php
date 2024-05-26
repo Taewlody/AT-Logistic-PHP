@@ -109,7 +109,7 @@
                                             <select name="accountCode" id="accountCode"
                                                 class="select2_single form-control select2"
                                                 wire:model="data.accountCode" style="width: 100%">
-                                                <option>- select -</option>
+                                                <option value="null">- select -</option>
                                                 @foreach (Service::AccountSelecter() as $account)
                                                 <option value="{{$account->accountCode}}">{{$account->accountName}}
                                                 </option>

@@ -172,7 +172,8 @@ class Form extends Component
             $this->addError('refJobNo', 'Please select Ref. JobNo.');
             $vaidate = false;
         }
-        if($this->data->accountCode == null || $this->data->accountCode == '') {
+        if($this->data->accountCode === "null") {
+            
             $this->addError('accountCode', 'Please select account');
             $vaidate = false;
         }
