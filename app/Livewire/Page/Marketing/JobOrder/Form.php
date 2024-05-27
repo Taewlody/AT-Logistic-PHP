@@ -502,6 +502,8 @@ class Form extends Component
         $invoice->carrier = $this->data->agentCode;
         $invoice->bound = $this->data->bound;
         $invoice->freight = $this->data->freight;
+
+        $invoice->creditterm = $this->data->customerRefer !== null ? $this->data->customerRefer->creditDay : 0;
         if ($invoice->exists) {
             $invoice->editID = Auth::user()->usercode;
             $invoice->editTime = Carbon::now();

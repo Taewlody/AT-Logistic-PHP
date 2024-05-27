@@ -37,8 +37,8 @@
                         <div>
                             <span><b>Date</b>{{Carbon\Carbon::parse($data->documentDate)->format('d/m/Y')}}</span>
                             <span><b>Innoive No.</b>{{$data->documentID}}</span>
-                            <span><b>Credit Term</b>{{$data->credit?->creditName}}</span>
-                            <span><b>Your Ref. No</b> </span>
+                            <span><b>Credit Term</b>{{$credit}}</span>
+                            <span><b>Your Ref. No</b>{{ $data->ref_jobNo }} </span>
                             <span><b>Sales Contact</b>{{$data->salemanRef?->empName}}</span>
                         </div>
                     </td>
@@ -49,7 +49,7 @@
                 <table>
                     <tr>
                         <td><b>Bound</b>&nbsp;{{$data->jobOrder?->getBound}}</td>
-                        <td><b>Commodity</b>&nbsp;{{$data->jobOrder != null ? $data->jobOrder->good_commodity : ''}}
+                        <td><b>Commodity</b>&nbsp;{{join(',', $groupCommodity)}}
                         </td>
                         <td><b>Carrier</b>&nbsp;{{ $data->jobOrder?->agentRefer?->supNameEN }}</td>
                     </tr>
@@ -63,10 +63,7 @@
                         <td><b>Origin / Destination</b>
                             &nbsp;{{$data->jobOrder?->landingPort?->portNameEN}}/{{$data->jobOrder?->dischargePort?->portNameEN}}
                         </td>
-                        <td><b>On Board</b> &nbsp;{{$data->jobOrder?->boud == '1' ?
-                            Carbon\Carbon::parse($data->jobOrder?->etaDate)->format('d/m/Y') : ""}}
-                            {{$data->jobOrder?->boud == '2' ?
-                            Carbon\Carbon::parse($data->jobOrder?->etdDate)->format('d/m/Y') : ''}}</td>
+                        <td><b>On Board</b> &nbsp;{{Carbon\Carbon::parse($onBoard)->format('d/m/Y')}}</td>
                     </tr>
                 </table>
             </div>
@@ -133,12 +130,12 @@
                             <td>{{ Service::MoneyFormat($data->itemsTax1Sum * 0.01) }}</td>
                         </tr>
                         <tr>
-                            <td colspan="3">ลูกค้าสำรองจ่าย</td>
+                            <td colspan="3">Advance payment / ลูกค้าสำรองจ่าย</td>
                             <td class="remove-border"></td>
                             <td>{{ Service::MoneyFormat($data->cus_paid) }}</td>
                         </tr>
                         <tr>
-                            <td colspan="3">NET PAID</td>
+                            <td colspan="3">รวมจำนวนเงินที่ต้องชำระ / Net paid</td>
                             <td class="remove-border"></td>
                             <td>{{ Service::MoneyFormat($data->items->sum('chargesReceive') +
                                 ($data->items->sum('chargesReceive') * 0.07) - ($data->itemsTax3Sum * 0.03) -
@@ -304,12 +301,12 @@
                             <td>{{ Service::MoneyFormat($data->itemsTax1Sum * 0.01) }}</td>
                         </tr>
                         <tr>
-                            <td colspan="3">ลูกค้าสำรองจ่าย</td>
+                            <td colspan="3">Advance payment / ลูกค้าสำรองจ่าย</td>
                             <td class="remove-border"></td>
                             <td>{{ Service::MoneyFormat($data->cus_paid) }}</td>
                         </tr>
                         <tr>
-                            <td colspan="3">NET PAID</td>
+                            <td colspan="3">รวมจำนวนเงินที่ต้องชำระ / Net paid</td>
                             <td class="remove-border"></td>
                             <td>{{ Service::MoneyFormat($data->items->sum('chargesReceive') +
                                 ($data->items->sum('chargesReceive') * 0.07) - ($data->itemsTax3Sum * 0.03) -
@@ -475,12 +472,12 @@
                             <td>{{ Service::MoneyFormat($data->itemsTax1Sum * 0.01) }}</td>
                         </tr>
                         <tr>
-                            <td colspan="3">ลูกค้าสำรองจ่าย</td>
+                            <td colspan="3">Advance payment / ลูกค้าสำรองจ่าย</td>
                             <td class="remove-border"></td>
                             <td>{{ Service::MoneyFormat($data->cus_paid) }}</td>
                         </tr>
                         <tr>
-                            <td colspan="3">NET PAID</td>
+                            <td colspan="3">รวมจำนวนเงินที่ต้องชำระ / Net paid</td>
                             <td class="remove-border"></td>
                             <td>{{ Service::MoneyFormat($data->items->sum('chargesReceive') +
                                 ($data->items->sum('chargesReceive') * 0.07) - ($data->itemsTax3Sum * 0.03) -

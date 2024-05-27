@@ -160,8 +160,40 @@ class PrintFileResource extends Controller
         
         $heightItems = 328 - $heightItems;
         $heightItems = $heightItems < 0 ? 'auto' : $heightItems.'px';
-        $pdf = DomPdf::loadView('print.invoice_pdf', ['title' => "Invoice", 'data' => $data, 'heightItems' => $heightItems]);
+        
+        $credit = $data->credit && $data->credit->creditName ? $data->credit->creditName : $data->customer->creditDay.' Day';
+
+        $groupCommodity = [];
+        if($data->joborder->commodity != null) {
+            $groupCommodity = $data->joborder->commodity->map(function ($item, $key) {
+                return $item->commodityNameEN ? $item->commodityNameEN : $item->commodityNameTH;
+            })->toArray();
+        }
+
+        $onBoard = '';
+        if($data->joborder->getBound === 'IN BOUND'){
+            $onBoard = $data->joborder->etaDate;
+        }else {
+            $onBoard = $data->joborder->etdDate;
+        }
+        // dd($onBoard, $data->joborder);
+        $pdf = DomPdf::loadView('print.invoice_pdf', [
+            'title' => "Invoice", 
+            'data' => $data, 
+            'credit' => $credit,
+            'groupCommodity' => $groupCommodity,
+            'onBoard' => $onBoard,
+            'heightItems' => $heightItems]);
         return $pdf->stream('invoice.pdf');
+
+        // return view('print.invoice_pdf', [
+        //     'title' => "Invoice", 
+        //     'data' => $data, 
+        //     'heightItems' => $heightItems,
+        //     'credit' => $credit,
+        //     'groupCommodity' => $groupCommodity,
+        //     'onBoard' => $onBoard,
+        //     'test' => true]);
     }
 
     public function PaymentVoucherPdf(string $documentID)
