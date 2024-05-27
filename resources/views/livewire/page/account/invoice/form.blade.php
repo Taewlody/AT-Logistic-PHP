@@ -330,20 +330,20 @@
                                                         <tr>
                                                             <td><strong>Vat 7% :</strong></td>
 
-                                                            <td><span id="tax">{{$this->data->total_vat}}</span></td>
+                                                            <td><span id="tax">{{$this->data->itemsSum * 0.07}}</span></td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>TOTAL :</strong></td>
-                                                            <td><span id="total">{{$this->data->total_amt}}</span></td>
+                                                            <td><span id="total">{{$this->data->itemsSum + $this->data->itemsSum * 0.07}}</span></td>
                                                         </tr>
 
                                                         <tr>
                                                             <td><strong>WH TAX 3% :</strong></td>
-                                                            <td><span id="wh_tax3">{{$this->data->tax3}}</span></td>
+                                                            <td><span id="wh_tax3">{{$this->data->itemsTax3Sum * 0.03}}</span></td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>WH TAX 1% :</strong></td>
-                                                            <td><span id="wh_tax1">{{$this->data->tax1}}</span></td>
+                                                            <td><span id="wh_tax1">{{$this->data->itemsTax1Sum * 0.01}}</span></td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>NET PAD:</strong></td>

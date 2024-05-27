@@ -155,13 +155,25 @@ class Invoice extends Model implements Wireable
         return $this->hasMany(InvoiceItems::class, 'documentID', 'documentID');
     }
 
+    public function itemsSum(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+            if($this->items != null){
+                return $this->items->sum('chargesReceive');
+            }else{
+                return 0;
+            }
+        });
+    }
+
     public function itemsTax1Sum(): Attribute
     {
         return Attribute::make(
             get: function ($value) {
             if($this->items != null){
                 return $this->items->filter(function ($item) {
-                    if($item->charge == null || $item->charge->chargesType == null) return false;
+                    if( $item->charge?->chargesType == null) return false;
                     return $item->charges->chargesType->amount == 1;
                 })->sum('chargesReceive');
             }else{
@@ -176,8 +188,8 @@ class Invoice extends Model implements Wireable
             get: function ($value) {
             if($this->items != null){
                 return $this->items->filter(function ($item) {
-                    if($item->charge == null || $item->charge->chargesType == null) return false;
-                    return $item->charges->chargesType->amount == 3;
+                    // if($item->charge?->chargesType == null) return false;
+                    return $item->charges?->chargesType?->amount == 3;
                 })->sum('chargesReceive');
             }else{
                 return 0;

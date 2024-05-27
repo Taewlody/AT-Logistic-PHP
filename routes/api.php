@@ -40,14 +40,13 @@ Route::group(['middleware' => ['auth.basic:,usercode']], function () {
         })->toArray();
     });
 
-    Route::get('/blobfile/{filename}', [BlobFileResource::class, 'viewFile']);
-
     Route::post('/blobfile/add', [BlobFileResource::class, 'addFile']);
 
 });
 
 Route::group(['middleware' => ['web']], function () {
 
+    Route::get('/blobfile/{filename}', [BlobFileResource::class, 'viewFile']);
    
     Route::get('print/advance_payment_pdf/{documentID}', [PrintFileResource::class, 'AdvancePaymentPdf']);
 

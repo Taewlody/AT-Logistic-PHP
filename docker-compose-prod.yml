@@ -8,7 +8,7 @@ services:
             dockerfile: Dockerfile.prod
             args:
                 WWWGROUP: '${WWWGROUP}'
-        image: taewlody/at-logistic
+        image: notheart/at-logistic
         extra_hosts:      
             - 'host.docker.internal:host-gateway'
         ports:
