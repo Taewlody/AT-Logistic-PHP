@@ -59,7 +59,7 @@
                     <tr>
                         <td>
                             <b>Commodity : </b>
-                            {{$data->good_commodity}}
+                            {{join(',', $groupCommodity)}}
                         </td>
                         <td>
                             <b>Volum : </b>

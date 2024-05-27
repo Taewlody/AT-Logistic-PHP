@@ -95,8 +95,22 @@ class PrintFileResource extends Controller
                 return collect($item)->count().'x'.$key;
             })->toArray();
         }
-        $pdf = DomPdf::loadView('print.booking_job_order_pdf', ['title' => "Booking Confirmation", 'data' => $data, 'groupContainer' => $groupContainer,]);
+        $groupCommodity = [];
+        if($data->commodity != null) {
+            $groupCommodity = $data->commodity->map(function ($item, $key) {
+                return $item->commodityNameEN ? $item->commodityNameEN : $item->commodityNameTH;
+            })->toArray();
+        }
+        
+        $pdf = DomPdf::loadView('print.booking_job_order_pdf', ['title' => "Booking Confirmation", 'data' => $data, 'groupContainer' => $groupContainer, 'groupCommodity' => $groupCommodity,]);
         return $pdf->stream('booking_job_order.pdf');
+
+        // return view('print.booking_job_order_pdf', [
+        //     'title' => "Booking Confirmation", 
+        //     'data' => $data, 
+        //     'groupCommodity' => $groupCommodity, 
+        //     'groupContainer' => $groupContainer, 
+        //     'test' => true]);
     }
 
     public function TrailerBookingPdf(string $documentID)
