@@ -150,6 +150,10 @@ class TrailerBooking extends Model implements Wireable
     {
         return $this->hasOne(Supplier::class, 'supCode', 'agent');
     }
+    public function company(): HasOne
+    {
+        return $this->hasOne(Supplier::class, 'supCode', 'tocompany');
+    }
 
     public function jobOrder(): HasOne
     {

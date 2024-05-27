@@ -125,8 +125,15 @@ class PrintFileResource extends Controller
                 return collect($item)->count().'x'.$key;
             })->toArray();
         }
+        
         $pdf = DomPdf::loadView('print.trailer_booking_pdf', ['title' => "Trailer Booking", 'data' => $data, 'groupContainer' => $groupContainer]);
         return $pdf->stream('trailer_booking.pdf');
+
+        // return view('print.trailer_booking_pdf', [
+        //     'title' => "Trailer Booking", 
+        //     'data' => $data, 
+        //     'groupContainer' => $groupContainer,
+        //     'test' => true]);
     }
 
     public function BillOfLadingPdf(string $documentID)

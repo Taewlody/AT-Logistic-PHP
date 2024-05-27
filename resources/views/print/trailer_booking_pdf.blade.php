@@ -25,7 +25,7 @@
                 </tr>
                 <tr class="col-2">
                     <td>
-                        <span class="header">ถึงบริษัท : </span>{{$data->tocompany}}
+                        <span class="header">ถึงบริษัท : </span>{{ $data->company?->supNameEN ? $data->company?->supNameEN : $data->company?->supNameTH}}
                     </td>
                     <td>
                         <span class="header">คุณ : </span>{{$data->companyContact}}
@@ -171,14 +171,12 @@
                     </tr>
                 </table>
                 <table style="table-layout: fixed;">
-                    <tr class="col-2">
-                        <td style="text-align: right;">{{$data->jobOrder!= null&&$data->jobOrder->customerRefer!=null ? $data->jobOrder->customerRefer->custNameEN.$data->jobOrder->customerRefer->branchEN : '' }} taxID : </td>
-                        <td style="text-align: left;"> {{$data->jobOrder!= null&&$data->jobOrder->customerRefer!=null ? $data->jobOrder->customerRefer->taxID : ''}}</td>
+                    <tr style="text-align: center;">
+                        <td>{{$data->jobOrder!= null&&$data->jobOrder->customerRefer!=null ? $data->jobOrder->customerRefer->custNameEN.$data->jobOrder->customerRefer->branchEN : '' }} taxID : {{$data->jobOrder!= null&&$data->jobOrder->customerRefer!=null ? $data->jobOrder->customerRefer->taxID : ''}}</td>
                         
                     </tr>
-                    <tr class="col-2">
-                        <td style="text-align: right;">Address : </td>
-                        <td style="text-align: left;"> {{$data->jobOrder!= null&&$data->jobOrder->customerRefer!=null ? $data->jobOrder->customerRefer->addressEN.' '.$data->jobOrder->customerRefer->zipCode : ''}}</td>         
+                    <tr style="text-align: center;">
+                        <td>Address : {{$data->jobOrder!= null&&$data->jobOrder->customerRefer!=null ? $data->jobOrder->customerRefer->addressEN.' '.$data->jobOrder->customerRefer->zipCode : ''}}</td>        
                     </tr>
                 </table>
                 <table style="margin-top: 10px;">
