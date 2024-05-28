@@ -70,6 +70,8 @@ class Form extends Component
 
     public Collection $advancePayment;
 
+    public Collection $attachsPaymentVoucher;
+    public Collection $attachsAdvancePayment;
     public Collection $attachs;
 
     public Collection $commodity;
@@ -196,6 +198,27 @@ class Form extends Component
         $this->chargeList = $this->data->charge ?? new Collection;
         $this->advancePayment = $this->data->AdvancePayment ?? new Collection;
         $this->attachs = $this->data->attachs ?? new Collection;
+        // dd($this->data?->PaymentVoucher->map(function ($item) {
+        //     return $item->attachs;
+        // })->flatten());
+        $this->attachsPaymentVoucher = new Collection;
+        foreach ($this->data->PaymentVoucher as $item) {
+            foreach ($item->attachs as $attach) {
+                $this->attachsPaymentVoucher->push($attach);
+            }
+        }
+        $this->attachsAdvancePayment = new Collection;
+        foreach ($this->data->AdvancePayment as $item) {
+            foreach ($item->attachs as $attach) {
+                $this->attachsAdvancePayment->push($attach);
+            }
+        }
+        // $this->attachsPaymentVoucher = new Collection($this->data?->PaymentVoucher->map(function ($item) {
+        //     return $item->attachs;
+        // })->items) ?? new Collection;
+        // $this->attachsAdvancePayment = new Collection($this->data?->AdvancePayment?->map(function ($item) {
+        //     return $item->attachs;
+        // })) ?? new Collection;
         $this->commodity = $this->data->commodity;
         $this->listCommodity = $this->data->commodity->map(function ($item) {
             return $item->commodityCode;

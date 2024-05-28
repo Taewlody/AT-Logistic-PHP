@@ -503,6 +503,49 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @foreach ($attachsPaymentVoucher as $attachVoucher)
+                                                {{-- {{dd($attachVoucher)}} --}}
+                                                <tr class='gradeX' wire:key='attach-field-{{ $attachVoucher->items }}'>
+                                                    <td>{{ $attachVoucher->documentID }}</td>
+                                                    <td>
+                                                        <input type='text' class='form-control'
+                                                            value="{{$attachVoucher->filedetail}}" disabled>
+                                                    </td>
+                                                    <td>
+                                                        <input type='text' class='form-control'
+                                                            value="{{$attachVoucher->fileName}}"
+                                                            disabled>
+                                                    </td>
+                                                    <td class='center'>
+                                                        <a href='/api/blobfile/{{$attachVoucher->fileName}}'
+                                                            target="_blank">View</a>
+                                                        &nbsp;
+                                                        {{-- <button type='button' class='btn-white btn btn-xs'
+                                                            wire:click='removeFile({{$loop->index}})'>Remove</button> --}}
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                                @foreach ($attachsAdvancePayment as $attachAdvance)
+                                                <tr class='gradeX' wire:key='attach-field-{{ $attachAdvance->items }}'>
+                                                    <td>{{ $attachAdvance->documentID }}</td>
+                                                    <td>
+                                                        <input type='text' class='form-control'
+                                                            value="{{$attachAdvance->filedetail}}" disabled>
+                                                    </td>
+                                                    <td>
+                                                        <input type='text' class='form-control'
+                                                            value="{{$attachAdvance->fileName}}"
+                                                            disabled>
+                                                    </td>
+                                                    <td class='center'>
+                                                        <a href='/api/blobfile/{{$attachAdvance->fileName}}'
+                                                            target="_blank">View</a>
+                                                        &nbsp;
+                                                        {{-- <button type='button' class='btn-white btn btn-xs'
+                                                            wire:click='removeFile({{$loop->index}})'>Remove</button> --}}
+                                                    </td>
+                                                </tr>
+                                                @endforeach
                                                 @foreach ($attachs as $attach)
                                                 <tr class='gradeX' wire:key='attach-field-{{ $attach->items }}'>
                                                     <td>{{ $attach->documentID }}</td>
