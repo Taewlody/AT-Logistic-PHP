@@ -167,28 +167,40 @@ class Form extends Component
         if($this->data->cusCode == null || $this->data->cusCode == '') {
             $this->addError('cusCode', 'Please select customer');
             $vaidate = false;
+        }else {
+            $this->resetErrorBag('cusCode');
         }
         if($this->data->refJobNo == null || $this->data->refJobNo == '') {
             $this->addError('refJobNo', 'Please select Ref. JobNo.');
             $vaidate = false;
+        }else {
+            $this->resetErrorBag('refJobNo');
         }
-        if($this->data->accountCode === "null") {
+        if($this->data->accountCode == null && $this->data->accountCode !== " ") {
             
             $this->addError('accountCode', 'Please select account');
             $vaidate = false;
+        }else {
+            $this->resetErrorBag('accountCode');
         }
         if($this->data->payType == null || $this->data->payType == '') {
             $this->addError('payType', 'Please select pay type');
             $vaidate = false;
+        }else {
+            $this->resetErrorBag('payType');
         }
         if($this->data->payType === 'b'){
             if($this->data->branch == null || $this->data->branch == '') {
                 $this->addError('branch', 'Please select branch');
                 $vaidate = false;
+            }else {
+                $this->resetErrorBag('branch');
             }
             if($this->data->chequeNo == null || $this->data->chequeNo == '') {
                 $this->addError('chequeNo', 'Please select cheque');
                 $vaidate = false;
+            }else {
+                $this->resetErrorBag('chequeNo');
             }
         }
         

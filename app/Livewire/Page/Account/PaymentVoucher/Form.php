@@ -260,19 +260,31 @@ class Form extends Component
         if($this->data->dueDate == null || $this->data->dueDate == '') {
             $this->addError('data.dueDate', 'Please select due date');
             $vaidate = false;
+        }else {
+            $this->resetErrorBag('data.dueDate');
         }
+
         if($this->data->supCode == null || $this->data->supCode == '') {
             $this->addError('data.supCode', 'Please select supplier');
             $vaidate = false;
+        }else {
+            $this->resetErrorBag('data.supCode');
         }
-        if($this->data->accountCode == null || $this->data->accountCode == '') {
+
+        if($this->data->accountCode == null && $this->data->accountCode !== " ") {
             $this->addError('data.accountCode', 'Please select account');
             $vaidate = false;
+        }else {
+            $this->resetErrorBag('data.accountCode');
         }
+
         if($this->data->payType == null || $this->data->payType == '') {
             $this->addError('data.payType', 'Please select pay type');
             $vaidate = false;
+        }else {
+            $this->resetErrorBag('data.payType');
         }
+
         return $vaidate;
     }
 
@@ -284,28 +296,35 @@ class Form extends Component
             // $this->redirectRoute(name: 'job-order', navigate: true);\
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
         }else{
-            $this->dispatch('vaildated');
+            // $this->dispatch('vaildated');
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
+            // $this->resetErrorBag();
         }
     }
 
     public function approve() {
-        if(!$this->valid()) {
-            return;
+        
+        $success = $this->save(true);
+        if($success) {
+            $this->job = JobOrder::find($this->data->refJobNo);
+            $this->job->charge()->where('ref_paymentCode', $this->data->documentID)->delete();
+            $this->payments->each(function($item){
+                $this->job->charge()->create([
+                    'documentID' => $this->job->documentID,
+                    'ref_paymentCode' => $this->data->documentID,
+                    'chargeCode' => $item->chargeCode,
+                    'detail' => $item->chartDetail,
+                    'chargesCost' => $item->amount
+                ]);
+            });
+            
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
+        }else {
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
         }
-        $this->save(true);
-        $this->job = JobOrder::find($this->data->refJobNo);
-        $this->job->charge()->where('ref_paymentCode', $this->data->documentID)->delete();
-        $this->payments->each(function($item){
-            $this->job->charge()->create([
-                'documentID' => $this->job->documentID,
-                'ref_paymentCode' => $this->data->documentID,
-                'chargeCode' => $item->chargeCode,
-                'detail' => $item->chartDetail,
-                'chargesCost' => $item->amount
-            ]);
-        });
-        $this->redirectRoute(name: 'shipping-payment-voucher', navigate: true);
+
+        
+        // $this->redirectRoute(name: 'shipping-payment-voucher', navigate: true);
     }
 
     #[Title('payment voucher')] 

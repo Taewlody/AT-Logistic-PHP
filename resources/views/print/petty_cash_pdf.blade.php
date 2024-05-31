@@ -69,7 +69,7 @@
                             <td>Total</td>
                             <td class="right">{{Service::MoneyFormat($data->items->sum('amount'))}}</td>
                         </tr>
-                        <tr>
+                        {{-- <tr>
                             <td>Tax 1%</td>
                             <td class="right">{{Service::MoneyFormat($tax1)}}</td>
 
@@ -87,7 +87,7 @@
                             <td>Grand Total</td>
                             <td class="right">{{Service::MoneyFormat($data->items->sum('amount') +
                                 ($data->items->sum('amount') * 0.07) - ($tax1 + $tax3))}}</td>
-                        </tr>
+                        </tr> --}}
                     </tbody>
                 </table>
             </div>
