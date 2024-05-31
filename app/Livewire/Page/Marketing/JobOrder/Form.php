@@ -447,7 +447,7 @@ class Form extends Component
             $this->data->documentstatus = 'A';
         }
         $this->data->editID = Auth::user()->usercode;
-        $calCharge = CalculatorPrice::cal_charge($this->chargeList);
+        $calCharge = CalculatorPrice::cal_charge($this->chargeList, $this->job->commission_sale, $this->job->commission_customers);
         $this->data->total_vat = $calCharge->tax7;
         $this->data->tax3 = $calCharge->tax3;
         $this->data->tax1 = $calCharge->tax1;

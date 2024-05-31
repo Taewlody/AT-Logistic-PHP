@@ -32,7 +32,9 @@
             const data = $(this).val();
             if(data) {
                 @this.set('value', data);
-                $wire.dispatch('updated-' + $wire.name, {value: data});
+                if($wire.name != null && $wire.name != ''){
+                    $wire.dispatch('updated-' + $wire.name, {value: data});
+                }
                 // $wire.dispatchSelf('change', data);
                 console.log('change item: {{$this->__id}} ->', data)
             }
@@ -42,29 +44,28 @@
                 console.log('select2 not found');
             }
         });
-        
-        Livewire.on('change-select2-' + $wire.name, ({data}) => {
-            if($('#{{$this->__id}}').val() !== data) {
-                select2Element.val(data).trigger('change');
-                @this.set('value', data);
-                console.log('change-select2-'+ $wire.name, data);
-            }
-            
-            // $wire.set('value', data);
-        });
 
-        Livewire.on('reset-select2-' + $wire.name, () => {
-            // if($('#{{$this->__id}}').val() !== ''){
+        if($wire.name != null && $wire.name != ''){
+            Livewire.on('change-select2-' + $wire.name, ({data}) => {
+                if($('#{{$this->__id}}').val() !== data) {
+                    select2Element.val(data).trigger('change');
+                    @this.set('value', data);
+                    console.log('change-select2-'+ $wire.name, data);
+                }
+                // $wire.set('value', data);
+            });
             
-                // $('#{{$this->__id}}').val(null).trigger('change');
-                select2Element.val(null).trigger('change');
-                // @this.set('value', null);
-                console.log('reset-select2-'+ $wire.name);
-            // }
-            
-            // @this.set('value',  '');
-            
-        });
+            Livewire.on('reset-select2-' + $wire.name, () => {
+                // if($('#{{$this->__id}}').val() !== ''){
+                
+                    // $('#{{$this->__id}}').val(null).trigger('change');
+                    select2Element.val(null).trigger('change');
+                    // @this.set('value', null);
+                    console.log('reset-select2-'+ $wire.name);
+                // }
+                // @this.set('value',  '');
+            });
+        }
     });
 </script>
 @endscript

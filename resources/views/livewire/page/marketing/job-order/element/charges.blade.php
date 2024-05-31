@@ -159,7 +159,8 @@
                                 style="width:50%; text-align: right;">Commission Sale</span>
                         </td>
                         <td style="width:10%">
-                            <input type="text" class="form-control" wire:model.live.debounce.700ms='commissionSale'>
+                            {{-- <input type="text" class="form-control" wire:model.live.debounce.700ms='commissionSale'> --}}
+                            <livewire:element.currency key="commissionSale" class="form-control full" name="commissionSale" type="number" wire:model.live="commissionSale" />
                         </td>
                         <td style="width:10%"></td>
                         <td style="width:10%"></td>
@@ -173,7 +174,9 @@
                                 style="width:50%; text-align: right;">Commission Customers</span>
                         </td>
                         <td style="width:10%">
-                            <input type="text" class="form-control" wire:model.live.debounce.700ms='commissionCustomers'>
+                            {{-- <input type="text" class="form-control" wire:model.live.debounce.700ms='commissionCustomers'> --}}
+                            <livewire:element.currency key="commissionCustomers" class="form-control full" name="commissionCustomers" type="number" wire:model.live="commissionCustomers" />
+
                         </td>
                         <td style="width:10%"></td>
                         <td style="width:10%"></td>

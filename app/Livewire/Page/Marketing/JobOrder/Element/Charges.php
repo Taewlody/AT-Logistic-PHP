@@ -25,6 +25,8 @@ class Charges extends Component
     #[Modelable]
     public Collection $value;
 
+    public Collection $chargeGroup;
+
     // #[Reactive]
     public $commissionSale;
 
@@ -59,7 +61,7 @@ class Charges extends Component
 
     #[Computed]
     public function callPrice(){
-        return CalculatorPrice::cal_charge($this->value);
+        return CalculatorPrice::cal_charge($this->value, $this->commissionSale, $this->commissionCustomers);
     }
 
     #[On("checkBill")]
@@ -95,6 +97,7 @@ class Charges extends Component
         if($action != 'create'){
             $this->customer_piad = CalculatorPrice::cal_customer_piad($this->documentID) ?? new Collection;
         }
+        // $this->chargeGroup = JobCharge::getChargeGroup($this->groupTypeContainer);
     }
 
     public function updatedCommissionSale(){

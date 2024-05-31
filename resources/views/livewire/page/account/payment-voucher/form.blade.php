@@ -65,7 +65,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <livewire:element.select2 wire:model="data.refJobNo" name="refJobNo" :searchable="true"
-                                                :options="Service::JobOrderSelecter(false)" itemKey="documentID" 
+                                                :options="Service::JobOrderSelecter()" itemKey="documentID" 
                                                 itemValue="documentID"/>
                                         </div>
 

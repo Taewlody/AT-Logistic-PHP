@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\Attributes\Url;
@@ -161,6 +162,14 @@ class Form extends Component
             $this->formMode = FormMode::from('disabled');
         } 
         $this->calPrice();
+    }
+
+    #[On("updated-refJobNo")]
+    public function updateRefJob(){
+        $selectedJob = JobOrder::find($this->data->refJobNo);
+        if($selectedJob->invoice != null) {
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Warning', message: 'job นี้ได้มีการออก invoice แล้ว', type: 'warning');
+        }
     }
 
     public function addPayment() {

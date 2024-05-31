@@ -195,10 +195,18 @@ class Service
         });
     }
 
-    public static function JobOrderSelecter(bool|null $approve = true)
+    public static function JobOrderSelecter(bool|null $approve = null)
     {
         return Cache::remember('job-order-select', 15, function () use ($approve) {
-            return JobOrder::select('documentID')->where("documentstatus", "=", ($approve ? "A" : "P"))->orderBy('documentID', 'desc')->get();
+            if ($approve === null) {
+                return JobOrder::select('documentID', 'documentstatus')->orWhereHas('invoice', function($query) {
+                    $query->where('taxivRef', '=', '');
+                })->orWhereDoesntHave('invoice')->orderBy('documentID', 'desc')->get();
+            }else{
+                return JobOrder::select('documentID', 'documentstatus')->where("documentstatus", "=", ($approve ? "A" : "P"))->orWhereHas('invoice', function($query) {
+                    $query->where('taxivRef', '=', '');
+                })->orWhereDoesntHave('invoice')->orderBy('documentID', 'desc')->get();
+            }
         });
     }
 

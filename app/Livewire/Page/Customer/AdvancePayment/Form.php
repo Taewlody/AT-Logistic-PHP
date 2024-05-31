@@ -91,6 +91,9 @@ class Form extends Component
     #[On("updated-refJobNo")]
     public function updateRefJob(){
         $selectedJob = JobOrder::find($this->data->refJobNo);
+        if($selectedJob->invoice != null) {
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Warning', message: 'job นี้ได้มีการออก invoice แล้ว', type: 'warning');
+        }
         $this->dispatch("change-select2-cusCode", data: $selectedJob->cusCode);
     }
 

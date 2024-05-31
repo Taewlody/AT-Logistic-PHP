@@ -181,8 +181,8 @@ class JobOrder extends Model implements Wireable
         'freetimeEXP' => CustomDate::class,
         'feederVOY' => 'string',
         'vesselVOY' => 'string',
-        'commission_sale' => 'string',
-        'commission_customers' => 'string',
+        'commission_sale' => 'float',
+        'commission_customers' => 'float',
     ];
 
     protected $attributes = [
