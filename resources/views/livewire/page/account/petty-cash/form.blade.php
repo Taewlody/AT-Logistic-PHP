@@ -76,7 +76,7 @@
                                                 @endforeach
                                             </select> --}}
                                             <livewire:element.select2 wire:model='data.refJobNo'
-                                                name="refJobNo" :options="Service::JobOrderSelecter(false)"
+                                                name="refJobNo" :options="Service::JobOrderSelecter()"
                                                 itemKey="documentID" itemValue="documentID" 
                                                 :searchable="true" >
                                             @error('refJobNo')

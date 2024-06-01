@@ -30,11 +30,16 @@ class PrintFileResource extends Controller
     public function AdvancePaymentPdf(string $documentID)
     {
         $data = AdvancePayment::find($documentID);
+        $getInvoice = Joborder::where('documentID', $data->refJobNo)->first();
+        $checkInvoice = $getInvoice->invoice()->first();
+        
         if($data == null) {
             return view('404');
         }
-        $pdf = DomPdf::loadView('print.advance_payment_pdf', ['title' => "Advance Payment", 'data' => $data]);
+        $pdf = DomPdf::loadView('print.advance_payment_pdf', ['title' => "Advance Payment", 'data' => $data, 'checkInvoice' => $checkInvoice]);
         return $pdf->stream('advance_payment.pdf');
+
+        // return view('print.advance_payment_pdf', ['title' => "Advance Payment", 'data' => $data, 'checkInvoice' => $checkInvoice, 'test' => true]);
     }
 
     // public function AdvancePaymentPdfDownload(string $documentID)
@@ -206,6 +211,8 @@ class PrintFileResource extends Controller
     public function PaymentVoucherPdf(string $documentID)
     {
         $data = PaymentVoucher::find($documentID);
+        $getInvoice = Joborder::where('documentID', $data->refJobNo)->first();
+        $checkInvoice = $getInvoice->invoice()->first();
         if($data == null) {
             return view('404');
         }
@@ -230,13 +237,16 @@ class PrintFileResource extends Controller
             })->sum('amount');
             $tax3->sumTax = $tax3->sumAmount * 0.03;
         }
-        $pdf = DomPdf::loadView('print.payment_voucher_pdf', ['title' => "Payment Voucher", 'data' => $data, 'tax1' => $tax1, 'tax3' => $tax3]);
+        $pdf = DomPdf::loadView('print.payment_voucher_pdf', ['title' => "Payment Voucher", 'data' => $data, 'tax1' => $tax1, 'tax3' => $tax3, 'checkInvoice' => $checkInvoice]);
         return $pdf->stream('payment_voucher.pdf');
+        // return view('print.payment_voucher_pdf', ['title' => "Payment Voucher", 'data' => $data, 'tax1' => $tax1, 'tax3' => $tax3, 'checkInvoice' => $checkInvoice, 'test' => true]);
     }
 
     public function PettyCashPdf(string $documentID)
     {
         $data = PettyCash::find($documentID);
+        $getInvoice = Joborder::where('documentID', $data->refJobNo)->first();
+        $checkInvoice = $getInvoice->invoice()->first();
         if($data == null) {
             return view('404');
         }
@@ -252,8 +262,9 @@ class PrintFileResource extends Controller
                 return $item->charges->chargesType->amount == 3;
             })->sum('amount') * 0.03;
         }
-        $pdf = DomPdf::loadView('print.petty_cash_pdf', ['title' => "Petty Cash", 'data' => $data, 'tax1'=> $tax1, 'tax3'=> $tax3]);
+        $pdf = DomPdf::loadView('print.petty_cash_pdf', ['title' => "Petty Cash", 'data' => $data, 'tax1'=> $tax1, 'tax3'=> $tax3, 'checkInvoice' => $checkInvoice]);
         return $pdf->stream('petty_cash.pdf');
+        // return view('print.petty_cash_pdf', ['title' => "Petty Cash", 'data' => $data, 'tax1' => $tax1, 'tax3' => $tax3, 'checkInvoice' => $checkInvoice, 'test' => true]);
     }
 
     public function ShippingPaymentVoucherPdf(string $documentID)

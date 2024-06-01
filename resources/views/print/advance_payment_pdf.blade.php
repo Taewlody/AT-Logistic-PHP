@@ -22,6 +22,9 @@
                     ADVANCE PAYMENT</b>
 
             </div>
+            @if($checkInvoice !== null)
+                <div style="text-align: center; color: red">ออก Invoice แล้ว</div>
+            @endif
             <div class="detail">
                 <table>
                     <td>
