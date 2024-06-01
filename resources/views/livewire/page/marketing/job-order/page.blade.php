@@ -155,6 +155,7 @@
                                                 @endif
         
                                                 <td class="center">{{ $item->userEdit != null ? $item->userEdit->username : '' }}
+                                                    {{Service::CheckDeleteJob($item->documentID)}}
                                                 </td>
                                                 <td>
                                                     <div class="btn-group">
@@ -163,7 +164,8 @@
                                                         <a class="btn btn-xs btn-primary"
                                                             href="{{ route('job-order.form', ['action' => 'edit', 'id' => $item->documentID]) }}" wire:navigate>Edit</a>
                                                         
-                                                        @if(!$item->charge->count() > 0 || Auth::user()->hasRole('admin'))
+                                                        {{-- @if(!$item->charge->count() > 0 || Auth::user()->hasRole('admin')) --}}
+                                                        @if(Service::CheckDeleteJob($item->documentID))
                                                             <button class="btn btn-xs btn-danger"
                                                         wire:confirm="Are you sure want to delete {{$item->documentID}}" wire:click="delete('{{$item->documentID}}')" wire:refresh="$refresh">Delete</button>
                                                         @endif

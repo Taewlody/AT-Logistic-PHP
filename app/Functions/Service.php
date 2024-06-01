@@ -254,4 +254,42 @@ class Service
         $diff = date_diff($now, date_create($date));
         return $diff->format('%R%a days');
     }
+
+    public static function CheckDeleteJob($documentID)
+    {
+        $getJob = JobOrder::where('documentID', $documentID)->first();
+
+        $getPaymentVoucher = $getJob->PaymentVoucher()->get()->toArray();
+        $getPettyCash = $getJob->PettyCash()->get()->toArray();
+        $getAdvancePayment = $getJob->AdvancePayment()->get()->toArray();
+
+        $checkPaymentVoucher = [];
+        $checkPettyCash = [];
+        $checkAdvancePayment = [];
+
+        if(count($getPaymentVoucher) > 0) {
+            $checkPaymentVoucher = array_filter($getAdvancePayment, function ($object) {
+                return $object['documentstatus'] === 'A';
+            });
+        }
+        if(count($getPettyCash) > 0) {
+            $checkPettyCash = array_filter($getPettyCash, function ($object) {
+                return $object['documentstatus'] === 'A';
+            });
+        }
+        if(count($getAdvancePayment) > 0) {
+            $checkAdvancePayment = array_filter($getAdvancePayment, function ($object) {
+                return $object['documentstatus'] === 'A';
+            });
+        }
+        // dd(count($checkPaymentVoucher));
+        if((count($checkPaymentVoucher)) > 0 || 
+        (count($checkPettyCash)) > 0 || 
+        (count($checkAdvancePayment)) > 0
+        ) {
+            return false;
+        }else {
+            return true;
+        }
+    }
 }

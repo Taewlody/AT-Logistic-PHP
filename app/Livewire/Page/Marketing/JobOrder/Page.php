@@ -67,8 +67,10 @@ class Page extends Component
         if(Auth::user()->hasRole(Role::CUSTOMER)){
            
         }
+        // $data = JobOrder::with(['AdvancePayment', 'PettyCash', 'PaymentVoucher'])->where($this->query)->orderBy('documentID', 'DESC')->get();
+        // dd($data[0]);
         return view('livewire.page.marketing.job-order.page',[ 
-            'data'=> JobOrder::where($this->query)->orderBy('documentID', 'DESC')->paginate(20)
+            'data'=> JobOrder::with(['AdvancePayment', 'PettyCash', 'PaymentVoucher'])->where($this->query)->orderBy('documentID', 'DESC')->paginate(20)
             ])->extends('layouts.main')->section('main-content');
     }
 }
