@@ -200,7 +200,7 @@ class Service
         return Cache::remember('job-order-select', 15, function () use ($approve) {
             if ($approve === null) {
                 return JobOrder::select('documentID', 'documentstatus')->orWhereHas('invoice', function($query) {
-                    $query->where('taxivRef', '=', '');
+                    $query->whereDoesntHave('taxInvoiceItems');
                 })->orWhereDoesntHave('invoice')->orderBy('documentID', 'desc')->get();
             }else{
                 return JobOrder::select('documentID', 'documentstatus')->where("documentstatus", "=", ($approve ? "A" : "P"))->orWhereHas('invoice', function($query) {
