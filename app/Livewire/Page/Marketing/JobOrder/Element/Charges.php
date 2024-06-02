@@ -25,7 +25,7 @@ class Charges extends Component
     #[Modelable]
     public Collection $value;
 
-    public Collection $chargeGroup;
+    public $chargeGroup;
 
     // #[Reactive]
     public $commissionSale;
@@ -57,6 +57,20 @@ class Charges extends Component
         'value.*.chargesReceive'=> 'numeric',
         'value.*.chargesbillReceive'=> 'numeric',
         'value.*.charges.chargeType' => 'unique:App\Models\Common\ChargesType',
+        'chargeGroup.*.*' => 'unique:App\Models\Marketing\JobOrderCharge',
+        'chargeGroup.*.*.items'=> 'number',
+        'chargeGroup.*.*.comCode'=> 'string',
+        'chargeGroup.*.*.documentID'=> 'required|string',
+        'chargeGroup.*.*.ref_paymentCode'=> 'string',
+        'chargeGroup.*.*.chargeCode'=> 'required|string',
+        'chargeGroup.*.*.detail'=> 'string',
+        'chargeGroup.*.*.price'=> 'integer',
+        'chargeGroup.*.*.volume'=> 'integer',
+        'chargeGroup.*.*.exchange'=> 'integer',
+        'chargeGroup.*.*.chargesCost'=> 'numeric',
+        'chargeGroup.*.*.chargesReceive'=> 'numeric',
+        'chargeGroup.*.*.chargesbillReceive'=> 'numeric',
+        'chargeGroup.*.*.charges.chargeType' => 'unique:App\Models\Common\ChargesType',
     ];
 
     #[Computed]
@@ -64,8 +78,13 @@ class Charges extends Component
         return CalculatorPrice::cal_charge($this->value, $this->commissionSale, $this->commissionCustomers);
     }
 
+    #[Computed]
+    public function groupChargeKey(){
+       return $this->value->groupBy('detail')->keys()->values();
+    }
+
     #[On("checkBill")]
-    public function checkBill($index) {
+    public function checkBill(int $index) {
         if($this->value[$index]['chargesbillReceive'] < $this->value[$index]['chargesCost']) {
             $this->dispatch('modal.job-order.charges-alert', showModal: true);
         }
@@ -97,7 +116,12 @@ class Charges extends Component
         if($action != 'create'){
             $this->customer_piad = CalculatorPrice::cal_customer_piad($this->documentID) ?? new Collection;
         }
-        // $this->chargeGroup = JobCharge::getChargeGroup($this->groupTypeContainer);
+        // dd($this->groupCharge);
+        // $this->chargeGroup = $this->value->groupBy(function($item){
+        //     return $item->detail;
+        // })->toArray();
+        
+        // dd($this->chargeGroup); 
     }
 
     public function updatedCommissionSale(){

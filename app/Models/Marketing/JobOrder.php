@@ -189,6 +189,8 @@ class JobOrder extends Model implements Wireable
         // 'containerList' => [],
         'comCode' => 'C01',
         'documentstatus' => 'P',
+        'commission_sale' => 0.00,
+        'commission_customers' => 0.00,
     ];
 
     public static function boot()

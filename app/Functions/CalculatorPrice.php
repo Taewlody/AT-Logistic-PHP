@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 
 class CalculatorPrice
 {
-    public static function cal_charge(Collection $charge, $commissionSale, $commissionCustomers){
+    public static function cal_charge(Collection $charge, float $commissionSale, float $commissionCustomers){
         $cal_charge = (object)[
             'tax7' => 0,
             'tax3' => 0,

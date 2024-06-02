@@ -22,7 +22,7 @@ class Currency extends Component
     public $disabled = false;
     public $readonly = false;
 
-    public function mount( string $name, String|null $class = null, bool|null $disabled = null, bool|null $readonly = null, String|null $changeEvent = null, int|null $index = null)
+    public function mount( string $name, String|null $class = null, bool|null $disabled = null, bool|null $readonly = null, String|null $changeEvent = null, string|null $index = null)
     {
         $this->name = $name;
         $this->class = $class ?? $this->class;
