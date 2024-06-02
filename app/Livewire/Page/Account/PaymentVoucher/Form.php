@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Page\Account\PaymentVoucher;
 
+use App\Functions\Service;
 use App\Enum\FormMode;
 use App\Enum\ViewMode;
 use App\Models\AttachFile;
@@ -45,6 +46,8 @@ class Form extends Component
 
     public FormMode $formMode;
     public $priceSum;
+
+    public $jobOrderSelecter;
 
     protected array $rules = [
         'file' => 'nullable|mimes:png,jpg,jpeg,pdf|max:102400',
@@ -162,6 +165,8 @@ class Form extends Component
             $this->formMode = FormMode::from('disabled');
         } 
         $this->calPrice();
+
+        $this->jobOrderSelecter = Service::JobOrderSelecter();
     }
 
     #[On("updated-refJobNo")]

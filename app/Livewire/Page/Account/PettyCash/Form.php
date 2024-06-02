@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Page\Account\PettyCash;
 
+use App\Functions\Service;
 use App\Enum\FormMode;
 use App\Enum\ViewMode;
 use App\Models\Common\Charges;
@@ -34,6 +35,8 @@ class Form extends Component
     public ViewMode $viewMode;
 
     public FormMode $formMode;
+
+    public $jobOrderSelecter;
 
     protected array $rules = [
         'payments.*' => 'unique:App\Models\PettyCash\PettyCashItems',
@@ -102,6 +105,8 @@ class Form extends Component
         if($this->data->documentstatus == 'A' && !Auth::user()->hasRole('admin') && $this->viewMode == ViewMode::EDIT) {
             $this->formMode = FormMode::from('disabled');
         } 
+
+        $this->jobOrderSelecter = Service::JobOrderSelecter();
     }
 
     // #[On("updated-refJobNo")]

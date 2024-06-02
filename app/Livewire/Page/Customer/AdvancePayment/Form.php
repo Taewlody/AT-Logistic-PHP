@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Page\Customer\AdvancePayment;
 
+use App\Functions\Service;
 use App\Enum\FormMode;
 use App\Enum\ViewMode;
 use App\Models\AttachFile;
@@ -43,6 +44,8 @@ class Form extends Component
     public ViewMode $viewMode;
 
     public FormMode $formMode;
+
+    public $jobOrderSelecter;
 
     protected array $rules = [
         'file' => 'mimes:png,jpg,jpeg,pdf|max:102400',
@@ -86,6 +89,8 @@ class Form extends Component
         if($this->data->documentstatus == 'A' && !Auth::user()->hasRole('admin') && $this->viewMode == ViewMode::EDIT) {
             $this->formMode = FormMode::from('disabled');
         } 
+
+        $this->jobOrderSelecter = Service::JobOrderSelecter();
     }
 
     #[On("updated-refJobNo")]

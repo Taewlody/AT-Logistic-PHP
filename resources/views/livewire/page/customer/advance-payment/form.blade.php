@@ -63,7 +63,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <livewire:element.select2 wire:model='data.refJobNo'
-                                            name="refJobNo" :options="Service::JobOrderSelecter()"
+                                            name="refJobNo" :options="$jobOrderSelecter"
                                             itemKey="documentID" itemValue="documentID" 
                                             :searchable="true">
                                             @error('refJobNo')
