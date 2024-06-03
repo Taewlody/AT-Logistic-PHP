@@ -324,6 +324,7 @@ class Form extends Component
         $this->chargeList->push($charge);
         $this->reset('chargeCode');
         $this->dispatch('reset-select2-chargeCode');
+        // $this->dispatch('update-charges');
     }
 
     #[On('Remove-Charge')]
@@ -331,6 +332,7 @@ class Form extends Component
     {
         $this->chargeList->forget($index);
         $this->chargeList = $this->chargeList->values();
+        // $this->dispatch('update-charges');
     }
 
     #[On('commission-sale')]

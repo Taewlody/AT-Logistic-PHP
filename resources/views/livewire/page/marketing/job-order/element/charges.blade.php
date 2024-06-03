@@ -82,13 +82,13 @@
                         </td>
                     </tr>
                     @endforeach --}}
-                    @foreach ($this->groupChargeKey as $group)
+                    @foreach ($chargeGroup as $group)
                     <tr class='gradeX'>
                         <td>
                             {{ $loop->iteration }}
                         </td>
                         <td>
-                            <input type="text" class="form-control" value="{{$group}}" disabled>
+                            <input type="text" class="form-control" value="{{$group->key}}" disabled>
                         </td>
                         <td class="center">
 
@@ -100,17 +100,17 @@
                         </td>
                         <td class="center">
                             <input type="text" class="form-control full" value="{{ Service::MoneyFormat($value->filter(function($item) use ($group) {
-                                    return $item->detail == $group;
+                                    return $item->detail == $group->key;
                                 })->sum('chargesCost')) }}" disabled>
                         </td>
                         <td class="center">
                             <input type="text" class="form-control full" value="{{ Service::MoneyFormat($value->filter(function($item) use ($group) {
-                                    return $item->detail == $group;
+                                    return $item->detail == $group->key;
                                 })->sum('chargesReceive')) }}" disabled>
                         </td>
                         <td class="center">
                             <input type="text" class="form-control full" value="{{ Service::MoneyFormat($value->filter(function($item) use ($group) {
-                                    return $item->detail == $group;
+                                    return $item->detail == $group->key;
                                 })->sum('chargesbillReceive')) }}" disabled>
                         </td>
                         <td class='center'>
@@ -118,50 +118,47 @@
                         </td>
                     </tr>
                     <tr class="sub-row" id="change-group-{{$loop->index}}">
-                        @foreach ($value as $item)
-                            @if($item->detail != $group)
-                                @continue
-                            @endif
-                            <tr class='gradeX' wire:key="charge-field-{{ $item->items }}">
+                        @foreach ($group->index as $indexItem)
+                            <tr class='gradeX' wire:key="charge-field-{{ $value[$indexItem]->items }}">
                                 <td>
-                                    {{-- {{ $loop->parent->iteration }}.{{ $loop->iteration }} --}}
+                                    {{ $loop->parent->iteration }}.{{ $loop->iteration }}
                                 </td>
                                 <td>
                                     {{-- <input type="text" class="form-control"
                                         wire:model.live.debounce.500ms="value.{{ $loop->index }}.detail"> --}}
                                 </td>
                                 <td class="center">
-                                    <input type="number" class="form-control full" id="price-{{$loop->index}}"
-                                        wire:keyup="dispatch('call_price', {{$loop->index}})" value="1">
+                                    <input type="number" class="form-control full" id="price-{{$indexItem}}"
+                                        wire:keyup="dispatch('call_price', {{$indexItem}})" value="1">
                                 </td>
                                 <td class="center">
-                                    <input type="number" class="form-control full" id="volum-{{$loop->index}}"
-                                        wire:keyup="dispatch('call_price', {{$loop->index}})" value="1">
+                                    <input type="number" class="form-control full" id="volum-{{$indexItem}}"
+                                        wire:keyup="dispatch('call_price', {{$indexItem}})" value="1">
                                 </td>
                                 <td class="center">
-                                    <input type="number" class="form-control full" id="exchange-{{$loop->index}}"
-                                        wire:keyup="dispatch('call_price', {{$loop->index}})" value="1">
+                                    <input type="number" class="form-control full" id="exchange-{{$indexItem}}"
+                                        wire:keyup="dispatch('call_price', {{$indexItem}})" value="1">
                                 </td>
                                 <td class="center">
-                                    <livewire:element.currency key="chargesCost-{{$loop->index}}" class="form-control full"
-                                        name="chargesCost-{{$loop->index}}" type="number"
-                                        wire:model.live="value.{{ $loop->index }}.chargesCost"
-                                        :readonly="$item->ref_paymentCode" />
+                                    <livewire:element.currency wire:key="chargesCost-{{$indexItem}}" class="form-control full"
+                                        name="chargesCost-{{$indexItem}}" type="number"
+                                        wire:model.live="value.{{ $indexItem }}.chargesCost"
+                                        :readonly="$value[$indexItem]->ref_paymentCode" />
                                 </td>
                                 <td class="center">
-                                    <livewire:element.currency key="chargesReceive-{{$loop->index}}" class="form-control full"
-                                        name="chargesReceive-{{$loop->index}}" type="number"
-                                        wire:model.live="value.{{ $loop->index }}.chargesReceive" />
+                                    <livewire:element.currency wire:key="chargesReceive-{{$indexItem}}" class="form-control full"
+                                        name="chargesReceive-{{$indexItem}}" type="number"
+                                        wire:model.live="value.{{ $indexItem }}.chargesReceive" />
                                 </td>
                                 <td class="center">
-                                    <livewire:element.currency key="chargesbillReceive-{{$loop->index}}"
-                                        class="form-control full" index="{{$loop->index}}" changeEvent="checkBill"
-                                        name="chargesbillReceive-{{$loop->index}}" type="number"
-                                        wire:model.live="value.{{ $loop->index }}.chargesbillReceive" />
+                                    <livewire:element.currency wire:key="chargesbillReceive-{{$indexItem}}"
+                                        class="form-control full" index="{{$indexItem}}" changeEvent="checkBill"
+                                        name="chargesbillReceive-{{$indexItem}}" type="number"
+                                        wire:model.live="value.{{ $indexItem }}.chargesbillReceive" />
                                 </td>
                                 <td class='center'>
                                     <button type='button' class='btn-danger btn btn-xs'
-                                        wire:click="$parent.removeCharge({{ $loop->index }})">Remove</button>
+                                        wire:click="$parent.removeCharge({{ $indexItem }})">Remove</button>
                                 </td>
                             </tr>
                         @endforeach

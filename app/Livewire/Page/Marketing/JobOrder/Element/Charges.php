@@ -78,9 +78,20 @@ class Charges extends Component
         return CalculatorPrice::cal_charge($this->value, $this->commissionSale, $this->commissionCustomers);
     }
 
-    #[Computed]
-    public function groupChargeKey(){
-       return $this->value->groupBy('detail')->keys()->values();
+    // #[Computed]
+    public function groupCharge(){
+        $key = $this->value->groupBy('detail')->keys()->values();
+        $value = $this->value;
+        $indexGroup = $key->map(function($item) use ($value){
+            $index = $value->filter(function($value) use ($item){
+                return $value->detail == $item;
+            })->map(function ($item) use ($value) {
+                return $value->search($item);
+            })->values()->toArray();
+            return (object) ['key' => $item, 'index' => $index];
+        });
+        // dd($indexGroup);
+        return $indexGroup;
     }
 
     #[On("checkBill")]
@@ -104,6 +115,15 @@ class Charges extends Component
     //     }
     // }
 
+    public function updatedValue($value, $key){
+        $this->chargeGroup = $this->groupCharge();
+    }
+
+    // #[On("update-charges")]
+    // public function updateChargeGroup(){
+    //     $this->chargeGroup = $this->groupCharge();
+    // }
+
     public function mount($action, String|null $documentID = null, String|null $groupTypeContainer = null, String|null $commissionSale = null, String|null $commissionCustomers = null)
     {
         // $this->value;
@@ -116,12 +136,7 @@ class Charges extends Component
         if($action != 'create'){
             $this->customer_piad = CalculatorPrice::cal_customer_piad($this->documentID) ?? new Collection;
         }
-        // dd($this->groupCharge);
-        // $this->chargeGroup = $this->value->groupBy(function($item){
-        //     return $item->detail;
-        // })->toArray();
-        
-        // dd($this->chargeGroup); 
+        $this->chargeGroup = $this->groupCharge();
     }
 
     public function updatedCommissionSale(){
@@ -161,6 +176,7 @@ class Charges extends Component
 
     public function render()
     {
+        $this->chargeGroup = $this->groupCharge();
         return view('livewire.page.marketing.job-order.element.charges');
     }
 }

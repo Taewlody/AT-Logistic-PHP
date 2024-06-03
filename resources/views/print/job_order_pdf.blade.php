@@ -145,12 +145,12 @@
                         <th>BILL OF RECEIPT</th>
                     </thead>
                     <tbody>
-                        @foreach ($data->charge as $charge)
+                        @foreach ($data->charge->groupBy('detail') as $index => $charge)
                         <tr>
-                            <td style="padding-left: 4px;">{{$charge->detail}}</td>
-                            <td class="money">{{Service::MoneyFormat($charge->chargesCost)}}</td>
-                            <td class="money">{{Service::MoneyFormat($charge->chargesReceive)}}</td>
-                            <td class="money">{{Service::MoneyFormat($charge->chargesbillReceive)}}</td>
+                            <td style="padding-left: 4px;">{{$index}}</td>
+                            <td class="money">{{Service::MoneyFormat($charge->sum('chargesCost'))}}</td>
+                            <td class="money">{{Service::MoneyFormat($charge->sum('chargesReceive'))}}</td>
+                            <td class="money">{{Service::MoneyFormat($charge->sum('chargesbillReceive'))}}</td>
                         </tr>
                         @endforeach
                         <tr>
