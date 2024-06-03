@@ -19,6 +19,7 @@ use App\Models\Common\Supplier;
 use App\Models\Common\TransportType;
 use App\Models\Common\UnitContainer;
 use App\Models\Marketing\JobOrder;
+use App\Models\Account\Invoice;
 use App\Models\User;
 use App\Models\UserType;
 use Auth;
@@ -199,11 +200,16 @@ class Service
     {
         return Cache::remember('job-order-select', 15, function () use ($approve) {
             if ($approve === null) {
-                return JobOrder::select('documentID', 'documentstatus')->with('invoice')
-                ->whereHas('invoice', function($query) {
-                    $query->where('taxivRef', '=', '')
-                    ->orWhereNull('taxivRef');
-                })->orWhereDoesntHave('invoice')->orderBy('documentID', 'desc')->get();
+                $invoice = Invoice::select('ref_jobNo')
+                   ->where(function ($query) {
+                       $query->where('taxivRef', '!=', '')
+                             ->whereNotNull('taxivRef');
+                   })
+                   ->groupBy('ref_jobNo')
+                   ->pluck('ref_jobNo');
+                   
+
+                return JobOrder::select('documentID', 'documentstatus')->whereNotIn('documentID', $invoice)->orderBy('documentID', 'desc')->get();
             }else{
                 return JobOrder::select('documentID', 'documentstatus')->with('invoice')->where("documentstatus", "=", ($approve ? "A" : "P"))->orWhereHas('invoice', function($query) {
                     $query->where('taxivRef', '=', '');
