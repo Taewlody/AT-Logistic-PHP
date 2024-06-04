@@ -82,8 +82,8 @@
                         </td>
                     </tr>
                     @endforeach --}}
-                    @foreach ($chargeGroup as $group)
-                    <tr class='gradeX'>
+                    @foreach ($this->groupCharge as $group)
+                    <tr class="header" id="{{$loop->iteration}}">
                         <td>
                             {{ $loop->iteration }}
                         </td>
@@ -114,12 +114,11 @@
                                 })->sum('chargesbillReceive')) }}" disabled>
                         </td>
                         <td class='center'>
-                            {{-- <button type='button' class='btn-info btn btn-xs'>Expand</button> --}}
+                            <button type='button' class='btn-info btn btn-xs' wire:click="dispatch('toggle-row', {{$loop->iteration}})">Expand</button>
                         </td>
                     </tr>
-                    <tr class="sub-row" id="change-group-{{$loop->index}}">
                         @foreach ($group->index as $indexItem)
-                            <tr class='gradeX' wire:key="charge-field-{{ $value[$indexItem]->items }}">
+                            <tr class="sub-row" id="{{$loop->parent->iteration}}" wire:key="charge-field-{{ $loop->parent->iteration }}.{{ $loop->iteration }}">
                                 <td>
                                     {{ $loop->parent->iteration }}.{{ $loop->iteration }}
                                 </td>
@@ -140,18 +139,18 @@
                                         wire:keyup="dispatch('call_price', {{$indexItem}})" value="1">
                                 </td>
                                 <td class="center">
-                                    <livewire:element.currency wire:key="chargesCost-{{$indexItem}}" class="form-control full"
+                                    <livewire:element.currency wire:key="chargesCost-{{ $loop->parent->iteration }}.{{ $loop->iteration }}" class="form-control full"
                                         name="chargesCost-{{$indexItem}}" type="number"
                                         wire:model.live="value.{{ $indexItem }}.chargesCost"
                                         :readonly="$value[$indexItem]->ref_paymentCode" />
                                 </td>
                                 <td class="center">
-                                    <livewire:element.currency wire:key="chargesReceive-{{$indexItem}}" class="form-control full"
+                                    <livewire:element.currency wire:key="chargesReceive-{{ $loop->parent->iteration }}.{{ $loop->iteration }}" class="form-control full"
                                         name="chargesReceive-{{$indexItem}}" type="number"
                                         wire:model.live="value.{{ $indexItem }}.chargesReceive" />
                                 </td>
                                 <td class="center">
-                                    <livewire:element.currency wire:key="chargesbillReceive-{{$indexItem}}"
+                                    <livewire:element.currency wire:key="chargesbillReceive-{{ $loop->parent->iteration }}.{{ $loop->iteration }}"
                                         class="form-control full" index="{{$indexItem}}" changeEvent="checkBill"
                                         name="chargesbillReceive-{{$indexItem}}" type="number"
                                         wire:model.live="value.{{ $indexItem }}.chargesbillReceive" />
@@ -162,7 +161,6 @@
                                 </td>
                             </tr>
                         @endforeach
-                    </tr>
                     @endforeach
                 </tbody>
 
@@ -324,13 +322,23 @@
 
 @script
 <script>
+    $(document).ready(function() {
+        $('tr.sub-row').hide();        
+    });
+    
+    Livewire.on('toggle-row', (index) => {
+        console.log('tr#'+index+'.sub-row', $('tr#'+index+'.sub-row'));
+            $('tr#'+index+'.sub-row').toggle();
+    });
+
+
     Livewire.on('call_price', (index) => {
-            let price = document.getElementById('price-'+index).value;
-            let volum = document.getElementById('volum-'+index).value;
-            let exchange = document.getElementById('exchange-'+index).value;
-            let cost = price * volum * exchange;
-            @this.set('value.'+index+'.chargesReceive', cost);
-            $wire.dispatch('change-chargesReceive-'+index, {value: cost});
-        })
+        let price = document.getElementById('price-'+index).value;
+        let volum = document.getElementById('volum-'+index).value;
+        let exchange = document.getElementById('exchange-'+index).value;
+        let cost = price * volum * exchange;
+        @this.set('value.'+index+'.chargesReceive', cost);
+        $wire.dispatch('change-chargesReceive-'+index, {value: cost});
+    });
 </script>
 @endscript

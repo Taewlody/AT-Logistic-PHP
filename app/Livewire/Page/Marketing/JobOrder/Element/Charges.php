@@ -78,7 +78,7 @@ class Charges extends Component
         return CalculatorPrice::cal_charge($this->value, $this->commissionSale, $this->commissionCustomers);
     }
 
-    // #[Computed]
+    #[Computed]
     public function groupCharge(){
         $key = $this->value->groupBy('detail')->keys()->values();
         $value = $this->value;
@@ -115,14 +115,14 @@ class Charges extends Component
     //     }
     // }
 
-    public function updatedValue($value, $key){
-        $this->chargeGroup = $this->groupCharge();
-    }
-
-    // #[On("update-charges")]
-    // public function updateChargeGroup(){
+    // public function updatedValue($value, $key){
     //     $this->chargeGroup = $this->groupCharge();
     // }
+
+    #[On("update-charges")]
+    public function updateChargeGroup(){
+        $this->dispatch('valueUpdated');
+    }
 
     public function mount($action, String|null $documentID = null, String|null $groupTypeContainer = null, String|null $commissionSale = null, String|null $commissionCustomers = null)
     {
@@ -136,7 +136,7 @@ class Charges extends Component
         if($action != 'create'){
             $this->customer_piad = CalculatorPrice::cal_customer_piad($this->documentID) ?? new Collection;
         }
-        $this->chargeGroup = $this->groupCharge();
+        // $this->chargeGroup = $this->groupCharge();
     }
 
     public function updatedCommissionSale(){
@@ -176,7 +176,7 @@ class Charges extends Component
 
     public function render()
     {
-        $this->chargeGroup = $this->groupCharge();
+        // $this->chargeGroup = $this->groupCharge();
         return view('livewire.page.marketing.job-order.element.charges');
     }
 }
