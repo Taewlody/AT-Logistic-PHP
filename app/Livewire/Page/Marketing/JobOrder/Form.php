@@ -415,6 +415,9 @@ class Form extends Component
         } else if ($this->job->feeder == null || $this->job->feeder == '') {
             $this->addError('feeder', 'Please enter feeder');
             return false;
+        } else if($this->job->deliveryType == null || $this->job->deliveryType == '') {
+            $this->addError('deliveryType', 'Please enter delivery type');
+            return false;
         } else {
             return true;
         }
