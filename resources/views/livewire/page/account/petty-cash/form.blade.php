@@ -262,13 +262,13 @@
                                 <div class="col-sm-10 col-sm-offset-2">
                                     <a name="back" class="btn btn-white" type="button" href="{{ route('account-petty-cash') }}" wire.loading.attr="disabled">
                                         <i class="fa fa-reply"></i> Back</a>
-                                    @if(!$data->documentID)
+                                    {{-- @if(!$data->documentID) --}}
                                     <button name="Save" id="Save" class="btn btn-success" type="submit"><i
                                             class="fa fa-save"></i> Save</button>
-                                    @else
+                                    {{-- @else --}}
                                     <button name="Approve" id="Approve" class="btn btn-primary" type="button" wire:click='approve'><i
                                             class="fa fa-check"></i> Approve</button>
-                                    @endif
+                                    {{-- @endif --}}
 
                                     @if($data->documentID!=null||$data->documentID!='')
                                     <a class="btn" target="_blank" href="/api/print/petty_cash_pdf/{{$data->documentID}}"><i

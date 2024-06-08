@@ -145,6 +145,9 @@ class Form extends Component
         $this->data->editID = Auth::user()->usercode;
         if($approve) {
             $this->data->documentstatus = 'A';
+            $this->data->dueDate = Carbon::now()->toDateString();
+        }else {
+            $this->data->dueDate = Carbon::now()->endOfMonth()->toDateString();
         }
 
         $this->data->sumTotal = $this->calPrice->total;
@@ -153,6 +156,7 @@ class Form extends Component
         $this->data->sumTax7 = $this->calPrice->tax7;
         $this->data->grandTotal = $this->calPrice->grandTotal;
         $this->data->editID = Auth::user()->usercode;
+        
         $this->data->save();
         $this->data->items->filter(function($item){
             return !collect($this->payments->pluck('autoid'))->contains($item->autoid);
@@ -186,6 +190,7 @@ class Form extends Component
         $success = $this->save();
         if($success){
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
+            return redirect()->route('account-petty-cash.form', ['action' => 'edit', 'id' => $this->data->documentID]);
         }else{
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
         }
@@ -205,6 +210,7 @@ class Form extends Component
                 ]);
             });
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
+            return redirect()->route('account-petty-cash.form', ['action' => 'edit', 'id' => $this->data->documentID]);
 
         }else{
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
