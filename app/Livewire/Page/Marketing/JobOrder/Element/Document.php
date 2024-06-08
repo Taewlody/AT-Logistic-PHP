@@ -44,6 +44,23 @@ class Document extends Component
         if($this->value->deliveryType == null || $this->value->deliveryType == '') {
             $this->addError('deliveryType', 'Please enter delivery type');
         }
+
+        if($this->value->invNo) {
+            $checkInv = JobOrder::where('invNo', $this->value->invNo)->where('invNo', '!=', 'N/A')->first();
+            
+            if($checkInv !== null) {
+                $this->addError('invNo', 'INV No. is Duplicate');
+            }
+        }
+
+        if ($this->value->bookingNo !== null) {
+            $checkBooking = JobOrder::where('bookingNo', $this->value->bookingNo)->where('bookingNo', '!=', 'N/A')->first();
+            
+            if($checkBooking) {
+                $this->addError('bookingNo', 'Booking No. is Duplicate');
+                return false;
+            }
+        }
     }
 
     public function render()

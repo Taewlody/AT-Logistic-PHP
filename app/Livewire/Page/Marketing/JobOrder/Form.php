@@ -421,10 +421,10 @@ class Form extends Component
         } else if($this->job->freight == null || $this->job->freight == '') {
             $this->addError('freight', 'Please enter freight');
             return false;
-        }else if($this->job->deliveryType == null || $this->job->deliveryType == '') {
+        } else if($this->job->deliveryType == null || $this->job->deliveryType == '') {
             $this->addError('deliveryType', 'Please enter delivery type');
             return false;
-        }else {
+        } else {
             return true;
         }
     }
@@ -453,25 +453,6 @@ class Form extends Component
             }
         }
 
-        //check INV No.
-        if($this->data->invNo) {
-            $checkInv = JobOrder::where('invNo', $this->data->invNo)->where('invNo', '!=', 'N/A')->first();
-            
-            if($checkInv) {
-                $this->addError('invNo', 'INV No. is Duplicate');
-                return false;
-            }
-        }
-
-        // check Booking No
-        if ($this->data->bookingNo) {
-            $checkBooking = JobOrder::where('bookingNo', $this->data->bookingNo)->where('bookingNo', '!=', 'N/A')->first();
-            $this->resetValidation();
-            if($checkBooking) {
-                $this->addError('bookingNo', 'Booking No. is Duplicate');
-                return false;
-            }
-        }
 
         $this->data->exists = $this->job->exists;
         if ($approve) {
