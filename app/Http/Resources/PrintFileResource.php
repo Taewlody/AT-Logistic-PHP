@@ -85,7 +85,9 @@ class PrintFileResource extends Controller
             $calCharge->totalBill = $data->charge->sum('chargesbillReceive');
         }
         $pdf = DomPdf::loadView('print.job_order_pdf', ['title' => "Job Order", 'data' => $data, 'groupContainer' => $groupContainer, 'calCharge' => $calCharge]);
-        return $pdf->stream('job_order.pdf');
+        // return $pdf->stream('job_order.pdf');
+
+        return view('print.job_order_pdf', ['title' => "Job Order", 'data' => $data, 'groupContainer' => $groupContainer, 'calCharge' => $calCharge, 'test' => true]);
     }
 
     public function BookingJobOrderPdf(string $documentID)

@@ -202,7 +202,7 @@
                         </td>
                         <td style="width:10%">
                             <input type="text" name="total_chargesCost" readonly class="form-control"
-                                value="{{ Service::MoneyFormat($value->sum('chargesCost')) }}" id="total_chargesCost">
+                                value="{{ Service::MoneyFormat($value->sum('chargesCost')+$commissionSale+$commissionCustomers) }}" id="total_chargesCost">
                         </td>
                         <td style="width:10%">
                             <input type="text" name="total_chargesReceive" readonly class="form-control"
