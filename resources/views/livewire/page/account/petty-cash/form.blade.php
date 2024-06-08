@@ -220,7 +220,7 @@
                                                         <tr>
                                                             <td style="border: none;text-align: end;"><strong>GRAND TOTAL:</strong></td>
                                                             <td style="text-align: left"><span
-                                                                    id="showgrandTotal">{{ Service::MoneyFormat($this->calPrice()->grandTotal)}}</span>
+                                                                    id="showgrandTotal">{{ Service::MoneyFormat($this->calPrice()->total)}}</span>
                                                             </td>
                                                         </tr>
                                                     </tbody>

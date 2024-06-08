@@ -160,6 +160,18 @@
                             <td></td>
                         </tr>
                         <tr>
+                            <td align="center">Commission Sale</td>
+                            <td></td>
+                            <td class="money">{{Service::MoneyFormat($data->commission_sale)}}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td align="center">Commission Customers</td>
+                            <td></td>
+                            <td class="money">{{Service::MoneyFormat($data->commission_customers)}}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
                             <td align="center">รวม</td>
                             <td class="money">{{Service::MoneyFormat($calCharge->totalPaid)}}</td>
                             <td class="money">{{Service::MoneyFormat($calCharge->totalReceive)}}</td>
