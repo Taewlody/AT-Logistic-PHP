@@ -124,7 +124,7 @@
                 </tr>
                 <tr class="col-2">
                     <td>
-                        <span class="header">Booking No. : </span>{{$data->jobOrder != null ? $data->jobOrder->bookingNo : ""}}
+                        <span class="header">Booking No. : </span> <span style="color: red">{{$data->jobOrder != null ? $data->jobOrder->bookingNo : ""}}</span>
                     </td>
                     <td>
                         <span class="header">Agent : </span>{{$data->supplier != null ? $data->supplier->supNameEN : ""}}
@@ -172,11 +172,11 @@
                 </table>
                 <table style="table-layout: fixed;">
                     <tr style="text-align: center;">
-                        <td>{{$data->jobOrder!= null&&$data->jobOrder->customerRefer!=null ? $data->jobOrder->customerRefer->custNameEN.$data->jobOrder->customerRefer->branchEN : '' }} taxID : {{$data->jobOrder!= null&&$data->jobOrder->customerRefer!=null ? $data->jobOrder->customerRefer->taxID : ''}}</td>
+                        <td style="color: blue"><b>{{$data->jobOrder!= null&&$data->jobOrder->customerRefer!=null ? $data->jobOrder->customerRefer->custNameEN.$data->jobOrder->customerRefer->branchEN : '' }} taxID : {{$data->jobOrder!= null&&$data->jobOrder->customerRefer!=null ? $data->jobOrder->customerRefer->taxID : ''}}</b></td>
                         
                     </tr>
                     <tr style="text-align: center;">
-                        <td>Address : {{$data->jobOrder!= null&&$data->jobOrder->customerRefer!=null ? $data->jobOrder->customerRefer->addressEN.' '.$data->jobOrder->customerRefer->zipCode : ''}}</td>        
+                        <td style="color: blue"><b>Address : {{$data->jobOrder!= null&&$data->jobOrder->customerRefer!=null ? $data->jobOrder->customerRefer->addressEN.' '.$data->jobOrder->customerRefer->zipCode : ''}}</b></td>        
                     </tr>
                 </table>
                 <table style="margin-top: 10px;">

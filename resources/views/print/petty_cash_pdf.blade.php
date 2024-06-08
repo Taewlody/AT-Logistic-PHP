@@ -51,8 +51,8 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>ลำดับ<br />No.</th>
-                            <th>เลขที่บิล<br />Bill No.</th>
+                            <th width="10px">ลำดับ<br />No.</th>
+                            <th width="100px">เลขที่บิล<br />Bill No.</th>
                             <th colspan="4">รายการ<br />Description</th>
                             <th>จำนวนเงิน<br />Amount</th>
                         </tr>
