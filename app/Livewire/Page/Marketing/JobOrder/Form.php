@@ -402,6 +402,7 @@ class Form extends Component
         // dd($this->job);
         if ($this->job->invNo == null || $this->job->invNo == '') {
             $this->addError('invNo', 'Please enter invoice no');
+            // dd($this->addError('invNo', 'Please enter invoice no'));
             return false;
         } else if ($this->job->bookingNo == null || $this->job->bookingNo == '') {
             $this->addError('bookingNo', 'Please enter booking no');

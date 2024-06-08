@@ -46,7 +46,7 @@ class Document extends Component
         }
 
         if($this->value->invNo) {
-            $checkInv = JobOrder::where('invNo', $this->value->invNo)->where('invNo', '!=', 'N/A')->first();
+            $checkInv = JobOrder::where('invNo', $this->value->invNo)->where('invNo', '!=', 'N/A')->where('documentID', '!=', $this->value->documentID)->first();
             
             if($checkInv !== null) {
                 $this->addError('invNo', 'INV No. is Duplicate');
@@ -54,7 +54,7 @@ class Document extends Component
         }
 
         if ($this->value->bookingNo !== null) {
-            $checkBooking = JobOrder::where('bookingNo', $this->value->bookingNo)->where('bookingNo', '!=', 'N/A')->first();
+            $checkBooking = JobOrder::where('bookingNo', $this->value->bookingNo)->where('bookingNo', '!=', 'N/A')->where('documentID', '!=', $this->value->documentID)->first();
             
             if($checkBooking) {
                 $this->addError('bookingNo', 'Booking No. is Duplicate');

@@ -168,7 +168,7 @@
         <label class="col-lg-2 col-form-label">INV No. <span class="text-danger">*</span></label>
         <div class="col-md-4">
             <input type="text" name="invNo" class="form-control" id="invNo"
-                wire:model.live.debounce.500ms="value.invNo" @disabled($action != 'create' && $action != 'edit')>
+                wire:model="value.invNo" @disabled($action != 'create' && $action != 'edit')>
                 @error('invNo')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
