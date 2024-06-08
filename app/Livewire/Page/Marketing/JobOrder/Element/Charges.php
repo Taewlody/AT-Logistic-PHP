@@ -141,12 +141,18 @@ class Charges extends Component
 
     public function updatedCommissionSale(){
         // dd($this->commissionSale);
-        $this->dispatch('commission-sale', $this->commissionSale);
+        if($this->commissionSale != null) {
+            $this->dispatch('commission-sale', $this->commissionSale);
+        }
+       
     }
 
     public function updatedCommissionCustomers(){
         // dd($this->commisionCustomers);
-        $this->dispatch('commission-customers', $this->commissionCustomers);
+        if($this->commissionCustomers != null) {
+            $this->dispatch('commission-customers', $this->commissionCustomers);
+        }
+        // $this->dispatch('commission-customers', $this->commissionCustomers);
     }
 
     // public function changeCommissionSale(){

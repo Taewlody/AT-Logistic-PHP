@@ -415,10 +415,16 @@ class Form extends Component
         } else if ($this->job->feeder == null || $this->job->feeder == '') {
             $this->addError('feeder', 'Please enter feeder');
             return false;
-        } else if($this->job->deliveryType == null || $this->job->deliveryType == '') {
+        } else if ($this->job->bound == null || $this->job->bound == '') {
+            $this->addError('bound', 'Please enter bound');
+            return false;
+        } else if($this->job->freight == null || $this->job->freight == '') {
+            $this->addError('freight', 'Please enter freight');
+            return false;
+        }else if($this->job->deliveryType == null || $this->job->deliveryType == '') {
             $this->addError('deliveryType', 'Please enter delivery type');
             return false;
-        } else {
+        }else {
             return true;
         }
     }
