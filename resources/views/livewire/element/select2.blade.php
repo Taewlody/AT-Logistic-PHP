@@ -15,6 +15,9 @@
 
 @script
 <script>
+    $(document).on('select2:open', () => {
+        document.querySelector('.select2-search__field').focus();
+    });
     $(document).ready(function() {
         const select2Element = $('#{{$this->__id}}');
         select2Element.select2({
@@ -22,6 +25,7 @@
             // multiple: $wire.multiple ? true : false,
             minimumResultsForSearch: $wire.searchable ? 0 : Infinity,
         });
+        
         // $('#{{$this->__id}}').select2({
         //     placeholder: '{{$placeholder}}',
         //     // multiple: $wire.multiple ? true : false,
