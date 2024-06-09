@@ -454,6 +454,22 @@ class Form extends Component
             }
         }
 
+        if($this->data->invNo) {
+            $checkInv = JobOrder::where('invNo', $this->data->invNo)->where('invNo', '!=', 'N/A')->where('documentID', '!=', $this->data->documentID)->first();
+            if($checkInv !== null) {
+                $this->addError('invNo', 'INV No. is Duplicate');
+                return false;
+            }
+        }
+
+        if ($this->data->bookingNo !== null) {
+            $checkBooking = JobOrder::where('bookingNo', $this->data->bookingNo)->where('bookingNo', '!=', 'N/A')->where('documentID', '!=', $this->data->documentID)->first();
+            
+            if($checkBooking) {
+                $this->addError('bookingNo', 'Booking No. is Duplicate');
+                return false;
+            }
+        }
 
         $this->data->exists = $this->job->exists;
         if ($approve) {

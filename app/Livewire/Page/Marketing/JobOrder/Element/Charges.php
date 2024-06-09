@@ -139,21 +139,21 @@ class Charges extends Component
         // $this->chargeGroup = $this->groupCharge();
     }
 
-    public function updatedCommissionSale(){
-        // dd($this->commissionSale);
-        if($this->commissionSale != null) {
-            $this->dispatch('commission-sale', $this->commissionSale);
-        }
+    // public function updatedCommissionSale(){
+    //     // dd($this->commissionSale);
+    //     if($this->commissionSale != null) {
+    //         $this->dispatch('commission-sale', $this->commissionSale);
+    //     }
        
-    }
+    // }
 
-    public function updatedCommissionCustomers(){
-        // dd($this->commisionCustomers);
-        if($this->commissionCustomers != null) {
-            $this->dispatch('commission-customers', $this->commissionCustomers);
-        }
-        // $this->dispatch('commission-customers', $this->commissionCustomers);
-    }
+    // public function updatedCommissionCustomers(){
+    //     // dd($this->commisionCustomers);
+    //     if($this->commissionCustomers != null) {
+    //         $this->dispatch('commission-customers', $this->commissionCustomers);
+    //     }
+    //     // $this->dispatch('commission-customers', $this->commissionCustomers);
+    // }
 
     // public function changeCommissionSale(){
     //     dd($this->commissionSale);
