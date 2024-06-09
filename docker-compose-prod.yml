@@ -9,6 +9,7 @@ services:
             args:
                 WWWGROUP: '${WWWGROUP}'
         image: notheart/at-logistic
+        platform: linux/amd64/v3
         extra_hosts:      
             - 'host.docker.internal:host-gateway'
         ports:
