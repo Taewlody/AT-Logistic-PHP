@@ -16,7 +16,8 @@ class CalculatorPrice
             'tax1' => 0,
             'total' => 0,
         ];
-        $cal_charge->tax7 = ($charge->sum('chargesReceive') * 0.07) + ($commissionSale + $commissionCustomers);
+        // $cal_charge->tax7 = ($charge->sum('chargesReceive') * 0.07) + ($commissionSale + $commissionCustomers);
+        $cal_charge->tax7 = ($charge->sum('chargesReceive') * 0.07);
         $cal_charge->tax3 = $charge->filter(function (JobOrderCharge $item) {
             // if($item->charge == null || $item->charge->chargesType == null) return false;
             return (float)$item->charges?->chargesType?->amount == 3;
