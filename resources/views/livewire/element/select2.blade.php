@@ -15,9 +15,12 @@
 
 @script
 <script>
-    $(document).on('select2:open', () => {
-        document.querySelector('.select2-search__field').focus();
-    });
+    // $(document).on('select2:open', () => {
+    //     document.querySelector('.select2-search__field').focus();
+    // });
+
+    
+    
     $(document).ready(function() {
         const select2Element = $('#{{$this->__id}}');
         select2Element.select2({
@@ -70,6 +73,19 @@
                 // @this.set('value',  '');
             });
         }
+
+
+        let forceFocusFn = function() {
+            var searchInput = document.querySelector('.select2-container--open .select2-search__field');
+            if (searchInput)
+                searchInput.focus();
+        };
+            
+        
+        $(document).on('select2:open', () => {
+            setTimeout(() => forceFocusFn(), 200);
+        });
+
     });
 </script>
 @endscript
