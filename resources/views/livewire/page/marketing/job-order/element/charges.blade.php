@@ -118,7 +118,7 @@
                         </td>
                     </tr>
                         @foreach ($group->index as $indexItem)
-                            <tr class="sub-row" id="{{$loop->parent->iteration}}" wire:key="charge-field-{{ $loop->parent->iteration }}.{{ $loop->iteration }}">
+                            <tr class="sub-row" id="{{$loop->parent->iteration}}" wire:key="charge-field-{{ $loop->parent->iteration }}.{{ $loop->iteration }}" wire:ignore.self>
                                 <td>
                                     {{ $loop->parent->iteration }}.{{ $loop->iteration }}
                                 </td>
