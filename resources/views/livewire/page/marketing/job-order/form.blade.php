@@ -634,13 +634,21 @@
                                     <a name="back" class="btn btn-white" type="button" href="{{ route('job-order') }}"
                                         wire.loading.attr="disabled">
                                         <i class="fa fa-reply"></i> Back</a>
-
+                                    @if($job->documentstatus != 'A')
                                     <button name="Approve" id="Approve" class="btn btn-success" type="submit"><i
                                             class="fa fa-save"></i> Save</button>
-                                    @if($action != 'create')
+                                    @endif
+                                    @if($action != 'create' && $job->documentstatus != 'A')
                                     <button name="Approve" id="Approve" class="btn btn-success" wire:click="approve"
                                         type="button"><i class="fa fa-check"></i> Approve</button>
                                     @endif
+
+                                    @if($action != 'create' && $job->documentstatus == 'A')
+                                    <button name="Update" id="Update" class="btn btn-secondary" wire:click="update"
+                                        type="button"><i class="fa fa-check"></i> Update</button>
+                                    @endif
+                                    
+
                                     @if($job->documentID != null ||$job->documentID != '')
                                     <a class="btn btn-primary " target="_blank"
                                         href="{{'/api/print/job_order_pdf/'.$job->documentID}}"><i

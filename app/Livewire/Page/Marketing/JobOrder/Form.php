@@ -89,6 +89,7 @@ class Form extends Component
     public ?BillOfLading $billOfLanding = null;
 
     public ?TrailerBooking $trailerBooking = null;
+    public $message = null;
 
     protected array $rules = [
         'file' => 'mimes:png,jpg,jpeg,pdf|max:102400',
@@ -231,9 +232,9 @@ class Form extends Component
 
     private function checkApprove()
     {
-        if ($this->data->documentstatus == 'A') {
-            return false;
-        }
+        // if ($this->data->documentstatus == 'A') {
+        //     return false;
+        // }
         if ($this->data->PaymentVoucher->where('documentstatus', 'P')->count() > 0) {
             return false;
         }
@@ -472,8 +473,15 @@ class Form extends Component
         }
 
         $this->data->exists = $this->job->exists;
+        
         if ($approve) {
             $this->data->documentstatus = 'A';
+
+            if(!$this->checkApprove) {
+                $this->message = 'กรุณา Approve Payment Voucher, Petty Cash, Advance Payment ให้เรียบร้อย';
+                return false;
+                
+            }
         }
         $this->data->editID = Auth::user()->usercode;
         $calCharge = CalculatorPrice::cal_charge($this->chargeList, $this->job->commission_sale, $this->job->commission_customers);
@@ -530,6 +538,21 @@ class Form extends Component
         }else {
             $this->dispatch('vaildated');
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'Approve ไม่สำเร็จ', type: 'error');
+        }
+        // dispatch(new InvoiceService(JobOrder::find($this->data->documentID), Auth::user()->usercode))->onQueue('job-order');
+        // $this->redirectRoute(name: 'job-order', navigate: true);
+    }
+
+    public function update()
+    {
+        $success = $this->save(true);
+        if($success) {
+            $this->createInvoice();
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'Update สำเร็จ', type: 'success');
+            return redirect()->route('job-order.form', ['action' => 'edit', 'id' => $this->data->documentID]);
+        }else {
+            $this->dispatch('vaildated');
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: $this->message ? $this->message : 'Update ไม่สำเร็จ', type: 'error');
         }
         // dispatch(new InvoiceService(JobOrder::find($this->data->documentID), Auth::user()->usercode))->onQueue('job-order');
         // $this->redirectRoute(name: 'job-order', navigate: true);
