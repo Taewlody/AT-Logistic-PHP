@@ -173,7 +173,7 @@ class Invoice extends Model implements Wireable
             get: function ($value) {
             if($this->items != null){
                 return $this->items->filter(function ($item) {
-                    if( $item->charge?->chargesType == null) return false;
+                    // if( $item->charge?->chargesType == null) return false;
                     return $item->charges->chargesType->amount == 1;
                 })->sum('chargesReceive');
             }else{
