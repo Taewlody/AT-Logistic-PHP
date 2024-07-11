@@ -11,6 +11,30 @@
     <link rel="stylesheet" href="{{public_path('assets/css/pdf/main.css')}}">
     <link rel="stylesheet" href="{{public_path('assets/css/pdf/tax-invoice.css')}}">
     @endif
+
+    <style>
+        @font-face {
+            font-family: 'TH-Sarabun';
+            src: url('{{ base_path("THSarabunNew.ttf") }}');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: "TH-Sarabun";
+            font-style: normal;
+            font-weight: 700;
+            src: url('{{ base_path("THSarabunNew Bold.ttf") }}');
+        }
+        @font-face {
+            font-family: "TH-Sarabun";
+            font-style: italic;
+            font-weight: normal;
+            src: url('{{ base_path("THSarabunNew Italic.ttf") }}');
+        }
+        body {
+            font-family: 'TH-Sarabun', sans-serif;
+        }
+    </style>
 </head>
 
 <body>

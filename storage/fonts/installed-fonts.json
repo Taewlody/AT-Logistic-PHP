@@ -6,9 +6,12 @@
         "bold_italic": "storage\/fonts\/THSarabunNew BoldItalic"
     },
     "th-sarabun": {
-        "normal": "\/var\/www\/html\/storage\/fonts\/th_sarabun_normal_0e78dd00a262a09312a678d4c35a4b77",
-        "bold": "\/var\/www\/html\/storage\/fonts\/th_sarabun_bold_d7721d52b6d6b334989b9db9ee529c6b",
-        "italic": "\/var\/www\/html\/storage\/fonts\/th_sarabun_italic_3fbe783e17312c77d0aef78ba0258796",
-        "bold_italic": "th_sarabun_bold_italic_e518f8138fa380140ff500231272a36c"
+        "normal": "\/Users\/taewlody\/Desktop\/Freelance\/AT-Logistic\/storage\/fonts\/th_sarabun_normal_520814591b50f09e68645bb3de29245c",
+        "bold": "\/Users\/taewlody\/Desktop\/Freelance\/AT-Logistic\/storage\/fonts\/th_sarabun_bold_bfe579bad4ea6677e7123282dbff5f16",
+        "italic": "th_sarabun_italic_c545eb5d2c37b9f906a9aa374e823993",
+        "bold_italic": "\/Users\/taewlody\/Desktop\/Freelance\/AT-Logistic\/storage\/fonts\/th_sarabun_bold_italic_e518f8138fa380140ff500231272a36c"
+    },
+    "custom-font": {
+        "normal": "custom_font_normal_520814591b50f09e68645bb3de29245c"
     }
 }
