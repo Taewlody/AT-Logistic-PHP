@@ -191,7 +191,7 @@ class PrintFileResource extends Controller
         }else {
             $onBoard = $data->joborder->etdDate;
         }
-        // dd($onBoard, $data->joborder);
+       
         $pdf = DomPdf::loadView('print.invoice_pdf', [
             'title' => "Invoice", 
             'data' => $data, 

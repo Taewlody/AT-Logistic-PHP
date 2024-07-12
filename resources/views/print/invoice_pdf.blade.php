@@ -62,7 +62,7 @@
                             <span><b>Date</b>{{Carbon\Carbon::parse($data->documentDate)->format('d/m/Y')}}</span>
                             <span><b>Innoive No.</b>{{$data->documentID}}</span>
                             <span><b>Credit Term</b>{{$credit}}</span>
-                            <span><b>Your Ref. No</b>{{ $data->ref_jobNo }} </span>
+                            <span><b>Your Ref. No</b>{{ $data->jobOrder->invNo }} </span>
                             <span><b>Sales Contact</b>{{$data->salemanRef?->empName}}</span>
                         </div>
                     </td>
@@ -166,6 +166,7 @@
                         <tr>
                             <td colspan="3">รวมจำนวนเงินที่ต้องชำระ / Net paid</td>
                             <td class="remove-border"></td>
+                            
                             <td>{{ Service::MoneyFormat($data->items->sum('chargesReceive') +
                                 ($data->items->sum('chargesReceive') * 0.07) - ($data->itemsTax3Sum * 0.03) -
                                 ($data->itemsTax1Sum * 0.01) - $data->cus_paid) }}</td>
