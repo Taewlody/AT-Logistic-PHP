@@ -16,6 +16,7 @@ use App\Models\Payment\ShipingPaymentVoucher;
 use App\Models\PettyCash\PettyCash;
 use App\Models\PettyCash\PettyCashShipping;
 use App\Models\Shipping\Deposit;
+use App\Models\Common\Charges;
 use Dompdf\Css\Stylesheet;
 use Spatie\Browsershot\Browsershot;
 use Spatie\LaravelPdf\Enums\Format;
@@ -340,20 +341,43 @@ class PrintFileResource extends Controller
         }
         $heightChargesReceive = 0;
         $heightChargesbillReceive = 0;
+        // dd($data->items);
+        // $itemChargesReceive = $data->items->filter(function ($item) {
+        //     return $item->chargesReceive > 0;
+        // })->groupBy('detail')->map(function ($item) {
+        //     $newItem = (object) [
+        //         'detail' => $item->first()->detail,
+        //         'chargesReceive' => $item->sum('chargesReceive'),
+        //     ];
+        //     return $newItem;
+        // });
         $itemChargesReceive = $data->items->filter(function ($item) {
             return $item->chargesReceive > 0;
-        })->groupBy('detail')->map(function ($item) {
+        })->groupBy('chargeCode')->map(function ($item) {
+            $charge = Charges::where('chargeCode', $item->first()->chargeCode)->first();
+            
             $newItem = (object) [
-                'detail' => $item->first()->detail,
+                // 'detail' => $item->first()->detail,
+                'detail' => $charge->chargeName,
                 'chargesReceive' => $item->sum('chargesReceive'),
             ];
             return $newItem;
         });
+        // $itemChargesbillReceive = $data->items->filter(function ($item) {
+        //     return $item->chargesbillReceive > 0;
+        // })->groupBy('detail')->map(function ($item) {
+        //     $newItem = (object) [
+        //         'detail' => $item->first()->detail,
+        //         'chargesbillReceive' => $item->sum('chargesbillReceive'),
+        //     ];
+        //     return $newItem;
+        // });
         $itemChargesbillReceive = $data->items->filter(function ($item) {
             return $item->chargesbillReceive > 0;
-        })->groupBy('detail')->map(function ($item) {
+        })->groupBy('chargeCode')->map(function ($item) {
+            $charge = Charges::where('chargeCode', $item->first()->chargeCode)->first();
             $newItem = (object) [
-                'detail' => $item->first()->detail,
+                'detail' => $charge->chargeName,
                 'chargesbillReceive' => $item->sum('chargesbillReceive'),
             ];
             return $newItem;
@@ -362,7 +386,7 @@ class PrintFileResource extends Controller
             $heightChargesReceive = $itemChargesReceive->count() * 14;
             $heightChargesbillReceive = $itemChargesbillReceive->count() * 14;
         // }
-        
+        // dd($data);
         $heightChargesReceive = 260 - $heightChargesReceive;
         $heightChargesReceive = $heightChargesReceive < 0 ? 'auto' : $heightChargesReceive.'px';
         $heightChargesbillReceive = 288 - $heightChargesbillReceive;

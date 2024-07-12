@@ -130,7 +130,7 @@
                             <td>{{$data->branch}}</td>
                             <td>{{$data->chequeNo}}</td>
                             <td>{{Service::DateFormat($data->dueDate)}}</td>
-                            <td>{{Service::MoneyFormat($data->dueTime)}}</td>
+                            <td>{{Service::MoneyFormat($data->cus_paid)}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -269,7 +269,7 @@
                             <td>{{$data->branch}}</td>
                             <td>{{$data->chequeNo}}</td>
                             <td>{{Service::DateFormat($data->dueDate)}}</td>
-                            <td>{{Service::MoneyFormat($data->dueTime)}}</td>
+                            <td>{{Service::MoneyFormat($data->cus_paid)}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -408,7 +408,7 @@
                             <td>{{$data->branch}}</td>
                             <td>{{$data->chequeNo}}</td>
                             <td>{{Service::DateFormat($data->dueDate)}}</td>
-                            <td>{{Service::MoneyFormat($data->dueTime)}}</td>
+                            <td>{{Service::MoneyFormat($data->cus_paid)}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -547,7 +547,7 @@
                             <td>{{$data->branch}}</td>
                             <td>{{$data->chequeNo}}</td>
                             <td>{{Service::DateFormat($data->dueDate)}}</td>
-                            <td>{{Service::MoneyFormat($data->dueTime)}}</td>
+                            <td>{{Service::MoneyFormat($data->cus_paid)}}</td>
                         </tr>
                     </tbody>
                 </table>
