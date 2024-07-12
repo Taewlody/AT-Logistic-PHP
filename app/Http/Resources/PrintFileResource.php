@@ -239,8 +239,12 @@ class PrintFileResource extends Controller
                 return $item->charges->chargesType->amount == 3;
             })->sum('amount');
             $tax3->sumTax = $tax3->sumAmount * 0.03;
+            $vatTotal = $data->items->filter(function ($item) {
+                return $item->vat == 7;
+            })->sum('vatamount');
         }
-        $pdf = DomPdf::loadView('print.payment_voucher_pdf', ['title' => "Payment Voucher", 'data' => $data, 'tax1' => $tax1, 'tax3' => $tax3, 'checkInvoice' => $checkInvoice]);
+        
+        $pdf = DomPdf::loadView('print.payment_voucher_pdf', ['title' => "Payment Voucher", 'data' => $data, 'tax1' => $tax1, 'tax3' => $tax3, 'vatTotal' => $vatTotal, 'checkInvoice' => $checkInvoice]);
         return $pdf->stream('payment_voucher.pdf');
         // return view('print.payment_voucher_pdf', ['title' => "Payment Voucher", 'data' => $data, 'tax1' => $tax1, 'tax3' => $tax3, 'checkInvoice' => $checkInvoice, 'test' => true]);
     }

@@ -117,7 +117,7 @@
                         <tr>
                             <td colspan="5" rowspan="2"></td>
                             <td>Vat Total</td>
-                            <td class="right">{{Service::MoneyFormat($data->items->sum('amount') * 0.07)}}</td>
+                            <td class="right">{{Service::MoneyFormat($vatTotal)}}</td>
                         </tr>
                         <tr>
                             {{-- <td colspan="5"></td> --}}
