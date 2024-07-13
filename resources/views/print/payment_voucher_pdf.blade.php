@@ -122,8 +122,7 @@
                         <tr>
                             {{-- <td colspan="5"></td> --}}
                             <td>Grand Total</td>
-                            <td class="right">{{Service::MoneyFormat($data->items->sum('amount') +
-                                ($data->items->sum('amount') * 0.07) - ($tax1->sumTax + $tax3->sumTax))}}</td>
+                            <td class="right">{{Service::MoneyFormat($data->items->sum('amount') - ($tax1->sumTax + $tax3->sumTax))}}</td>
                         </tr>
                     </tbody>
                 </table>
