@@ -4,6 +4,8 @@ namespace App\Livewire\page\Account\TaxInvoice;
 
 use Livewire\Attributes\On;
 use App\Models\Account\TaxInvoice;
+use App\Models\Account\TaxInvoiceItems;
+use App\Models\Account\Invoice;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Carbon\Carbon;
@@ -45,6 +47,17 @@ class Page extends Component
         if($this->documentNo != null) {
             $this->query[] = ['documentID', 'like', '%'.$this->documentNo.'%'];
         }
+    }
+
+    public function delete($id) {
+        $tax_item = TaxInvoiceItems::where('documentID', $id)->get();
+        foreach($tax_item as $item) {
+            Invoice::where('documentID', $item->invNo)->update(['taxivRef' => '']);
+        }
+        TaxInvoiceItems::where('documentID', $id)->delete();
+        $tax = TaxInvoice::find($id)->delete();
+
+        $this->render();
     }
 
     public function render()

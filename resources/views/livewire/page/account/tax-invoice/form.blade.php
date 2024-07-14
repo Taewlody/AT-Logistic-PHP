@@ -58,7 +58,9 @@
                         <option value="{{ $cus->cusCode }}">{{ $cus->custNameEN }}</option>
                         @endforeach
                       </select> --}}
-                      <livewire:element.select2 wire:model='data.cusCode' name="cusCode" :options="Service::CustomerSelecter()" itemKey="cusCode" itemValue="custNameEN" :searchable="true" >
+                      
+                      <livewire:element.select2 wire:model='data.cusCode' name="cusCode" id="cusCode" :options="Service::CustomerSelecter()" itemKey="cusCode" itemValue="custNameEN" :searchable="true" >
+
                     </div>
                   </div>
 
@@ -204,26 +206,52 @@
               <div id="collapseInvoice" role="tabpanel" class="collapse show" aria-labelledby="headingInvoice"
                 data-bs-parent="#accordion-3">
                 <div class="card-body">
-                  <div class="form-group row">
-                    <div class="col-md-6">
-                      {{-- <select class="select2_single form-control select2" style="width: 100%;" id="chargeCode"
-                        wire:model.change="chargeCode">
-                        <option value="">- select -</option>
-                        @foreach (Service::ChargesSelecter() as $charge)
-                        <option value="{{ $charge->chargeCode }}">
-                          {{ $charge->chargeName }}
-                        </option>
-                        @endforeach
-
-                      </select> --}}
-                      <livewire:element.select2 wire:model.live='chargeCode' name="chargeCode" :options="Service::ChargesSelecter()" itemKey="chargeCode" itemValue="chargeName" :searchable="true" >
-                    </div>
-                    <div class="col-md-2" style="padding-left: 0px;">
-                      <button class="btn btn-primary " type="button" name="addPayment" wire:click="addPayment"
-                        @disabled($chargeCode=='' ) id="addPayment"><i class="fa fa-plus"></i>
-                        Add</button>
+                  <div class="form-group">
+                    <div class="table-responsive" id="containner_invoice">
+                     
+                      <table class="table" width="100%" id="table_invoice">
+                        <thead>
+                          <tr>
+                            <th style="width:10%">No.</th>
+                            <th style="width:10%">invNo.</th>
+                            <th style="width:10%">documentDate</th>
+                            <th style="width:10%">Job Ref</th>
+                            <th style="width:10%">Select</th>
+                            <!-- <th style="width:5%">Action</th> --> 
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @if($invoiceNoTax)
+                          @foreach ( $invoiceNoTax as $index => $in )
+                          <tr>
+                            <td>{{$index+1}}</td>
+                            <td>{{$in->documentID}}</td>
+                            <td>{{$in->documentDate}}</td>
+                            <td>{{$in->ref_jobNo}}</td>
+                            <td>
+                              @if( $action != 'view')
+                              <input type="checkbox" value="{{ $in->documentID }}" wire:model.live="selectedInvoice" name="selectedInvoice[]" id="selectedInvoice[]"/>
+                              @endif
+                            </td>
+                          </tr>
+                          @endforeach
+                          @endif
+                        </tbody>
+                      </table>
+                      
                     </div>
                   </div>
+                  <div class="form-group row">
+                    <div class="col-md-2" style="padding-left: 0px;">
+                      @if( $action != 'view')
+                      <button class="btn btn-primary " type="button" name="addPayment" wire:click="addPayment"
+                        @disabled(count($selectedInvoice) == 0) id="addPayments"><i class="fa fa-plus"></i>
+                        Add</button>
+                        @endif
+                    </div>
+                  </div>
+
+                  <br/><br/>
                   <div class="form-group">
                     <div class="table-responsive" id="containner_charge">
                       <table class="table" width="100%" id="table_charge">
@@ -234,7 +262,7 @@
                             <th style="width:10%">Cost</th>
                             <th style="width:10%">Receive</th>
                             <th style="width:10%">Bill of receipt</th>
-                            <!-- <th style="width:5%">Action</th> -->
+                            <th style="width:5%"></th>
                           </tr>
                         </thead>
                         <tbody>
@@ -247,19 +275,24 @@
                             </td>
                             <td>
                               <input type='text' class='form-control'
-                                wire:model.live.debounce.500ms="payments.{{ $loop->index }}.detail">
+                                wire:model.live="payments.{{ $loop->index }}.detail">
                             </td>
                             <td class='center'>
-                              <input type='number' class='form-control'
-                                wire:model.live.debounce.500ms.number="payments.{{ $loop->index }}.chargesCost">
+                              <input type='number' step="0.01" min="0" class='form-control'
+                                wire:model.live.number="payments.{{ $loop->index }}.chargesCost">
                             </td>
                             <td class='center'>
-                              <input type='number' class='form-control'
-                                wire:model.live.debounce.500ms.number="payments.{{ $loop->index }}.chargesReceive">
+                              <input type='number' step="0.01" min="0" class='form-control'
+                                wire:model.live.number="payments.{{ $loop->index }}.chargesReceive">
                             </td>
                             <td class='center'>
-                              <input type='number' class='form-control'
-                                wire:model.live.debounce.500ms.number="payments.{{ $loop->index }}.chargesbillReceive">
+                              <input type='number' step="0.01" min="0" class='form-control'
+                                wire:model.live.number="payments.{{ $loop->index }}.chargesbillReceive">
+                            </td>
+                            <td>
+                              @if($action == 'create')
+                              <button type="button" class="btn btn-xs btn-danger" wire:click="removePayment({{ $loop->iteration }})">remove</button>
+                              @endif
                             </td>
                           </tr>
                           @endforeach
@@ -277,6 +310,7 @@
                             <td style="width:5%" align="left">&nbsp;&nbsp;&nbsp;&nbsp;<span id="total_Bill_of_receipt">
                                 {{$payments->sum('chargesbillReceive')}}
                               </span></td>
+                              <td></td>
                           </tr>
                         </tfoot>
                       </table>
@@ -291,25 +325,44 @@
                             <tr>
                               <td><strong>Vat 7% :</strong></td>
                               <td><span id="tax">
-                                  {{$data->total_vat}}
+                                  {{-- {{$data->total_vat}} --}}
+                                  {{$payments->sum('chargesReceive')*0.07}}
                                 </span></td>
                             </tr>
                             <tr>
                               <td><strong>TOTAL :</strong></td>
                               <td><span id="total">
-                                  {{$data->total_amt}}
+                                  {{-- {{$data->total_amt}} --}}
+                                  {{ $payments->sum('chargesReceive')*0.07 + 
+                                      $payments->sum('chargesReceive') +
+                                      $payments->sum('chargesbillReceive') }}
+                                  
                                 </span></td>
                             </tr>
                             <tr>
                               <td><strong>WH TAX 3% :</strong></td>
                               <td><span id="wh_tax3">
-                                  {{$data->tax3}}
+                                @php $sum3 = 0; @endphp
+                                @foreach ($payments as $item)
+                                
+                                  @if($item->chargeCode && $item->charges->chargesType->amount == 3)
+                                  @php $sum3 += $item->chargesReceive*0.03 @endphp
+                                  @endif
+                                @endforeach
+                                {{ $sum3 }}
                                 </span></td>
                             </tr>
                             <tr>
                               <td><strong>WH TAX 1% :</strong></td>
                               <td><span id="wh_tax1">
-                                  {{$data->tax1}}
+                                @php $sum1 = 0; @endphp
+                                @foreach ($payments as $item)
+                                
+                                  @if($item->chargeCode && $item->charges->chargesType->amount == 1)
+                                  @php $sum1 += $item->chargesReceive*0.03 @endphp
+                                  @endif
+                                @endforeach
+                                {{ $sum1 }}
                                 </span></td>
                             </tr>
                             <tr>
@@ -320,7 +373,11 @@
                             <tr>
                               <td><strong>NET PAD:</strong></td>
                               <td><span id="net_pad">
-                                  {{$data->total_netamt}}
+                                  {{-- {{$data->total_netamt}} --}}
+                                  
+                                  {{($payments->sum('chargesReceive')*0.07 + 
+                                      $payments->sum('chargesReceive') +
+                                      $payments->sum('chargesbillReceive')) - ($sum1 + $sum3)}}
                                 </span></td>
                             </tr>
                           </tbody>
@@ -365,13 +422,14 @@
                     <i class="fa fa-reply"></i> Back</a>
 
 
-                  @if($data->documentstatus != 'A')
+                  @if($data->documentstatus != 'A' && $action != 'view')
                   <button name="save" id="save" class="btn  btn-success" type="submit">
                     <i class="fa fa-save"></i> Save</button>
-                  @endif
+                  
                   <button name="approve" id="approve" class="btn btn-primary" type="button" wire:click="approve"
                     @disabled($data->documentstatus == 'A')>
                     <i class="fa fa-check"></i> Approve</button>
+                    @endif
                   @if($data->documentID != null && $data->documentID != '')
                   <a class="btn" target="_blank" href="{{'/api/print/tax_invoice_pdf/'.$data->documentID}}"><i
                       class="fa fa-print"></i>
@@ -387,3 +445,4 @@
   </div>
 
 </div>
+

@@ -17,6 +17,8 @@ use Auth;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 use Livewire\Attributes\Url;
+use Livewire\Attributes\On;
+use Carbon\Carbon;
 
 class Form extends Component
 {
@@ -31,7 +33,15 @@ class Form extends Component
 
     public Collection $invoice;
 
+    public Collection $invoiceNoTax;
+
     public Collection $payments;
+
+    public Array $selectedInvoice = [];
+
+    public $tax1;
+    public $tax3;
+
 
     protected array $rules = [
         'payments.*' => 'unique:App\Models\Account\TaxInvoiceItems',
@@ -55,10 +65,12 @@ class Form extends Component
         if($this->id!=''){
             $this->data = TaxInvoice::find($this->id);
             $this->payments = $this->data->items;
+            $this->changeContact();
         }else{
             $this->action = 'create';
             $this->data = new TaxInvoice;
             $this->data->createID = Auth::user()->usercode;
+            $this->data->documentDate = Carbon::now()->format('Y-m-d');
             // $this->payments = new Collection;
             // $this->payments = $this->getInvoiceItem();
             // dd($this->payments);
@@ -67,6 +79,46 @@ class Form extends Component
         }
     }
 
+    #[On('updated-cusCode')]
+    public function changeContact(){
+        $checkInvoice = true;
+        
+        if($this->data->cusCode) {
+            $this->invoiceNoTax = Invoice::select('documentID', 'taxivRef', 'ref_jobNo', 'documentDate')
+                ->where('cusCode', $this->data->cusCode)
+                ->where('taxivRef', '')->get();
+        }
+        
+        $this->dispatch('updated-table-invoice',  $this->invoiceNoTax );
+       
+    }
+
+    public function removePayment($index) {
+        $this->payments->forget($index-1);
+        $this->payments = $this->payments->values();
+        $this->updatedInvoice();
+    }
+
+    public function addPayment(){
+        // dd($this->selectedInvoice);
+        $this->invoice = Invoice::whereIn('documentID', $this->selectedInvoice)->get();
+        $this->payments = new Collection;
+        foreach($this->invoice as $inv){
+            $inv->items()->each(function($inv_item) use ($inv){
+                $newItem = new TaxInvoiceItems([
+                    'invNo' => $inv->documentID,
+                    'chargeCode' => $inv_item->chargeCode,
+                    'detail' => $inv_item->detail,
+                    'chargesCost' => $inv_item->chargesCost,
+                    'chargesReceive' => $inv_item->chargesReceive,
+                    'chargesbillReceive' => 0,
+                ]);
+                $this->payments->push($newItem);
+            });
+        }
+
+        $this->updatedInvoice();
+    }
 
     public function getInvoiceItem(){
         $this->invoice = Invoice::where([['documentStatus', 'A'], ['taxivRef', null]])->get();
@@ -86,37 +138,60 @@ class Form extends Component
         }
     }
 
-    public function addPayment() {
-        $charge = Charges::find($this->chargeCode);
-        $newCharge = new TaxInvoiceItems;
-        $newCharge->documentID = $this->data->documentID;
-        $newCharge->chargeCode = $this->chargeCode;
-        $newCharge->detail = $charge->chargeName;
-        $this->payments->push($newCharge);
-        $this->reset('chargeCode');
-    }
+    // public function addPayment() {
+    //     $charge = Charges::find($this->chargeCode);
+    //     $newCharge = new TaxInvoiceItems;
+    //     $newCharge->documentID = $this->data->documentID;
+    //     $newCharge->chargeCode = $this->chargeCode;
+    //     $newCharge->detail = $charge->chargeName;
+    //     $this->payments->push($newCharge);
+    //     $this->reset('chargeCode');
+    // }
 
     // public function removePayment(int $index) {
     //     $this->payments->forget($index);
     //     $this->payments = $this->payments->values();
     // }
 
-    public function updatedPayments($value, $key) {
+    #[On('updated-payments')]
+    public function updatedInvoice() {
+        // $this->data->total_vat = $this->payments->sum('chargesReceive') * 0.07;
+        // $this->data->total_amt = $this->data->total_vat + ($this->payments->sum('chargesReceive') + $this->payments->sum('chargesbillReceive'));
+        // $this->data->tax1 = $this->payments->filter(function (TaxInvoiceItems $item) {
+        //     if($item->charge == null || $item->charge->chargesType == null) return false;
+        //     return $item->charges->chargesType->amount == 1;
+        // })->sum(function(TaxInvoiceItems $payment) {
+        //     return $payment->chargesReceive - $payment->chargesbillReceive;
+        // });
+        // $this->data->tax3 = $this->payments->filter(function (TaxInvoiceItems $item) {
+        //     dd($item);
+        //     if($item->charge == null || $item->charge->chargesType == null) return false;
+        //     return $item->charges->chargesType->amount == 3;
+        // })->sum(function(TaxInvoiceItems $payment) {
+            
+        //     return $payment->chargesReceive - $payment->chargesbillReceive;
+        // });
+        // $this->data->total_netamt = $this->data->total_amt - ($this->data->tax1 + $this->data->tax3);
+        
         $this->data->total_vat = $this->payments->sum('chargesReceive') * 0.07;
         $this->data->total_amt = $this->data->total_vat + ($this->payments->sum('chargesReceive') + $this->payments->sum('chargesbillReceive'));
-        $this->data->tax1 = $this->payments->filter(function (TaxInvoiceItems $item) {
-            if($item->charge == null || $item->charge->chargesType == null) return false;
+
+        $this->tax1 = $this->payments->filter(function (TaxInvoiceItems $item) {
+            if($item->chargeCode == null) return false;
             return $item->charges->chargesType->amount == 1;
         })->sum(function(TaxInvoiceItems $payment) {
-            return $payment->chargesReceive - $payment->chargesbillReceive;
+            return $payment->chargesReceive*0.01;
         });
-        $this->data->tax3 = $this->payments->filter(function (TaxInvoiceItems $item) {
-            if($item->charge == null || $item->charge->chargesType == null) return false;
+        $this->tax3 = $this->payments->filter(function (TaxInvoiceItems $item) {
+            
+            if($item->chargeCode == null) return false;
             return $item->charges->chargesType->amount == 3;
         })->sum(function(TaxInvoiceItems $payment) {
-            return $payment->chargesReceive - $payment->chargesbillReceive;
+           
+            return $payment->chargesReceive*0.03;
         });
         $this->data->total_netamt = $this->data->total_amt - ($this->data->tax1 + $this->data->tax3);
+        
     }
 
     public function save(bool|null $approve = false) {
@@ -129,7 +204,14 @@ class Form extends Component
             return !collect($this->payments->pluck('items'))->contains($item->items);
         })->each->delete();
         $this->data->items()->saveMany($this->payments);
-        $this->invoice->each->update(['taxivRef' => $this->data->documentID]);
+        
+        if($this->payments) {
+            foreach($this->payments as $pay){
+                $in = Invoice::where('documentID', $pay->invNo)->update(['taxivRef' => $this->data->documentID]);
+                
+            }
+        }
+        // $this->invoice->each->update(['taxivRef' => $this->data->documentID]);
     }
 
     public function submit(){
