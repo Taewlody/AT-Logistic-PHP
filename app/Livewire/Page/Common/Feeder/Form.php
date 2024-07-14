@@ -35,7 +35,8 @@ class Form extends Component
     {
         if($this->action=='create'){
             if($this->data && $this->data->fName) {
-                $checkDuplicateName = Feeder::where('fName', $this->data->fName);
+                $checkDuplicateName = Feeder::where('fName', $this->data->fName)->first();
+                
                 if(isset($checkDuplicateName)) {
                     return session()->flash('message', 'มีชื่อนี้อยู่ในระบบแล้ว');
                     
