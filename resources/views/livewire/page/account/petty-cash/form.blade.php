@@ -266,8 +266,11 @@
                                     <button name="Save" id="Save" class="btn btn-success" type="submit"><i
                                             class="fa fa-save"></i> Save</button>
                                     {{-- @else --}}
+                                    
+                                    @if(Auth::user()->hasRole('admin'))
                                     <button name="Approve" id="Approve" class="btn btn-primary" type="button" wire:click='approve'><i
                                             class="fa fa-check"></i> Approve</button>
+                                    @endif
                                     {{-- @endif --}}
 
                                     @if($data->documentID!=null||$data->documentID!='')
