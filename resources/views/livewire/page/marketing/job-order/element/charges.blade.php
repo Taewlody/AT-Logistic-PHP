@@ -127,15 +127,15 @@
                                         wire:model.live.debounce.500ms="value.{{ $loop->index }}.detail"> --}}
                                 </td>
                                 <td class="center">
-                                    <input type="number" class="form-control full" id="price-{{$indexItem}}"
+                                    <input type="number" step="0.01" class="form-control full" id="price-{{$indexItem}}"
                                         wire:keyup="dispatch('call_price', {{$indexItem}})" value="1">
                                 </td>
                                 <td class="center">
-                                    <input type="number" class="form-control full" id="volum-{{$indexItem}}"
+                                    <input type="number" step="0.01" class="form-control full" id="volum-{{$indexItem}}"
                                         wire:keyup="dispatch('call_price', {{$indexItem}})" value="1">
                                 </td>
                                 <td class="center">
-                                    <input type="number" class="form-control full" id="exchange-{{$indexItem}}"
+                                    <input type="number" step="0.01" class="form-control full" id="exchange-{{$indexItem}}"
                                         wire:keyup="dispatch('call_price', {{$indexItem}})" value="1">
                                 </td>
                                 <td class="center">
