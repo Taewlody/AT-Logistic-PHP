@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Marketing\JobOrder;
 use App\Models\Common\Customer;
 use App\Models\Common\Saleman;
 use App\Models\Common\TransportType;
@@ -153,6 +154,11 @@ class PettyCash extends Model implements Wireable
     public function docStatus(): HasOne
     {
         return $this->hasOne(RefDocumentStatus::class, 'status_code', 'documentstatus');
+    }
+
+    public function jobOrder(): HasOne
+    {
+        return $this->hasOne(JobOrder::class, 'documentID', 'refJobNo');
     }
 
     public function createBy(): HasOne

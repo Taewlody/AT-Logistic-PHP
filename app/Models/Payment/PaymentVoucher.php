@@ -17,6 +17,7 @@ use App\Models\User;
 use App\Models\Common\Supplier;
 use App\Models\Status\RefDocumentStatus;
 use App\Models\Marketing\JobOrder;
+use App\Models\Marketing\JobOrderCharge;
 use Livewire\Wireable;
 
 class PaymentVoucher extends Model implements Wireable
@@ -182,6 +183,11 @@ class PaymentVoucher extends Model implements Wireable
     public function jobOrder(): HasOne
     {
         return $this->hasOne(JobOrder::class, 'documentID', 'refJobNo');
+    }
+
+    public function charge(): HasMany
+    {
+        return $this->HasMany(JobOrderCharge::class, 'ref_paymentCode', 'documentID');
     }
 
     public function supplier(): HasOne

@@ -10,6 +10,7 @@ use App\Models\Common\BankAccount;
 use App\Models\Common\Charges;
 use App\Models\Common\Supplier;
 use App\Models\Marketing\JobOrder;
+use App\Models\Marketing\JobOrderCharge;
 use App\Models\Payment\PaymentVoucher;
 use App\Models\Payment\PaymentVoucherAttach;
 use App\Models\Payment\PaymentVoucherItems;
@@ -330,17 +331,26 @@ class Form extends Component
         
         $success = $this->save(true);
         if($success) {
-            $this->job = JobOrder::find($this->data->refJobNo);
-            $this->job->charge()->where('ref_paymentCode', $this->data->documentID)->delete();
-            $this->payments->each(function($item){
-                $this->job->charge()->create([
-                    'documentID' => $this->job->documentID,
-                    'ref_paymentCode' => $this->data->documentID,
-                    'chargeCode' => $item->chargeCode,
-                    'detail' => $item->chartDetail,
-                    'chargesCost' => $item->amount
-                ]);
-            });
+            if($this->data->refJobNo) {
+                // $this->job = JobOrder::find($this->data->refJobNo);
+                $this->job = JobOrderCharge::where('ref_paymentCode',$this->data->documentID);
+                
+                $this->job->delete();
+                
+                // $this->job->charge()->where('ref_paymentCode', $this->data->documentID)->delete();
+                // dd($this->data);
+            
+                $this->payments->each(function($item){
+                    $this->job->create([
+                        'documentID' => $this->data->refJobNo,
+                        'ref_paymentCode' => $this->data->documentID,
+                        'chargeCode' => $item->chargeCode,
+                        'detail' => $item->chartDetail,
+                        'chargesCost' => $item->amount
+                    ]);
+                });
+                
+            }
             
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
             return redirect()->route('account-payment-voucher.form', ['action' => 'edit', 'id' => $this->data->documentID]);

@@ -177,7 +177,7 @@
                         <span class="header">JOB REF : </span>{{$data->ref_jobID}}
                     </td>
                     <td>
-                        <span class="header">INVOICE CUSTOMER REF : </span>{{$data->jobOrder != null&&$data->jobOrder->invoice != null ? $data->jobOrder->invoice->documentID : ""}}
+                        <span class="header">INVOICE CUSTOMER REF : </span>{{$data->jobOrder != null&&$data->jobOrder->invNo != null ? $data->jobOrder->invNo : ""}}
                     </td>
                 </tr>
             </table>
