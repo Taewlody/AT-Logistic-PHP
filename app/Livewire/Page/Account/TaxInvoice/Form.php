@@ -19,6 +19,7 @@ use Livewire\Component;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\On;
 use Carbon\Carbon;
+use App\Functions\CalculatorPrice;
 
 class Form extends Component
 {
@@ -41,6 +42,7 @@ class Form extends Component
 
     public $tax1;
     public $tax3;
+    public $cus_paid;
 
 
     protected array $rules = [
@@ -66,6 +68,19 @@ class Form extends Component
             $this->data = TaxInvoice::find($this->id);
             $this->payments = $this->data->items;
             $this->changeContact();
+            // dd($this->selectedInvoice, $this->payments);
+            $this->cus_paid = 0;
+            if($this->payments) {
+                $invNos = array_unique(array_column($this->payments->toArray(), 'invNo'));
+                foreach($invNos as $in) {
+                    $invoice = Invoice::where('documentID', $in)->first();
+                    
+                    $this->cus_paid += CalculatorPrice::cal_customer_piad($invoice->ref_jobNo)->sum('sumTotal');
+                }
+                
+            }
+            
+            
         }else{
             $this->action = 'create';
             $this->data = new TaxInvoice;
@@ -75,6 +90,7 @@ class Form extends Component
             // $this->payments = $this->getInvoiceItem();
             // dd($this->payments);
             $this->getInvoiceItem();
+            
             // dd($this->payments);
         }
     }
@@ -103,6 +119,7 @@ class Form extends Component
         // dd($this->selectedInvoice);
         $this->invoice = Invoice::whereIn('documentID', $this->selectedInvoice)->get();
         $this->payments = new Collection;
+        $this->cus_paid = 0;
         foreach($this->invoice as $inv){
             $inv->items()->each(function($inv_item) use ($inv){
                 $newItem = new TaxInvoiceItems([
@@ -111,12 +128,16 @@ class Form extends Component
                     'detail' => $inv_item->detail,
                     'chargesCost' => $inv_item->chargesCost,
                     'chargesReceive' => $inv_item->chargesReceive,
-                    'chargesbillReceive' => 0,
+                    'chargesbillReceive' => $inv_item->chargesbillReceive,
                 ]);
                 $this->payments->push($newItem);
-            });
-        }
 
+            });
+            $this->cus_paid += CalculatorPrice::cal_customer_piad($inv->ref_jobNo)->sum('sumTotal');
+            
+        }
+        
+        
         $this->updatedInvoice();
     }
 
@@ -176,13 +197,13 @@ class Form extends Component
         $this->data->total_vat = $this->payments->sum('chargesReceive') * 0.07;
         $this->data->total_amt = $this->data->total_vat + ($this->payments->sum('chargesReceive') + $this->payments->sum('chargesbillReceive'));
 
-        $this->tax1 = $this->payments->filter(function (TaxInvoiceItems $item) {
+        $this->data->tax1 = $this->payments->filter(function (TaxInvoiceItems $item) {
             if($item->chargeCode == null) return false;
             return $item->charges->chargesType->amount == 1;
         })->sum(function(TaxInvoiceItems $payment) {
             return $payment->chargesReceive*0.01;
         });
-        $this->tax3 = $this->payments->filter(function (TaxInvoiceItems $item) {
+        $this->data->tax3 = $this->payments->filter(function (TaxInvoiceItems $item) {
             
             if($item->chargeCode == null) return false;
             return $item->charges->chargesType->amount == 3;
@@ -190,11 +211,12 @@ class Form extends Component
            
             return $payment->chargesReceive*0.03;
         });
-        $this->data->total_netamt = $this->data->total_amt - ($this->data->tax1 + $this->data->tax3);
-        
+        $this->data->total_netamt = $this->data->total_amt - ($this->data->tax1 + $this->data->tax3) - $this->cus_paid;
     }
 
     public function save(bool|null $approve = false) {
+        $this->data->total_netamt = $this->data->total_amt - ($this->data->tax1 + $this->data->tax3) - $this->cus_paid;
+        
         $this->data->editID = Auth::user()->usercode;
         if($approve){
             $this->data->documentStatus = 'A';

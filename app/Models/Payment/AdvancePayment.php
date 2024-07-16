@@ -95,15 +95,37 @@ class AdvancePayment extends Model implements Wireable
         });
     }
 
+    // public static function genarateKey(){
+    //     $prefix = "PV".Carbon::now()->format('ym');
+    //     $lastKey = self::where('documentID', 'LIKE', $prefix.'%')->max('documentID');
+    //     if($lastKey != null){
+    //         $lastKey = intval(explode('-', $lastKey)[1]) + 1;
+    //     }else{
+    //         $lastKey = 1;
+    //     }
+    //     $index = str_pad($lastKey, 5, '0', STR_PAD_LEFT);
+    //     return $prefix.'-'.$index;
+    // }
     public static function genarateKey(){
         $prefix = "PV".Carbon::now()->format('ym');
-        $lastKey = self::where('documentID', 'LIKE', $prefix.'%')->max('documentID');
-        if($lastKey != null){
-            $lastKey = intval(explode('-', $lastKey)[1]) + 1;
-        }else{
-            $lastKey = 1;
+        $documentIDs = self::where('documentID', 'LIKE', $prefix.'%')->pluck('documentID');
+        
+        $maxNumber = 0;
+
+        foreach ($documentIDs as $documentID) {
+            // Extract the numeric part from each document ID
+            $numericPart = (int) substr($documentID, strlen($prefix) + 1); // +1 to skip the '-'
+            
+            // Find the maximum numeric value
+            if ($numericPart > $maxNumber) {
+                $maxNumber = $numericPart;
+            }
         }
-        $index = str_pad($lastKey, 5, '0', STR_PAD_LEFT);
+
+        // Increment the maximum value to generate the new document ID
+        $newNumber = $maxNumber + 1;
+        $index = str_pad($newNumber, 5, '0', STR_PAD_LEFT);
+        
         return $prefix.'-'.$index;
     }
 

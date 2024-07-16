@@ -26,8 +26,16 @@
                                     <div class="form-group  row">
                                         <label class="col-sm-2 col-form-label"><a>User</a> Code</label>
                                         <div class="col-md-2">
-                                            <input type="text" name="usercode" id="usercode" wire:model="data.usercode"
+                                            <input type="text" name="usercode" id="usercode" wire:model="data.usercode" required
                                             @readonly($action != 'create') class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group  row">
+                                        <label class="col-sm-2 col-form-label">Password</label>
+                                        <div class="col-sm-2">
+                                            <input type="password" name="userpass" id="userpass" class="form-control"
+                                                wire:model="data.userpass">
                                         </div>
                                     </div>
 
@@ -44,7 +52,7 @@
                                     <div class="form-group  row">
                                         <label class="col-sm-2 col-form-label">Name</label>
                                         <div class="col-sm-2">
-                                            <input type="text" name="username" id="username" class="form-control"
+                                            <input type="text" name="username" id="username" class="form-control" required
                                                 wire:model="data.username">
                                         </div>
                                     </div>
@@ -53,13 +61,13 @@
                                     <div class="form-group  row">
                                         <label class="col-sm-2 col-form-label">Surname</label>
                                         <div class="col-sm-2">
-                                            <input type="text" name="surname" id="surname" class="form-control" wire:model="data.surname">
+                                            <input type="text" name="surname" id="surname" required class="form-control" wire:model="data.surname">
                                         </div>
                                     </div>
                                     <div class="form-group  row">
                                         <label class="col-sm-2 col-form-label">User Type</label>
                                         <div class="col-sm-2">
-                                            <select class="select2_single form-control select2" name="userTypecode" wire:model="data.userTypecode"
+                                            <select class="select2_single form-control select2" name="userTypecode" wire:model="data.userTypecode" required
                                                 id="userTypecode" @disabled($action != 'create' && $action != 'edit' && Auth::user()->UserType->userTypecode != '1')>
                                                 <option value="">Select User Type</option>
                                                 @foreach ($userTypeList as $userType)

@@ -24,6 +24,7 @@ use Spatie\LaravelPdf\Enums\Unit;
 use function Spatie\LaravelPdf\Support\pdf;
 use Barryvdh\DomPDF\Facade\Pdf as DomPdf;
 use Dompdf\FontMetrics;
+use App\Functions\CalculatorPrice;
 
 class PrintFileResource extends Controller
 {
@@ -191,6 +192,8 @@ class PrintFileResource extends Controller
         }else {
             $onBoard = $data->joborder->etdDate;
         }
+
+        $customer_piad = CalculatorPrice::cal_customer_piad($data->ref_jobNo)->sum('sumTotal');
        
         $pdf = DomPdf::loadView('print.invoice_pdf', [
             'title' => "Invoice", 
@@ -198,6 +201,7 @@ class PrintFileResource extends Controller
             'credit' => $credit,
             'groupCommodity' => $groupCommodity,
             'onBoard' => $onBoard,
+            'customer_piad' => $customer_piad,
             'heightItems' => $heightItems]);
         return $pdf->stream('invoice.pdf');
 
@@ -397,6 +401,7 @@ class PrintFileResource extends Controller
         $heightChargesbillReceive = $heightChargesbillReceive < 0 ? 'auto' : $heightChargesbillReceive.'px';
         $pdf = DomPdf::loadView('print.tax_invoice_pdf', ['title' => "Tax Invoice", 'data' => $data, 'itemChargesReceive'=> $itemChargesReceive, 'heightChargesReceive' => $heightChargesReceive, 'itemChargesbillReceive'=> $itemChargesbillReceive, 'heightChargesbillReceive' => $heightChargesbillReceive]);
         return $pdf->stream('tax_invoice.pdf');
+        // return view('print.tax_invoice_pdf', ['title' => "Tax Invoice", 'data' => $data, 'itemChargesReceive'=> $itemChargesReceive, 'heightChargesReceive' => $heightChargesReceive, 'itemChargesbillReceive'=> $itemChargesbillReceive, 'heightChargesbillReceive' => $heightChargesbillReceive, 'test' => true]);
     }
 
     public function testViewPdf(string $id)

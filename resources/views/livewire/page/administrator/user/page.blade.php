@@ -67,10 +67,7 @@
         <!-- State saving Ends-->
     </div>
 </div>
-@push('scripts')
-    {{-- <script src="{{ asset('assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script> --}}
-    <script src="{{ asset('assets/js/datatable/datatables/datatable.custom.js') }}"></script>
-@endpush
+
 
 @script
 <script>

@@ -302,13 +302,13 @@
                             <td style="width:5%"></td>
                             <td style="width:50%"></td>
                             <td style="width:10%" align="left">&nbsp;&nbsp;&nbsp;&nbsp;<span id="total_cost">
-                                {{$payments->sum('chargesCost')}}
+                                {{ number_format($payments->sum('chargesCost'), 2) }}
                               </span></td>
                             <td style="width:5%" align="left">&nbsp;&nbsp;&nbsp;&nbsp;<span id="total_receive">
-                                {{$payments->sum('chargesReceive')}}
+                                {{ number_format($payments->sum('chargesReceive'), 2) }}
                               </span></td>
                             <td style="width:5%" align="left">&nbsp;&nbsp;&nbsp;&nbsp;<span id="total_Bill_of_receipt">
-                                {{$payments->sum('chargesbillReceive')}}
+                                {{ number_format($payments->sum('chargesbillReceive'), 2) }}
                               </span></td>
                               <td></td>
                           </tr>
@@ -316,31 +316,31 @@
                       </table>
                     </div>
                     <div class="form-group row">
-                      <label class="col-lg-6 col-form-label"> remark
+                      <label class="col-lg-8 col-form-label"> remark
                         <textarea rows="8" name="remark" class="form-control" wire:model="data.remark"></textarea>
                       </label>
-                      <div class="col-lg-6">
-                        <table class="table invoice-total">
+                      <div class="col-lg-4">
+                        <table class="table invoice-total" style="font-size: 15px">
                           <tbody>
                             <tr>
-                              <td><strong>Vat 7% :</strong></td>
+                              <td class="text-end"><strong>Vat 7% :</strong></td>
                               <td><span id="tax">
                                   {{-- {{$data->total_vat}} --}}
-                                  {{$payments->sum('chargesReceive')*0.07}}
+                                  {{ number_format($payments->sum('chargesReceive')*0.07, 2) }}
                                 </span></td>
                             </tr>
                             <tr>
-                              <td><strong>TOTAL :</strong></td>
+                              <td class="text-end"><strong>TOTAL :</strong></td>
                               <td><span id="total">
                                   {{-- {{$data->total_amt}} --}}
-                                  {{ $payments->sum('chargesReceive')*0.07 + 
+                                  {{ number_format($payments->sum('chargesReceive')*0.07 + 
                                       $payments->sum('chargesReceive') +
-                                      $payments->sum('chargesbillReceive') }}
+                                      $payments->sum('chargesbillReceive'), 2) }}
                                   
                                 </span></td>
                             </tr>
                             <tr>
-                              <td><strong>WH TAX 3% :</strong></td>
+                              <td class="text-end"><strong>WH TAX 3% :</strong></td>
                               <td><span id="wh_tax3">
                                 @php $sum3 = 0; @endphp
                                 @foreach ($payments as $item)
@@ -349,35 +349,35 @@
                                   @php $sum3 += $item->chargesReceive*0.03 @endphp
                                   @endif
                                 @endforeach
-                                {{ $sum3 }}
+                                {{ number_format($sum3, 2) }}
                                 </span></td>
                             </tr>
                             <tr>
-                              <td><strong>WH TAX 1% :</strong></td>
+                              <td class="text-end"><strong>WH TAX 1% :</strong></td>
                               <td><span id="wh_tax1">
                                 @php $sum1 = 0; @endphp
                                 @foreach ($payments as $item)
                                 
                                   @if($item->chargeCode && $item->charges->chargesType->amount == 1)
-                                  @php $sum1 += $item->chargesReceive*0.03 @endphp
+                                  @php $sum1 += $item->chargesReceive*0.01 @endphp
                                   @endif
                                 @endforeach
-                                {{ $sum1 }}
+                                {{ number_format($sum1, 2) }}
                                 </span></td>
                             </tr>
                             <tr>
-                              <td><strong>ลูกค้าสำรองจ่าย :</strong></td>
-                              <td><input name="cus_paid" id="cus_paid" class="form-control" wire:model="data.cus_paid"
-                                  @disabled(true)></td>
+                              <td class="text-end"><strong>ลูกค้าสำรองจ่าย :</strong></td>
+                              {{-- <td>{{ $data->cus_paid }}</td> --}}
+                              <td>{{ number_format($cus_paid, 2) }}</td>
                             </tr>
                             <tr>
-                              <td><strong>NET PAD:</strong></td>
+                              <td class="text-end"><strong>NET PAD:</strong></td>
                               <td><span id="net_pad">
                                   {{-- {{$data->total_netamt}} --}}
                                   
-                                  {{($payments->sum('chargesReceive')*0.07 + 
+                                  {{ number_format(($payments->sum('chargesReceive')*0.07 + 
                                       $payments->sum('chargesReceive') +
-                                      $payments->sum('chargesbillReceive')) - ($sum1 + $sum3)}}
+                                      $payments->sum('chargesbillReceive')) - ($sum1 + $sum3) - $cus_paid, 2)}}
                                 </span></td>
                             </tr>
                           </tbody>

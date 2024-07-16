@@ -61,12 +61,16 @@
                                             @enderror
                                         </div>
                                         <div class="col-md-2">
-                                            <label class="col-form-label" style="padding-top: 5px;">Ref. JobNo.</label>
+                                            <label class="col-form-label" style="padding-top: 5px;">Ref. JobNo. <span class="text-danger">*</span></label>
                                         </div>
                                         <div class="col-md-4">
                                             <livewire:element.select2 wire:model="data.refJobNo" name="refJobNo" :searchable="true"
                                                 :options="$jobOrderSelecter" itemKey="documentID" 
                                                 itemValue="documentID"/>
+
+                                            @error('data.refJobNo')
+                                            <div class="text-danger m-2">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                     </div>
@@ -238,6 +242,7 @@
                                                         <td class='center'>
                                                             <input type='number' class='form-control'
                                                                 wire:change="changeGrandTotal({{$loop->index}})"
+                                                                step="0.01"
                                                                 wire:model.live.debounce.500ms.number="payments.{{ $loop->index }}.amount">
                                                         </td>
 

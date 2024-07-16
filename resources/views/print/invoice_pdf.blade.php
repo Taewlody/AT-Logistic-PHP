@@ -161,7 +161,7 @@
                         <tr>
                             <td colspan="3">Advance payment / ลูกค้าสำรองจ่าย</td>
                             <td class="remove-border"></td>
-                            <td>{{ Service::MoneyFormat($data->cus_paid) }}</td>
+                            <td>{{ Service::MoneyFormat($customer_piad) }}</td>
                         </tr>
                         <tr>
                             <td colspan="3">รวมจำนวนเงินที่ต้องชำระ / Net paid</td>
@@ -172,13 +172,13 @@
                                 ($data->itemsTax1Sum * 0.01) - $data->cus_paid) }}</td> --}}
                             <td>{{ Service::MoneyFormat($data->items->sum('chargesReceive') +               $data->items->sum('chargesbillReceive') +
                                 ($data->items->sum('chargesReceive') * 0.07) - ($data->itemsTax3Sum * 0.03) -
-                                ($data->itemsTax1Sum * 0.01) - $data->cus_paid) }}</td>
+                                ($data->itemsTax1Sum * 0.01) - $customer_piad) }}</td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000; text-align: center;" colspan="6">({{
                                 Service::ThaiBahtConversion($data->items->sum('chargesReceive') + $data->items->sum('chargesbillReceive') +
                                 ($data->items->sum('chargesReceive') * 0.07) - ($data->itemsTax3Sum * 0.03) -
-                                ($data->itemsTax1Sum * 0.01) - $data->cus_paid) }})</td>
+                                ($data->itemsTax1Sum * 0.01) - $customer_piad) }})</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -357,21 +357,21 @@
                         <tr>
                             <td colspan="3">Advance payment / ลูกค้าสำรองจ่าย</td>
                             <td class="remove-border"></td>
-                            <td>{{ Service::MoneyFormat($data->cus_paid) }}</td>
+                            <td>{{ Service::MoneyFormat($customer_piad) }}</td>
                         </tr>
                         <tr>
                             <td colspan="3">รวมจำนวนเงินที่ต้องชำระ / Net paid</td>
                             <td class="remove-border"></td>
                             <td>{{ Service::MoneyFormat($data->items->sum('chargesReceive') + $data->items->sum('chargesbillReceive') +
                                 ($data->items->sum('chargesReceive') * 0.07) - ($data->itemsTax3Sum * 0.03) -
-                                ($data->itemsTax1Sum * 0.01) - $data->cus_paid) }}</td>
+                                ($data->itemsTax1Sum * 0.01) - $customer_piad) }}</td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000; text-align: center;" colspan="6">({{
                                 Service::ThaiBahtConversion($data->items->sum('chargesReceive') +
                                 $data->items->sum('chargesbillReceive') +
                                 ($data->items->sum('chargesReceive') * 0.07) - ($data->itemsTax3Sum * 0.03) -
-                                ($data->itemsTax1Sum * 0.01) - $data->cus_paid) }})</td>
+                                ($data->itemsTax1Sum * 0.01) - $customer_piad) }})</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -550,20 +550,20 @@
                         <tr>
                             <td colspan="3">Advance payment / ลูกค้าสำรองจ่าย</td>
                             <td class="remove-border"></td>
-                            <td>{{ Service::MoneyFormat($data->cus_paid) }}</td>
+                            <td>{{ Service::MoneyFormat($customer_piad) }}</td>
                         </tr>
                         <tr>
                             <td colspan="3">รวมจำนวนเงินที่ต้องชำระ / Net paid</td>
                             <td class="remove-border"></td>
                             <td>{{ Service::MoneyFormat($data->items->sum('chargesReceive') + $data->items->sum('chargesbillReceive') +
                                 ($data->items->sum('chargesReceive') * 0.07) - ($data->itemsTax3Sum * 0.03) -
-                                ($data->itemsTax1Sum * 0.01) - $data->cus_paid) }}</td>
+                                ($data->itemsTax1Sum * 0.01) - $customer_piad) }}</td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000; text-align: center;" colspan="6">({{
                                 Service::ThaiBahtConversion($data->items->sum('chargesReceive') + $data->items->sum('chargesbillReceive') +
                                 ($data->items->sum('chargesReceive') * 0.07) - ($data->itemsTax3Sum * 0.03) -
-                                ($data->itemsTax1Sum * 0.01) - $data->cus_paid) }})</td>
+                                ($data->itemsTax1Sum * 0.01) - $customer_piad) }})</td>
                         </tr>
                     </tfoot>
                 </table>

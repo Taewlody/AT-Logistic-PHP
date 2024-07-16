@@ -13,7 +13,7 @@
                 @endforeach
             </select> --}}
             <livewire:element.select2 wire:model='value.cusCode' name="cusCode" :options="Service::CustomerSelecter()" 
-                itemKey="cusCode"  itemValue="custNameEN" :hasNan="true" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
+                itemKey="cusCode"  itemValue="custNameEN" :hasNan="false" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
             @error('cusCode')
                 <span class="text-danger">{{ $message }}</span>
             @enderror

@@ -77,6 +77,7 @@ class Form extends Component
             $this->action = 'create';
             $this->data->createID = Auth::user()->usercode;
         } 
+        
         $this->payments = $this->data->items;
         $this->attachs = $this->data->attachs;
         $this->data->documentDate = Carbon::now()->toDateString();
@@ -160,6 +161,7 @@ class Form extends Component
         }
         $this->data->sumTotal = $this->payments->sum('amount');
         $this->data->editID = Auth::user()->usercode;
+        
         $this->data->save();
         $this->data->items->filter(function($item){
             return !collect($this->payments->pluck('autoid'))->contains($item->autoid);
@@ -220,7 +222,9 @@ class Form extends Component
         if($success){
             // $this->redirectRoute(name: 'job-order', navigate: true);\
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
+            return redirect()->route('advance-payment.form', ['action' => 'edit', 'id' => $this->data->documentID]);
         }else{
+            $this->dispatch('vaildated');
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
         }
     }
@@ -246,6 +250,7 @@ class Form extends Component
             // $this->redirectRoute(name: 'advance-payment', navigate: true);
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
         }else {
+            $this->dispatch('vaildated');
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
         }
         // $this->redirectRoute(name: 'shipping-payment-voucher', navigate: true);

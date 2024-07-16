@@ -34,6 +34,19 @@
         body {
             font-family: 'TH-Sarabun', sans-serif;
         }
+        .table-header {
+            border: none;
+            height: 100%;
+            font-size: 19px;
+            
+        }
+        .table-header tr {
+            /* line-height: 1px; */
+        }
+        .table-header tr td{
+            height: 14px;
+            vertical-align: baseline;
+        }
     </style>
 </head>
 
@@ -48,12 +61,25 @@
             <div class="detail">
                 <table>
                     <td style="width: 65%;">
-                        <div>
-                            <span><b>Received Form</b><b>:</b> {{($data->customer?->custNameTH).' สาขา '.($data->customer?->branchTH)}}</span>
+                        <div style="padding-left: 8px !important;">
+                            {{-- <span><b>Received Form</b><b>:</b> {{($data->customer?->custNameTH).' สาขา '.($data->customer?->branchTH)}}</span>
                             <span><b>ได้รับเงินจาก</b></span>
-                            <span><b>Address</b><b>:</b> {{$data->customer?->addressTH.' '.$data->customer?->zipCode}}</span>
+                            <span><b>Address</b><b>:</b> {{$data->customer?->addressTH.' '.$data->customer?->zipCode}}555555555555555</span>
                             <span><b>ที่อยู่</b></span>
-                            <span><b>เลขประจำตัวผู้เสียภาษี</b><b>:</b> {{$data->customer?->taxID}}</span>
+                            <span><b>เลขประจำตัวผู้เสียภาษี</b><b>:</b> {{$data->customer?->taxID}}</span> --}}
+                            <table class="table-header">
+                                <tbody>
+                                <tr><td><b>Received Form : <br/>ได้รับเงินจาก</b></td><td>{{($data->customer?->custNameTH).' สาขา '.($data->customer?->branchTH)}}</td></tr>
+                                <tr>
+                                    <td><b>Address : <br/>ที่อยู่</b></td>
+                                    <td>{{$data->customer?->addressTH.' '.$data->customer?->zipCode}}</td>
+                                </tr>
+                                <tr>
+                                    <td ><b>เลขประจำตัวผู้เสียภาษี : </b></td>
+                                    <td>{{$data->customer?->taxID}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </td>
                     <td style="width: 20%; padding-left: 5px;">
@@ -67,7 +93,7 @@
                 </table>
             </div>
 
-            <div class="table">
+            <div class="table" style="margin-left: 0px; margin-right: 0px">
                 <table>
                     <thead>
                         <th>Description / รายการ</th>
@@ -187,13 +213,28 @@
             <div class="detail">
                 <table>
                     <td style="width: 65%;">
-                        <div>
-                            <span><b>Received Form</b><b>:</b> {{($data->customer?->custNameTH).' สาขา '.($data->customer?->branchTH)}}</span>
+                        <div style="padding-left: 8px !important;">
+                            {{-- <span><b>Received Form</b><b>:</b> {{($data->customer?->custNameTH).' สาขา '.($data->customer?->branchTH)}}</span>
                             <span><b>ได้รับเงินจาก</b></span>
                             <span><b>Address</b><b>:</b> {{$data->customer?->addressTH.' '.$data->customer?->zipCode}}</span>
                             <span><b>ที่อยู่</b></span>
-                            <span><b>เลขประจำตัวผู้เสียภาษี</b><b>:</b> {{$data->customer?->taxID}}</span>
+                            <span><b>เลขประจำตัวผู้เสียภาษี</b><b>:</b> {{$data->customer?->taxID}}</span> --}}
+
+                            <table class="table-header">
+                                <tbody>
+                                    <tr><td><b>Received Form : <br/>ได้รับเงินจาก</b></td><td>{{($data->customer?->custNameTH).' สาขา '.($data->customer?->branchTH)}}</td></tr>
+                                    <tr>
+                                        <td><b>Address : <br/>ที่อยู่</b></td>
+                                        <td>{{$data->customer?->addressTH.' '.$data->customer?->zipCode}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td ><b>เลขประจำตัวผู้เสียภาษี : </b></td>
+                                        <td>{{$data->customer?->taxID}}</td>
+                                    </tr>
+                                    </tbody>
+                            </table>
                         </div>
+                        
                     </td>
                     <td style="width: 20%; padding-left: 5px;">
                         <div>
@@ -206,7 +247,7 @@
                 </table>
             </div>
 
-            <div class="table">
+            <div class="table" style="margin-left: 0px; margin-right: 0px">
                 <table>
                     <thead>
                         <th>Description / รายการ</th>
@@ -326,13 +367,29 @@
             <div class="detail">
                 <table>
                     <td style="width: 65%;">
-                        <div>
-                            <span><b>Received Form</b><b>:</b> {{($data->customer?->custNameTH).' สาขา '.($data->customer?->branchTH)}}</span>
+                        <div style="padding-left: 8px !important;">
+                            {{-- <span><b>Received Form</b><b>:</b> {{($data->customer?->custNameTH).' สาขา '.($data->customer?->branchTH)}}</span>
                             <span><b>ได้รับเงินจาก</b></span>
                             <span><b>Address</b><b>:</b> {{$data->customer?->addressTH.' '.$data->customer?->zipCode}}</span>
                             <span><b>ที่อยู่</b></span>
                             <span><b>เลขประจำตัวผู้เสียภาษี</b><b>:</b> {{$data->customer?->taxID}}</span>
+                             --}}
+
+                             <table class="table-header">
+                                <tbody>
+                                    <tr><td><b>Received Form : <br/>ได้รับเงินจาก</b></td><td>{{($data->customer?->custNameTH).' สาขา '.($data->customer?->branchTH)}}</td></tr>
+                                    <tr>
+                                        <td><b>Address : <br/>ที่อยู่</b></td>
+                                        <td>{{$data->customer?->addressTH.' '.$data->customer?->zipCode}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td ><b>เลขประจำตัวผู้เสียภาษี : </b></td>
+                                        <td>{{$data->customer?->taxID}}</td>
+                                    </tr>
+                                    </tbody>
+                            </table>
                         </div>
+                        
                     </td>
                     <td style="width: 20%; padding-left: 5px;">
                         <div>
@@ -345,7 +402,7 @@
                 </table>
             </div>
 
-            <div class="table">
+            <div class="table" style="margin-left: 0px; margin-right: 0px">
                 <table>
                     <thead>
                         <th>Description / รายการ</th>
@@ -466,11 +523,26 @@
                 <table>
                     <td style="width: 65%;">
                         <div>
-                            <span><b>Received Form</b><b>:</b> {{($data->customer?->custNameTH).' สาขา '.($data->customer?->branchTH)}}</span>
+                            {{-- <span><b>Received Form</b><b>:</b> {{($data->customer?->custNameTH).' สาขา '.($data->customer?->branchTH)}}</span>
                             <span><b>ได้รับเงินจาก</b></span>
                             <span><b>Address</b><b>:</b> {{$data->customer?->addressTH.' '.$data->customer?->zipCode}}</span>
                             <span><b>ที่อยู่</b></span>
                             <span><b>เลขประจำตัวผู้เสียภาษี</b><b>:</b> {{$data->customer?->taxID}}</span>
+                             --}}
+
+                             <table class="table-header">
+                                <tbody>
+                                    <tr><td><b>Received Form : <br/>ได้รับเงินจาก</b></td><td>{{($data->customer?->custNameTH).' สาขา '.($data->customer?->branchTH)}}</td></tr>
+                                    <tr>
+                                        <td><b>Address : <br/>ที่อยู่</b></td>
+                                        <td>{{$data->customer?->addressTH.' '.$data->customer?->zipCode}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td ><b>เลขประจำตัวผู้เสียภาษี : </b></td>
+                                        <td>{{$data->customer?->taxID}}</td>
+                                    </tr>
+                                    </tbody>
+                            </table>
                         </div>
                     </td>
                     <td style="width: 20%; padding-left: 5px;">
@@ -484,7 +556,7 @@
                 </table>
             </div>
 
-            <div class="table">
+            <div class="table" style="margin-left: 0px; margin-right: 0px;">
                 <table>
                     <thead>
                         <th>Description / รายการ</th>
