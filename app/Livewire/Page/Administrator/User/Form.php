@@ -29,11 +29,12 @@ class Form extends Component
         }
         if($this->id!=''){
             $this->data = User::find($this->id);
+            
         }else{
             $this->action = 'create';
             $this->data = new User();
             $this->data->createID = Auth::user()->usercode;
-            $this->data->userpass = md5($this->data->userpass);
+            // $this->data->userpass = md5($this->data->userpass);
         }
 
         $this->userTypeList = UserType::all();
@@ -42,6 +43,8 @@ class Form extends Component
 
     public function save() {
         $this->data->editID = Auth::user()->usercode;
+        dd($this->data, md5($this->data->userpass));
+        $this->data->userpass = md5($this->data->userpass);
        
         $this->data->save();
     }

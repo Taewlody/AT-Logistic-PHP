@@ -257,6 +257,7 @@ class Form extends Component
         $this->data->sumTax1 = $this->priceSum->tax1;
         $this->data->sumTax7 = $this->priceSum->vatTotal;
         $this->data->grandTotal = $this->priceSum->grandTotal;
+        // dd($this->data);
         $this->data->save();
         $this->data->items->filter(function($item){
             return !collect($this->payments->pluck('autoid'))->contains($item->autoid);
@@ -299,6 +300,13 @@ class Form extends Component
             $this->resetErrorBag('data.payType');
         }
 
+        // if($this->data->refJobNo == null || $this->data->refJobNo == '') {
+        //     $this->addError('data.refJobNo', 'Please select Ref. JobNo.');
+        //     $vaidate = false;
+        // }else {
+        //     $this->resetErrorBag('data.refJobNo');
+        // }
+
         return $vaidate;
     }
 
@@ -309,8 +317,10 @@ class Form extends Component
         if($success){
             // $this->redirectRoute(name: 'job-order', navigate: true);\
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
+            return redirect()->route('account-payment-voucher.form', ['action' => 'edit', 'id' => $this->data->documentID]);
         }else{
             // $this->dispatch('vaildated');
+            $this->dispatch('vaildated');
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
             // $this->resetErrorBag();
         }
@@ -333,7 +343,9 @@ class Form extends Component
             });
             
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
+            return redirect()->route('account-payment-voucher.form', ['action' => 'edit', 'id' => $this->data->documentID]);
         }else {
+            $this->dispatch('vaildated');
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
         }
 

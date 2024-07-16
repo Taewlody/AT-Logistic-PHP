@@ -32,6 +32,7 @@ use Livewire\Attributes\Url;
 use App\Models\Marketing\JobOrderPacked;
 use App\Models\Marketing\JobOrderGoods;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
+use Illuminate\Support\Facades\DB;
 
 
 class Form extends Component
@@ -472,47 +473,65 @@ class Form extends Component
             }
         }
 
-        $this->data->exists = $this->job->exists;
-        
-        if ($approve) {
-            $this->data->documentstatus = 'A';
+        \DB::beginTransaction();
+        try {
 
-            if(!$this->checkApprove) {
-                $this->message = 'กรุณา Approve Payment Voucher, Petty Cash, Advance Payment ให้เรียบร้อย';
-                return false;
+            $this->data->exists = $this->job->exists;
+            
+            
+            $this->data->editID = Auth::user()->usercode;
+            $calCharge = CalculatorPrice::cal_charge($this->chargeList, $this->job->commission_sale, $this->job->commission_customers);
+            $this->data->total_vat = $calCharge->tax7;
+            $this->data->tax3 = $calCharge->tax3;
+            $this->data->tax1 = $calCharge->tax1;
+            $this->data->total_amt = ($this->data->charge->sum('chargesReceive') + $this->data->total_vat) + $this->data->charge->sum('chargesbillReceive');
+            $this->data->total_netamt = $this->data->total_amt - ($this->data->tax3 + $this->data->tax1);
+            $this->data->cus_paid = CalculatorPrice::cal_customer_piad($this->id)->sum('sumTotal');
+
+            if ($approve) {
+                
+                $this->data->documentstatus = 'A';
+
+                if(!$this->checkApprove) {
+                    
+                    $this->message = 'กรุณา Approve Payment Voucher, Petty Cash, Advance Payment ให้เรียบร้อย';
+                    return false;
+                    
+                }
                 
             }
+
+            $this->data->save();
+            
+        
+            $this->data->containerList->filter(function ($item) {
+                return !collect($this->containerList->pluck('items'))->contains($item->items);
+            })->each->delete();
+            $this->data->containerList()->saveMany($this->containerList);
+            $this->data->packedList->filter(function ($item) {
+                return !collect($this->packagedList->pluck('items'))->contains($item->items);
+            })->each->delete();
+            $this->data->packedList()->saveMany($this->packagedList);
+            $this->data->goodsList->filter(function ($item) {
+                return !collect($this->goodsList->pluck('items'))->contains($item->items);
+            })->each->delete();
+            $this->data->goodsList()->saveMany($this->goodsList);
+            $this->data->charge->filter(function ($item) {
+                return !collect($this->chargeList->pluck('items'))->contains($item->items);
+            })->each->delete();
+            $this->data->charge()->saveMany($this->chargeList);
+            $this->data->attachs()->saveMany($this->attachs);
+            $this->data->commodity()->detach();
+            $this->data->commodity()->syncWithoutDetaching($this->listCommodity);
+            \DB::commit();
+            // dd($this->data);
+            return true;
+        }catch (\Exception $exception) {
+            \DB::rollBack();
+            
+            echo "Exception caught: " . $exception->getMessage();
+            return false;
         }
-        $this->data->editID = Auth::user()->usercode;
-        $calCharge = CalculatorPrice::cal_charge($this->chargeList, $this->job->commission_sale, $this->job->commission_customers);
-        $this->data->total_vat = $calCharge->tax7;
-        $this->data->tax3 = $calCharge->tax3;
-        $this->data->tax1 = $calCharge->tax1;
-        $this->data->total_amt = ($this->data->charge->sum('chargesReceive') + $this->data->total_vat) + $this->data->charge->sum('chargesbillReceive');
-        $this->data->total_netamt = $this->data->total_amt - ($this->data->tax3 + $this->data->tax1);
-        $this->data->cus_paid = CalculatorPrice::cal_customer_piad($this->id)->sum('sumTotal');
-        // dd($this->data);
-        $this->data->save();
-        $this->data->containerList->filter(function ($item) {
-            return !collect($this->containerList->pluck('items'))->contains($item->items);
-        })->each->delete();
-        $this->data->containerList()->saveMany($this->containerList);
-        $this->data->packedList->filter(function ($item) {
-            return !collect($this->packagedList->pluck('items'))->contains($item->items);
-        })->each->delete();
-        $this->data->packedList()->saveMany($this->packagedList);
-        $this->data->goodsList->filter(function ($item) {
-            return !collect($this->goodsList->pluck('items'))->contains($item->items);
-        })->each->delete();
-        $this->data->goodsList()->saveMany($this->goodsList);
-        $this->data->charge->filter(function ($item) {
-            return !collect($this->chargeList->pluck('items'))->contains($item->items);
-        })->each->delete();
-        $this->data->charge()->saveMany($this->chargeList);
-        $this->data->attachs()->saveMany($this->attachs);
-        $this->data->commodity()->detach();
-        $this->data->commodity()->syncWithoutDetaching($this->listCommodity);
-        return true;
     }
 
     public function submit()
@@ -530,6 +549,7 @@ class Form extends Component
 
     public function approve()
     {
+        
         $success = $this->save(true);
         if($success) {
             $this->createInvoice();
@@ -547,9 +567,18 @@ class Form extends Component
     {
         $success = $this->save(true);
         if($success) {
-            $this->createInvoice();
-            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'Update สำเร็จ', type: 'success');
-            return redirect()->route('job-order.form', ['action' => 'edit', 'id' => $this->data->documentID]);
+            $create = $this->createInvoice();
+            
+            if($create) {
+                $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'Update สำเร็จ', type: 'success');
+                return redirect()->route('job-order.form', ['action' => 'edit', 'id' => $this->data->documentID]);
+
+            }else {
+                $this->dispatch('vaildated');
+                $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: $this->message ? $this->message : 'Update ไม่สำเร็จ', type: 'error');
+            }
+            
+            
         }else {
             $this->dispatch('vaildated');
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: $this->message ? $this->message : 'Update ไม่สำเร็จ', type: 'error');
@@ -566,60 +595,71 @@ class Form extends Component
 
     private function createInvoice()
     {
-        $this->data->refresh();
-        $Item_invoice = new Collection;
-        $invoice = Invoice::where('ref_jobNo', $this->data->documentID)->firstOrNew();
-        // dd($invoice);
-        $invoice->documentDate = $this->data->documentDate;
-        $invoice->ref_jobNo = $this->data->documentID;
-        $invoice->cusCode = $this->data->cusCode;
-        $invoice->saleman = $this->data->saleman;
-        $invoice->carrier = $this->data->agentCode;
-        $invoice->bound = $this->data->bound;
-        $invoice->freight = $this->data->freight;
+        DB::beginTransaction();
+        try {
+            $this->data->refresh();
+            $Item_invoice = new Collection;
+            $invoice = Invoice::where('ref_jobNo', $this->data->documentID)->firstOrNew();
+            
+            $invoice->documentDate = $this->data->documentDate;
+            $invoice->ref_jobNo = $this->data->documentID;
+            $invoice->cusCode = $this->data->cusCode;
+            $invoice->saleman = $this->data->saleman;
+            $invoice->carrier = $this->data->agentCode;
+            $invoice->bound = $this->data->bound;
+            $invoice->freight = $this->data->freight;
 
-        $invoice->creditterm = $this->data->customerRefer !== null ? $this->data->customerRefer->creditDay : 0;
-        if ($invoice->exists) {
-            $invoice->editID = Auth::user()->usercode;
-            $invoice->editTime = Carbon::now();
-        } else {
-            $invoice->createID = Auth::user()->usercode;
-            $invoice->createTime = Carbon::now();
-        }
-        $invoice->save();
-        Log::info("Generate Invoice for Job Order ID: " . $invoice);
-        if ($invoice->exists) {
-            $invoice->items()->delete();
-        }
-            $this->data->charge->each(function (JobOrderCharge $item) use ($Item_invoice) {
-                $i = new InvoiceItems;
-                $i->documentID = $item->documentID;
-                $i->chargeCode = $item->chargeCode;
-                $i->detail = $item->detail;
-                $i->chargesCost = $item->chargesCost ?? 0;
-                $i->chargesReceive = $item->chargesReceive ?? 0;
-                $i->chargesbillReceive = $item->chargesbillReceive ?? 0;
-                $Item_invoice->push($i);
-            });
-
-            $this->data->AdvancePayment->each(function (AdvancePayment $advancePayment) use ($invoice, $Item_invoice) {
-                $advancePayment->items->each(function (AdvancePaymentItems $item) use ($invoice, $Item_invoice) {
+            $invoice->creditterm = $this->data->customerRefer !== null ? $this->data->customerRefer->creditDay : 0;
+            if ($invoice->exists) {
+                $invoice->editID = Auth::user()->usercode;
+                $invoice->editTime = Carbon::now();
+            } else {
+                $invoice->createID = Auth::user()->usercode;
+                $invoice->createTime = Carbon::now();
+            }
+            
+            $invoice->save();
+            Log::info("Generate Invoice for Job Order ID: " . $invoice);
+            if ($invoice->exists) {
+                $invoice->items()->delete();
+            }
+                $this->data->charge->each(function (JobOrderCharge $item) use ($Item_invoice) {
                     $i = new InvoiceItems;
                     $i->documentID = $item->documentID;
                     $i->chargeCode = $item->chargeCode;
                     $i->detail = $item->detail;
-                    $i->chargesCost = $item->amount ?? 0;
+                    $i->chargesCost = $item->chargesCost ?? 0;
+                    $i->chargesReceive = $item->chargesReceive ?? 0;
+                    $i->chargesbillReceive = $item->chargesbillReceive ?? 0;
                     $Item_invoice->push($i);
-                    $item->update([
-                        "invNo" => $invoice->documentID,
-                    ]);
                 });
-            });
-            $invoice->items()->saveMany($Item_invoice);
-        
-        Cache::forget('job-order-select');
-    }
 
+                $this->data->AdvancePayment->each(function (AdvancePayment $advancePayment) use ($invoice, $Item_invoice) {
+                    $advancePayment->items->each(function (AdvancePaymentItems $item) use ($invoice, $Item_invoice) {
+                        $i = new InvoiceItems;
+                        $i->documentID = $item->documentID;
+                        $i->chargeCode = $item->chargeCode;
+                        $i->detail = $item->detail;
+                        $i->chargesCost = $item->amount ?? 0;
+                        $Item_invoice->push($i);
+                        $item->update([
+                            "invNo" => $invoice->documentID,
+                        ]);
+                    });
+                });
+                $invoice->items()->saveMany($Item_invoice);
+
+                DB::commit();
+
+            Cache::forget('job-order-select');
+            return true;
+
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            echo "Exception caught: " . $exception->getMessage();
+            return false;
+        }
+    }
     public function render()
     {
         return view('livewire.page.marketing.job-order.form')->extends('layouts.main')->section('main-content');

@@ -218,8 +218,12 @@ class PrintFileResource extends Controller
     public function PaymentVoucherPdf(string $documentID)
     {
         $data = PaymentVoucher::find($documentID);
-        $getInvoice = Joborder::where('documentID', $data->refJobNo)->first();
-        $checkInvoice = $getInvoice->invoice()->first();
+        $checkInvoice = "";
+        if($data->refJobNo) {
+            $getInvoice = Joborder::where('documentID', $data->refJobNo)->first();
+            $checkInvoice = $getInvoice->invoice()->first();
+        }
+        
         if($data == null) {
             return view('404');
         }
@@ -234,13 +238,18 @@ class PrintFileResource extends Controller
         ];
         if($data->items != null) {
             $tax1->sumAmount = $data->items->filter(function ($item) {
-                if($item->charge == null || $item->charge->chargesType == null) return false;
-                return $item->charges->chargesType->amount == 1;
+                if($item->chargeCode == null) return false;
+                
+                // return $item->charges->chargesType->amount == 1;
+                return $item->tax == 1;
             })->sum('amount');
+            // dd($tax1);
             $tax1->sumTax = $tax1->sumAmount * 0.01;
+            
             $tax3->sumAmount = $data->items->filter(function ($item) {
-                if($item->charge == null || $item->charge->chargesType == null) return false;
-                return $item->charges->chargesType->amount == 3;
+                // dd($item->charges->chargesType);
+                if($item->chargeCode == null) return false;
+                return $item->tax == 3;
             })->sum('amount');
             $tax3->sumTax = $tax3->sumAmount * 0.03;
             $vatTotal = $data->items->filter(function ($item) {
