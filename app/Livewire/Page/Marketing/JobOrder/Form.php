@@ -399,6 +399,20 @@ class Form extends Component
         $this->attachs = $this->attachs->values();
     }
 
+    public function checkBill($to) {
+        if(count($this->chargeList) > 0) {
+            foreach($this->chargeList as $charge) {
+                if($charge->chargesbillReceive < $charge->chargesCost) {
+                    $this->dispatch('modal.job-order.charges-alert', showModal: true, confirmTo: $to);
+                }else {
+                    $this->dispatch($to);
+                }
+            }
+        }else {
+            $this->dispatch($to);
+        }
+    }
+
     public function vaildJob()
     {
         // dd($this->job);
@@ -438,7 +452,8 @@ class Form extends Component
             return false;
         }
         $this->data = new JobOrder($this->job->toArray());
-
+        
+        
         // check delivery type to validate
         if ($this->data->deliveryType) {
             if ($this->data->deliveryType === 'FCL') {
@@ -455,7 +470,7 @@ class Form extends Component
                 }
             }
         }
-
+        
         if($this->data->invNo) {
             $checkInv = JobOrder::where('invNo', $this->data->invNo)->where('invNo', '!=', 'N/A')->where('documentID', '!=', $this->data->documentID)->first();
             if($checkInv !== null) {
@@ -491,18 +506,16 @@ class Form extends Component
             if ($approve) {
                 
                 $this->data->documentstatus = 'A';
-
+                $this->message = '';
                 if(!$this->checkApprove) {
-                    
+                   
                     $this->message = 'กรุณา Approve Payment Voucher, Petty Cash, Advance Payment ให้เรียบร้อย';
                     return false;
                     
                 }
-                
             }
 
             $this->data->save();
-            
         
             $this->data->containerList->filter(function ($item) {
                 return !collect($this->containerList->pluck('items'))->contains($item->items);
@@ -536,9 +549,14 @@ class Form extends Component
 
     public function submit()
     {
+        $this->checkBill('submit-after-confirm-charge');
+    }
+
+    #[On('submit-after-confirm-charge')]
+    public function submitAfterConfirmCharge()
+    {
         $success = $this->save();
         if ($success) {
-            // $this->redirectRoute(name: 'job-order', navigate: true);\
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
             return redirect()->route('job-order.form', ['action' => 'edit', 'id' => $this->data->documentID]);
         } else {
@@ -549,21 +567,31 @@ class Form extends Component
 
     public function approve()
     {
-        
+        $this->checkBill('approve-after-confirm-charge');
+    }
+
+    #[On('approve-after-confirm-charge')]
+    public function approveAfterConfirmCharge()
+    {
         $success = $this->save(true);
+        
         if($success) {
             $this->createInvoice();
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'Approve สำเร็จ', type: 'success');
             return redirect()->route('job-order.form', ['action' => 'edit', 'id' => $this->data->documentID]);
         }else {
             $this->dispatch('vaildated');
-            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'Approve ไม่สำเร็จ', type: 'error');
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: $this->message ? $this->message : 'Approve ไม่สำเร็จ', type: 'error');
         }
-        // dispatch(new InvoiceService(JobOrder::find($this->data->documentID), Auth::user()->usercode))->onQueue('job-order');
-        // $this->redirectRoute(name: 'job-order', navigate: true);
     }
 
     public function update()
+    {
+        $this->checkBill('update-after-confirm-charge');
+    }
+
+    #[On('update-after-confirm-charge')]
+    public function updateAfterConfirmCharge()
     {
         $success = $this->save(true);
         if($success) {
@@ -583,8 +611,7 @@ class Form extends Component
             $this->dispatch('vaildated');
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: $this->message ? $this->message : 'Update ไม่สำเร็จ', type: 'error');
         }
-        // dispatch(new InvoiceService(JobOrder::find($this->data->documentID), Auth::user()->usercode))->onQueue('job-order');
-        // $this->redirectRoute(name: 'job-order', navigate: true);
+        
     }
 
     public function exception($e, $stopProgation)

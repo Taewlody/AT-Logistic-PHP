@@ -151,7 +151,7 @@
                                 </td>
                                 <td class="center">
                                     <livewire:element.currency wire:key="chargesbillReceive-{{ $loop->parent->iteration }}.{{ $loop->iteration }}"
-                                        class="form-control full" index="{{$indexItem}}" changeEvent="checkBill"
+                                        class="form-control full" index="{{$indexItem}}" 
                                         name="chargesbillReceive-{{$indexItem}}" type="number"
                                         wire:model.live="value.{{ $indexItem }}.chargesbillReceive" />
                                 </td>

@@ -13,7 +13,8 @@
                 <p class="fs-6">Bill of receipt มีค่า น้อยกว่า Cost <br> กรุณาตรวจสอบความถูกต้อง</p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="confirmModal">ยืนยัน</button>
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="closeModal">ยกเลิก</button>
             </div>
           </div>
         </div>
@@ -22,7 +23,7 @@
 
 @script
 <script>
-    Livewire.on('modal.job-order.charges-alert', ({showModal}) => {
+    Livewire.on('modal.job-order.charges-alert', ({showModal, confirmTo}) => {
         if(showModal == undefined) {
             $('#charges-alert').modal('toggle');
         } else {
@@ -32,7 +33,20 @@
                 $('#charges-alert').modal('hide');
             }
         }
+
+        $('#confirmModal').click(function () {
+          console.log('confirm', confirmTo);
+          $wire.dispatch(confirmTo);
+        })
+        
     });
+
+    $(document).ready(function (){
+      
+      
+    })
+
+    
 </script>
 
 @endscript
