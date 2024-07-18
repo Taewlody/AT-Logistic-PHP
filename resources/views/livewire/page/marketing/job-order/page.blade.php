@@ -144,7 +144,17 @@
                                                                 'label-primary' => $item->docStatus->status_code == 'A',
                                                                 'label-danger' => $item->docStatus->status_code == 'D',
                                                                 'label-warning' => $item->docStatus->status_code == 'P',
-                                                            ])>{{ $item->docStatus->status_name }}</span>
+                                                            ])>
+                                                            @php
+                                                                $tax = json_decode($item->invoice?->taxInvoiceItems, true);
+                                                            @endphp
+                                                            @if(!empty($tax))
+                                                            {{ 'tax complete' }}
+                                                            @else
+                                                            {{ $item->docStatus->status_name }}
+                                                            @endif
+                                                            </span>
+                                                            
                                                     </td>
                                                 @else
                                                     <td class="center"><span
