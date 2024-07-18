@@ -160,7 +160,7 @@
                     </td>
                 </tr>
                 <tr class="col-2">
-                    <td>
+                    <td colspan="2">
                         <span class="header">Remark : </span>{{$data->jobOrder != null ? $data->jobOrder->note : ""}}
                     </td>
                 </tr>
