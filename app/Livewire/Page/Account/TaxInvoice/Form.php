@@ -89,7 +89,7 @@ class Form extends Component
             // $this->payments = new Collection;
             // $this->payments = $this->getInvoiceItem();
             // dd($this->payments);
-            $this->getInvoiceItem();
+            // $this->getInvoiceItem();
             
             // dd($this->payments);
         }
@@ -100,9 +100,21 @@ class Form extends Component
         $checkInvoice = true;
         
         if($this->data->cusCode) {
-            $this->invoiceNoTax = Invoice::select('documentID', 'taxivRef', 'ref_jobNo', 'documentDate')
-                ->where('cusCode', $this->data->cusCode)
-                ->where('taxivRef', '')->get();
+            // $this->invoiceNoTax = Invoice::select('documentID', 'taxivRef', 'ref_jobNo', 'documentDate')
+            //     ->where('cusCode', $this->data->cusCode)
+            //     ->where('taxivRef', '')->get();
+
+                $this->invoiceNoTax = Invoice::with('taxInvoiceItems')
+                    ->select('documentID', 'taxivRef', 'ref_jobNo', 'documentDate')
+                    ->where('cusCode', $this->data->cusCode)
+                    ->where(function ($query) {
+                        $query->where('taxivRef', '')
+                            ->orWhereNull('taxivRef');
+                    })
+                    ->whereDoesntHave('taxInvoiceItems')
+                    ->get();
+                    
+
         }
         
         $this->dispatch('updated-table-invoice',  $this->invoiceNoTax );

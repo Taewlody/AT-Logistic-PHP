@@ -210,8 +210,11 @@ class Invoice extends Model implements Wireable
 
     public function taxInvoiceItems() : HasMany
     {
-        return $this->hasMany(TaxInvoiceItems::class, 'comCode', 'comCode')
-        ->whereColumn('invoice.documentID', 'tax_invoice_items.invNo');
+        // return $this->hasMany(TaxInvoiceItems::class, 'comCode', 'comCode')
+        // ->whereColumn('invoice.documentID', 'tax_invoice_items.invNo');
+
+        return $this->hasMany(TaxInvoiceItems::class, 'invNo', 'documentID');
+        // ->whereColumn('invoice.documentID', 'tax_invoice_items.invNo');
     }
 
     public function jobOrder() : HasOne
