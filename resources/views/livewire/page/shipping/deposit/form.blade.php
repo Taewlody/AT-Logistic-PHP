@@ -48,7 +48,7 @@
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-lg-2 col-form-label"><span class="col-form-label"
-                                                style="padding-top: 5px;">Customer</span></label>
+                                                style="padding-top: 5px;">Customer</span> <span class="text-danger">*</span></label>
                                         <div class="col-md-4">
                                             {{-- <select name="cusCode" class="select2_single form-control select2"
                                                 id="cusCode" wire:model="data.cusCode">
@@ -238,13 +238,21 @@
                                                 @endforeach
                                 
                                             </select> --}}
-                                            <livewire:element.select2 wire:model.live='data.chargeCode'
+                                            {{-- <livewire:element.select2 wire:model='data.chargeCode'
                                                 name="chargeCode" :options="Service::ChargesSelecter()"
                                                 itemKey="chargeCode" itemValue="chargeName"
-                                                :searchable="true" >
+                                                :searchable="true" > --}}
+                                            <livewire:element.select2 wire:model.live="chargeCode" name="chargeCode"
+                                                :options="Service::ChargesSelecter()" itemKey="chargeCode"
+                                                itemValue="chargeName" :searchable="true"
+                                                :disabled="$action != 'create' && $action != 'edit'">
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
-                                            <button class="btn btn-primary " type="button" name="addPayment" wire:click="addPayment" @disabled($chargeCode == '')
+                                            {{-- <button class="btn btn-primary " type="button" name="addPayment" wire:click="addPayment" @disabled($chargeCode == '')
+                                                id="addPayment"><i class="fa fa-plus"></i>
+                                                Add</button> --}}
+
+                                            <button class="btn btn-white btn-primary" type="button" name="addPayment" wire:click="addPayment" @disabled($chargeCode == '')
                                                 id="addPayment"><i class="fa fa-plus"></i>
                                                 Add</button>
                                         </div>
@@ -272,10 +280,10 @@
                                                                 wire:model.live.debounce.500ms="payments.{{ $loop->index }}.chartDetail">
                                                         </td>
                                                         <td class='center'>
-                                                            <input type='number' class='form-control'
+                                                            <input type='number' step="0.01" class='form-control'
                                                                 wire:model.live.debounce.500ms.number="payments.{{ $loop->index }}.amount">
                                                         <td class='center'><button type='button'
-                                                                class='btn-white btn btn-xs' wire:click='removePayment({{ $loop->index }})'
+                                                                class='btn-danger btn btn-xs' wire:click='removePayment({{ $loop->index }})'
                                                                 {{-- onClick='return FN_Remove_Table("<?php echo $rowIdx; ?>")' --}}
                                                                 >Remove</button>
                                                         </td>
@@ -451,3 +459,6 @@
         </form>
     </div>
 </div>
+@push('modal')
+<livewire:modal.modal-alert />
+@endpush

@@ -1,6 +1,6 @@
 <div>
-    <livewire:component.page-heading title_main="Bill of lading" title_sub="ใบตราส่งสินค้า" breadcrumb_title="Marketing"
-        breadcrumb_page="Bill of lading" />
+    <livewire:component.page-heading title_main="Deposite" title_sub="เงินมัดจำ" breadcrumb_title="Shipping"
+        breadcrumb_page="Deposite" />
 
     <div class="container-fluid">
         <form wire:submit="search">

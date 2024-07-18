@@ -87,6 +87,8 @@ class Form extends Component
         $newCharge->chartDetail = $charge->chargeName;
         $this->payments->push($newCharge);
         $this->reset('chargeCode');
+        $this->dispatch('reset-select2-chargeCode');
+        $this->dispatch('update-charges');
     }
 
     public function removePayment(int $index) {
@@ -129,11 +131,12 @@ class Form extends Component
 
     public function save(bool|null $approve = false) {
         $vaild = true;
-        if($this->data->cuscode == null || $this->data->cuscode == '') {
+        if($this->data->cusCode == null || $this->data->cusCode == '') {
             $this->addError('cusCode', 'Please select customer');
             $vaild = false;
             return $vaild;
         }
+
         $this->data->editID = Auth::user()->usercode;
         if($approve) {
             $this->data->documentStatus = 'A';
@@ -146,16 +149,27 @@ class Form extends Component
         return $vaild;
     }
 
-    public function submit() {
-
+    public function submit() 
+    {
         $success = $this->save();
-        if($success) $this->redirectRoute(name: 'deposit', navigate: true);
+        if($success){
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
+            return redirect()->route('deposit.form', ['action' => 'edit', 'id' => $this->data->documentID]);
+        }else{
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
+        }
     }
 
-    public function approve() {
-        $this->save(true);
-        $success = $this->save();
-        if($success) $this->redirectRoute(name: 'deposit', navigate: true);
+    public function approve() 
+    {
+
+        $success = $this->save(true);
+        if($success){
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
+            return redirect()->route('deposit.form', ['action' => 'edit', 'id' => $this->data->documentID]);
+        }else{
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
+        }
     }
 
     public function complete() {
