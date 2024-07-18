@@ -107,7 +107,7 @@
                     </option>
                 @endforeach
             </select> --}}
-            <livewire:element.select2 wire:model='value.feeder' name="feeder" :options="Service::FeederSelecter()" 
+            <livewire:element.select2 wire:model='value.vessel' name="vessel" :options="Service::FeederSelecter()" 
                 itemKey="fCode" itemValue="fName" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
         </div>
         <div class="col-md-1">

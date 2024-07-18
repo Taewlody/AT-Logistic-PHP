@@ -366,7 +366,7 @@ class JobOrder extends Model implements Wireable
     }
     public function vesselFeeder(): HasOne
     {
-        return $this->hasOne(Feeder::class, 'fCode', 'feeder');
+        return $this->hasOne(Feeder::class, 'fCode', 'vessel');
     }
 
     public function PlaceFOB(): HasOne

@@ -227,7 +227,7 @@
                     <tr>
                         <td>
                             <b>Remark : </b>
-                            {{$data->remark}}
+                            {{$data->note}}
                         </td>
                     </tr>
                 </table>
