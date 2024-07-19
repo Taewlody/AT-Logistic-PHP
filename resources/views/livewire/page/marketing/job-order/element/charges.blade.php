@@ -140,19 +140,19 @@
                                 </td>
                                 <td class="center">
                                     <livewire:element.currency wire:key="chargesCost-{{ $loop->parent->iteration }}.{{ $loop->iteration }}" class="form-control full"
-                                        name="chargesCost-{{$indexItem}}" type="number"
+                                        name="chargesCost-{{$indexItem}}" type="number" step="0.01"
                                         wire:model.live="value.{{ $indexItem }}.chargesCost"
                                         :readonly="$value[$indexItem]->ref_paymentCode" />
                                 </td>
                                 <td class="center">
                                     <livewire:element.currency wire:key="chargesReceive-{{ $loop->parent->iteration }}.{{ $loop->iteration }}" class="form-control full"
-                                        name="chargesReceive-{{$indexItem}}" type="number"
+                                        name="chargesReceive-{{$indexItem}}" type="number" step="0.01"
                                         wire:model.live="value.{{ $indexItem }}.chargesReceive" />
                                 </td>
                                 <td class="center">
                                     <livewire:element.currency wire:key="chargesbillReceive-{{ $loop->parent->iteration }}.{{ $loop->iteration }}"
                                         class="form-control full" index="{{$indexItem}}" 
-                                        name="chargesbillReceive-{{$indexItem}}" type="number"
+                                        name="chargesbillReceive-{{$indexItem}}" type="number" step="0.01"
                                         wire:model.live="value.{{ $indexItem }}.chargesbillReceive" />
                                 </td>
                                 <td class='center'>
