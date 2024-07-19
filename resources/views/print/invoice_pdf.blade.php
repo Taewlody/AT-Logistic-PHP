@@ -239,7 +239,7 @@
                             <span><b>Date</b>{{Carbon\Carbon::parse($data->documentDate)->format('d/m/Y')}}</span>
                             <span><b>Innoive No.</b>{{$data->documentID}}</span>
                             <span><b>Credit Term</b>{{$data->credit?->creditName}}</span>
-                            <span><b>Your Ref. No</b> </span>
+                            <span><b>Your Ref. No</b> {{ $data->jobOrder->invNo }}</span>
                             <span><b>Sales Contact</b>{{$data->salemanRef?->empName}}</span>
                         </div>
                     </td>
@@ -432,7 +432,7 @@
                             <span><b>Date</b>{{Carbon\Carbon::parse($data->documentDate)->format('d/m/Y')}}</span>
                             <span><b>Innoive No.</b>{{$data->documentID}}</span>
                             <span><b>Credit Term</b>{{$data->credit?->creditName}}</span>
-                            <span><b>Your Ref. No</b> </span>
+                            <span><b>Your Ref. No</b> {{$data->jobOrder->invNo}}</span>
                             <span><b>Sales Contact</b>{{$data->salemanRef?->empName}}</span>
                         </div>
                     </td>
