@@ -131,7 +131,7 @@
                                         wire:keyup="dispatch('call_price', {{$indexItem}})" value="1">
                                 </td>
                                 <td class="center">
-                                    <input type="number" step="0.01" class="form-control full" id="volum-{{$indexItem}}"
+                                    <input type="number" step="0.001" class="form-control full" id="volum-{{$indexItem}}"
                                         wire:keyup="dispatch('call_price', {{$indexItem}})" value="1">
                                 </td>
                                 <td class="center">

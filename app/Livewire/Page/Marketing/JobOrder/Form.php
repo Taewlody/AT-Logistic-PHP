@@ -400,14 +400,21 @@ class Form extends Component
     }
 
     public function checkBill($to) {
+        
         if(count($this->chargeList) > 0) {
-            foreach($this->chargeList as $charge) {
-                if($charge->chargesbillReceive < $charge->chargesCost) {
-                    $this->dispatch('modal.job-order.charges-alert', showModal: true, confirmTo: $to);
-                }else {
-                    $this->dispatch($to);
+            $check = $this->chargeList->filter(function($item) {
+                if($item->chargesbillReceive < $item->chargesCost) {
+                    return $item;
                 }
+            });
+            
+            if(count($check)>0) {
+                $this->dispatch('modal.job-order.charges-alert', showModal: true, confirmTo: $to);
+
+            }else {
+                $this->dispatch($to);
             }
+            
         }else {
             $this->dispatch($to);
         }
