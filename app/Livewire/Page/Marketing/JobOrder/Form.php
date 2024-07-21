@@ -6,6 +6,7 @@ use App\Functions\CalculatorPrice;
 use App\Jobs\InvoiceService;
 use App\Models\Account\Invoice;
 use App\Models\Account\InvoiceItems;
+use App\Models\Payment\PaymentVoucher;
 use App\Models\AttachFile;
 use App\Models\Common\Charges;
 use App\Models\Marketing\BillOfLading;
@@ -74,6 +75,7 @@ class Form extends Component
     public Collection $attachsPaymentVoucher;
     public Collection $attachsAdvancePayment;
     public Collection $attachs;
+    public Collection $PaymentVoucher;
 
     public Collection $commodity;
 
@@ -197,12 +199,25 @@ class Form extends Component
         $this->containerList = $this->data->containerList ?? new Collection;
         $this->packagedList = $this->data->packedList ?? new Collection;
         $this->goodsList = $this->data->goodsList ?? new Collection;
-        $this->chargeList = $this->data->charge ?? new Collection;
+
+        $this->chargeList = new Collection;
+        foreach($this->data->charge as $item) {
+            if($item->ref_paymentCode) {
+                $payment = PaymentVoucher::where('documentID', $item->ref_paymentCode)->first();
+                
+                if($payment) {
+                    $this->chargeList->push($item);
+                }else {
+                    unset($item);
+                }
+            }else {
+                $this->chargeList->push($item);
+            }
+        }
+
         $this->advancePayment = $this->data->AdvancePayment ?? new Collection;
         $this->attachs = $this->data->attachs ?? new Collection;
-        // dd($this->data?->PaymentVoucher->map(function ($item) {
-        //     return $item->attachs;
-        // })->flatten());
+        
         $this->attachsPaymentVoucher = new Collection;
         foreach ($this->data->PaymentVoucher as $item) {
             foreach ($item->attachs as $attach) {
@@ -215,12 +230,7 @@ class Form extends Component
                 $this->attachsAdvancePayment->push($attach);
             }
         }
-        // $this->attachsPaymentVoucher = new Collection($this->data?->PaymentVoucher->map(function ($item) {
-        //     return $item->attachs;
-        // })->items) ?? new Collection;
-        // $this->attachsAdvancePayment = new Collection($this->data?->AdvancePayment?->map(function ($item) {
-        //     return $item->attachs;
-        // })) ?? new Collection;
+        
         $this->commodity = $this->data->commodity;
         $this->listCommodity = $this->data->commodity->map(function ($item) {
             return $item->commodityCode;

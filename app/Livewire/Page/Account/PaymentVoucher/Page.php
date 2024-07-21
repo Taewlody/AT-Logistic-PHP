@@ -8,6 +8,8 @@ use App\Models\Common\Supplier;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use App\Models\Marketing\JobOrderCharge;
 
 class Page extends Component
 {
@@ -50,7 +52,17 @@ class Page extends Component
     }
 
     public function delete($id) {
-        PaymentVoucher::find($id)->delete();
+        \DB::beginTransaction();
+        try {
+            PaymentVoucher::find($id)->delete();
+            $check = JobOrderCharge::where('ref_paymentCode', $id)->get();
+            if($check) {
+                JobOrderCharge::where('ref_paymentCode', $id)->delete();
+            }
+            \DB::commit();
+        } catch (\Exception $exception) {
+            \DB::rollBack();
+        }
     }
 
     public function render()
