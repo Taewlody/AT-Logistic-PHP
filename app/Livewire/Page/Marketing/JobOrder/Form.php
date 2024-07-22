@@ -551,11 +551,23 @@ class Form extends Component
             })->each->delete();
             $this->data->goodsList()->saveMany($this->goodsList);
 
-            $this->data->charge->filter(function ($item) {
-                return !collect($this->chargeList->pluck('items'))->contains($item->items);
-            })->each->delete();
+            $this->data->charge()->delete();
+            
+            foreach( $this->chargeList as $charge ) {
+                $data = new JobOrderCharge();
+                $data->comCode = $charge->comCode;
+                $data->chargesCost = $charge->chargesCost;
+                $data->chargesReceive = $charge->chargesReceive;
+                $data->chargesbillReceive = $charge->chargesbillReceive;
+                $data->documentID = $charge->documentID;
+                $data->ref_paymentCode = $charge->ref_paymentCode;
+                $data->chargeCode = $charge->chargeCode;
+                $data->detail = $charge->detail;
+                // dd($data, $this->data);
+                $this->data->charge()->save($data);
+            }
+            // $this->data->charge()->saveMany($this->chargeList);
             // dd($this->data->charge, $this->chargeList);
-            $this->data->charge()->saveMany($this->chargeList);
 
             $this->data->attachs()->saveMany($this->attachs);
             $this->data->commodity()->detach();
@@ -565,7 +577,7 @@ class Form extends Component
             return true;
         }catch (\Exception $exception) {
             \DB::rollBack();
-            
+            dd($exception->getMessage());
             echo "Exception caught: " . $exception->getMessage();
             return false;
         }
