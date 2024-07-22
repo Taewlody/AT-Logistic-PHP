@@ -208,10 +208,11 @@ class PrintFileResource extends Controller
         // return view('print.invoice_pdf', [
         //     'title' => "Invoice", 
         //     'data' => $data, 
-        //     'heightItems' => $heightItems,
         //     'credit' => $credit,
         //     'groupCommodity' => $groupCommodity,
         //     'onBoard' => $onBoard,
+        //     'customer_piad' => $customer_piad,
+        //     'heightItems' => $heightItems,
         //     'test' => true]);
     }
 
