@@ -11,7 +11,7 @@
         </div>
 
         <form class="form-body" wire:submit="submit" onkeydown="return event.key != 'Enter';">
-            <fieldset @disabled($formMode == FormMode::DISABLED || $formMode == FormMode::READONLY)>
+            {{-- <fieldset @disabled($formMode == FormMode::DISABLED || $formMode == FormMode::READONLY)> --}}
             <div class="row">
 
                 {{-- Section 1 --}}
@@ -285,7 +285,7 @@
 
 
             </div>
-            </fieldset>
+            {{-- </fieldset> --}}
         </form>
     </div>
 

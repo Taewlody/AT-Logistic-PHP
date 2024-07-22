@@ -111,14 +111,16 @@
                                 {{ $index }} 
                             </td>
                             <td>
-                                @foreach ($charges as $item)
+                                {{-- @foreach ($charges as $item)
                                     {{ $item->chargesbillReceive>=1 ? Service::MoneyFormat($item->chargesbillReceive) : '' }}
-                                @endforeach
+                                @endforeach --}}
+                                {{ $charges->sum('chargesbillReceive') ? Service::MoneyFormat($charges->sum('chargesbillReceive')) : ''}}
                             </td>
                             <td>
-                                @foreach ($charges as $item)
+                                {{-- @foreach ($charges as $item)
                                     {{ $item->chargesReceive>=1 ? Service::MoneyFormat($item->chargesReceive) : '' }}
-                                @endforeach
+                                @endforeach --}}
+                                {{ $charges->sum('chargesReceive') ? Service::MoneyFormat($charges->sum('chargesReceive')) : ''}}
                             </td>
                         </tr>
                         @endforeach
@@ -308,14 +310,16 @@
                                 {{ $index }} 
                             </td>
                             <td>
-                                @foreach ($charges as $item)
+                                {{-- @foreach ($charges as $item)
                                     {{ $item->chargesbillReceive>=1 ? Service::MoneyFormat($item->chargesbillReceive) : '' }}
-                                @endforeach
+                                @endforeach --}}
+                                {{ $charges->sum('chargesbillReceive') ? Service::MoneyFormat($charges->sum('chargesbillReceive')) : ''}}
                             </td>
                             <td>
-                                @foreach ($charges as $item)
+                                {{-- @foreach ($charges as $item)
                                     {{ $item->chargesReceive>=1 ? Service::MoneyFormat($item->chargesReceive) : '' }}
-                                @endforeach
+                                @endforeach --}}
+                                {{ $charges->sum('chargesReceive') ? Service::MoneyFormat($charges->sum('chargesReceive')) : ''}}
                             </td>
                         </tr>
                         @endforeach
@@ -501,14 +505,16 @@
                                 {{ $index }} 
                             </td>
                             <td>
-                                @foreach ($charges as $item)
+                                {{-- @foreach ($charges as $item)
                                     {{ $item->chargesbillReceive>=1 ? Service::MoneyFormat($item->chargesbillReceive) : '' }}
-                                @endforeach
+                                @endforeach --}}
+                                {{ $charges->sum('chargesbillReceive') ? Service::MoneyFormat($charges->sum('chargesbillReceive')) : ''}}
                             </td>
                             <td>
-                                @foreach ($charges as $item)
+                                {{-- @foreach ($charges as $item)
                                     {{ $item->chargesReceive>=1 ? Service::MoneyFormat($item->chargesReceive) : '' }}
-                                @endforeach
+                                @endforeach --}}
+                                {{ $charges->sum('chargesReceive') ? Service::MoneyFormat($charges->sum('chargesReceive')) : ''}}
                             </td>
                         </tr>
                         @endforeach

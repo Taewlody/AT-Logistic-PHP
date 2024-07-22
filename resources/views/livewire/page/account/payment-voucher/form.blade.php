@@ -11,7 +11,7 @@
         </div>
 
         <form class="form-body" wire:submit="submit" onkeydown="return event.key != 'Enter';">
-            <fieldset @disabled($formMode == FormMode::DISABLED || $formMode == FormMode::READONLY)>
+            {{-- <fieldset @disabled($formMode == FormMode::DISABLED || $formMode == FormMode::READONLY)> --}}
             <div class="row">
                 {{-- Section 1 --}}
                 <div class="col-lg-7 mb-2">
@@ -474,10 +474,10 @@
                                     <a name="back" class="btn btn-white" type="button"
                                         href="{{ route('account-payment-voucher') }}" wire.loading.attr="disabled">
                                         <i class="fa fa-reply"></i> Back</a>
-                                    @if($data->documentstatus == 'P')
+                                    {{-- @if($data->documentstatus == 'P') --}}
                                     <button name="Save" id="Save" class="btn btn-success" type="submit"><i
                                             class="fa fa-save"></i> Save</button>
-                                    @endif
+                                    {{-- @endif --}}
 
                                     @if(Auth::user()->hasRole('admin'))
                                     <button name="Approve" id="Approve" class="btn btn-primary" type="button"
@@ -495,7 +495,7 @@
                 </div>
 
             </div>
-            </fieldset>
+            {{-- </fieldset> --}}
         </form>
     </div>
 
