@@ -21,7 +21,13 @@ class Supplier extends Model implements Wireable
     protected $keyType = 'string';
     protected $primaryKey = 'supCode';
 
-    public $timestamps = false;
+    protected $dateFormat = 'y-m-d H:i:s';
+
+    const CREATED_AT = 'createTime';
+    const UPDATED_AT = 'editTime';
+
+    // public $timestamps = false;
+
     protected $fillable = [
         'comCode',
         'supCode',
@@ -93,6 +99,37 @@ class Supplier extends Model implements Wireable
         $this->setConnection($attributes['connection'] ?? 'mysql');
     }
 
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function($model){
+            $model->supCode = self::genarateKey();
+        });
+    }
+
+    public static function genarateKey(){
+        $prefix = "S";
+        $supCodes = self::pluck('supCode');
+        
+        $maxNumber = 0;
+
+        foreach ($supCodes as $supCode) {
+            // Extract the numeric part from each document ID
+            $numericPart = (int) substr($supCode, strlen($prefix) + 1); // +1 to skip the '-'
+            
+            // Find the maximum numeric value
+            if ($numericPart > $maxNumber) {
+                $maxNumber = $numericPart;
+            }
+        }
+
+        // Increment the maximum value to generate the new document ID
+        $newNumber = $maxNumber + 1;
+        $index = str_pad($newNumber, 5, '0', STR_PAD_LEFT);
+        
+        return $prefix.'-'.$index;
+    }
+
     public static function fromLivewire($value): self
     {
         return new static($value);
@@ -126,4 +163,5 @@ class Supplier extends Model implements Wireable
     {
         return $this->hasOne(User::class, 'userCode','editID');
     }
+    
 }
