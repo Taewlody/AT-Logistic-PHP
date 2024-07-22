@@ -138,16 +138,19 @@
                                                 <td>{{ $item->salemanRefer != null ? $item->salemanRefer->empName : '' }}</td>
                                                 <td>{{ $item->getBound}}</td>
                                                 @if ($item->docStatus != null)
-                                                    <td class="center"><span
+                                                    <td class="center">
+                                                        @php
+                                                            $tax = json_decode($item->invoice?->taxInvoiceItems, true);
+                                                        @endphp
+                                                        <span
                                                             @class([
                                                                 'badge',
                                                                 'label-primary' => $item->docStatus->status_code == 'A',
                                                                 'label-danger' => $item->docStatus->status_code == 'D',
                                                                 'label-warning' => $item->docStatus->status_code == 'P',
+                                                                'label-success' => !empty($tax)
                                                             ])>
-                                                            @php
-                                                                $tax = json_decode($item->invoice?->taxInvoiceItems, true);
-                                                            @endphp
+                                                            
                                                             @if(!empty($tax))
                                                             {{ 'tax complete' }}
                                                             @else
