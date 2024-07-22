@@ -120,7 +120,8 @@ class Charges extends Component
     // }
 
     #[On("update-charges")]
-    public function updateChargeGroup(){
+    public function updateChargeGroup()
+    {
         $this->dispatch('valueUpdated');
     }
 

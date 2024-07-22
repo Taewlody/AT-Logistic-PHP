@@ -142,7 +142,7 @@
                                     <livewire:element.currency wire:key="chargesCost-{{ $loop->parent->iteration }}.{{ $loop->iteration }}" class="form-control full"
                                         name="chargesCost-{{$indexItem}}" type="number" step="0.01"
                                         wire:model.live="value.{{ $indexItem }}.chargesCost"
-                                        :readonly="$value[$indexItem]->ref_paymentCode" />
+                                        :readonly="$value[$indexItem]->ref_paymentCode ? true : false" />
                                 </td>
                                 <td class="center">
                                     <livewire:element.currency wire:key="chargesReceive-{{ $loop->parent->iteration }}.{{ $loop->iteration }}" class="form-control full"
@@ -156,8 +156,10 @@
                                         wire:model.live="value.{{ $indexItem }}.chargesbillReceive" />
                                 </td>
                                 <td class='center'>
+                                    @if($value[$indexItem]->ref_paymentCode == '')
                                     <button type='button' class='btn-danger btn btn-xs'
                                         wire:click="$parent.removeCharge({{ $indexItem }})">Remove</button>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

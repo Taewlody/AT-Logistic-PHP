@@ -7,18 +7,19 @@
 <script>
     $(document).ready(function() {
         const currencyElement = $('#{{$this->__id}}');
-        currencyElement.inputmask({
-            alias: 'decimal',
-            rightAlign: false,
-            groupSeparator: ',',
-            autoGroup: true, 
-            integerDigits:6,
-            autoUnmask: true,
-            digits:2,
-            allowMinus:false,        
-            digitsOptional: true,
-            placeholder: "0"
-        });
+        // const currencyElement = $("input[name='{{$name}}']");
+        // currencyElement.inputmask({
+        //     alias: 'decimal',
+        //     rightAlign: false,
+        //     groupSeparator: ',',
+        //     autoGroup: true, 
+        //     integerDigits:6,
+        //     autoUnmask: true,
+        //     digits:2,
+        //     allowMinus:false,        
+        //     digitsOptional: true,
+        //     placeholder: "0"
+        // });
         currencyElement.on('input', function(e) {
 
             const data = $(this).val();
@@ -26,7 +27,8 @@
                 // @this.call('getValue', data);
                 @this.set('value', parseFloat(data));
                 console.log('change item:', $wire.name ,'->', data)
-                @this.dispatch('changeValue');
+                // @this.dispatch('changeValue');
+                console.log('charge : ', $wire.value, parseFloat(data));
             }else {
                 console.log('currency not found');
             }
@@ -37,10 +39,12 @@
                 currencyElement.val(value);
                 console.log('change-currency-'+ $wire.name, value);
                 if(value != $wire.value) {
+                    console.log('change charge: ', value, $wire.value);
                     @this.set('value', parseFloat(value));
                 }
             }
         });
+        
     });
 </script>
 @endscript

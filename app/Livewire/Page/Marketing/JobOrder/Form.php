@@ -18,6 +18,7 @@ use App\Models\Marketing\JobOrderWithoutRef;
 use App\Models\Marketing\TrailerBooking;
 use App\Models\Payment\AdvancePayment;
 use App\Models\Payment\AdvancePaymentItems;
+use App\Models\PettyCash\PettyCash;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -202,17 +203,17 @@ class Form extends Component
 
         $this->chargeList = new Collection;
         foreach($this->data->charge as $item) {
-            if($item->ref_paymentCode) {
-                $payment = PaymentVoucher::where('documentID', $item->ref_paymentCode)->first();
-                
-                if($payment) {
-                    $this->chargeList->push($item);
-                }else {
-                    unset($item);
-                }
-            }else {
+            // if($item->ref_paymentCode) {
+            //     $payment = PaymentVoucher::where('documentID', $item->ref_paymentCode)->first();
+            //     // $petty = PettyCash::where('refJobNo', $this->data->documentID)->first();
+            //     if($payment) {
+            //         $this->chargeList->push($item);
+            //     }else {
+            //         $this->chargeList->push($item);
+            //     }
+            // }else {
                 $this->chargeList->push($item);
-            }
+            // }
         }
 
         $this->advancePayment = $this->data->AdvancePayment ?? new Collection;
@@ -342,6 +343,7 @@ class Form extends Component
     #[On('Remove-Charge')]
     public function removeCharge($index)
     {
+        // dd($index);
         $this->chargeList->forget($index);
         $this->chargeList = $this->chargeList->values();
         $this->dispatch('update-charges');
@@ -538,18 +540,23 @@ class Form extends Component
                 return !collect($this->containerList->pluck('items'))->contains($item->items);
             })->each->delete();
             $this->data->containerList()->saveMany($this->containerList);
+
             $this->data->packedList->filter(function ($item) {
                 return !collect($this->packagedList->pluck('items'))->contains($item->items);
             })->each->delete();
             $this->data->packedList()->saveMany($this->packagedList);
+
             $this->data->goodsList->filter(function ($item) {
                 return !collect($this->goodsList->pluck('items'))->contains($item->items);
             })->each->delete();
             $this->data->goodsList()->saveMany($this->goodsList);
+
             $this->data->charge->filter(function ($item) {
                 return !collect($this->chargeList->pluck('items'))->contains($item->items);
             })->each->delete();
+            // dd($this->data->charge, $this->chargeList);
             $this->data->charge()->saveMany($this->chargeList);
+
             $this->data->attachs()->saveMany($this->attachs);
             $this->data->commodity()->detach();
             $this->data->commodity()->syncWithoutDetaching($this->listCommodity);
