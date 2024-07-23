@@ -6,6 +6,7 @@ use App\Enum\Role;
 use Auth;
 use Livewire\Attributes\On;
 use App\Models\PettyCash\PettyCash;
+use App\Models\PettyCash\PettyCashItems;
 use App\Models\Common\Customer;
 use App\Models\Common\Saleman;
 use App\Models\Common\Supplier;
@@ -64,6 +65,7 @@ class Page extends Component
         \DB::beginTransaction();
         try {
             PettyCash::find($id)->delete();
+            PettyCashItems::where('documentID', $id)->delete();
             $check = JobOrderCharge::where('ref_paymentCode', $id)->get();
             if($check) {
                 JobOrderCharge::where('ref_paymentCode', $id)->delete();

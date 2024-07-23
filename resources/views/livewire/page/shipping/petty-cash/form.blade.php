@@ -6,11 +6,11 @@
     <div class="wrapper wrapper-content animated fadeInRight">
 
         {{-- loading --}}
-        <div wire:loading.flex class="loader-wrapper" wire:target='save,approve'>
+        <div wire:loading.flex class="loader-wrapper" wire:target='submit,approve'>
             <div class="loader"></div>
         </div>
 
-        <form class="form-body" wire:submit="save" onkeydown="return event.key != 'Enter';">
+        <form class="form-body" wire:submit="submit" onkeydown="return event.key != 'Enter';">
             <div class="row">
 
                 {{-- Section 1 --}}
@@ -265,3 +265,6 @@
         </form>
     </div>
 </div>
+@push('modal')
+<livewire:modal.modal-alert /> 
+@endpush

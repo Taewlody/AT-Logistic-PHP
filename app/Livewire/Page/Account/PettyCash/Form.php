@@ -17,6 +17,8 @@ use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
+use App\Models\Marketing\JobOrderCharge;
 
 class Form extends Component
 {
@@ -138,32 +140,54 @@ class Form extends Component
         $this->payments = $this->payments->values();
     }
 
-    public function save(bool|null $approve = false) {
+    public function save(bool|null $approve = false) 
+    {
         if(!$this->valid()) {
             return false;
         }
-        $this->data->editID = Auth::user()->usercode;
-        if($approve) {
-            $this->data->documentstatus = 'A';
-            $this->data->dueDate = Carbon::now()->toDateString();
-        }else {
-            $this->data->dueDate = Carbon::now()->endOfMonth()->toDateString();
-        }
+        DB::beginTransaction();
+        try {
+            $this->data->editID = Auth::user()->usercode;
+            if($approve) {
+                $this->data->documentstatus = 'A';
+                $this->data->dueDate = Carbon::now()->toDateString();
+            }else {
+                $this->data->dueDate = Carbon::now()->endOfMonth()->toDateString();
+            }
 
-        $this->data->sumTotal = $this->calPrice->total;
-        $this->data->sumTax1 = $this->calPrice->tax1;
-        $this->data->sumTax3 = $this->calPrice->tax3;
-        $this->data->sumTax7 = $this->calPrice->tax7;
-        $this->data->grandTotal = $this->calPrice->grandTotal;
-        $this->data->editID = Auth::user()->usercode;
-        
-        $this->data->save();
-        $this->data->items->filter(function($item){
-            return !collect($this->payments->pluck('autoid'))->contains($item->autoid);
-        })->each->delete();
-        $this->data->items()->saveMany($this->payments);
-        // $this->redirectRoute(name: 'account-petty-cash', navigate: true);
-        return true;
+            $this->data->sumTotal = $this->calPrice->total;
+            $this->data->sumTax1 = $this->calPrice->tax1;
+            $this->data->sumTax3 = $this->calPrice->tax3;
+            $this->data->sumTax7 = $this->calPrice->tax7;
+            $this->data->grandTotal = $this->calPrice->grandTotal;
+            $this->data->editID = Auth::user()->usercode;
+            
+            $this->data->save();
+
+            $this->data->items()->delete();
+            $job = JobOrder::where('documentID', $this->data->refJobNo)->first();
+            foreach($this->payments as $pay) {
+                $data = new PettyCashItems();
+                $data->comCode = 'C01';
+                $data->documentID = $this->data->documentID;
+                $data->chargeCode = $pay->chargeCode;
+                $data->chartDetail = $pay->chartDetail;
+                $data->amount = $pay->amount;
+                $data->invNo = $job->invNo;
+
+                $this->data->items()->save($data);
+            }
+            // $this->data->items->filter(function($item){
+            //     return !collect($this->payments->pluck('autoid'))->contains($item->autoid);
+            // })->each->delete();
+            // $this->data->items()->saveMany($this->payments);
+
+            \DB::commit();
+            return true;
+        } catch (\Exception $exception) {
+            \DB::rollBack();
+            return false;
+        }
     }
 
 
@@ -197,20 +221,20 @@ class Form extends Component
     }
 
     public function approve() {
+        // dd('5555');
         $success = $this->save(true);
         if($success){
-            $this->job = JobOrder::find($this->data->refJobNo);
-            $this->data->items->each(function($item){
-                $this->job->charge()->create([
-                    'documentID' => $this->job->documentID,
-                    'ref_paymentCode' => $this->data->documentID,
-                    'chargeCode' => $item->chargeCode,
-                    'detail' => $item->chartDetail,
-                    'chargesCost' => $item->amount,
-                ]);
-            });
-            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
-            return redirect()->route('account-petty-cash.form', ['action' => 'edit', 'id' => $this->data->documentID]);
+            $charge = $this->createJobOrderCharge();
+            
+            if($charge == true) {
+                $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'Approve สำเร็จ', type: 'success');
+                return redirect()->route('account-petty-cash.form', ['action' => 'edit', 'id' => $this->data->documentID]);
+            }else if($charge == false) {
+                $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'Approve ไม่สำเร็จ', type: 'error');
+            }else {
+                this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'Approve สำเร็จ', type: 'success');
+                return redirect()->route('account-petty-cash.form', ['action' => 'edit', 'id' => $this->data->documentID]);
+            }
 
         }else{
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
@@ -219,6 +243,41 @@ class Form extends Component
         // $this->redirectRoute(name: 'shipping-petty-cash', navigate: true);
     }
 
+    public function createJobOrderCharge()
+    {
+        DB::beginTransaction();
+        try {
+            $this->job = JobOrder::find($this->data->refJobNo);
+            $check = JobOrderCharge::where('ref_paymentCode', $this->data->documentID)->get();
+            
+            if($check) {
+                $test = JobOrderCharge::where('ref_paymentCode', $this->data->documentID)->delete();
+            }
+            
+            foreach($this->data->items as $item){
+                $data = new JobOrderCharge();
+                $data->comCode = 'C01';
+                $data->chargesCost = $item->amount;
+                $data->chargesReceive = 0.00;
+                $data->chargesbillReceive = 0.00;
+                $data->documentID = $this->job->documentID;
+                $data->ref_paymentCode = $this->data->documentID;
+                $data->chargeCode = $item->chargeCode;
+                $data->detail = $item->chartDetail;
+                
+                $data->save();
+                
+            };
+            // dd(JobOrderCharge::where('ref_paymentCode', $this->data->documentID)->get());
+            
+
+            \DB::commit();
+            return true;
+        } catch (\Exception $exception) {
+            \DB::rollBack();
+            return false;
+        }
+    }
 
 
     public function render()
