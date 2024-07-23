@@ -84,18 +84,20 @@ class Form extends Component
     // }
 
     public function calTax1($value) {
-        $this->calPrice(tax1: $value);
+        
+        $this->calPrice(tax1: $value ? $value : 0);
         $this->dispatch('refresh');
+        
     }
 
     public function calTax3($value) {
-        $this->calPrice(tax3: $value);
-
+        $this->calPrice(tax3: $value ? $value : 0);
         $this->dispatch('refresh');
     }
 
     // #[Computed]
-    public function calPrice(int|null $tax1 = null, int|null $tax3 = null) {
+    public function calPrice(float|null $tax1 = null, float|null $tax3 = null) {
+        // dd($tax1);
         $cal_price = (object) [
             'total' => 0,
             'tax3' => 0,
@@ -178,7 +180,8 @@ class Form extends Component
         }
     }
 
-    public function addPayment() {
+    #[On('Add-Charge')]
+    public function addCharge() {
         $newPayment = new PaymentVoucherItems;
         $charge = Charges::find($this->chargeCode);
         $newPayment->documentID = $this->data->documentID;
@@ -188,6 +191,8 @@ class Form extends Component
         $newPayment->vatamount = 0;
         $this->payments->push($newPayment);
         $this->reset('chargeCode');
+        $this->dispatch('reset-select2-chargeCode');
+        $this->dispatch('update-charges');
     }
 
     public function removePayment(int $index) {

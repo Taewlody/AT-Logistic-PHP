@@ -204,13 +204,14 @@
                                 <div class="card-body">
                                     <div class="form-group row">
                                         <div class="col-md-6">
-                                            <livewire:element.select2 wire:model.live='chargeCode' id="chargeCode" :options="Service::ChargesSelecter()" itemKey="chargeCode" itemValue="chargeName" :searchable="true">
+                                            <livewire:element.select2 wire:model.live='chargeCode' id="chargeCode" name="chargeCode" :options="Service::ChargesSelecter()" itemKey="chargeCode" itemValue="chargeName" :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
-                                            <button class="btn btn-primary " type="button" name="addPayment" @disabled($chargeCode=='')
-                                                wire:click="addPayment" id="addPayment"><i
+                                            <button class="btn btn-primary " type="button"  @disabled($chargeCode=='') wire:click="addCharge"><i
                                                  class="fa fa-plus"></i>
                                                 Add</button>
+
+                                                
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -302,7 +303,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Tax 1% :</strong></td>
-                                                            <td><input type="number" name="tax1" id="tax1"
+                                                            <td><input type="number" name="tax1" id="tax1" step="0.01"
                                                                     class='form-control'
                                                                     wire:keyup.debounce.700ms='calTax1($event.target.value)'
                                                                     value="{{ Service::MoneyFormat($priceSum->tax1) }}"
@@ -311,7 +312,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Tax 3% :</strong></td>
-                                                            <td><input type="number" name="tax3" id="tax3"
+                                                            <td><input type="number" name="tax3" id="tax3" step="0.01"
                                                                     class='form-control'
                                                                     wire:keyup.debounce.700ms='calTax3($event.target.value)'
                                                                     value="{{ Service::MoneyFormat($priceSum->tax3) }}"
