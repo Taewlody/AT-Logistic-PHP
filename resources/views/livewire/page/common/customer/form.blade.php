@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div class="card ">
             <div class="card-body">
-                <form class="form-body" wire:submit="save" onkeydown="return event.key != 'Enter';">
+                <form class="form-body" wire:submit="submit" onkeydown="return event.key != 'Enter';">
                     <div class="form-group  row">
                         <label class="col-sm-2 col-form-label">
                             <h3>Customer info</h3>
@@ -16,7 +16,7 @@
                         <label class="col-sm-2 col-form-label">Customer Code</label>
                         <div class="col-md-2">
                             <input type="text" name="cusCode" id="cusCode" class="form-control"
-                                wire:model="data.cusCode" @disabled($action != 'create')>
+                                wire:model="data.cusCode" @disabled($action != 'create') readonly>
                         </div>
                     </div>
                     <div class="form-group  row">
@@ -27,16 +27,22 @@
                         </div>
                     </div>
                     <div class="form-group  row">
-                        <label class="col-sm-2 col-form-label">Customer Name</label>
+                        <label class="col-sm-2 col-form-label">Customer Name <span class="text-danger">*</span></label>
                         <div class="col-md-4">
                             <input type="text" name="custNameTH" id="custNameTH" wire:model="data.custNameTH"
                                 autocomplete="empty" placeholder="Name (TH)" class="form-control"
                                 @disabled($action != 'create' && $action != 'edit')>
+                                @error('data.custNameTH')
+                                    <div class="text-danger m-2">{{ $message }}</div>
+                                @enderror
                         </div>
 
                         <div class="col-md-4">
                             <input type="text" name="custNameEN" id="custNameEN" wire:model="data.custNameEN"
                                 placeholder="Name (EN)" class="form-control" @disabled($action != 'create' && $action != 'edit')>
+                                @error('data.custNameEN')
+                                    <div class="text-danger m-2">{{ $message }}</div>
+                                @enderror
                         </div>
                     </div>
                     <div class="form-group  row">
@@ -58,7 +64,7 @@
 
                         <div class="col-md-4">
                             <input type="text" name="branchEN" id="branchEN" autocomplete="empty"
-                                wire:model="data.branchEN" splaceholder="Branch (EN)" class="form-control"
+                                wire:model="data.branchEN" placeholder="Branch (EN)" class="form-control"
                                 @disabled($action != 'create' && $action != 'edit')>
                         </div>
                     </div>
@@ -87,10 +93,13 @@
                         </div>
                     </div>
                     <div class="form-group  row">
-                        <label class="col-sm-2 col-form-label">Country</label>
+                        <label class="col-sm-2 col-form-label">Country <span class="text-danger">*</span></label>
                         <div class="col-md-2">
                             <livewire:element.select2 wire:model='data.countryCode' name="Country" :options="Service::CountrySelecter()"
                                 itemKey="countryCode" itemValue="countryNameEN" :disabled="$action != 'create' && $action != 'edit'">
+                                @error('data.countryCode')
+                                    <div class="text-danger m-2">{{ $message }}</div>
+                                @enderror
                         </div>
                     </div>
                     <div class="form-group row">
@@ -144,7 +153,7 @@
                     </div>
 
                     <div class="form-group  row">
-                        <label class="col-sm-2 col-form-label">
+                        <label class="col-form-label">
                             <h3>Contact Person info</h3>
                         </label>
                         <div class="col-md-2"> </div>
@@ -218,3 +227,6 @@
         </div>
     </div>
 </div>
+@push('modal')
+<livewire:modal.modal-alert />
+@endpush

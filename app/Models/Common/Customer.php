@@ -99,7 +99,33 @@ class Customer extends Model implements Wireable
         $this->setConnection($attributes['connection'] ?? 'mysql');
     }
 
-    public static function fromLivewire($value): Customer
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function($model){
+            $model->cusCode = self::genarateKey();
+        });
+    }
+
+    public static function genarateKey(){
+        $prefix = "C";
+        $cusCodes = self::pluck('cusCode');
+        
+        $maxNumber = 0;
+
+        foreach ($cusCodes as $cusCode) {
+            $numericPart = (int) substr($cusCode, strlen($prefix) + 1); 
+            if ($numericPart > $maxNumber) {
+                $maxNumber = $numericPart;
+            }
+        }
+        $newNumber = $maxNumber + 1;
+        $index = str_pad($newNumber, 5, '0', STR_PAD_LEFT);
+        
+        return $prefix.'-'.$index;
+    }
+
+    public static function fromLivewire($value): self
     {
         return new static($value);
     }
