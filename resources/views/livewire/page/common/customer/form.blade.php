@@ -96,7 +96,7 @@
                         <label class="col-sm-2 col-form-label">Country <span class="text-danger">*</span></label>
                         <div class="col-md-2">
                             <livewire:element.select2 wire:model='data.countryCode' name="Country" :options="Service::CountrySelecter()"
-                                itemKey="countryCode" itemValue="countryNameEN" :disabled="$action != 'create' && $action != 'edit'">
+                                itemKey="countryCode" itemValue="countryNameTH" :disabled="$action != 'create' && $action != 'edit'">
                                 @error('data.countryCode')
                                     <div class="text-danger m-2">{{ $message }}</div>
                                 @enderror

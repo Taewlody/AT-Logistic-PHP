@@ -34,20 +34,20 @@
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label"> Code</label>
+                        <label class="col-sm-2 col-form-label"> Code <span class="text-danger">*</span></label>
                         <div class="col-md-2">
-                            <input type="text" class="form-control" wire:model="data.countryCode"
+                            <input type="text" class="form-control" wire:model="data.countryCode" required
                                 @disabled($action != 'create')>
                         </div>
                     </div>
-                    <div class="form-group  row"><label class="col-sm-2 col-form-label"> Name (TH)</label>
+                    <div class="form-group  row"><label class="col-sm-2 col-form-label"> Name (EN)</label>
                         <div class="col-sm-8"><input name="countryNameTH" type="text" class="form-control "
                                 id="countryNameTH" wire:model="data.countryNameTH" @disabled($action != 'create' && $action != 'edit')>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label"> Name (EN)</label>
+                        <label class="col-sm-2 col-form-label"> Name (TH)</label>
                         <div class="col-md-8">
                             <input type="text" class="form-control " name="countryNameEN" autocomplete="off"
                                 id="countryNameEN" wire:model="data.countryNameEN" @disabled($action != 'create' && $action != 'edit')>

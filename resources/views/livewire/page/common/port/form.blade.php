@@ -38,7 +38,7 @@
                             <select class="select2_single form-control select2" name="countryCode" id="countryCode" wire:model="data.countryCode" @disabled($action != 'create' && $action != 'edit')>
                                 <option value="">- select -</option>
                                 @foreach ($countryList as $country)
-                                    <option value="{{ $country->countryCode }}">{{ $country->countryNameEN }}</option>
+                                    <option value="{{ $country->countryCode }}">{{ $country->countryNameTH }}</option>
                                 @endforeach
                             </select>
                         </div>

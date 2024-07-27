@@ -97,7 +97,7 @@ class Service
     public static function CountrySelecter()
     {
         return Cache::remember('country-select', 15, function () {
-            return Country::select('countryCode', 'countryNameEN')->orderBy('countryNameEN')->get();
+            return Country::select('countryCode', 'countryNameTH')->orderBy('countryNameTH')->get();
         });
     }
 
