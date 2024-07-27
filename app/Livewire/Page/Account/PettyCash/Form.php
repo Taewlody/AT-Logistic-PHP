@@ -40,6 +40,8 @@ class Form extends Component
 
     public $jobOrderSelecter;
 
+    public $priceSum;
+
     protected array $rules = [
         'payments.*' => 'unique:App\Models\PettyCash\PettyCashItems',
         'payments.*.autoid' => 'integer',
@@ -57,9 +59,34 @@ class Form extends Component
     //     ];
     // }
 
-    #[Computed]
-    public function calPrice() {
-        $cal_price = [
+    public function calTax1($value) {
+        
+        $this->calPrice(tax1: $value ? $value : 0, tax3: $this->priceSum->tax3 ? $this->priceSum->tax3 : 0, tax7: $this->priceSum->tax7 ? $this->priceSum->tax7 : 0);
+        $this->dispatch('refresh');
+        
+    }
+
+    public function calTax3($value) {
+        $this->calPrice(tax1: $this->priceSum->tax1 ? $this->priceSum->tax1 : 0, tax3: $value ? $value : 0, tax7: $this->priceSum->tax7 ? $this->priceSum->tax7 : 0);
+        $this->dispatch('refresh');
+    }
+
+    public function calTax7($value) {
+        $this->calPrice(tax1: $this->priceSum->tax1 ? $this->priceSum->tax1 : 0, tax3: $this->priceSum->tax3 ? $this->priceSum->tax3 : 0, tax7: $value ? $value : 0);
+        $this->dispatch('refresh');
+    }
+
+    public function changeGrandTotal(int $index) {
+        // $this->payments[$index]->GrandTotal = $this->payments[$index]->amount;
+        // dd($this->payments, $this->priceSum);
+        $this->calPrice();
+        // $this->dispatch('refresh');
+    }
+
+    // #[Computed]
+    public function calPrice(float|null $tax1 = null, float|null $tax3 = null, float|null $tax7 = null) {
+        
+        $cal_price = (object) [
             'total' => 0,
             'tax3' => 0,
             'tax1' => 0,
@@ -67,20 +94,29 @@ class Form extends Component
             'grandTotal' => 0,
         ];
         if(!isset($this->payments)||$this->payments == null) {
-            return (object) $cal_price;
+            // return $cal_price;
+            $this->priceSum = $cal_price;
         }
-        $cal_charge['total'] = $this->payments->sum('amount');
-        $cal_charge['tax3'] = $this->payments->filter(function ($item) {
-            if($item->charge == null || $item->charge->chargesType == null) return false;
-            return $item->charges->chargesType->amount == 3;
-        })->sum('amount');
-        $cal_charge['tax1'] = $this->payments->filter(function ($item) {
-            if($item->charge == null || $item->charge->chargesType == null) return false;
-            return $item->charges->chargesType->amount == 1;
-        })->sum('amount');
-        $cal_charge['tax7'] = $this->payments->sum('amount') * 0.07;
-        $cal_charge['grandTotal'] = ($cal_charge['total'] - ($cal_charge['tax1'] + $cal_charge['tax3'])) +  $cal_charge['tax7'];
-        return (object) $cal_charge;
+        $cal_price->total = $this->payments->sum('amount');
+        // dd($cal_price->total);
+        if($tax3 != null) {
+            // dd($tax3);
+            $cal_price->tax3 = $tax3;
+        } 
+        if($tax1 != null) {
+            // dd($tax1);
+            $cal_price->tax1 = $tax1;
+        } 
+        if($tax7 != null) {
+            // dd($tax1);
+            $cal_price->tax7 = $tax7;
+        } 
+        
+        $cal_price->grandTotal = ($cal_price->total - ($cal_price->tax1 + $cal_price->tax3)) + $cal_price->tax7;
+        // return $cal_price;
+        
+        $this->priceSum = $cal_price;
+        $this->dispatch('cal-update');
     }
 
     public function mount()
@@ -88,17 +124,23 @@ class Form extends Component
         $this->data = new PettyCash;
         if ($this->action == '') {
             $this->action = 'view';
-        } 
+        } else {
+            $this->action;
+        }
 
         if ($this->id != '') {
             $this->data = PettyCash::find($this->id);
             $this->payments = $this->data->items;
+
+            $this->calPrice(tax1: $this->data->sumTax1 ? $this->data->sumTax1 : 0, tax3: $this->data->sumTax3 ? $this->data->sumTax3 : 0, tax7: $this->data->sumTax7 ? $this->data->sumTax7 : 0);
+
         } else {
             $this->action = 'create';
             $this->data->documentDate = Carbon::now()->toDateString();
             $this->data->createID = Auth::user()->usercode;
             $this->data->dueDate = Carbon::now()->endOfMonth()->toDateString();
             $this->payments = new Collection;
+            $this->calPrice();
         }
 
         $this->viewMode = ViewMode::from($this->action);
@@ -109,6 +151,7 @@ class Form extends Component
         } 
 
         $this->jobOrderSelecter = Service::JobOrderSelecter();
+        // dd($this->data);
     }
 
     // #[On("updated-refJobNo")]
@@ -125,6 +168,7 @@ class Form extends Component
         }
     }
 
+    #[On('Add-Charge')]
     public function addPayment() {
         $charge = Charges::find($this->chargeCode);
         $newCharge = new PettyCashItems;
@@ -133,7 +177,10 @@ class Form extends Component
         $newCharge->chartDetail = $charge->chargeName;
         $this->payments->push($newCharge);
         $this->reset('chargeCode');
+        $this->dispatch('reset-select2-chargeCode');
+        $this->dispatch('update-charges');
     }
+    
 
     public function removePayment(int $index) {
         $this->payments->forget($index);
@@ -142,6 +189,7 @@ class Form extends Component
 
     public function save(bool|null $approve = false) 
     {
+        
         if(!$this->valid()) {
             return false;
         }
@@ -155,13 +203,18 @@ class Form extends Component
                 $this->data->dueDate = Carbon::now()->endOfMonth()->toDateString();
             }
 
-            $this->data->sumTotal = $this->calPrice->total;
-            $this->data->sumTax1 = $this->calPrice->tax1;
-            $this->data->sumTax3 = $this->calPrice->tax3;
-            $this->data->sumTax7 = $this->calPrice->tax7;
-            $this->data->grandTotal = $this->calPrice->grandTotal;
+            // $this->data->sumTotal = $this->calPrice->total;
+            // $this->data->sumTax1 = $this->calPrice->tax1;
+            // $this->data->sumTax3 = $this->calPrice->tax3;
+            // $this->data->sumTax7 = $this->calPrice->tax7;
+            // $this->data->grandTotal = $this->calPrice->grandTotal;
+            $this->data->sumTotal = $this->priceSum->total;
+            $this->data->sumTax3 = $this->priceSum->tax3;
+            $this->data->sumTax1 = $this->priceSum->tax1;
+            $this->data->sumTax7 = $this->priceSum->tax7;
+            $this->data->grandTotal = $this->priceSum->grandTotal;
             $this->data->editID = Auth::user()->usercode;
-            
+            // dd($this->data);
             $this->data->save();
 
             $this->data->items()->delete();
@@ -177,34 +230,35 @@ class Form extends Component
 
                 $this->data->items()->save($data);
             }
-            // $this->data->items->filter(function($item){
-            //     return !collect($this->payments->pluck('autoid'))->contains($item->autoid);
-            // })->each->delete();
-            // $this->data->items()->saveMany($this->payments);
 
             \DB::commit();
             return true;
         } catch (\Exception $exception) {
             \DB::rollBack();
+            dd($exception->getMessage());
             return false;
         }
     }
-
-
 
     public function valid() {
         $vaildated = true;
         if($this->data->dueDate == null || $this->data->dueDate == '') {
             $this->addError('dueDate', 'Please select due date');
             $vaildated = false;
+        }else {
+            $this->resetErrorBag('dueDate');
         }
         if($this->data->supCode == null || $this->data->supCode == '') {
             $this->addError('supCode', 'Please select supplier');
             $vaildated = false;
+        }else {
+            $this->resetErrorBag('supCode');
         }
         if($this->data->refJobNo == null || $this->data->refJobNo == '') {
             $this->addError('refJobNo', 'Please select Ref. JobNo.');
             $vaildated = false;
+        }else {
+            $this->resetErrorBag('refJobNo');
         }
         
         return $vaildated;

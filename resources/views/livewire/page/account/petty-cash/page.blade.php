@@ -127,7 +127,7 @@
                                                     <td>{{ Service::DateFormat($item->documentDate, true) }}</td>
                                                     <td>{{ $item->refJobNo }}</td>
                                                     <td>{{ $item->supplier != null ? $item->supplier->supNameEN ? $item->supplier->supNameEN : $item->supplier->supNameTH : '' }}</td>
-                                                    <td>{{ number_format($item->sumTotal, 2) }}</td>
+                                                    <td>{{ number_format($item->grandTotal, 2) }}</td>
                                                     @if ($item->docStatus != null)
                                                         <td class="center"><span
                                                                 @class([

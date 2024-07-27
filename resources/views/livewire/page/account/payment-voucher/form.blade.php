@@ -244,7 +244,7 @@
                                                             <input type='number' class='form-control'
                                                                 wire:change="changeGrandTotal({{$loop->index}})"
                                                                 step="0.01"
-                                                                wire:model.live.debounce.500ms.number="payments.{{ $loop->index }}.amount">
+                                                                wire:model.live.debounce.100ms.number="payments.{{ $loop->index }}.amount">
                                                         </td>
 
                                                         <td class='center'>
@@ -305,7 +305,7 @@
                                                             <td><strong>Tax 1% :</strong></td>
                                                             <td><input type="number" name="tax1" id="tax1" step="0.01"
                                                                     class='form-control'
-                                                                    wire:keyup.debounce.700ms='calTax1($event.target.value)'
+                                                                    wire:keyup.debounce.500ms='calTax1($event.target.value)'
                                                                     value="{{ number_format($priceSum->tax1, 2, '.', '') }}"
                                                                     required @readonly(!Auth::user()->hasRole('admin'))>
                                                             </td>
@@ -314,7 +314,7 @@
                                                             <td><strong>Tax 3% :</strong></td>
                                                             <td><input type="number" name="tax3" id="tax3" step="0.01"
                                                                     class='form-control'
-                                                                    wire:keyup.debounce.700ms='calTax3($event.target.value)'
+                                                                    wire:keyup.debounce.500ms='calTax3($event.target.value)'
                                                                     value="{{ number_format($priceSum->tax3, 2, '.', '') }}"
                                                                     required @readonly(!Auth::user()->hasRole('admin'))>
                                                             </td>

@@ -136,13 +136,13 @@
                                                     <option value="{{ $charge->chargeCode }}">{{ $charge->chargeName }}</option>
                                                 @endforeach
                                             </select> --}}
-                                            <livewire:element.select2 wire:model='chargeCode'
-                                                name="chargeCode" :options="Service::ChargesSelecter()"
+                                            <livewire:element.select2 wire:model.live='chargeCode'
+                                                name="chargeCode" id="chargeCode" :options="Service::ChargesSelecter()"
                                                 itemKey="chargeCode" itemValue="chargeName" 
-                                                :searchable="true">
+                                                :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
-                                            <button class="btn btn-primary " type="button" wire:click='addPayment'><i class="fa fa-plus"></i> Add</button>
+                                            <button class="btn btn-primary " type="button" wire:click='addPayment' @disabled($chargeCode=='')><i class="fa fa-plus"></i> Add</button>
                                         </div>
                                     </div>
 
@@ -165,15 +165,17 @@
 
                                                             <td>
                                                                 <input type='text' class='form-control'
-                                                                wire:model.live.debounce.500ms="payments.{{ $loop->index }}.invNo">
+                                                                wire:model.live.debounce.100ms="payments.{{ $loop->index }}.invNo">
                                                             </td>
                                                             <td>
                                                                 <input type='text' class='form-control'
-                                                                wire:model.live.debounce.500ms="payments.{{ $loop->index }}.chartDetail">
+                                                                wire:model.live.debounce.100ms="payments.{{ $loop->index }}.chartDetail">
                                                             </td>
                                                             <td class='center'>
                                                                 <input type='number' class='form-control'
-                                                                wire:model.live.debounce.500ms.number="payments.{{ $loop->index }}.amount">
+                                                                wire:change="changeGrandTotal({{$loop->index}})"
+                                                                step="0.01"
+                                                                wire:model.live.debounce.100ms.number="payments.{{ $loop->index }}.amount">
                                                             </td>
                                                             <td class='center'>
                                                                 <button type='button'
@@ -194,34 +196,47 @@
                                                 <table class="table invoice-total">
                                                     <tbody>
                                                         <tr>
-                                                            <td style="border: none;text-align: end;"><strong>TOTAL :</strong></td>
-                                                            <td style="width: 30%;">
+                                                            <td><strong>TOTAL :</strong></td>
+                                                            <td style="min-width: 150px; max-width: 200px;">
                                                                 <input name="sumTotal" id="sumTotal"
-                                                                    class='form-control' value="{{ Service::MoneyFormat($this->calPrice()->total) }}"
-                                                                    required readonly>
+                                                                    class='form-control'
+                                                                    value="{{ Service::MoneyFormat($priceSum->total) }}"
+                                                                    readonly>
                                                             </td>
                                                         </tr>
-                                                        {{-- <tr>
-                                                            <td style="border: none;text-align: end;"><strong>Tax 1% :</strong></td>
-                                                            <td><input name="tax1" id="tax1"
-                                                                     class='form-control' value="{{ Service::MoneyFormat($this->calPrice()->tax1) }}"
-                                                                    required readonly></td>
-                                                        </tr>
                                                         <tr>
-                                                            <td style="border: none;text-align: end;"><strong>Tax 3% :</strong></td>
-                                                            <td><input name="tax3" id="tax3" class='form-control' value="{{  Service::MoneyFormat($this->calPrice()->tax3) }}"
-                                                                    required></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td style="border: none;text-align: end;"><strong>Vat7% :</strong></td>
-                                                            <td><input name="tax7" id="tax7" class='form-control' value="{{  Service::MoneyFormat($this->calPrice()->tax7) }}"
-                                                                    required></td>
-                                                        </tr> --}}
-                                                        <tr>
-                                                            <td style="border: none;text-align: end;"><strong>GRAND TOTAL:</strong></td>
-                                                            <td style="text-align: left"><span
-                                                                    id="showgrandTotal">{{ Service::MoneyFormat($this->calPrice()->total)}}</span>
+                                                            <td><strong>Tax 1% :</strong></td>
+                                                            <td><input type="number" name="tax1" id="tax1" step="0.01"
+                                                                    class='form-control'
+                                                                    wire:keyup.debounce.700ms='calTax1($event.target.value)'
+                                                                    value="{{ number_format($priceSum->tax1, 2, '.', '') }}"
+                                                                    required @readonly(!Auth::user()->hasRole('admin'))>
                                                             </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Tax 3% :</strong></td>
+                                                            <td><input type="number" name="tax3" id="tax3" step="0.01"
+                                                                    class='form-control'
+                                                                    wire:keyup.debounce.700ms='calTax3($event.target.value)'
+                                                                    value="{{ number_format($priceSum->tax3, 2, '.', '') }}"
+                                                                    required @readonly(!Auth::user()->hasRole('admin'))>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Vat 7% : {{$priceSum->tax7}}</strong></td>
+                                                            <td><input name="tax7" id="tax7" class='form-control'
+                                                                    wire:keyup.debounce.700ms='calTax7($event.target.value)'
+                                                                    value="{{ number_format($priceSum->tax7, 2, '.', '') }}"
+                                                                    required @readonly(!Auth::user()->hasRole('admin'))></td>
+                                                        </tr>
+
+
+
+                                                        <tr>
+                                                            <td><strong>GRAND TOTAL:</strong></td>
+                                                            <td style="text-align: left"><span id="showgrandTotal">{{
+                                                                    Service::MoneyFormat($priceSum->grandTotal)
+                                                                    }}</span>
                                                         </tr>
                                                     </tbody>
                                                 </table>
