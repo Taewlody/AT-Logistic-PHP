@@ -103,7 +103,8 @@
                             <td colspan="4" rowspan="2"></td>
                             <td>{{Service::MoneyFormat($tax1->sumAmount)}}</td>
                             <td>Tax 1%</td>
-                            <td class="right">{{Service::MoneyFormat($tax1->sumTax)}}</td>
+                            {{-- <td class="right">{{Service::MoneyFormat($tax1->sumTax)}}</td> --}}
+                            <td class="right">{{Service::MoneyFormat($data->sumTax1)}}</td>
 
                         </tr>
                         <tr>
@@ -111,7 +112,8 @@
                             {{-- <td colspan="4"></td> --}}
                             <td>{{Service::MoneyFormat($tax3->sumAmount)}}</td>
                             <td>Tax 3%</td>
-                            <td class="right">{{Service::MoneyFormat($tax3->sumTax)}}</td>
+                            {{-- <td class="right">{{Service::MoneyFormat($tax3->sumTax)}}</td> --}}
+                            <td class="right">{{Service::MoneyFormat($data->sumTax3)}}</td>
 
                         </tr>
                         <tr>
@@ -122,7 +124,8 @@
                         <tr>
                             {{-- <td colspan="5"></td> --}}
                             <td>Grand Total</td>
-                            <td class="right">{{Service::MoneyFormat(($data->items->sum('amount') + $vatTotal) - ($tax1->sumTax + $tax3->sumTax))}}</td>
+                            {{-- <td class="right">{{Service::MoneyFormat(($data->items->sum('amount') + $vatTotal) - ($tax1->sumTax + $tax3->sumTax))}}</td> --}}
+                            <td class="right">{{Service::MoneyFormat(($data->items->sum('amount') + $vatTotal) - ($data->sumTax1 + $data->sumTax3))}}</td>
                         </tr>
                     </tbody>
                 </table>

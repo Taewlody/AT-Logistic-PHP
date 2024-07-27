@@ -85,19 +85,19 @@ class Form extends Component
 
     public function calTax1($value) {
         
-        $this->calPrice(tax1: $value ? $value : 0);
+        $this->calPrice(tax1: $value ? $value : 0, tax3: $this->priceSum->tax3 ? $this->priceSum->tax3 : 0);
         $this->dispatch('refresh');
         
     }
 
     public function calTax3($value) {
-        $this->calPrice(tax3: $value ? $value : 0);
+        $this->calPrice(tax1: $this->priceSum->tax1 ? $this->priceSum->tax1 : 0, tax3: $value ? $value : 0);
         $this->dispatch('refresh');
     }
 
     // #[Computed]
     public function calPrice(float|null $tax1 = null, float|null $tax3 = null) {
-        // dd($tax1);
+        
         $cal_price = (object) [
             'total' => 0,
             'tax3' => 0,
@@ -131,6 +131,7 @@ class Form extends Component
         })->sum('vatamount');
         $cal_price->grandTotal = ($cal_price->total - ($cal_price->tax1 + $cal_price->tax3)) + $cal_price->vatTotal;
         // return $cal_price;
+        
         $this->priceSum = $cal_price;
         $this->dispatch('cal-update');
     }
@@ -153,12 +154,15 @@ class Form extends Component
             }
             $this->payments = $this->data->items;
             $this->attachs = $this->data->attachs;
+            // dd($this->data);
+            $this->calPrice(tax1: $this->data->sumTax1 ? $this->data->sumTax1 : 0, tax3: $this->data->sumTax3 ? $this->data->sumTax3 : 0);
         } else {
             $this->action = 'create';
             $this->data->documentDate = Carbon::now()->toDateString();
             $this->data->createID = Auth::user()->usercode;
             $this->payments = new Collection;
             $this->attachs = new Collection;
+            $this->calPrice();
         }
 
         $this->viewMode = ViewMode::from($this->action);
@@ -167,8 +171,8 @@ class Form extends Component
         if($this->data->documentstatus == 'A' && !Auth::user()->hasRole('admin') && $this->viewMode == ViewMode::EDIT) {
             $this->formMode = FormMode::from('disabled');
         } 
-        $this->calPrice();
-
+        // $this->calPrice();
+        // dd($this->data);
         $this->jobOrderSelecter = Service::JobOrderSelecter();
     }
 
@@ -209,7 +213,8 @@ class Form extends Component
     public function changeVat(int $value, int $index) {
         $this->payments[$index]->vatamount = round($this->payments->get($index)->amount * ($value / 100), 2);
         $this->payments[$index]->GrandTotal = $this->payments[$index]->amount + ($this->payments[$index]->vatamount - $this->payments[$index]->taxamount);
-        $this->calPrice();
+
+        $this->calPrice(tax1: $this->priceSum->tax1 ? $this->priceSum->tax1 : 0, tax3: $this->priceSum->tax3 ? $this->priceSum->tax3 : 0);
     }
     
     public function changeGrandTotal(int $index) {

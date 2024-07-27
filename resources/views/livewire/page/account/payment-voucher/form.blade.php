@@ -306,7 +306,7 @@
                                                             <td><input type="number" name="tax1" id="tax1" step="0.01"
                                                                     class='form-control'
                                                                     wire:keyup.debounce.700ms='calTax1($event.target.value)'
-                                                                    value="{{ Service::MoneyFormat($priceSum->tax1) }}"
+                                                                    value="{{ number_format($priceSum->tax1, 2, '.', '') }}"
                                                                     required @readonly(!Auth::user()->hasRole('admin'))>
                                                             </td>
                                                         </tr>
@@ -315,7 +315,7 @@
                                                             <td><input type="number" name="tax3" id="tax3" step="0.01"
                                                                     class='form-control'
                                                                     wire:keyup.debounce.700ms='calTax3($event.target.value)'
-                                                                    value="{{ Service::MoneyFormat($priceSum->tax3) }}"
+                                                                    value="{{ number_format($priceSum->tax3, 2, '.', '') }}"
                                                                     required @readonly(!Auth::user()->hasRole('admin'))>
                                                             </td>
                                                         </tr>
