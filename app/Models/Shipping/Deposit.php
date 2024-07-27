@@ -84,6 +84,7 @@ class Deposit extends Model implements Wireable
 
     protected $attributes = [
         'comCode' => 'C01',
+        'documentstatus'=> 'P',
     ];
 
     public static function boot()
@@ -96,13 +97,25 @@ class Deposit extends Model implements Wireable
 
     public static function genarateKey(){
         $prefix = "PV".Carbon::now()->format('ym');
-        $lastKey = self::where('documentID', 'LIKE', $prefix.'%')->max('documentID');
-        if($lastKey != null){
-            $lastKey = intval(explode('-', $lastKey)[1]) + 1;
-        }else{
-            $lastKey = 1;
+        // $lastKey = self::where('documentID', 'LIKE', $prefix.'%')->max('documentID');
+        // if($lastKey != null){
+        //     $lastKey = intval(explode('-', $lastKey)[1]) + 1;
+        // }else{
+        //     $lastKey = 1;
+        // }
+        // $index = str_pad($lastKey, 5, '0', STR_PAD_LEFT);
+        $documentIDs = self::where('documentID', 'LIKE', $prefix.'%')->pluck('documentID');
+        
+        $maxNumber = 0;
+
+        foreach ($documentIDs as $documentID) {
+            $numericPart = (int) substr($documentID, strlen($prefix) + 1); 
+            if ($numericPart > $maxNumber) {
+                $maxNumber = $numericPart;
+            }
         }
-        $index = str_pad($lastKey, 5, '0', STR_PAD_LEFT);
+        $newNumber = $maxNumber + 1;
+        $index = str_pad($newNumber, 5, '0', STR_PAD_LEFT);
         return $prefix.'-'.$index;
     }
 

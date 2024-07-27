@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\DB;
 
 class Form extends Component
 {
@@ -76,6 +77,7 @@ class Form extends Component
             $this->attachs = new Collection;
             $this->data->dueDate = Carbon::now()->endOfMonth()->toDateString();
             $this->data->dueTime = Carbon::now('GMT+7')->format('H:i');
+            $this->data->documentDate = Carbon::now()->toDateString();
         }
     }
 
@@ -129,24 +131,39 @@ class Form extends Component
         $this->attachs = $this->attachs->values();
     }
 
-    public function save(bool|null $approve = false) {
+    public function valid()
+    {
         $vaild = true;
         if($this->data->cusCode == null || $this->data->cusCode == '') {
             $this->addError('cusCode', 'Please select customer');
             $vaild = false;
-            return $vaild;
         }
-
-        $this->data->editID = Auth::user()->usercode;
-        if($approve) {
-            $this->data->documentStatus = 'A';
-        }
-        $this->data->save();
-        $this->data->items->filter(function($item){
-            return !collect($this->payments->pluck('autoid'))->contains($item->autoid);
-        })->each->delete();
-        $this->data->items()->saveMany($this->payments);
         return $vaild;
+    }
+
+    public function save(bool|null $approve = false) {
+        if(!$this->valid()) {
+            return false;
+        }
+        DB::beginTransaction();
+        try {
+            $this->data->editID = Auth::user()->usercode;
+            if($approve) {
+                $this->data->documentStatus = 'A';
+            }
+            $this->data->save();
+            $this->data->items->filter(function($item){
+                return !collect($this->payments->pluck('autoid'))->contains($item->autoid);
+            })->each->delete();
+            $this->data->items()->saveMany($this->payments);
+
+            \DB::commit();
+            return true;
+        } catch (\Exception $exception) {
+            \DB::rollBack();
+            dd($exception->getMessage());
+            return false;
+        }
     }
 
     public function submit() 

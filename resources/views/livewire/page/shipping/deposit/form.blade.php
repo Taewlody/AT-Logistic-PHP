@@ -281,7 +281,7 @@
                                                         </td>
                                                         <td class='center'>
                                                             <input type='number' step="0.01" class='form-control'
-                                                                wire:model.live.debounce.500ms.number="payments.{{ $loop->index }}.amount">
+                                                                wire:model.live.debounce.100ms.number="payments.{{ $loop->index }}.amount">
                                                         <td class='center'><button type='button'
                                                                 class='btn-danger btn btn-xs' wire:click='removePayment({{ $loop->index }})'
                                                                 {{-- onClick='return FN_Remove_Table("<?php echo $rowIdx; ?>")' --}}
