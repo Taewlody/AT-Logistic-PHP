@@ -8,6 +8,8 @@
         @foreach ($options as $option)
             @if($option[$itemKey] != null && $option[$itemKey] != "" )
                 <option value="{{$option[$itemKey]}}" @selected($multiple ? isset($value)&&in_array($option[$itemKey], $value) : $value == $option[$itemKey])>{{$option[$itemValue]}}</option>
+            @elseif ($option[$itemKey] == 0)
+                <option value="{{$option[$itemKey]}}" @selected($multiple ? isset($value)&&in_array($option[$itemKey], $value) : $value == $option[$itemKey])>{{$option[$itemValue]}}</option>
             @endif
         @endforeach
     </select>
