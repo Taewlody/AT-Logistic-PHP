@@ -132,7 +132,7 @@ class Form extends Component
             $this->data = PettyCash::find($this->id);
             $this->payments = $this->data->items;
 
-            $this->calPrice(tax1: $this->data->sumTax1 ? $this->data->sumTax1 : 0, tax3: $this->data->sumTax3 ? $this->data->sumTax3 : 0, tax7: $this->data->sumTax7 ? $this->data->sumTax7 : 0);
+            // $this->calPrice(tax1: $this->data->sumTax1 ? $this->data->sumTax1 : 0, tax3: $this->data->sumTax3 ? $this->data->sumTax3 : 0, tax7: $this->data->sumTax7 ? $this->data->sumTax7 : 0);
 
         } else {
             $this->action = 'create';
@@ -140,8 +140,8 @@ class Form extends Component
             $this->data->createID = Auth::user()->usercode;
             $this->data->dueDate = Carbon::now()->endOfMonth()->toDateString();
             $this->payments = new Collection;
-            $this->calPrice();
         }
+        $this->calPrice();
 
         $this->viewMode = ViewMode::from($this->action);
         $this->formMode = $this->viewMode->toFormMode();

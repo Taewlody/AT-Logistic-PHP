@@ -168,7 +168,7 @@
                                                 @endif
         
                                                 <td class="center">{{ $item->userEdit != null ? $item->userEdit->username : '' }}
-                                                    {{Service::CheckDeleteJob($item->documentID)}}
+                                                   
                                                 </td>
                                                 <td>
                                                     <div class="btn-group">

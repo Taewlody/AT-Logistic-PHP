@@ -204,7 +204,7 @@
                                                                     readonly>
                                                             </td>
                                                         </tr>
-                                                        <tr>
+                                                        {{-- <tr>
                                                             <td><strong>Tax 1% :</strong></td>
                                                             <td><input type="number" name="tax1" id="tax1" step="0.01"
                                                                     class='form-control'
@@ -223,21 +223,21 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><strong>Vat 7% : {{$priceSum->tax7}}</strong></td>
+                                                            <td><strong>Vat 7% : </strong></td>
                                                             <td><input name="tax7" id="tax7" class='form-control'
                                                                     wire:keyup.debounce.700ms='calTax7($event.target.value)'
                                                                     value="{{ number_format($priceSum->tax7, 2, '.', '') }}"
                                                                     required @readonly(!Auth::user()->hasRole('admin'))></td>
-                                                        </tr>
+                                                        </tr> --}}
 
 
 
-                                                        <tr>
+                                                        {{-- <tr>
                                                             <td><strong>GRAND TOTAL:</strong></td>
                                                             <td style="text-align: left"><span id="showgrandTotal">{{
                                                                     Service::MoneyFormat($priceSum->grandTotal)
                                                                     }}</span>
-                                                        </tr>
+                                                        </tr> --}}
                                                     </tbody>
                                                 </table>
                                             </div>
