@@ -214,12 +214,20 @@ class Form extends Component
         $this->payments[$index]->vatamount = round($this->payments->get($index)->amount * ($value / 100), 2);
         $this->payments[$index]->GrandTotal = $this->payments[$index]->amount + ($this->payments[$index]->vatamount - $this->payments[$index]->taxamount);
 
-        $this->calPrice(tax1: $this->priceSum->tax1 ? $this->priceSum->tax1 : 0, tax3: $this->priceSum->tax3 ? $this->priceSum->tax3 : 0);
+        $this->calPrice();
     }
     
     public function changeGrandTotal(int $index) {
+        if($this->payments->get($index)->tax == 1) {
+            $this->priceSum->tax1 = round($this->payments->get($index)->amount * (0.01), 2);
+        }else if ($this->payments->get($index)->tax == 3) {
+            $this->priceSum->tax3 = round($this->payments->get($index)->amount * (0.03), 2);
+        }
+        
+
         $this->payments[$index]->GrandTotal = $this->payments[$index]->amount + ($this->payments[$index]->vatamount - $this->payments[$index]->taxamount);
-        $this->calPrice();
+        
+        $this->calPrice(tax1: $this->priceSum->tax1 ? $this->priceSum->tax1 : 0, tax3: $this->priceSum->tax3 ? $this->priceSum->tax3 : 0);
     }
 
     public function removePreFile() {
