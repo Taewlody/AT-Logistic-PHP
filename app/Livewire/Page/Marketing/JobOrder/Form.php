@@ -633,7 +633,7 @@ class Form extends Component
         
         if($success) {
             $create = $this->createInvoice();
-            
+            // dd($create);
             if($create) {
                 $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'Update สำเร็จ', type: 'success');
                 return redirect()->route('job-order.form', ['action' => 'edit', 'id' => $this->data->documentID]);
@@ -664,7 +664,7 @@ class Form extends Component
             $this->data->refresh();
             $Item_invoice = new Collection;
             $invoice = Invoice::where('ref_jobNo', $this->data->documentID)->firstOrNew();
-            
+            // dd($this->data, $invoice);
             $invoice->documentDate = $this->data->documentDate;
             $invoice->ref_jobNo = $this->data->documentID;
             $invoice->cusCode = $this->data->cusCode;
@@ -673,6 +673,12 @@ class Form extends Component
             $invoice->bound = $this->data->bound;
             $invoice->freight = $this->data->freight;
             $invoice->documentstatus = 'A';
+            $invoice->total_amt = $this->data->total_amt;
+            $invoice->total_vat = $this->data->total_vat;
+            $invoice->tax3 = $this->data->tax3;
+            $invoice->tax1 = $this->data->tax1;
+            $invoice->cus_paid = $this->data->cus_paid;
+            $invoice->total_netamt = $this->data->total_netamt;
 
             $invoice->creditterm = $this->data->customerRefer !== null ? $this->data->customerRefer->creditDay : 0;
             if ($invoice->exists) {
@@ -712,6 +718,7 @@ class Form extends Component
                         ]);
                     });
                 });
+                
                 $invoice->items()->saveMany($Item_invoice);
 
                 DB::commit();
@@ -722,6 +729,7 @@ class Form extends Component
         } catch (\Exception $exception) {
             DB::rollBack();
             echo "Exception caught: " . $exception->getMessage();
+            dd($exception->getMessage());
             return false;
         }
     }
