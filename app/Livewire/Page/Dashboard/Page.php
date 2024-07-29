@@ -59,65 +59,19 @@ class Page extends Component
 
     public $yearTaxSearch;
 
+    public $data_invoice_table;
+    public $sum_invoice_total;
+    // public $data_advance_pyment_table;
+    // public $sum_advance_total;
+    // public $data_payment_voucher_table;
+    // public $sum_payment_voucher_total;
+
     public function boot()
     {
-        $this->data_invoice = Invoice::where('documentstatus', 'A')
-        ->whereDoesntHave('taxInvoiceItems')
-        ->sum('total_netamt');
         
-        $this->data_vat = TaxInvoice::whereRaw("DATE_FORMAT(documentDate,'%Y%m') = DATE_FORMAT(NOW(),'%Y%m')")->sum('total_vat');
-
-        // income this month
-        $this->data_advance_payment = AdvancePayment::selectRaw('0 as tx, sum(sumTotal)  as ap')->whereRaw("DATE_FORMAT(documentDate,'%Y%m') = DATE_FORMAT(NOW(),'%Y%m')")
-        ->where('documentstatus', 'A')
-        ->first();
-
-        $this->data_tax_invoice = TaxInvoice::selectRaw('sum(total_netamt) as  tx, 0 as ap')
-        ->whereRaw("DATE_FORMAT(documentDate,'%Y%m') = DATE_FORMAT(NOW(),'%Y%m')")
-        ->first();
-
-        $this->data_income = collect([$this->data_advance_payment, $this->data_tax_invoice]);
-
-        $total_tx = 0;
-        $total_ap = 0;
-        foreach ($this->data_income as $item) {
-            $total_tx += $item->tx;
-            $total_ap += $item->ap;
-        }
-        $this->data_total_income = $total_tx+$total_ap;
-        // end income this month
-
-        // account balance
-        $this->data_petty_cash = PettyCash::selectRaw('sum(grandTotal) as  pc, 0 as pv')
-        ->whereRaw("DATE_FORMAT(documentDate,'%Y%m') = DATE_FORMAT(NOW(),'%Y%m')")
-        ->where('documentstatus', 'A')
-        ->first();
-
-        $this->data_payment_voucher = PaymentVoucher::selectRaw('0 as  pc, sum(grandTotal)  as pv')->whereRaw("DATE_FORMAT(documentDate,'%Y%m') = DATE_FORMAT(NOW(),'%Y%m')")
-        ->where('documentstatus', 'A')
-        ->first();
-
-        $this->data_income = collect([$this->data_petty_cash, $this->data_payment_voucher]);
-        $total_pc = 0;
-        $total_pv = 0;
-        foreach ($this->data_income as $item) {
-            $total_pc += $item->pc;
-            $total_pv += $item->pv;
-        }
-        $this->data_total_balance = $this->data_total_income - ($total_pc+$total_pv);
-        // end account balance
-
-        $this->monthSearch = (int) date('m');
-        $this->yearSearch =  date('Y');
-
-        $this->yearTaxSearch =  date('Y');
-
-        $years = range($this->yearSearch, $this->yearSearch - 11);
-
-        $this->getVatYear();
-        $this->getTaxYear();
 
     }
+    
 
     #[On('post-searchYearTax')] 
     public function searchYearTax() {
@@ -348,6 +302,90 @@ class Page extends Component
         }
     }
 
+    public function mount()
+    {
+        $this->data_invoice = Invoice::where('documentstatus', 'A')
+        ->whereDoesntHave('taxInvoiceItems')
+        ->sum('total_netamt');
+        
+        $this->data_vat = TaxInvoice::whereRaw("DATE_FORMAT(documentDate,'%Y%m') = DATE_FORMAT(NOW(),'%Y%m')")->sum('total_vat');
+
+        // income this month
+        $this->data_advance_payment = AdvancePayment::selectRaw('0 as tx, sum(sumTotal)  as ap')->whereRaw("DATE_FORMAT(documentDate,'%Y%m') = DATE_FORMAT(NOW(),'%Y%m')")
+        ->where('documentstatus', 'A')
+        ->first();
+
+        $this->data_tax_invoice = TaxInvoice::selectRaw('sum(total_netamt) as  tx, 0 as ap')
+        ->whereRaw("DATE_FORMAT(documentDate,'%Y%m') = DATE_FORMAT(NOW(),'%Y%m')")
+        ->first();
+
+        $this->data_income = collect([$this->data_advance_payment, $this->data_tax_invoice]);
+
+        $total_tx = 0;
+        $total_ap = 0;
+        foreach ($this->data_income as $item) {
+            $total_tx += $item->tx;
+            $total_ap += $item->ap;
+        }
+        $this->data_total_income = $total_tx+$total_ap;
+        // end income this month
+
+        // account balance
+        $this->data_petty_cash = PettyCash::selectRaw('sum(grandTotal) as  pc, 0 as pv')
+        ->whereRaw("DATE_FORMAT(documentDate,'%Y%m') = DATE_FORMAT(NOW(),'%Y%m')")
+        ->where('documentstatus', 'A')
+        ->first();
+
+        $this->data_payment_voucher = PaymentVoucher::selectRaw('0 as  pc, sum(grandTotal)  as pv')->whereRaw("DATE_FORMAT(documentDate,'%Y%m') = DATE_FORMAT(NOW(),'%Y%m')")
+        ->where('documentstatus', 'A')
+        ->first();
+
+        $this->data_income = collect([$this->data_petty_cash, $this->data_payment_voucher]);
+        $total_pc = 0;
+        $total_pv = 0;
+        foreach ($this->data_income as $item) {
+            $total_pc += $item->pc;
+            $total_pv += $item->pv;
+        }
+        $this->data_total_balance = $this->data_total_income - ($total_pc+$total_pv);
+        // end account balance
+
+        $this->monthSearch = (int) date('m');
+        $this->yearSearch =  date('Y');
+
+        $this->yearTaxSearch =  date('Y');
+
+        $years = range($this->yearSearch, $this->yearSearch - 11);
+
+        $this->getVatYear();
+        $this->getTaxYear();
+
+
+        // ใบแจ้งหนี้ค้างชำระ
+        $group = Invoice::with(['customer'])
+            ->whereDoesntHave('taxInvoiceItems')
+            ->where('documentstatus', 'A')
+            ->orderBy('documentID', 'DESC');
+        $collection = collect($group->get()->toArray());
+        // dd($collection);
+        $this->data_invoice_table = $collection->groupBy('cusCode')->map(function ($row) {
+            return [
+                'cusCode' => $row->first()['cusCode'],
+                'custNameTH' => $row->first()['customer']['custNameTH'],
+                'custNameEN' => $row->first()['customer']['custNameEN'],
+                'cus_paid' => $row->sum('cus_paid'),
+                'total_netamt' => $row->sum('total_netamt'),
+                'sum_total_netamt' => $row->sum('total_netamt') - $row->sum('cus_paid'),
+                
+            ];
+        })->values();
+        
+        $this->sum_invoice_total = 0;
+        foreach($this->data_invoice_table as $invoice) {
+            $this->sum_invoice_total += $invoice['total_netamt'];
+        }
+    }
+
     public function render()
     {
         $data_advance_pyment_table = AdvancePayment::selectRaw('Sum(advance_payment.sumTotal) AS sumTotal, advance_payment.cusCode, common_customer.custNameTH')
@@ -365,35 +403,12 @@ class Page extends Component
             })
             ->whereRaw('invoice.documentID IS NULL')
             ->groupBy('advance_payment.cusCode', 'common_customer.custNameTH');
-        // ->paginate(10);
-        
-        $data_invoice_table = Invoice::selectRaw('invoice.documentstatus, common_customer.custNameTH, common_customer.custNameEN, sum(invoice.total_netamt) as total_netamt, sum(invoice.cus_paid) as cus_paid')
-            ->join('common_customer', function($join) {
-                $join->on('invoice.comCode', 'common_customer.comCode');
-                $join->on('invoice.cusCode', 'common_customer.cusCode');
-            })
-            ->leftJoin('tax_invoice_items', function($join) {
-                $join->on('invoice.comCode', 'tax_invoice_items.comCode');
-                $join->on('invoice.documentID', 'tax_invoice_items.invNo');
-            })
-            ->where('invoice.documentstatus', 'A')
-            ->whereRaw('tax_invoice_items.documentID IS NULL')
-            ->groupBy('invoice.documentstatus', 'common_customer.custNameTH', 'common_customer.custNameEN')
-            ->orderBy('total_netamt', 'DESC');
-        
-        $data_invoice_table_total = $data_invoice_table->get();
-        $sum_invoice_total = 0;
-        foreach($data_invoice_table_total as $invoice) {
-            $sum_invoice_total += $invoice['total_netamt'];
-        }
-        // dd($data_invoice_table_total);
 
         $data_advance_pyment_table_total = $data_advance_pyment_table->get();
         $sum_advance_total = 0;
         foreach($data_advance_pyment_table_total as $advance) {
             $sum_advance_total += $advance['sumTotal'];
         }
-        
 
         $data_payment_voucher_table = PaymentVoucher::selectRaw('sum(payment_voucher.sumTotal) as sumTotal, supCode')
         ->with(['supplier', 'docStatus'])->groupBy('supCode')->orderBy('sumTotal', 'DESC');
@@ -403,12 +418,11 @@ class Page extends Component
             $sum_payment_voucher_total += $payment['sumTotal'];
         }
         
-
         return view('livewire.page.dashboard.page',[ 
                 'data_job_inprocess'=> JobOrder::where('documentstatus', 'P')->paginate(10),
                 'data_advance_pyment_table' => $data_advance_pyment_table->paginate(10),
-                'data_invoice_table' => $data_invoice_table->paginate(50),
-                'sum_invoice_total' => $sum_invoice_total,
+                'data_invoice_table' => $this->data_invoice_table,
+                'sum_invoice_total' => $this->sum_invoice_total,
                 'sum_advance_total' => $sum_advance_total,
                 'data_payment_voucher_table' => $data_payment_voucher_table->paginate(10),
                 'sum_payment_voucher_total' => $sum_payment_voucher_total

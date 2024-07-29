@@ -130,10 +130,10 @@
                         <br/>
                         <div class="row">
                             <div class="col">
-                                {{ $data_advance_pyment_table->withQueryString()->links('layouts.themes.layout.custom-pagination-info') }}
+                                {{ $data_advance_pyment_table->links('layouts.themes.layout.custom-pagination-info') }}
                             </div>
                             <div class="col"> 
-                                {{ $data_advance_pyment_table->withQueryString()->links('layouts.themes.layout.custom-pagination-links') }}
+                                {{ $data_advance_pyment_table->links('layouts.themes.layout.custom-pagination-links') }}
                             </div>
                         </div>
                     </div>
@@ -164,14 +164,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($data_invoice_table as $invoice)
-                                @if($invoice->total_netamt - $invoice->cus_paid > 0)
+                                @foreach ($data_invoice_table->sortByDesc('sum_total_netamt') as $invoice)
+                                {{-- @if(($invoice->total_netamt - $invoice->cus_paid > 0) || ($invoice->total_netamt - $invoice->cus_paid < 0)) --}}
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $invoice->custNameTH}}</td>
-                                    <td>{{ number_format(($invoice->total_netamt - $invoice->cus_paid), 2) }} </td>
+                                    <td>{{ $invoice['custNameTH']}}</td>
+                                    <td>{{ number_format($invoice['sum_total_netamt'], 2) }}</td>
                                 </tr>
-                                @endif
+                                {{-- @endif --}}
                                 @endforeach
                             </tbody>
                         </table>
