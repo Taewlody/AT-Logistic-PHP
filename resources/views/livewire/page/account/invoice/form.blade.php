@@ -124,15 +124,6 @@
                                     <div class="form-group row">
                                         <label class="col-lg-2 col-form-label">Ref. JOB NO</label>
                                         <div class="col-md-4">
-                                            {{-- <select class="select2_single form-control select2" name="ref_jobID"
-                                                id="ref_jobID" wire:model="data.ref_jobID">
-                                                <option value="">- Select -</option>
-                                                @foreach (Service::JobOrderSelecter(approve: true) as $job)
-                                                <option value="{{ $job->documentID }}">
-                                                    {{ $job->documentID }}
-                                                </option>
-                                                @endforeach
-                                            </select> --}}
                                             <livewire:element.select2 name="ref_jobNo" id="ref_jobID" class="form-control"
                                                 :options="Service::JobOrderSelecter(approve: true)" itemKey="documentID" itemValue="documentID"
                                                 wire:model="data.ref_jobNo" />
@@ -307,11 +298,11 @@
                                                         <td></td>
                                                         <td></td>
                                                         <td class="center">
-                                                            <span>{{$payments->sum('chargesCost')}}</span></td>
+                                                            <span>{{number_format($payments->sum('chargesCost'), 2)}}</span></td>
                                                         <td class="center">
-                                                            <span>{{$payments->sum('chargesReceive')}}</span></td>
+                                                            <span>{{number_format($payments->sum('chargesReceive'), 2)}}</span></td>
                                                         <td class="center">
-                                                            <span>{{$payments->sum('chargesbillReceive')}}</span></td>
+                                                            <span>{{ number_format($payments->sum('chargesbillReceive'), 2)}}</span></td>
                                                     </tr>
 
                                                 </tbody>
@@ -330,24 +321,24 @@
                                                         <tr>
                                                             <td><strong>Vat 7% :</strong></td>
 
-                                                            <td><span id="tax">{{$this->data->itemsSum * 0.07}}</span></td>
+                                                            <td><span id="tax">{{number_format($this->data->itemsSum * 0.07, 2)}}</span></td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>TOTAL :</strong></td>
-                                                            <td><span id="total">{{$this->data->itemsSum + $this->data->itemsSum * 0.07}}</span></td>
+                                                            <td><span id="total">{{number_format($this->data->itemsSum + $this->data->itemsSum * 0.07, 2)}}</span></td>
                                                         </tr>
 
                                                         <tr>
                                                             <td><strong>WH TAX 3% :</strong></td>
-                                                            <td><span id="wh_tax3">{{$this->data->itemsTax3Sum * 0.03}}</span></td>
+                                                            <td><span id="wh_tax3">{{number_format($this->data->itemsTax3Sum * 0.03, 2)}}</span></td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>WH TAX 1% :</strong></td>
-                                                            <td><span id="wh_tax1">{{$this->data->itemsTax1Sum * 0.01}}</span></td>
+                                                            <td><span id="wh_tax1">{{ number_format($this->data->itemsTax1Sum * 0.01, 2)}}</span></td>
                                                         </tr>
                                                         <tr>
                                                             <td><strong>NET PAD:</strong></td>
-                                                            <td><span id="net_pad">{{$this->data->total_netamt}}</span>
+                                                            <td><span id="net_pad">{{ number_format(($this->data->total_netamt - $this->data->cus_paid), 2)}}</span>
                                                             </td>
                                                         </tr>
                                                     </tbody>

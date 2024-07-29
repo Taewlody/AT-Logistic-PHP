@@ -115,7 +115,7 @@
                                                 <td>{{ number_format($item->tax3, 2) }}</td>
                                                 <td>{{ number_format($item->tax1, 2) }}</td>
                                                 <td>{{ number_format($item->cus_paid, 2) }}</td>
-                                                <td>{{ number_format($item->total_netamt, 2) }}</td>
+                                                <td>{{ number_format($item->total_netamt - $item->cus_paid, 2) }}</td>
                                                 <td>
                                                     <div class="btn-group">
                                                         <a class="btn btn-xs btn-success"

@@ -99,7 +99,13 @@ class Page extends Component
         ->where('documentstatus', 'A')
         ->where($this->query)
         ->orderBy('documentID', 'DESC')->sum('total_netamt');
-        return $results;
+
+        $cus_paid = Invoice::with(['customer', 'salemanRef'])
+        ->whereDoesntHave('taxInvoiceItems')
+        ->where($this->query)
+        ->where('documentstatus', 'A')->sum('cus_paid');
+
+        return $results - $cus_paid;
     }
 
     public function mount()
