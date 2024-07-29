@@ -367,7 +367,7 @@ class Page extends Component
             ->groupBy('advance_payment.cusCode', 'common_customer.custNameTH');
         // ->paginate(10);
         
-        $data_invoice_table = Invoice::selectRaw('invoice.documentstatus, common_customer.custNameTH, sum(invoice.total_netamt) as total_netamt')
+        $data_invoice_table = Invoice::selectRaw('invoice.documentstatus, common_customer.custNameTH, common_customer.custNameEN, sum(invoice.total_netamt) as total_netamt, sum(invoice.cus_paid) as cus_paid')
             ->join('common_customer', function($join) {
                 $join->on('invoice.comCode', 'common_customer.comCode');
                 $join->on('invoice.cusCode', 'common_customer.cusCode');
@@ -378,7 +378,7 @@ class Page extends Component
             })
             ->where('invoice.documentstatus', 'A')
             ->whereRaw('tax_invoice_items.documentID IS NULL')
-            ->groupBy('invoice.documentstatus', 'common_customer.custNameTH')
+            ->groupBy('invoice.documentstatus', 'common_customer.custNameTH', 'common_customer.custNameEN')
             ->orderBy('total_netamt', 'DESC');
         
         $data_invoice_table_total = $data_invoice_table->get();
@@ -386,6 +386,7 @@ class Page extends Component
         foreach($data_invoice_table_total as $invoice) {
             $sum_invoice_total += $invoice['total_netamt'];
         }
+        // dd($data_invoice_table_total);
 
         $data_advance_pyment_table_total = $data_advance_pyment_table->get();
         $sum_advance_total = 0;
@@ -406,7 +407,7 @@ class Page extends Component
         return view('livewire.page.dashboard.page',[ 
                 'data_job_inprocess'=> JobOrder::where('documentstatus', 'P')->paginate(10),
                 'data_advance_pyment_table' => $data_advance_pyment_table->paginate(10),
-                'data_invoice_table' => $data_invoice_table->paginate(10),
+                'data_invoice_table' => $data_invoice_table->paginate(50),
                 'sum_invoice_total' => $sum_invoice_total,
                 'sum_advance_total' => $sum_advance_total,
                 'data_payment_voucher_table' => $data_payment_voucher_table->paginate(10),

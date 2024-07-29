@@ -155,7 +155,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table" data-page-size="{{ $data_invoice_table->total() }}">
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th>No.</th>
@@ -165,15 +165,17 @@
                             </thead>
                             <tbody>
                                 @foreach ($data_invoice_table as $invoice)
+                                @if($invoice->total_netamt - $invoice->cus_paid > 0)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $invoice->custNameTH}}</td>
-                                    <td>{{ number_format($invoice->total_netamt, 2) }}</td>
+                                    <td>{{ number_format(($invoice->total_netamt - $invoice->cus_paid), 2) }} </td>
                                 </tr>
+                                @endif
                                 @endforeach
                             </tbody>
                         </table>
-                        <br/>
+                        {{-- <br/>
                         <div class="row">
                             <div class="col">
                                 {{ $data_invoice_table->withQueryString()->links('layouts.themes.layout.custom-pagination-info') }}
@@ -181,7 +183,7 @@
                             <div class="col"> 
                                 {{ $data_invoice_table->withQueryString()->links('layouts.themes.layout.custom-pagination-links') }}
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
