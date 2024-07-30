@@ -20,6 +20,7 @@ use Livewire\Attributes\Url;
 use Livewire\Attributes\On;
 use Carbon\Carbon;
 use App\Functions\CalculatorPrice;
+use Illuminate\Support\Facades\DB;
 
 class Form extends Component
 {
@@ -86,7 +87,8 @@ class Form extends Component
             $this->data = new TaxInvoice;
             $this->data->createID = Auth::user()->usercode;
             $this->data->documentDate = Carbon::now()->format('Y-m-d');
-            // $this->payments = new Collection;
+            
+            $this->payments = new Collection;
             // $this->payments = $this->getInvoiceItem();
             // dd($this->payments);
             // $this->getInvoiceItem();
@@ -171,40 +173,8 @@ class Form extends Component
         }
     }
 
-    // public function addPayment() {
-    //     $charge = Charges::find($this->chargeCode);
-    //     $newCharge = new TaxInvoiceItems;
-    //     $newCharge->documentID = $this->data->documentID;
-    //     $newCharge->chargeCode = $this->chargeCode;
-    //     $newCharge->detail = $charge->chargeName;
-    //     $this->payments->push($newCharge);
-    //     $this->reset('chargeCode');
-    // }
-
-    // public function removePayment(int $index) {
-    //     $this->payments->forget($index);
-    //     $this->payments = $this->payments->values();
-    // }
-
     #[On('updated-payments')]
     public function updatedInvoice() {
-        // $this->data->total_vat = $this->payments->sum('chargesReceive') * 0.07;
-        // $this->data->total_amt = $this->data->total_vat + ($this->payments->sum('chargesReceive') + $this->payments->sum('chargesbillReceive'));
-        // $this->data->tax1 = $this->payments->filter(function (TaxInvoiceItems $item) {
-        //     if($item->charge == null || $item->charge->chargesType == null) return false;
-        //     return $item->charges->chargesType->amount == 1;
-        // })->sum(function(TaxInvoiceItems $payment) {
-        //     return $payment->chargesReceive - $payment->chargesbillReceive;
-        // });
-        // $this->data->tax3 = $this->payments->filter(function (TaxInvoiceItems $item) {
-        //     dd($item);
-        //     if($item->charge == null || $item->charge->chargesType == null) return false;
-        //     return $item->charges->chargesType->amount == 3;
-        // })->sum(function(TaxInvoiceItems $payment) {
-            
-        //     return $payment->chargesReceive - $payment->chargesbillReceive;
-        // });
-        // $this->data->total_netamt = $this->data->total_amt - ($this->data->tax1 + $this->data->tax3);
         
         $this->data->total_vat = $this->payments->sum('chargesReceive') * 0.07;
         $this->data->total_amt = $this->data->total_vat + ($this->payments->sum('chargesReceive') + $this->payments->sum('chargesbillReceive'));
@@ -226,37 +196,87 @@ class Form extends Component
         $this->data->total_netamt = $this->data->total_amt - ($this->data->tax1 + $this->data->tax3) - $this->cus_paid;
     }
 
-    public function save(bool|null $approve = false) {
-        $this->data->total_netamt = $this->data->total_amt - ($this->data->tax1 + $this->data->tax3) - $this->cus_paid;
-        
-        $this->data->editID = Auth::user()->usercode;
-        if($approve){
-            $this->data->documentStatus = 'A';
+    public function valid() {
+        $vaildated = true;
+        if($this->data->cusCode == null || $this->data->cusCode == '') {
+            $this->addError('data.cusCode', 'Please select Customer');
+            $vaildated = false;
+        }else {
+            $this->resetErrorBag('data.cusCode');
         }
-        $this->data->save();
-        $this->data->items->filter(function($item){
-            return !collect($this->payments->pluck('items'))->contains($item->items);
-        })->each->delete();
-        $this->data->items()->saveMany($this->payments);
+
+        if(count($this->payments) == 0) {
+            $this->addError('checkInvoice', 'Please select invoice');
+            $vaildated = false;
+        }else {
+            $this->resetErrorBag('checkInvoice');
+        }
         
-        if($this->payments) {
-            foreach($this->payments as $pay){
-                $in = Invoice::where('documentID', $pay->invNo)->update(['taxivRef' => $this->data->documentID]);
-                
+        return $vaildated;
+    }
+
+    public function save(bool|null $approve = false) 
+    {
+        // dd(count($this->payments));
+        if(!$this->valid()) {
+            return false;
+        }
+        DB::beginTransaction();
+        try {
+            $this->data->total_netamt = $this->data->total_amt - ($this->data->tax1 + $this->data->tax3) - $this->cus_paid;
+            
+            $this->data->editID = Auth::user()->usercode;
+            if($approve){
+                $this->data->documentStatus = 'A';
             }
+            $this->data->save();
+            $this->data->items->filter(function($item){
+                return !collect($this->payments->pluck('items'))->contains($item->items);
+            })->each->delete();
+            $this->data->items()->saveMany($this->payments);
+            
+            if($this->payments) {
+                foreach($this->payments as $pay){
+                    $in = Invoice::where('documentID', $pay->invNo)->update(['taxivRef' => $this->data->documentID]);
+                    
+                }
+            }
+
+            // dd($this->data->items, $this->payments);
+
+            \DB::commit();
+            return true;
+
+        } catch (\Exception $exception) {
+            \DB::rollBack();
+            dd($exception->getMessage());
+            return false;
         }
-        // $this->invoice->each->update(['taxivRef' => $this->data->documentID]);
     }
 
     public function submit(){
-        $this->save();
-        $this->backRoute();
+        // $this->save();
+        // $this->backRoute();
+        $success = $this->save();
+        if($success){
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
+            return redirect()->route('tax-invoice.form', ['action' => 'edit', 'id' => $this->data->documentID]);
+        }else{
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
+        }
     }
 
     public function approve()
     {
-        $this->save(true);
-        $this->backRoute();
+        // $this->save(true);
+        // $this->backRoute();
+        $success = $this->save(true);
+        if($success){
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
+            return redirect()->route('tax-invoice.form', ['action' => 'edit', 'id' => $this->data->documentID]);
+        }else{
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
+        }
     }
 
     public function backRoute(){

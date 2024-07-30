@@ -33,8 +33,10 @@
                     <label class="col-lg-2 col-form-label"><span class="col-form-label"
                         style="padding-top: 5px;">Document</span> No.</label>
                     <div class="col-md-4">
-                      <input type="text" name="documentIDx" id="documentIDx" class="form-control"
-                        wire:model="data.documentIDx">
+                      {{-- <input type="text" name="documentIDx" id="documentIDx" class="form-control"
+                        wire:model="data.documentIDx"> --}}
+                        <input type="text" name="documentID" id="documentID" class="form-control"
+                                                wire:model="data.documentID" readonly>
                     </div>
                     <div class="col-md-2">
                       <label class="col-form-label" style="padding-top: 5px;">Document
@@ -49,18 +51,13 @@
 
                   <div class="form-group row">
                     <label class="col-lg-2 col-form-label"><span class="col-form-label"
-                        style="padding-top: 5px;">Customer</span></label>
+                        style="padding-top: 5px;">Customer</span> <span class="text-danger">*</span></label>
                     <div class="col-md-10">
-                      {{-- <select name="cusCode" class="select2_single form-control select2" id="cusCode"
-                        wire:model="data.cusCode">
-                        <option value="">Select Customer</option>
-                        @foreach (Service::CustomerSelecter() as $cus)
-                        <option value="{{ $cus->cusCode }}">{{ $cus->custNameEN }}</option>
-                        @endforeach
-                      </select> --}}
-                      
                       <livewire:element.select2 wire:model='data.cusCode' name="cusCode" id="cusCode" :options="Service::CustomerSelecter()" itemKey="cusCode" itemValue="custNameEN" :searchable="true" >
 
+                      @error('data.cusCode')
+                        <div class="text-danger m-2">{{ $message }}</div>
+                      @enderror
                     </div>
                   </div>
 
@@ -199,6 +196,9 @@
                   <a role="button" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseInvoice"
                     aria-expanded="true" aria-controls="collapseInvoice">
                     Invoice Ref.
+                    @error('checkInvoice')
+                      <h3 class="text-danger m-2">{{ $message }}</h3>
+                    @enderror
                   </a>
                 </h2>
               </div>
@@ -250,7 +250,7 @@
                         @endif
                     </div>
                   </div>
-
+                  
                   <br/><br/>
                   <div class="form-group">
                     <div class="table-responsive" id="containner_charge">
@@ -451,4 +451,6 @@
   </div>
 
 </div>
-
+@push('modal')
+<livewire:modal.modal-alert /> 
+@endpush
