@@ -382,7 +382,7 @@ class Page extends Component
         
         $this->sum_invoice_total = 0;
         foreach($this->data_invoice_table as $invoice) {
-            $this->sum_invoice_total += $invoice['total_netamt'];
+            $this->sum_invoice_total += $invoice['sum_total_netamt'];
         }
     }
 
