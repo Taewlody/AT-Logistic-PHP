@@ -110,6 +110,7 @@
                         <td>
                             <b>Feeder : </b>
                             {{$data->referFeeder != null ? $data->referFeeder->fName : "N/A"}}
+                            {{$data->feederVOY ?? ''}}
                         </td>
                         <td>
                             <b>Vessel : </b>
