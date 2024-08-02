@@ -175,6 +175,7 @@
                                                                 <input type='number' class='form-control'
                                                                 wire:change="changeGrandTotal({{$loop->index}})"
                                                                 step="0.01"
+                                                                required
                                                                 wire:model.live.debounce.100ms.number="payments.{{ $loop->index }}.amount">
                                                             </td>
                                                             <td class='center'>
