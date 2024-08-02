@@ -165,12 +165,14 @@
 
 
                     <div class="col-md-2">
-                      <label class="col-form-label" style="padding-top: 5px;"> Date</label>
+                      <label class="col-form-label" style="padding-top: 5px;"> Date <span class="text-danger">*</span></label>
                     </div>
                     <div class="col-md-4">
                       
                         <input type="date" name="dueDate" class="form-control" wire:model="data.dueDate">
-                      
+                        @error('data.dueDate')
+                          <div class="text-danger m-2">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="col-md-2">

@@ -210,6 +210,13 @@ class Form extends Component
             $this->resetErrorBag('data.cusCode');
         }
 
+        if($this->data->dueDate == null || $this->data->dueDate == '') {
+            $this->addError('data.dueDate', 'Please select Date');
+            $vaildated = false;
+        }else {
+            $this->resetErrorBag('data.dueDate');
+        }
+
         if(count($this->payments) == 0) {
             $this->addError('checkInvoice', 'Please select invoice');
             $vaildated = false;
