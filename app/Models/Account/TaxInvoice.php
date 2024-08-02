@@ -102,9 +102,9 @@ class TaxInvoice extends Model implements Wireable
     public static function boot()
     {
         parent::boot();
-        self::creating(function($model){
-            $model->documentID = self::genarateKey();
-        });
+        // self::creating(function($model){
+        //     $model->documentID = self::genarateKey();
+        // });
     }
 
     public static function genarateKey(){

@@ -44,6 +44,7 @@ class Form extends Component
     public $tax1;
     public $tax3;
     public $cus_paid;
+    public $new_documentID;
 
 
     protected array $rules = [
@@ -65,8 +66,12 @@ class Form extends Component
         }else{
             $this->action;
         }
+        
         if($this->id!=''){
-            $this->data = TaxInvoice::find($this->id);
+            // $this->data = TaxInvoice::find($this->id);
+            $this->data = TaxInvoice::where('documentID', $this->id)->first();
+            // dd($this->data, $this->new_documentID, $this->id);
+            $this->new_documentID = $this->data->documentID;
             $this->payments = $this->data->items;
             $this->changeContact();
             // dd($this->selectedInvoice, $this->payments);
@@ -215,9 +220,22 @@ class Form extends Component
         return $vaildated;
     }
 
+    public static function genarateKey(){
+        $prefix = "A".Carbon::now()->format('ym');
+        $lastKey = TaxInvoice::where('documentID', 'LIKE', $prefix.'%')->max('documentID');
+        if($lastKey != null){
+            $lastKey = intval(explode('-', $lastKey)[1]) + 1;
+        }else{
+            $lastKey = 1;
+        }
+        $index = str_pad($lastKey, 5, '0', STR_PAD_LEFT);
+        // dd($prefix.'-'.$index);
+        return $prefix.'-'.$index;
+    }
+
     public function save(bool|null $approve = false) 
     {
-        // dd(count($this->payments));
+        // dd($this->data);
         if(!$this->valid()) {
             return false;
         }
@@ -229,7 +247,15 @@ class Form extends Component
             if($approve){
                 $this->data->documentStatus = 'A';
             }
+            if($this->new_documentID !== "" && $this->new_documentID !== null) {
+                $this->data->documentID = $this->new_documentID;
+            }else {
+                $this->data->documentID = $this->genarateKey();
+            }
+            // dd($this->data->documentID);
+
             $this->data->save();
+
             $this->data->items->filter(function($item){
                 return !collect($this->payments->pluck('items'))->contains($item->items);
             })->each->delete();
@@ -259,6 +285,7 @@ class Form extends Component
         // $this->backRoute();
         $success = $this->save();
         if($success){
+            // dd($this->data);
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
             return redirect()->route('tax-invoice.form', ['action' => 'edit', 'id' => $this->data->documentID]);
         }else{

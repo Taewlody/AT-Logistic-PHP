@@ -31,12 +31,11 @@
                 <div class="card-body">
                   <div class="form-group row">
                     <label class="col-lg-2 col-form-label"><span class="col-form-label"
-                        style="padding-top: 5px;">Document</span> No.</label>
+                        style="padding-top: 5px;">Document</span> No. <span class="text-danger">*</span></label>
                     <div class="col-md-4">
                       {{-- <input type="text" name="documentIDx" id="documentIDx" class="form-control"
                         wire:model="data.documentIDx"> --}}
-                        <input type="text" name="documentID" id="documentID" class="form-control"
-                                                wire:model="data.documentID" readonly>
+                        <input type="text" name="new_documentID" id="new_documentID" class="form-control" wire:model="new_documentID" @readonly($action != 'create')>
                     </div>
                     <div class="col-md-2">
                       <label class="col-form-label" style="padding-top: 5px;">Document
