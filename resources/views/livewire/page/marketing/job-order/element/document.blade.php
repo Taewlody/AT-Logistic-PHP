@@ -119,6 +119,10 @@
             <input type="text" name="bill_of_landing" class="form-control"
                 id="bill_of_landing" wire:model.live.debounce.500ms="value.bill_of_landing"
                 @disabled($action != 'create' && $action != 'edit')>
+
+                @error('bill_of_landing')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
         </div>
         <label class="col-lg-2 col-form-label">Import Entry</label>
         <div class="col-md-4">

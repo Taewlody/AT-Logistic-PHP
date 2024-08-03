@@ -61,6 +61,19 @@ class Document extends Component
                 return false;
             }
         }
+
+        if($this->value->bound == 1){
+            if ($this->value->bill_of_landing !== null) {
+                $checkBillOfLanding = JobOrder::where('bill_of_landing', $this->value->bill_of_landing)->where('bill_of_landing', '!=', 'N/A')->where('documentID', '!=', $this->value->documentID)->first();
+                
+                if($checkBillOfLanding) {
+                    $this->addError('bill_of_landing', 'Bill Of Lading is Duplicate');
+                    return false;
+                }
+            } else {
+                $this->addError('bill_of_landing', 'Please enter Bill Of Lading');
+            }
+        }
     }
 
     public function render()
