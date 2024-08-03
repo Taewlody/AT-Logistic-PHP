@@ -475,15 +475,20 @@
                                     <a name="back" class="btn btn-white" type="button"
                                         href="{{ route('account-payment-voucher') }}" wire.loading.attr="disabled">
                                         <i class="fa fa-reply"></i> Back</a>
-                                    {{-- @if($data->documentstatus == 'P') --}}
+
+                                    @if($data->documentstatus !== 'A')
                                     <button name="Save" id="Save" class="btn btn-success" type="submit"><i
                                             class="fa fa-save"></i> Save</button>
-                                    {{-- @endif --}}
-
                                     @if(Auth::user()->hasRole('admin'))
                                     <button name="Approve" id="Approve" class="btn btn-primary" type="button"
                                         wire:click='approve'><i class="fa fa-check"></i> Approve</button>
                                     @endif
+                                    
+                                    @elseif($data->documentstatus === 'A')
+                                    <button name="Update" id="Update" class="btn btn-secondary" wire:click="update"
+                                        type="button"><i class="fa fa-check"></i> Update</button>
+                                    @endif
+
                                     @if($data->documentID!=null||$data->documentID!='')
                                     <a class="btn" target="_blank"
                                         href="/api/print/payment_voucher_pdf/{{$data->documentID}}"><i

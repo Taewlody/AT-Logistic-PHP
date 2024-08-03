@@ -275,7 +275,6 @@ class Form extends Component
     }
 
     public function approve() {
-        // dd('5555');
         $success = $this->save(true);
         if($success){
             $charge = $this->createJobOrderCharge();
@@ -293,8 +292,26 @@ class Form extends Component
         }else{
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
         }
-        
-        // $this->redirectRoute(name: 'shipping-petty-cash', navigate: true);
+    }
+
+    public function update() {
+        $success = $this->save(true);
+        if($success){
+            $charge = $this->createJobOrderCharge();
+            
+            if($charge == true) {
+                $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'Approve สำเร็จ', type: 'success');
+                return redirect()->route('account-petty-cash.form', ['action' => 'edit', 'id' => $this->data->documentID]);
+            }else if($charge == false) {
+                $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'Approve ไม่สำเร็จ', type: 'error');
+            }else {
+                this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'Approve สำเร็จ', type: 'success');
+                return redirect()->route('account-petty-cash.form', ['action' => 'edit', 'id' => $this->data->documentID]);
+            }
+
+        }else{
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
+        }
     }
 
     public function createJobOrderCharge()

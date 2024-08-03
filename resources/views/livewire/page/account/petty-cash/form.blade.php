@@ -278,16 +278,20 @@
                                 <div class="col-sm-10 col-sm-offset-2">
                                     <a name="back" class="btn btn-white" type="button" href="{{ route('account-petty-cash') }}" wire.loading.attr="disabled">
                                         <i class="fa fa-reply"></i> Back</a>
-                                    {{-- @if(!$data->documentID) --}}
+
+                                    @if($data->documentstatus !== 'A')
                                     <button name="Save" id="Save" class="btn btn-success" type="submit"><i
                                             class="fa fa-save"></i> Save</button>
-                                    {{-- @else --}}
                                     
                                     @if(Auth::user()->hasRole('admin'))
                                     <button name="Approve" id="Approve" class="btn btn-primary" type="button" wire:click='approve'><i
                                             class="fa fa-check"></i> Approve</button>
                                     @endif
-                                    {{-- @endif --}}
+                                    @elseif($data->documentstatus === 'A')
+                                    <button name="Update" id="Update" class="btn btn-secondary" wire:click="update"
+                                        type="button"><i class="fa fa-check"></i> Update</button>
+                                    @endif
+                                    
 
                                     @if($data->documentID!=null||$data->documentID!='')
                                     <a class="btn" target="_blank" href="/api/print/petty_cash_pdf/{{$data->documentID}}"><i

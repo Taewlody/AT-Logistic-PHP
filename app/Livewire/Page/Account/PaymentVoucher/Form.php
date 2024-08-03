@@ -350,13 +350,9 @@ class Form extends Component
         $success = $this->save(true);
         if($success) {
             if($this->data->refJobNo) {
-                // $this->job = JobOrder::find($this->data->refJobNo);
                 $this->job = JobOrderCharge::where('ref_paymentCode',$this->data->documentID);
                 
                 $this->job->delete();
-                
-                // $this->job->charge()->where('ref_paymentCode', $this->data->documentID)->delete();
-                // dd($this->data);
             
                 $this->payments->each(function($item){
                     $this->job->create([
@@ -376,9 +372,35 @@ class Form extends Component
             $this->dispatch('vaildated');
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
         }
+    }
 
+    public function update() {
         
-        // $this->redirectRoute(name: 'shipping-payment-voucher', navigate: true);
+        $success = $this->save(true);
+        if($success) {
+            if($this->data->refJobNo) {
+                $this->job = JobOrderCharge::where('ref_paymentCode',$this->data->documentID);
+                
+                $this->job->delete();
+            
+                $this->payments->each(function($item){
+                    $this->job->create([
+                        'documentID' => $this->data->refJobNo,
+                        'ref_paymentCode' => $this->data->documentID,
+                        'chargeCode' => $item->chargeCode,
+                        'detail' => $item->chartDetail,
+                        'chargesCost' => $item->amount
+                    ]);
+                });
+                
+            }
+            
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
+            return redirect()->route('account-payment-voucher.form', ['action' => 'edit', 'id' => $this->data->documentID]);
+        }else {
+            $this->dispatch('vaildated');
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
+        }
     }
 
     #[Title('payment voucher')] 
