@@ -54,7 +54,7 @@
                             <span
                                 style="min-height: 20px; height: auto;">{{$data->jobOrder?->customerRefer?->addressTH}} {{$data->jobOrder?->customerRefer?->zipCode}}</span>
                             <span><b>เลขประจำตัวผู้เสียภาษี</b> : {{$data->jobOrder?->customerRefer?->taxID}}</span>
-                            <span><b>สาขาที่</b>&nbsp; : &nbsp;{{$data->jobOrder?->customerRefer?->branchEN}}</span>
+                            <span><b>สาขาที่</b>&nbsp; : &nbsp;{{$data->jobOrder?->customerRefer?->branchTH}}</span>
                         </div>
                     </td>
                     <td style="width: 30%; padding-left: 5px;">
@@ -233,7 +233,7 @@
                             <span
                                 style="min-height: 20px; height: auto;">{{$data->jobOrder?->customerRefer?->addressTH}} {{$data->jobOrder?->customerRefer?->zipCode}}</span>
                             <span><b>เลขประจำตัวผู้เสียภาษี</b> : {{$data->jobOrder?->customerRefer?->taxID}}</span>
-                            <span><b>สาขาที่</b>&nbsp; : &nbsp;{{$data->jobOrder?->customerRefer?->branchEN}}</span>
+                            <span><b>สาขาที่</b>&nbsp; : &nbsp;{{$data->jobOrder?->customerRefer?->branchTH}}</span>
                         </div>
                     </td>
                     <td style="width: 30%; padding-left: 5px;">
@@ -428,7 +428,7 @@
                             <span
                                 style="min-height: 20px; height: auto;">{{$data->jobOrder?->customerRefer?->addressTH}} {{$data->jobOrder?->customerRefer?->zipCode}}</span>
                             <span><b>เลขประจำตัวผู้เสียภาษี</b> : {{$data->jobOrder?->customerRefer?->taxID}}</span>
-                            <span><b>สาขาที่</b>&nbsp; : &nbsp;{{$data->jobOrder?->customerRefer?->branchEN}}</span>
+                            <span><b>สาขาที่</b>&nbsp; : &nbsp;{{$data->jobOrder?->customerRefer?->branchTH}}</span>
                         </div>
                     </td>
                     <td style="width: 30%; padding-left: 5px;">
