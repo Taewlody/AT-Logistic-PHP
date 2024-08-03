@@ -307,7 +307,7 @@
                                                                     class='form-control'
                                                                     wire:keyup.debounce.500ms='calTax1($event.target.value)'
                                                                     value="{{ number_format($priceSum->tax1, 2, '.', '') }}"
-                                                                    required @readonly(!Auth::user()->hasRole('admin'))>
+                                                                    required>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -316,7 +316,7 @@
                                                                     class='form-control'
                                                                     wire:keyup.debounce.500ms='calTax3($event.target.value)'
                                                                     value="{{ number_format($priceSum->tax3, 2, '.', '') }}"
-                                                                    required @readonly(!Auth::user()->hasRole('admin'))>
+                                                                    required>
                                                             </td>
                                                         </tr>
                                                         <tr>
