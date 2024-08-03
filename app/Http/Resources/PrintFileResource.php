@@ -104,6 +104,14 @@ class PrintFileResource extends Controller
                 return collect($item)->count().'x'.$key;
             })->toArray();
         }
+
+        $groupPackage = 0.00;
+        if($data->packedList != null) {
+            foreach($data->packedList as $pack) {
+                $groupPackage += $pack["packaed_totalCBM"] * $pack["packaed_qty"];
+            }
+        }
+        
         $groupCommodity = [];
         if($data->commodity != null) {
             $groupCommodity = $data->commodity->map(function ($item, $key) {
@@ -111,7 +119,7 @@ class PrintFileResource extends Controller
             })->toArray();
         }
         
-        $pdf = DomPdf::loadView('print.booking_job_order_pdf', ['title' => "Booking Confirmation", 'data' => $data, 'groupContainer' => $groupContainer, 'groupCommodity' => $groupCommodity,]);
+        $pdf = DomPdf::loadView('print.booking_job_order_pdf', ['title' => "Booking Confirmation", 'data' => $data, 'groupContainer' => $groupContainer, 'groupPackage' => $groupPackage, 'groupCommodity' => $groupCommodity,]);
         return $pdf->stream('booking_job_order.pdf');
 
         // return view('print.booking_job_order_pdf', [

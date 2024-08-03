@@ -78,7 +78,7 @@
                         </td>
                     </tr>
                 </table>
-                <div class="header-table">COMMODITY INFORMATION (DIRECT-FCL)</div>
+                <div class="header-table">COMMODITY INFORMATION (DIRECT-{{$data->deliveryType}})</div>
                 <table class="detail-block">
                     <tr>
                         <td>
@@ -87,7 +87,7 @@
                         </td>
                         <td>
                             <b>Volum : </b>
-                            {{join(',', $groupContainer)}}
+                            {{$data->deliveryType === 'FCL' ? join(',', $groupContainer) : number_format($groupPackage, 2)}}
                         </td>
                     </tr>
                 </table>

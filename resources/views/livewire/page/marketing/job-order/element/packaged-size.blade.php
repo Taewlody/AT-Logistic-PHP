@@ -25,15 +25,15 @@
                             </td>
                             <td><span class="center">
                                     <input type="number" class="form-control" step="0.01"
-                                        wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.packaed_width">
+                                        wire:model.live.debounce.100ms.number="value.{{ $loop->index }}.packaed_width">
                                     
                                 </span></td>
                             <td><span class="center">
                                     <input type="number" class="form-control" step="0.01"
-                                        wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.packaed_length">
+                                        wire:model.live.debounce.100ms.number="value.{{ $loop->index }}.packaed_length">
                                 </span></td>
                             <td><input type="number" class="form-control" step="0.01"
-                                    wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.packaed_height">
+                                    wire:model.live.debounce.100ms.number="value.{{ $loop->index }}.packaed_height">
                             </td>
                             <td class="center">
                                 <input type="number" class="form-control" step="1"
@@ -41,7 +41,7 @@
                             </td>
                             <td class="center">
                                 <input type="number" class="form-control" step="0.01"
-                                    wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.packaed_weight">
+                                    wire:model.live.debounce.100ms.number="value.{{ $loop->index }}.packaed_weight">
                             </td>
                             <td class="center">
                                 <select class="select2_single form-control select2"
@@ -63,7 +63,7 @@
                             </td>
                             <td class="center">
                                 <input type="number" class="form-control" step="0.01"
-                                    wire:model.live.debounce.500ms.number="value.{{ $loop->index }}.packaed_totalWeight">
+                                    wire:model.live.debounce.100ms.number="value.{{ $loop->index }}.packaed_totalWeight">
                             </td>
                             <td class="center">
                                 <button type="button" class="btn-danger btn btn-xs"
