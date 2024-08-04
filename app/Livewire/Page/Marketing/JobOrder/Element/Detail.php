@@ -23,6 +23,7 @@ class Detail extends Component
 
     public function mount($action){
         $this->action = $action;
+        // dd('value >>> '.$this->value);
     }
 
     #[On('vaildated')]
@@ -46,8 +47,9 @@ class Detail extends Component
         // Log::info('changeContact', ['value' => $value]);
         $customer = Customer::find($value);
         if($customer) {
+            // dd($customer);
             $this->value->cusContact = $customer->contactName;
-            // $this->value->saleman = $customer->salemanID;
+            $this->value->saleman = $customer->salemanID;
             $this->dispatch('change-select2-saleman', data: $customer->salemanID);
         }
     }

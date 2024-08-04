@@ -175,6 +175,11 @@ class Form extends Component
 
     public function boot()
     {
+        
+    }
+
+    public function mount()
+    {
         $this->data = new JobOrder;
         if ($this->action == '') {
             $this->action = 'view';
@@ -191,10 +196,8 @@ class Form extends Component
         }
         $this->createBy = User::find($this->data->createID);
         $this->editBy = User::find($this->data->editID);
-    }
 
-    public function mount()
-    {
+        
         $this->job = new JobOrderWithoutRef($this->data->withoutRelations()->toArray());
         $this->job->exists = $this->data->exists;
         $this->containerList = $this->data->containerList ?? new Collection;
@@ -522,7 +525,7 @@ class Form extends Component
 
         \DB::beginTransaction();
         try {
-
+            // dd($this->data);
             $this->data->exists = $this->job->exists;
             
             
@@ -546,7 +549,7 @@ class Form extends Component
                     
                 }
             }
-
+            
             $this->data->save();
         
             $this->data->containerList->filter(function ($item) {
@@ -585,6 +588,7 @@ class Form extends Component
             $this->data->attachs()->saveMany($this->attachs);
             $this->data->commodity()->detach();
             $this->data->commodity()->syncWithoutDetaching($this->listCommodity);
+            
             \DB::commit();
             // dd($this->data);
             return true;
