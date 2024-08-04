@@ -7,6 +7,7 @@ use App\Models\UserType;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\Url;
+use Illuminate\Support\Facades\DB;
 
 class Form extends Component
 {
@@ -18,8 +19,10 @@ class Form extends Component
     public User $data;
 
     public $userTypeList = [];
+    public $new_password = '';
+    public $old_password = '';
 
-    public function boot()
+    public function mount()
     {
         // $this->ChargesTypeList = ChargesType::all();
         if($this->action==''){
@@ -29,6 +32,7 @@ class Form extends Component
         }
         if($this->id!=''){
             $this->data = User::find($this->id);
+            $this->old_password = $this->data->userpass;
             
         }else{
             $this->action = 'create';
@@ -41,12 +45,38 @@ class Form extends Component
         
     }
 
-    public function save() {
-        $this->data->editID = Auth::user()->usercode;
-        dd($this->data, md5($this->data->userpass));
-        $this->data->userpass = md5($this->data->userpass);
-       
-        $this->data->save();
+    public function save() 
+    {
+        DB::beginTransaction();
+        try {
+            $this->data->editID = Auth::user()->usercode;
+            if($this->new_password !== '') {
+                $this->data->userpass = md5($this->new_password);
+            } else {
+                $this->data->userpass = $this->old_password;
+            }
+            
+            $this->data->save();
+
+            \DB::commit();
+            return true;
+        } catch (\Exception $exception) {
+            \DB::rollBack();
+            dd($exception->getMessage());
+            return false;
+        }
+    }
+
+    public function submit(){
+        $success = $this->save();
+        if($success){
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
+            return redirect()->route('user.form', ['action' => 'edit', 'id' => $this->data->usercode]);
+        }else{
+            
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
+            
+        }
     }
 
     public function render()

@@ -12,7 +12,7 @@
 
         <div class="card ">
             <div class="card-body">
-                <form class="form-body" wire:submit="save" onkeydown="return event.key != 'Enter';">
+                <form class="form-body" wire:submit="submit" onkeydown="return event.key != 'Enter';">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="ibox ">
@@ -24,7 +24,7 @@
                                     </div>
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group  row">
-                                        <label class="col-sm-2 col-form-label"><a>User</a> Code</label>
+                                        <label class="col-sm-2 col-form-label"><a>User</a> Code <span class="text-danger">*</span></label>
                                         <div class="col-md-2">
                                             <input type="text" name="usercode" id="usercode" wire:model="data.usercode" required
                                             @readonly($action != 'create') class="form-control">
@@ -34,8 +34,8 @@
                                     <div class="form-group  row">
                                         <label class="col-sm-2 col-form-label">Password</label>
                                         <div class="col-sm-2">
-                                            <input type="password" name="userpass" id="userpass" class="form-control"
-                                                wire:model="data.userpass">
+                                            <input type="password" name="new_password" id="new_password" class="form-control"
+                                                wire:model="new_password">
                                         </div>
                                     </div>
 
@@ -61,11 +61,11 @@
                                     <div class="form-group  row">
                                         <label class="col-sm-2 col-form-label">Surname</label>
                                         <div class="col-sm-2">
-                                            <input type="text" name="surname" id="surname" required class="form-control" wire:model="data.surname">
+                                            <input type="text" name="surname" id="surname" class="form-control" wire:model="data.surname">
                                         </div>
                                     </div>
                                     <div class="form-group  row">
-                                        <label class="col-sm-2 col-form-label">User Type</label>
+                                        <label class="col-sm-2 col-form-label">User Type <span class="text-danger">*</span></label>
                                         <div class="col-sm-2">
                                             <select class="select2_single form-control select2" name="userTypecode" wire:model="data.userTypecode" required
                                                 id="userTypecode" @disabled($action != 'create' && $action != 'edit' && Auth::user()->UserType->userTypecode != '1')>
@@ -111,7 +111,7 @@
                                     <div class="form-group row">
                                         <div class="col-sm-4 col-sm-offset-2">
                                             <a name="back" class="btn btn-white" type="button"
-                                                href="{{ url()->previous() }}" wire.loading.attr="disabled">
+                                            href="{{ route('user') }}" wire.loading.attr="disabled">
                                                 <i class="fa fa-reply"></i> Back
                                             </a>
                                             @if ($action == 'create' || $action == 'edit')
@@ -133,3 +133,6 @@
     </div>
 
 </div>
+@push('modal')
+<livewire:modal.modal-alert />
+@endpush

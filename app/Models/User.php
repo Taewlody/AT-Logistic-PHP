@@ -84,7 +84,7 @@ class User extends Authenticatable implements Wireable {
     protected $attributes = [
         'comCode' => 'C01',
         // 'userpass' => (string)env('APP_DEFUALT_PASSWORD', '123456'),
-        'userpass' => '123456',
+        // 'userpass' => '123456',
         'isActive' => false,
     ];
 
