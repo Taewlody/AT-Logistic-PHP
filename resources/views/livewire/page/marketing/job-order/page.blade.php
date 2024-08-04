@@ -90,7 +90,33 @@
                                     <div class="form-group col-margin0">
                                         <label class="font-normal">Invoice</label>
                                         <div>
+                                            <input type='text' name='invoiceNo' class='form-control' id="invoiceNo" wire:model="invoiceNo">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group col-margin0">
+                                        <label class="font-normal">INV.No</label>
+                                        <div>
                                             <input type='text' name='invNo' class='form-control' id="invNo" wire:model="invNo">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group col-margin0">
+                                        <label class="font-normal">Booking No</label>
+                                        <div>
+                                            <input type='text' name='bookingNo' class='form-control' id="bookingNo" wire:model="bookingNo">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group col-margin0">
+                                        <label class="font-normal">Bill of lading</label>
+                                        <div>
+                                            <input type='text' name='bill_of_landing' class='form-control' id="bill_of_landing" wire:model="bill_of_landing">
                                         </div>
                                     </div>
                                 </div>

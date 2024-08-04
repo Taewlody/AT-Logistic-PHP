@@ -20,7 +20,11 @@ class Page extends Component
     public $dateStart;
     public $dateEnd;
     public $documentID = '';
+    public $invoiceNo = '';
     public $invNo = '';
+    public $bookingNo = '';
+    public $bill_of_landing = '';
+
     public $customerList = [];
     public $customerSearch = "";
     public $salemanList = [];
@@ -52,8 +56,17 @@ class Page extends Component
         if($this->documentID != null) {
             $this->query[] = ['documentID', 'like', '%'.$this->documentID.'%'];
         }
+        if($this->invoiceNo != null) {
+            $this->query[] = ['invoiceNo', 'like', '%'.$this->invoiceNo.'%'];
+        }
         if($this->invNo != null) {
-            $this->query[] = ['invoiceNo', 'like', '%'.$this->invNo.'%'];
+            $this->query[] = ['invNo', 'like', '%'.$this->invNo.'%'];
+        }
+        if($this->bookingNo != null) {
+            $this->query[] = ['bookingNo', 'like', '%'.$this->bookingNo.'%'];
+        }
+        if($this->bill_of_landing != null) {
+            $this->query[] = ['bill_of_landing', 'like', '%'.$this->bill_of_landing.'%'];
         }
     }
 
