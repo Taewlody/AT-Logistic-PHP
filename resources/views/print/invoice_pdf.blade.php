@@ -50,11 +50,15 @@
                 <table>
                     <td style="width: 55%;">
                         <div>
-                            <span><b>TO</b> : {{$data->jobOrder?->customerRefer?->custNameTH}}</span>
+                            <span><b>TO</b> : {{$data->jobOrder?->customerRefer?->custNameTH}} {{ $data->jobOrder?->customerRefer?->branchTH === '(สำนักงานใหญ่)' || $data->jobOrder?->customerRefer?->branchTH === 'สำนักงานใหญ่' ? $data->jobOrder?->customerRefer?->branchTH : ''}}</span>
                             <span
                                 style="min-height: 20px; height: auto;">{{$data->jobOrder?->customerRefer?->addressTH}} {{$data->jobOrder?->customerRefer?->zipCode}}</span>
                             <span><b>เลขประจำตัวผู้เสียภาษี</b> : {{$data->jobOrder?->customerRefer?->taxID}}</span>
-                            <span><b>สาขาที่</b>&nbsp; : &nbsp;{{$data->jobOrder?->customerRefer?->branchTH}}</span>
+                            @if($data->jobOrder?->customerRefer?->branchTH === '(สำนักงานใหญ่)' || $data->jobOrder?->customerRefer?->branchTH === 'สำนักงานใหญ่')
+                            <span></span>
+                            @else
+                            <span><b>สาขาที่</b>&nbsp; : &nbsp;{{$data->jobOrder?->customerRefer?->branchTH }}</span>
+                            @endif
                         </div>
                     </td>
                     <td style="width: 30%; padding-left: 5px;">
@@ -229,11 +233,15 @@
                 <table>
                     <td style="width: 55%;">
                         <div>
-                            <span><b>TO</b> : {{$data->jobOrder?->customerRefer?->custNameTH}}</span>
+                            <span><b>TO</b> : {{$data->jobOrder?->customerRefer?->custNameTH}} {{ $data->jobOrder?->customerRefer?->branchTH === '(สำนักงานใหญ่)' || $data->jobOrder?->customerRefer?->branchTH === 'สำนักงานใหญ่' ? $data->jobOrder?->customerRefer?->branchTH : ''}}</span>
                             <span
                                 style="min-height: 20px; height: auto;">{{$data->jobOrder?->customerRefer?->addressTH}} {{$data->jobOrder?->customerRefer?->zipCode}}</span>
                             <span><b>เลขประจำตัวผู้เสียภาษี</b> : {{$data->jobOrder?->customerRefer?->taxID}}</span>
-                            <span><b>สาขาที่</b>&nbsp; : &nbsp;{{$data->jobOrder?->customerRefer?->branchTH}}</span>
+                            @if($data->jobOrder?->customerRefer?->branchTH === '(สำนักงานใหญ่)' || $data->jobOrder?->customerRefer?->branchTH === 'สำนักงานใหญ่')
+                            <span></span>
+                            @else
+                            <span><b>สาขาที่</b>&nbsp; : &nbsp;{{$data->jobOrder?->customerRefer?->branchTH }}</span>
+                            @endif
                         </div>
                     </td>
                     <td style="width: 30%; padding-left: 5px;">
@@ -424,11 +432,15 @@
                 <table>
                     <td style="width: 55%;">
                         <div>
-                            <span><b>TO</b> : {{$data->jobOrder?->customerRefer?->custNameTH}}</span>
+                            <span><b>TO</b> : {{$data->jobOrder?->customerRefer?->custNameTH}} {{ $data->jobOrder?->customerRefer?->branchTH === '(สำนักงานใหญ่)' || $data->jobOrder?->customerRefer?->branchTH === 'สำนักงานใหญ่' ? $data->jobOrder?->customerRefer?->branchTH : ''}}</span>
                             <span
                                 style="min-height: 20px; height: auto;">{{$data->jobOrder?->customerRefer?->addressTH}} {{$data->jobOrder?->customerRefer?->zipCode}}</span>
                             <span><b>เลขประจำตัวผู้เสียภาษี</b> : {{$data->jobOrder?->customerRefer?->taxID}}</span>
-                            <span><b>สาขาที่</b>&nbsp; : &nbsp;{{$data->jobOrder?->customerRefer?->branchTH}}</span>
+                            @if($data->jobOrder?->customerRefer?->branchTH === '(สำนักงานใหญ่)' || $data->jobOrder?->customerRefer?->branchTH === 'สำนักงานใหญ่')
+                            <span></span>
+                            @else
+                            <span><b>สาขาที่</b>&nbsp; : &nbsp;{{$data->jobOrder?->customerRefer?->branchTH }}</span>
+                            @endif
                         </div>
                     </td>
                     <td style="width: 30%; padding-left: 5px;">
