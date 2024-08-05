@@ -114,15 +114,18 @@
                     <label class="col-lg-2 col-form-label"><span class="col-form-label"
                         style="padding-top: 5px;">ชื่อบัญชี</span></label>
                     <div class="col-md-10">
-                      {{-- <select name="accountCode" id="accountCode" class="select2_single form-control select2"
-                        wire:model="data.accountCode" style="width: 100%">
-                        <option value="">Select Account</option>
+                      {{-- <livewire:element.select2 wire:model='data.accountCode' name="accountCode" :options="Service::AccountSelecter()" itemKey="accountCode" itemValue="accountName" :searchable="true" > --}}
+
+                      <select name="accountCode" id="accountCode"
+                        class="select2_single form-control select2" style="width: 100%"
+                        wire:model="data.accountCode">
+                        <option value>- Select -</option>
                         @foreach (Service::AccountSelecter() as $account)
-                        <option value="{{ $account->accountCode }}">{{ $account->accountName }}</option>
+                        <option value="{{ $account->accountCode ? $account->accountCode : " " }}">{{ $account->accountName }}
                         @endforeach
-                      </select> --}}
-                      <livewire:element.select2 wire:model='data.accountCode' name="accountCode" :options="Service::AccountSelecter()" itemKey="accountCode" itemValue="accountName" :searchable="true" >
+                      </select>
                     </div>
+                    
                   </div>
                   <div class="form-group  row">
                     <label class="col-sm-2 col-form-label">โดย By</label>
