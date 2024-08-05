@@ -7,6 +7,10 @@ use App\Models\Marketing\TrailerBooking;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\Url;
+use Carbon\Carbon;
+use App\Functions\Service;
+use Livewire\Attributes\On;
+use Illuminate\Support\Facades\DB;
 
 class Form extends Component
 {
@@ -26,6 +30,7 @@ class Form extends Component
     public function mount()
     {
         $this->data = TrailerBooking::findOrNew($this->id);
+        $this->jobOrderSelecter = Service::JobOrderSelecter();
         if ($this->action == '') {
             $this->action = 'view';
         } else {
@@ -35,6 +40,9 @@ class Form extends Component
         if (!$this->data->exists) {
             $this->action = 'create';
             $this->data->createID = Auth::user()->usercode;
+            $this->data->work_order = Auth::user()->usercode;
+            $this->data->documentDate = Carbon::now()->format('Y-m-d');
+
             if($this->ref != ''){
                 $this->job_order = JobOrder::find($this->ref);
                 if($this->job_order != null){
@@ -49,6 +57,7 @@ class Form extends Component
         }
     }
 
+    #[On("updated-ref_jobID")]
     public function getJobDetail() {
         if($this->action != 'create' || $this->data->ref_jobID == null) {
             return;
@@ -57,21 +66,63 @@ class Form extends Component
         $this->data->documentDate = $job->documentDate;
         $this->data->cusCode = $job->cusCode;
         $this->data->feeder = $job->feeder;
-        $this->data->agent = $job->agent;
+        $this->data->agent = $job->agentCode;
+        // dd($job);
+        $this->dispatch('change-select2-feeder', data: $job->feeder);
+        $this->dispatch('change-select2-cusCode', data: $job->cusCode);
+        $this->dispatch('change-select2-agent', data: $job->agentCode);
 
     }
 
-    public function save() {
-        $this->data->editID = Auth::user()->usercode;
-        // dd($this->data);
-        $this->data->save();
-        $this->redirectRoute(name: 'trailer-booking', navigate: true);
+    public function save(bool|null $approve = false) {
+        \DB::beginTransaction();
+        try {
+            $this->data->editID = Auth::user()->usercode;
+            
+            $this->data->save();
+
+            \DB::commit();
+            return true;
+
+        } catch (\Exception $exception) {
+            \DB::rollBack();
+            dd($exception->getMessage());
+            return false;
+        }
+    }
+
+    public function submit(){
+        $success = $this->save();
+        // dd($success);
+        if($success){
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
+            return redirect()->route('trailer-booking.form', ['action' => 'edit', 'id' => $this->data->documentID]);
+        }else{
+            $this->dispatch('vaildated');
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
+        }
     }
 
     public function approve() {
-        $this->data->documentstatus = 'A';
-        $this->data->save();
-        $this->redirectRoute(name:'trailer-booking', navigate: true);
+        $success = $this->save(true);
+        if($success){
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
+            return redirect()->route('trailer-booking.form', ['action' => 'edit', 'id' => $this->data->documentID]);
+        }else{
+            $this->dispatch('vaildated');
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
+        }
+    }
+
+    public function update() {
+        $success = $this->save(true);
+        if($success){
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
+            return redirect()->route('trailer-booking.form', ['action' => 'edit', 'id' => $this->data->documentID]);
+        }else{
+            $this->dispatch('vaildated');
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
+        }
     }
 
     public function render()

@@ -4,11 +4,11 @@
         breadcrumb_page="Trailer Booking" breadcrumb_page_title="Trailer Booking Form" />
     <div class="wrapper wrapper-content animated fadeInRight">
         {{-- loading --}}
-        <div wire:loading.flex class="loader-wrapper" wire:target='save'>
+        <div wire:loading.flex class="loader-wrapper" wire:target='submit,approve'>
             <div class="loader"></div>
         </div>
 
-        <form class="form-body" wire:submit="save" onkeydown="return event.key != 'Enter';">
+        <form class="form-body" wire:submit="submit" onkeydown="return event.key != 'Enter';">
 
             {{-- <input type="hidden" name="jobID" id="jobID" value="<?php echo $jobID; ?>"> --}}
             <div class="row">
@@ -67,15 +67,8 @@
                                     <div class="form-group  row">
                                         <label class="col-sm-3 col-form-label">Feeder</label>
                                         <div class="col-md-9">
-                                            {{-- <select name="feeder" class="select2_single form-control select2"
-                                                id="feeder" wire:model="data.feeder">
-                                                <option value="">Select Feeder</option>
-                                                @foreach (Service::FeederSelecter() as $feeder)
-                                                    <option value="{{ $feeder->fCode }}">{{ $feeder->fName }}</option>
-                                                @endforeach
-                                            </select> --}}
                                             <livewire:element.select2 wire:model='data.feeder'
-                                                name="feeder" :options="Service::FeederSelecter()"
+                                                name="feeder" :hasNan="true" :options="Service::FeederSelecter()"
                                                 itemKey="fCode" itemValue="fName" 
                                                 :searchable="true">
                                         </div>
@@ -85,16 +78,9 @@
                                     <div class="form-group  row">
                                         <label class="col-sm-3 col-form-label">Agent</label>
                                         <div class="col-md-9">
-                                            {{-- <select name="agentCode" class="select2_single form-control select2"
-                                                id="agentCode" wire:model="data.agent">
-                                                <option value="">Select Agent</option>
-                                                @foreach (Service::SupplierSelecter() as $supplier)
-                                                    <option value="{{ $supplier->supCode }}">{{ $supplier->supNameTH }}
-                                                    </option>
-                                                @endforeach
-                                            </select> --}}
                                             <livewire:element.select2 wire:model='data.agent'
-                                                name="agent" :options="Service::SupplierSelecter()"
+                                                name="agent" 
+                                                :hasNan="true" :options="Service::SupplierSelecter()"
                                                 itemKey="supCode" itemValue="supNameTH" 
                                                 :searchable="true">
                                         </div>
@@ -103,13 +89,10 @@
                                     <div class="form-group  row">
                                         <label class="col-sm-3 col-form-label">Ref. JobNo.</label>
                                         <div class="col-md-9">
-                                            <select class="select2_single form-control select2" name="ref_jobID" wire:change="getJobDetail"
-                                                id="ref_jobID" wire:model="data.ref_jobID">
-                                                <option value="">Select Ref. JobNo.</option>
-                                                @foreach (Service::JobOrderSelecter() as $refJob)
-                                                    <option value="{{ $refJob->documentID }}">{{ $refJob->documentID }}</option>
-                                                @endforeach
-                                            </select>
+                                            <livewire:element.select2 wire:model='data.ref_jobID'
+                                            name="ref_jobID" :options="Service::JobOrderSelecter(false)"
+                                            itemKey="documentID" itemValue="documentID"
+                                            :searchable="true" >
                                         </div>
                                     </div>
                                 </div>
@@ -232,19 +215,26 @@
                                     wire.loading.attr="disabled">
                                         <i class="fa fa-reply"></i> Back</a>
                                         
-                                    @if($data)
-                                    <button name="save" id="save" class="btn btn-primary" type="button" wire:click='save'
-                                        @disabled($data != null && $data->documentstatus == 'A')>
+                                    @if($action !== 'view' && $data && $data->documentstatus !== 'A')
+
+                                    <button name="save" id="save" class="btn btn-primary" type="submit">
                                         <i class="fa fa-save"></i> Save</button>
-                                    <button name="approve" id="approve" class="btn btn-success " type="button" wire:click='approve'
-                                        @disabled($data->documentstatus == 'A' || $data->documentID != null)>
+                                    @if(Auth::user()->hasRole('admin'))
+                                    <button name="approve" id="approve" class="btn btn-success " type="button" wire:click='approve'>
                                         <i class="fa fa-check"></i> Approve</button>
+                                    @endif
+                                    @elseif($data->documentstatus === 'A')
+                                        <button name="Update" id="Update" class="btn btn-secondary" wire:click="update"
+                                            type="button"><i class="fa fa-check"></i> Update</button>
+                                    @endif
+
                                     @if($data->documentID != null ||$data->documentID != '')
                                         <a class="btn btn-primary " target="_blank"
                                             href="{{'/api/print/trailer_booking_pdf/'.$data->documentID}}"
                                             ><i class="fa fa-print"></i> Print</a>
                                     @endif
-                                    @endif
+
+                                   
                                 </div>
                             </div>
                         </div>
@@ -255,3 +245,6 @@
         </form>
     </div>
 </div>
+@push('modal')
+<livewire:modal.modal-alert />
+@endpush
