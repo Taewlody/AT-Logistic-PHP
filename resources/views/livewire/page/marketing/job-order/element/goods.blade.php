@@ -36,7 +36,7 @@
                             <td>
                                 <select class="select2_single form-control select2"
                                     style="width: 100%"
-                                    wire:model.change="value.{{ $loop->index }}.goodUnit">
+                                    wire:model.change="value.{{ $loop->index }}.good_unit">
                                     <option value="">- select -</option>
                                     @foreach (Service::UnitContainerSelecter() as $unit)
                                         <option value="{{ $unit->unitCode }}">
@@ -44,6 +44,7 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                
                             </td>
                             <td class="center">
                                 <input type="text" class="form-control"

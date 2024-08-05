@@ -300,7 +300,7 @@ class Form extends Component
     public function addRowPacked()
     {
         $dataPacked = new JobOrderPacked;
-        $dataPacked->documentID = $this->data->documentID;
+        // $dataPacked->documentID = $this->data->documentID;
         $dataPacked->comCode = 'C01';
         $this->packagedList->push($dataPacked);
     }
@@ -316,7 +316,7 @@ class Form extends Component
     public function addGoods()
     {
         $goods = new JobOrderGoods;
-        $goods->documentID = $this->data->documentID;
+        // $goods->documentID = $this->data->documentID;
         $goods->comCode = 'C01';
         $this->goodsList->push($goods);
     }
@@ -557,18 +557,48 @@ class Form extends Component
             })->each->delete();
             $this->data->containerList()->saveMany($this->containerList);
 
-            $this->data->packedList->filter(function ($item) {
-                return !collect($this->packagedList->pluck('items'))->contains($item->items);
-            })->each->delete();
-            $this->data->packedList()->saveMany($this->packagedList);
+            // $this->data->packedList->filter(function ($item) {
+            //     return !collect($this->packagedList->pluck('items'))->contains($item->items);
+            // })->each->delete();
+            // $this->data->packedList()->saveMany($this->packagedList);
 
-            $this->data->goodsList->filter(function ($item) {
-                return !collect($this->goodsList->pluck('items'))->contains($item->items);
-            })->each->delete();
-            $this->data->goodsList()->saveMany($this->goodsList);
+            $this->data->packedList()->delete();
+            foreach( $this->packagedList as $pack ) {
+                $data = new JobOrderPacked();
+                $data->comCode = $pack->comCode;
+                $data->documentID = $this->data->documentID;
+                $data->packaed_width = $pack->packaed_width;
+                $data->packaed_length = $pack->packaed_length;
+                $data->packaed_height = $pack->packaed_height;
+                $data->packaed_qty = $pack->packaed_qty;
+                $data->packaed_weight = $pack->packaed_weight;
+                $data->packaed_unit = $pack->packaed_unit;
+                $data->packaed_totalCBM = $pack->packaed_totalCBM;
+                $data->packaed_totalWeight = $pack->packaed_totalWeight;
+                $this->data->packedList()->save($data);
+            }
+
+
+            // $this->data->goodsList->filter(function ($item) {
+            //     return !collect($this->goodsList->pluck('items'))->contains($item->items);
+            // })->each->delete();
+            // $this->data->goodsList()->saveMany($this->goodsList);
+
+            $this->data->goodsList()->delete();
+            foreach( $this->goodsList as $good ) {
+                $data = new JobOrderGoods();
+                $data->comCode = $good->comCode;
+                $data->documentID = $this->data->documentID;
+                $data->goodNo = $good->goodNo;
+                $data->goodDec = $good->goodDec;
+                $data->goodWeight = $good->goodWeight;
+                $data->good_unit = $good->good_unit;
+                $data->goodSize = $good->goodSize;
+                $data->goodKind = $good->goodKind;
+                $this->data->goodsList()->save($data);
+            }
 
             $this->data->charge()->delete();
-            
             foreach( $this->chargeList as $charge ) {
                 $data = new JobOrderCharge();
                 $data->comCode = $charge->comCode;
@@ -579,7 +609,6 @@ class Form extends Component
                 $data->ref_paymentCode = $charge->ref_paymentCode;
                 $data->chargeCode = $charge->chargeCode;
                 $data->detail = $charge->detail;
-                // dd($data, $this->data);
                 $this->data->charge()->save($data);
             }
             // $this->data->charge()->saveMany($this->chargeList);

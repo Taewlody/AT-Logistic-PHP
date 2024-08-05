@@ -9,6 +9,8 @@ use Livewire\Component;
 class PackagedSize extends Component
 {
     public $action = '';
+    public $documentID = '';
+    
     protected array $rules = [
         'value.*'=> 'unique:App\Models\Marketing\JobOrderPacked',
         'value.*.items'=> 'number',
