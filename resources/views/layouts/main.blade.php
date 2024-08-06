@@ -4,7 +4,8 @@
     <!-- All meta and title start-->
     @include('layouts.themes.layout.head', ['title' => $title ?? null])
     <!-- meta and title end-->
-    <title>{{$title ?? "Koho - Premium Admin Template"}}</title>
+    {{-- <title>{{$title ?? "Koho - Premium Admin Template"}}</title> --}}
+    <title>{{"AT LOGISTICS AND SERVICES CO., LTD."}}</title>
 
     <!-- css start-->
     @include('layouts.themes.layout.css')
