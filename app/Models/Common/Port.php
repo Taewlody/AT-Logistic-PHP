@@ -21,7 +21,10 @@ class Port extends Model implements Wireable
     protected $keyType = 'string';
     protected $primaryKey = 'portCode';
 
-    public $timestamps = false;
+    protected $dateFormat = 'y-m-d H:i:s';
+
+    const CREATED_AT = 'createTime';
+    const UPDATED_AT = 'editTime';
 
     protected $fillable = [
         'comCode',
@@ -60,6 +63,30 @@ class Port extends Model implements Wireable
         $this->fill($attributes);
         $this->exists = $attributes['exists'] ?? false;
         $this->setConnection($attributes['connection'] ?? 'mysql');
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function($model){
+            $model->portCode = self::genarateKey();
+        });
+    }
+
+    public static function genarateKey(){
+        $prefix = "P";
+        $portCodes = self::pluck('portCode');
+        
+        $maxNumber = 0;
+        foreach ($portCodes as $portCode) {
+            $numericPart = (int) substr($portCode, strlen($prefix) + 1); 
+            if ($numericPart > $maxNumber) {
+                $maxNumber = $numericPart;
+            }
+        }
+        $newNumber = $maxNumber + 1;
+        $index = str_pad($newNumber, 5, '0', STR_PAD_LEFT);
+        return $prefix.'-'.$index;
     }
 
     public static function fromLivewire($value): self

@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div class="card ">
             <div class="card-body">
-                <form class="form-body" wire:submit="save" onkeydown="return event.key != 'Enter';">
+                <form class="form-body" wire:submit="submit" onkeydown="return event.key != 'Enter';">
                     <div class="form-group  row">
                         <label class="col-sm-2 col-form-label">
                             <h3>Port info</h3>
@@ -14,33 +14,33 @@
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group  row">
-                        <label class="col-sm-2 col-form-label"> Code</label>
+                        <label class="col-sm-2 col-form-label"> Code <span class="text-danger">*</span></label>
                         <div class="col-md-2">
                             <input name="portCode" type="text" class="form-control " id="portCode"
-                                autocomplete="off" wire:model="data.portCode"  @disabled($action != 'create')>
+                                autocomplete="off" wire:model="data.portCode"  @disabled($action != 'create') readonly>
                         </div>
                     </div>
                     <div class="form-group  row">
-                        <label class="col-sm-2 col-form-label"> Name (TH)</label>
+                        <label class="col-sm-2 col-form-label"> Name (TH) <span class="text-danger">*</span></label>
                         <div class="col-sm-8"><input name="portNameTH" type="text" class="form-control "
-                                id="portNameTH" autocomplete="empty" wire:model="data.portNameTH" @disabled($action != 'create' && $action != 'edit')></div>
+                                id="portNameTH" autocomplete="empty" wire:model="data.portNameTH" @disabled($action != 'create' && $action != 'edit') required></div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label"> Name (EN)</label>
+                        <label class="col-sm-2 col-form-label"> Name (EN) <span class="text-danger">*</span></label>
                         <div class="col-md-8">
                             <input type="text" class="form-control " name="portNameEN" autocomplete="empty"
-                                id="portNameEN" wire:model="data.portNameEN" @disabled($action != 'create' && $action != 'edit')>
+                                id="portNameEN" wire:model="data.portNameEN" @disabled($action != 'create' && $action != 'edit') required>
                         </div>
                     </div>
                     <div class="form-group  row">
-                        <label class="col-sm-2 col-form-label">Country</label>
+                        <label class="col-sm-2 col-form-label">Country <span class="text-danger">*</span></label>
                         <div class="col-md-4">
-                            <select class="select2_single form-control select2" name="countryCode" id="countryCode" wire:model="data.countryCode" @disabled($action != 'create' && $action != 'edit')>
-                                <option value="">- select -</option>
-                                @foreach ($countryList as $country)
-                                    <option value="{{ $country->countryCode }}">{{ $country->countryNameTH }}</option>
-                                @endforeach
-                            </select>
+
+                            <livewire:element.select2 wire:model='data.countryCode' name="Country" :options="Service::CountrySelecter()"
+                                itemKey="countryCode" itemValue="countryNameTH" :disabled="$action != 'create' && $action != 'edit'">
+                                @error('data.countryCode')
+                                    <div class="text-danger m-2">{{ $message }}</div>
+                                @enderror
                         </div>
                     </div>
 
@@ -86,3 +86,6 @@
         </div>
     </div>
 </div>
+@push('modal')
+<livewire:modal.modal-alert />
+@endpush
