@@ -116,10 +116,10 @@
                 </tr>
                 <tr class="col-2">
                     <td>
-                        <span class="header">Closing : </span>{{Service::DateFormat($data->closingDate, true)}}
+                        <span class="header">Closing : </span>{{ $data->jobOrder != null ? Service::DateFormat($data->jobOrder->closingDate, true) : ''}}
                     </td>
                     <td>
-                        <span class="header">Time : </span>{{$data->closingTime}}
+                        <span class="header">Time : </span>{{$data->jobOrder != null ? $data->jobOrder->closingTime : ''}}
                     </td>
                 </tr>
                 <tr class="col-2">
@@ -140,7 +140,8 @@
                 </tr>
                 <tr class="col-2">
                     <td>
-                        <span class="header">ชื่อเรือ : </span>{{(($data->jobOrder != null && $data->jobOrder->referFeeder != null) ? $data->jobOrder->referFeeder->fName : "").($data->jobOrder != null ? $data->feederVOY : "")}}
+                        <span class="header">ชื่อเรือ : </span>{{(($data->jobOrder != null && $data->jobOrder->referFeeder != null) ? $data->jobOrder->referFeeder->fName : "")}}
+                        {{ ($data->jobOrder != null ? $data->jobOrder->feederVOY : "") }}
                     </td>
                     <td>
                         <span class="header">ETD : </span>{{$data->jobOrder != null ? Service::DateFormat($data->jobOrder->etdDate, true) : ""}}
@@ -166,7 +167,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <span class="header">ผู้สั่งงาน : </span>{{$data->work_order}}
+                        <span class="header">ผู้สั่งงาน : </span>{{$data->jobOrder->saleman}}
                     </td>
                 </tr>
                 <tr class="col-2">
