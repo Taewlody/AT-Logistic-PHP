@@ -69,7 +69,9 @@
                             <span><b>เลขประจำตัวผู้เสียภาษี</b><b>:</b> {{$data->customer?->taxID}}</span> --}}
                             <table class="table-header">
                                 <tbody>
-                                <tr><td><b>Received Form : <br/>ได้รับเงินจาก</b></td><td>{{($data->customer?->custNameTH).' สาขา '.($data->customer?->branchTH)}}</td></tr>
+                                <tr><td><b>Received Form : <br/>ได้รับเงินจาก</b></td>
+                                    <td>{{($data->customer?->custNameTH)}} {{ $data->customer?->branchTH === '(สำนักงานใหญ่)' || $data->customer?->branchTH === 'สำนักงานใหญ่' ? $data->customer?->branchTH : ' สาขา '.($data->customer?->branchTH)}}</td>
+                                </tr>
                                 <tr>
                                     <td><b>Address : <br/>ที่อยู่</b></td>
                                     <td>{{$data->customer?->addressTH.' '.$data->customer?->zipCode}}</td>
@@ -222,7 +224,7 @@
 
                             <table class="table-header">
                                 <tbody>
-                                    <tr><td><b>Received Form : <br/>ได้รับเงินจาก</b></td><td>{{($data->customer?->custNameTH).' สาขา '.($data->customer?->branchTH)}}</td></tr>
+                                    <tr><td><b>Received Form : <br/>ได้รับเงินจาก</b></td><td>{{($data->customer?->custNameTH)}} {{ $data->customer?->branchTH === '(สำนักงานใหญ่)' || $data->customer?->branchTH === 'สำนักงานใหญ่' ? $data->customer?->branchTH : ' สาขา '.($data->customer?->branchTH)}}</td></tr>
                                     <tr>
                                         <td><b>Address : <br/>ที่อยู่</b></td>
                                         <td>{{$data->customer?->addressTH.' '.$data->customer?->zipCode}}</td>
@@ -377,7 +379,7 @@
 
                              <table class="table-header">
                                 <tbody>
-                                    <tr><td><b>Received Form : <br/>ได้รับเงินจาก</b></td><td>{{($data->customer?->custNameTH).' สาขา '.($data->customer?->branchTH)}}</td></tr>
+                                    <tr><td><b>Received Form : <br/>ได้รับเงินจาก</b></td><td>{{($data->customer?->custNameTH)}} {{ $data->customer?->branchTH === '(สำนักงานใหญ่)' || $data->customer?->branchTH === 'สำนักงานใหญ่' ? $data->customer?->branchTH : ' สาขา '.($data->customer?->branchTH)}}</td></tr>
                                     <tr>
                                         <td><b>Address : <br/>ที่อยู่</b></td>
                                         <td>{{$data->customer?->addressTH.' '.$data->customer?->zipCode}}</td>
@@ -532,7 +534,7 @@
 
                              <table class="table-header">
                                 <tbody>
-                                    <tr><td><b>Received Form : <br/>ได้รับเงินจาก</b></td><td>{{($data->customer?->custNameTH).' สาขา '.($data->customer?->branchTH)}}</td></tr>
+                                    <tr><td><b>Received Form : <br/>ได้รับเงินจาก</b></td><td>{{($data->customer?->custNameTH)}} {{ $data->customer?->branchTH === '(สำนักงานใหญ่)' || $data->customer?->branchTH === 'สำนักงานใหญ่' ? $data->customer?->branchTH : ' สาขา '.($data->customer?->branchTH)}}</td></tr>
                                     <tr>
                                         <td><b>Address : <br/>ที่อยู่</b></td>
                                         <td>{{$data->customer?->addressTH.' '.$data->customer?->zipCode}}</td>
