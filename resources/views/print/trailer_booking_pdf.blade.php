@@ -165,6 +165,7 @@
                         <span class="header">Remark : </span>{{$data->jobOrder != null ? $data->jobOrder->note : ""}}
                     </td>
                 </tr>
+                <br>
                 <tr>
                     <td>
                         <span class="header">ผู้สั่งงาน : </span>{{$data->jobOrder->saleman}}

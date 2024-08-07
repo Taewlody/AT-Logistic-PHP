@@ -1,6 +1,6 @@
 <div>
 
-    <livewire:component.page-heading title_main="Trailer Booking" title_sub="ใบจองหัวราก" breadcrumb_title="Marketing"
+    <livewire:component.page-heading title_main="Trailer Booking" title_sub="ใบจองหัวลาก" breadcrumb_title="Marketing"
         breadcrumb_page="Trailer Booking" breadcrumb_page_title="Trailer Booking Form" />
     <div class="wrapper wrapper-content animated fadeInRight">
         {{-- loading --}}

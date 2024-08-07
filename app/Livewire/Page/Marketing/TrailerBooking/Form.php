@@ -46,10 +46,11 @@ class Form extends Component
             if($this->ref != ''){
                 $this->job_order = JobOrder::find($this->ref);
                 if($this->job_order != null){
+
                     $this->data->ref_jobID = $this->job_order->documentID;
                     $this->data->cusCode = $this->job_order->cusCode;
                     $this->data->feeder = $this->job_order->feeder;
-                    $this->data->agent = $this->job_order->agent;
+                    $this->data->agent = $this->job_order->agentCode;
                 }
             }
         }else {
@@ -59,10 +60,11 @@ class Form extends Component
 
     #[On("updated-ref_jobID")]
     public function getJobDetail() {
-        if($this->action != 'create' || $this->data->ref_jobID == null) {
+        if($this->data->ref_jobID == null) {
             return;
         }
-        $job = JobOrder::where('documentID', $this->data->ref_jobID)->first();
+        // $job = JobOrder::where('documentID', $this->data->ref_jobID)->first();
+        $job = JobOrder::find($this->data->ref_jobID);
         $this->data->documentDate = $job->documentDate;
         $this->data->cusCode = $job->cusCode;
         $this->data->feeder = $job->feeder;

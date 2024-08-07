@@ -1,5 +1,5 @@
 <div>
-    <livewire:component.page-heading title_main="Trailer Booking" title_sub="ใบจองหัวราก" breadcrumb_title="Marketing"
+    <livewire:component.page-heading title_main="Trailer Booking" title_sub="ใบจองหัวลาก" breadcrumb_title="Marketing"
         breadcrumb_page="Trailer Booking" />
 
     <div class="container-fluid">
