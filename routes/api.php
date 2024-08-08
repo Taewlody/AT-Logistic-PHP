@@ -76,6 +76,8 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::get('print/tax_invoice_pdf/{documentID}', [PrintFileResource::class, 'TaxInvoicePdf']);
 
+    Route::get('print/report_tax_invoice/{year}/{month}', [PrintFileResource::class, 'ReportTaxInvoicePdf']);
+
     Route::get('testview/pdf/{id}', [PrintFileResource::class, 'testViewPdf']);
 });
 

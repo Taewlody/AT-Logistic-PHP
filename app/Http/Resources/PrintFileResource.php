@@ -17,6 +17,7 @@ use App\Models\PettyCash\PettyCash;
 use App\Models\PettyCash\PettyCashShipping;
 use App\Models\Shipping\Deposit;
 use App\Models\Common\Charges;
+use App\Models\Common\Company;
 use Dompdf\Css\Stylesheet;
 use Spatie\Browsershot\Browsershot;
 use Spatie\LaravelPdf\Enums\Format;
@@ -25,6 +26,7 @@ use function Spatie\LaravelPdf\Support\pdf;
 use Barryvdh\DomPDF\Facade\Pdf as DomPdf;
 use Dompdf\FontMetrics;
 use App\Functions\CalculatorPrice;
+use App\Functions\ThaiDate;
 
 class PrintFileResource extends Controller
 {
@@ -420,6 +422,39 @@ class PrintFileResource extends Controller
         $pdf = DomPdf::loadView('print.tax_invoice_pdf', ['title' => "Tax Invoice", 'data' => $data, 'itemChargesReceive'=> $itemChargesReceive, 'heightChargesReceive' => $heightChargesReceive, 'itemChargesbillReceive'=> $itemChargesbillReceive, 'heightChargesbillReceive' => $heightChargesbillReceive]);
         return $pdf->stream('tax_invoice.pdf');
         // return view('print.tax_invoice_pdf', ['title' => "Tax Invoice", 'data' => $data, 'itemChargesReceive'=> $itemChargesReceive, 'heightChargesReceive' => $heightChargesReceive, 'itemChargesbillReceive'=> $itemChargesbillReceive, 'heightChargesbillReceive' => $heightChargesbillReceive, 'test' => true]);
+    }
+
+    public function ReportTaxInvoicePdf(int $year, int $month)
+    {
+        // dd($year, $month);
+        $month_th = ThaiDate::full_month_list();
+        $company = Company::first();
+
+        $data = TaxInvoice::withSum('items', 'chargesReceive')
+        ->whereMonth('documentDate', $month)
+        ->whereYear('documentDate', $year)
+        ->get();
+
+        $getTotalAmount = $data->sum(function ($invoice) {
+            return (float) $invoice['items_sum_charges_receive'];
+        });
+        $getTotalVat = TaxInvoice::whereMonth('documentDate', $month)->whereYear('documentDate', $year)->sum('total_vat');
+
+        $totalVat = TaxInvoice::whereMonth('documentDate', $month)->whereYear('documentDate', $year)->sum('total_vat');
+        // dd($data);
+        $pdf = DomPdf::loadView('print.report_tax_invoice_pdf', [
+            'title' => "ภาษีขาย", 
+            'month' => $month_th[$month-1], 
+            'year'=> $year, 
+            'company' => $company,
+            'data' => $data,
+            'total_vat' => $totalVat,
+            'getTotalAmount' => $getTotalAmount,
+            'getTotalVat' => $getTotalVat
+        ]);
+        return $pdf->stream('report_tax_invoice.pdf');
+        // return view('print.report_tax_invoice_pdf', ['title' => "ภาษีขาย", 'month' => $month_th[$month-1],'year'=> $year, 'company' => $company, 'data' => $data, 'total_vat' => $totalVat, 'getTotalAmount' => $getTotalAmount, 'getTotalVat' => $getTotalVat,  'test' => true]);
+
     }
 
     public function testViewPdf(string $id)

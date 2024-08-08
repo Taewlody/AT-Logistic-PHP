@@ -55,6 +55,11 @@
                             <div class="row">
                                 <div class="col-12 text-center">
                                     <button type="submit" class="btn btn-primary">Search</button>
+                                    
+                                    <a class="btn btn-secondary" target="_blank"
+                                        href="{{'/api/print/report_tax_invoice/'.$yearSearch.'/'.$monthSearch}}"><i
+                                            class="fa fa-print"></i>
+                                        Print</a>
                                 </div>
                             </div>
                         </div>
@@ -88,7 +93,7 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->documentID }}</td>
-                                                <td>{{ $item->documentDate }}</td>
+                                                <td>{{Service::DateFormat($item->documentDate, true)}}</td>
                                                 <td>{{ $item->customer != null ? $item->customer->custNameTH : '' }}</td>
                                                 <td>{{ number_format($item->items_sum_charges_receive, 2,'.', ',') }}</td>
         
