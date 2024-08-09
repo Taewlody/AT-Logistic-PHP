@@ -35,10 +35,10 @@
             font-family: 'TH-Sarabun', sans-serif;
         }
         .header {
+            position: fixed;
             top: -30px;
             bottom: 30px;
-            position: fixed;
-            width: 100%
+            width: 100%;
         }
         .header-title {
             font-weight: bold;
@@ -57,46 +57,55 @@
         body {
             margin-top: 60px;
         }
+        table {
+            table-layout: fixed;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td, th {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
     </style>
 </head>
-<body >
-    <header class="header" >
-        <div class="header-title">รายงานภาษีขาย</div>
+<body>
+    <header class="header">
+        <div class="header-title">รายงานภาษีซื้อ</div>
         <div class="header-date">เดือน &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{$month}} {{$year}}</div>
     </header>
     
     <div class="page">
-        <table class="table-font" width="100%" border="1" cellpadding="1" >
+        <table class="table-font" border="1" cellpadding="1">
             <thead>
                 <tr>
-                    <td colspan="4" align="left" width="74%" >{{$company->comname}}</td>
+                    <td colspan="4" align="left" width="74%">{{$company->comname}}</td>
                     <td colspan="2" align="center" width="26%">เลขประจำตัวผู้เสียภาษีอากร</td>
-                  </tr>
-                  <tr>
+                </tr>
+                <tr>
                     <td colspan="4" align="left">{{$company->address}}</td>
                     <td colspan="2" align="center">{{$company->taxID}}</td>
-                  </tr>
-                  <tr>
-                    <td width="7%" rowspan="2" align="center" >ลำดับ</td>
-                    <td colspan="2" align="center" width="30%">ใบกำกับภาษี</td>
-                    <td width="33%" rowspan="2" align="center" width="37%">ชื่อผู้ซื้อสินค้า/ผู้รับบริการ</td>
-                    <td width="5%" rowspan="2" align="center" width="13%">ยอดก่อน<br>ภาษีมูลค่าเพิ่ม</td>
-                    <td width="6%" rowspan="2" align="center" width="13%">ภาษี<br>มูลค่าเพิ่ม</td>
-                  </tr>
-                  <tr>
-                    <td width="23%" align="center" width="15%">ว/ด/ป</td>
-                    <td width="26%" align="center" width="15%">เลขที่/เล่มที่</td>
-                  </tr>
+                </tr>
+                <tr>
+                    <td width="7%" rowspan="2" align="center">ลำดับ</td>
+                    <td colspan="2" align="center" width="30%">เลขที่บิล</td>
+                    <td width="37%" rowspan="2" align="center">ชื่อผู้ขายสินค้า/ผู้ให้บริการ</td>
+                    <td width="13%" rowspan="2" align="center">ยอดก่อน<br>ภาษีมูลค่าเพิ่ม</td>
+                    <td width="13%" rowspan="2" align="center">ภาษี<br>มูลค่าเพิ่ม</td>
+                </tr>
+                <tr>
+                    <td width="15%" align="center">ว/ด/ป</td>
+                    <td width="15%" align="center" style="word-break: break-all">เลขที่/เล่มที่</td>
+                </tr>
             </thead>
             <tbody>
                 @foreach($data as $i => $item)
                 <tr>
-                    <td width="7%" align="center">{{$i+1}}</td>
-                    <td width="15%" align="center">{{Service::DateFormat($item->documentDate, true)}}</td>
-                    <td width="15%" align="center">{{$item->documentID}}</td>
-                    <td width="37%" align="left">{{$item->customer != null ? $item->customer->custNameTH : ''}}</td>
-                    <td width="13%" align="right">{{ number_format($item->items_sum_charges_receive, 2,'.', ',') }}</td>
-                    <td width="13%" align="right" >{{ number_format($item->total_vat, 2, '.', ',') }}</td>
+                    <td align="center">{{$i+1}}</td>
+                    <td align="center">{{Service::DateFormat($item->documentDate, true)}}</td>
+                    <td align="center" style="word-break: break-all">{{$item->items[0] != null ? $item->items[0]->invNo : ''}}</td>
+                    <td align="left">{{$item->supplier != null ? $item->supplier->supNameTH : ''}}</td>
+                    <td align="right">{{ number_format($item->sumTotal, 2,'.', ',') }}</td>
+                    <td align="right">{{ number_format($item->sumTax7, 2,'.', ',') }}</td>
                 </tr>
                 @endforeach
             </tbody>
@@ -106,9 +115,9 @@
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td align="right"><strong>รวม</strong></td>
-                    <td align="right"><strong>{{ number_format($getTotalAmount, 2,'.', ',') }}</strong></td>
-                    <td align="right"><strong>{{ number_format($getTotalVat, 2,'.', ',') }}</strong></td>
-                  </tr>
+                    <td align="right"><strong>{{ number_format($getSumTotal, 2,'.', ',') }}</strong></td>
+                    <td align="right"><strong>{{ number_format($getSumTax7, 2,'.', ',') }}</strong></td>
+                </tr>
             </tfoot>
         </table>
     </div>

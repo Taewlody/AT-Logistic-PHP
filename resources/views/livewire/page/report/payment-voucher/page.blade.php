@@ -55,6 +55,10 @@
                             <div class="row">
                                 <div class="col-12 text-center">
                                     <button type="submit" class="btn btn-primary">Search</button>
+                                    <a class="btn btn-secondary" target="_blank"
+                                        href="{{'/api/print/report_payment_voucher/'.$yearSearch.'/'.$monthSearch}}"><i
+                                            class="fa fa-print"></i>
+                                        Print</a>
                                 </div>
                             </div>
                         </div>
@@ -87,8 +91,8 @@
                                         @foreach ($data as $item)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $item->invNo }}</td>
-                                                <td>{{ $item->documentDate }}</td>
+                                                <td>{{$item->items[0] != null ? $item->items[0]->invNo : ''}}</td>
+                                                <td>{{Service::DateFormat($item->documentDate, true)}}</td>
                                                 <td>{{ $item->supplier != null ? $item->supplier->supNameTH : '' }}</td>
                                                 <td>{{ number_format($item->sumTotal, 2,'.', ',') }}</td>
         

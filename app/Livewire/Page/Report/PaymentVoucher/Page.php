@@ -28,14 +28,16 @@ class Page extends Component
     #[Computed]
     public function getSumTotal()
     {
-        $this->sumTotal = PaymentVoucher::whereMonth('documentDate', $this->monthSearch)->whereYear('documentDate', $this->yearSearch)->sum('sumTotal');
+        $this->sumTotal = PaymentVoucher::where('payment_voucher.purchasevat', 1)
+        ->where('payment_voucher.documentstatus', 'A')->whereMonth('documentDate', $this->monthSearch)->whereYear('documentDate', $this->yearSearch)->sum('sumTotal');
         return $this->sumTotal;
     }
 
     #[Computed]
     public function getSumTax7()
     {
-        $this->sumTax7 = PaymentVoucher::whereMonth('documentDate', $this->monthSearch)->whereYear('documentDate', $this->yearSearch)->sum('sumTax7');
+        $this->sumTax7 = PaymentVoucher::where('payment_voucher.purchasevat', 1)
+        ->where('payment_voucher.documentstatus', 'A')->whereMonth('documentDate', $this->monthSearch)->whereYear('documentDate', $this->yearSearch)->sum('sumTax7');
 
         return $this->sumTax7;
     }
@@ -55,7 +57,7 @@ class Page extends Component
             ->where('payment_voucher.purchasevat', 1)
             ->where('payment_voucher.documentstatus', 'A')
             ->whereMonth('documentDate', $this->monthSearch)
-            ->whereYear('documentDate', $this->yearSearch)->paginate(20)
+            ->whereYear('documentDate', $this->yearSearch)->orderBy('documentDate', 'ASC')->paginate(20)
             ])->extends('layouts.main')->section('main-content');
     }
 }

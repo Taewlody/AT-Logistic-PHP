@@ -457,6 +457,46 @@ class PrintFileResource extends Controller
 
     }
 
+    public function ReportPaymentVoucherPdf(int $year, int $month)
+    {
+        // dd($year, $month);
+        $month_th = ThaiDate::full_month_list();
+        $company = Company::first();
+
+        $data = PaymentVoucher::with('items')
+        ->where('payment_voucher.purchasevat', 1)
+        ->where('payment_voucher.documentstatus', 'A')
+        ->whereMonth('documentDate', $month)
+        ->whereYear('documentDate', $year)
+        ->orderBy('documentDate', 'ASC')
+        ->get();
+        // dd($data);
+        $getSumTotal = PaymentVoucher::where('payment_voucher.purchasevat', 1)
+        ->where('payment_voucher.documentstatus', 'A')
+        ->whereMonth('documentDate', $month)
+        ->whereYear('documentDate', $year)
+        ->sum('sumTotal');
+
+        $getSumTax7 = PaymentVoucher::where('payment_voucher.purchasevat', 1)
+        ->where('payment_voucher.documentstatus', 'A')
+        ->whereMonth('documentDate', $month)
+        ->whereYear('documentDate', $year)
+        ->sum('sumTax7');
+        // dd($data);
+        $pdf = DomPdf::loadView('print.report_payment_voucher_pdf', [
+            'title' => "ภาษีขาย", 
+            'month' => $month_th[$month-1], 
+            'year'=> $year, 
+            'company' => $company,
+            'data' => $data,
+            'getSumTotal' => $getSumTotal,
+            'getSumTax7' => $getSumTax7
+        ]);
+        return $pdf->stream('report_payment_voucher.pdf');
+        // return view('print.report_payment_voucher_pdf', ['title' => "ภาษีขาย", 'month' => $month_th[$month-1],'year'=> $year, 'company' => $company, 'data' => $data, 'total_vat' => $totalVat, 'getTotalAmount' => $getTotalAmount, 'getTotalVat' => $getTotalVat,  'test' => true]);
+
+    }
+
     public function testViewPdf(string $id)
     {
         $data = TaxInvoice::find($id);
