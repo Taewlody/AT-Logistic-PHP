@@ -536,8 +536,8 @@ class Form extends Component
             $this->data->tax1 = $calCharge->tax1;
             $this->data->total_amt = ($this->data->charge->sum('chargesReceive') + $this->data->total_vat) + $this->data->charge->sum('chargesbillReceive');
             $this->data->total_netamt = $this->data->total_amt - ($this->data->tax3 + $this->data->tax1);
-            $this->data->cus_paid = CalculatorPrice::cal_customer_piad($this->id)->sum('sumTotal');
-
+            $this->data->cus_paid = $this->id ? CalculatorPrice::cal_customer_piad($this->id)->sum('sumTotal') : 0.00;
+            
             if ($approve) {
                 
                 $this->data->documentstatus = 'A';
@@ -617,7 +617,7 @@ class Form extends Component
             $this->data->attachs()->saveMany($this->attachs);
             $this->data->commodity()->detach();
             $this->data->commodity()->syncWithoutDetaching($this->listCommodity);
-            
+            // dd($this->data, $this->id);
             \DB::commit();
             // dd($this->data);
             return true;
