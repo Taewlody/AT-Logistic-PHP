@@ -184,7 +184,7 @@ class PrintFileResource extends Controller
             $heightItems = $data->items->count() * 14;
         }
         
-        $heightItems = 300 - $heightItems;
+        $heightItems = 250 - $heightItems;
         $heightItems = $heightItems < 0 ? 'auto' : $heightItems.'px';
         
         $credit = $data->credit && $data->credit->creditName ? $data->credit->creditName : $data->customer->creditDay.' Day';

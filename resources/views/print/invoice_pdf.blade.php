@@ -106,6 +106,7 @@
                     </thead>
                     <tbody>
                         @foreach ($data->items->groupBy('detail') as $index => $charges)
+                        @if($index !== '')
                         <tr>
                             <td>
                                 {{ $loop->iteration }}
@@ -127,6 +128,7 @@
                                 {{ $charges->sum('chargesReceive') ? Service::MoneyFormat($charges->sum('chargesReceive')) : ''}}
                             </td>
                         </tr>
+                        @endif
                         @endforeach
                         
                         <tr>
@@ -309,6 +311,7 @@
                         </tr>
                         @endforeach --}}
                         @foreach ($data->items->groupBy('detail') as $index => $charges)
+                        @if($index !== '')
                         <tr>
                             <td>
                                 {{ $loop->iteration }}
@@ -330,6 +333,7 @@
                                 {{ $charges->sum('chargesReceive') ? Service::MoneyFormat($charges->sum('chargesReceive')) : ''}}
                             </td>
                         </tr>
+                        @endif
                         @endforeach
                         <tr>
                             <td style="height: {{{$heightItems}}}"></td>
@@ -508,6 +512,7 @@
                         </tr>
                         @endforeach --}}
                         @foreach ($data->items->groupBy('detail') as $index => $charges)
+                        @if($index !== '')
                         <tr>
                             <td>
                                 {{ $loop->iteration }}
@@ -529,6 +534,7 @@
                                 {{ $charges->sum('chargesReceive') ? Service::MoneyFormat($charges->sum('chargesReceive')) : ''}}
                             </td>
                         </tr>
+                        @endif
                         @endforeach
                         <tr>
                             <td style="height: {{{$heightItems}}}"></td>
