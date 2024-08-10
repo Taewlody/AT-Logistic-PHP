@@ -198,7 +198,7 @@ class Form extends Component
             $this->data->editID = Auth::user()->usercode;
             if($approve) {
                 $this->data->documentstatus = 'A';
-                $this->data->dueDate = Carbon::now()->toDateString();
+                // $this->data->dueDate = Carbon::now()->toDateString();
             }else {
                 $this->data->dueDate = Carbon::now()->endOfMonth()->toDateString();
             }
