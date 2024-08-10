@@ -37,7 +37,7 @@
                         <div class="col-md-4">
 
                             <livewire:element.select2 wire:model='data.countryCode' name="Country" :options="Service::CountrySelecter()"
-                                itemKey="countryCode" itemValue="countryNameTH" :disabled="$action != 'create' && $action != 'edit'">
+                                itemKey="countryCode" itemValue="countryNameTH" :disabled="$action != 'create' && $action != 'edit'" :searchable="true">
                                 @error('data.countryCode')
                                     <div class="text-danger m-2">{{ $message }}</div>
                                 @enderror
