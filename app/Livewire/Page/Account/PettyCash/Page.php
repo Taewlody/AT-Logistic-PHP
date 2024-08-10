@@ -2,6 +2,7 @@
 
 namespace App\Livewire\page\Account\PettyCash;
 
+use Livewire\Attributes\Computed;
 use App\Enum\Role;
 use Auth;
 use Livewire\Attributes\On;
@@ -30,6 +31,7 @@ class Page extends Component
     public $documentNo = "";
     public $jobNo = "";
     public $query = [];
+    public $amount;
 
     public function mount(){
         $this->dateStart = null;
@@ -59,6 +61,17 @@ class Page extends Component
         if($this->jobNo != null) {
             $this->query[] = ['refJobNo', 'like', '%'.$this->jobNo.'%'];
         }
+    }
+
+    #[Computed]
+    public function getTotalAmount()
+    {
+
+        $results = PettyCash::where($this->query)->orderBy('documentDate', 'desc')->get();
+        // dd($results->sum('sumTotal'));
+        $this->amount = $results->sum('sumTotal');
+
+        return $this->amount;
     }
 
     public function delete($id) {

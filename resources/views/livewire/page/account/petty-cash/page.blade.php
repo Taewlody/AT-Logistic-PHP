@@ -164,6 +164,16 @@
                                             </tr>
                                             @endif
                                         </tbody>
+                                        <tfoot>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{ number_format($this->getTotalAmount, 2,'.', ',') }}</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tfoot>
                                     </table>
                                     <br/>
                                     <div class="row">
