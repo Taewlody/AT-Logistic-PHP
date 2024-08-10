@@ -241,6 +241,12 @@
                           @endforeach
                           @endif
                         </tbody>
+                        <tfoot>
+                          <tr>
+                            <td colspan="4"></td>
+                            <td>{{ count($selectedInvoice) }} / {{ count($invoiceNoTax) }} </td>
+                          </tr>
+                        </tfoot>
                       </table>
                       
                     </div>
