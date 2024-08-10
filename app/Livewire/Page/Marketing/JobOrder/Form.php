@@ -417,11 +417,18 @@ class Form extends Component
     public function checkBill($to) {
         
         if(count($this->chargeList) > 0) {
-            $check = $this->chargeList->filter(function($item) {
-                if($item->chargesbillReceive < $item->chargesCost) {
+
+            $check = $this->chargeList->groupBy('detail')->filter(function($item) {
+                // dd($item);
+                if($item->sum('chargesbillReceive') < $item->sum('chargesCost')) {
                     return $item;
                 }
             });
+            // $check = $this->chargeList->filter(function($item) {
+            //     if($item->chargesbillReceive < $item->chargesCost) {
+            //         return $item;
+            //     }
+            // });
             
             if(count($check)>0) {
                 $this->dispatch('modal.job-order.charges-alert', showModal: true, confirmTo: $to);

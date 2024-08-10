@@ -244,7 +244,7 @@
                         <tfoot>
                           <tr>
                             <td colspan="4"></td>
-                            <td>{{ count($selectedInvoice) }} / {{ count($invoiceNoTax) }} </td>
+                            <td>{{ $selectedInvoice ? count($selectedInvoice) : 0 }} / {{ $invoiceNoTax ? count($invoiceNoTax) : 0 }} </td>
                           </tr>
                         </tfoot>
                       </table>
