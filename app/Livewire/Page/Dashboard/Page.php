@@ -411,9 +411,10 @@ class Page extends Component
         }
 
         $data_payment_voucher_table = PaymentVoucher::selectRaw('sum(payment_voucher.sumTotal) as sumTotal, supCode')
-        ->with(['supplier', 'docStatus'])->groupBy('supCode')->orderBy('sumTotal', 'DESC');
+        ->with(['supplier', 'docStatus'])->where('documentstatus', '!=', 'A')->groupBy('supCode')->orderBy('sumTotal', 'DESC');
         $data_payment_voucher_table_total = $data_payment_voucher_table->get();
         $sum_payment_voucher_total = 0;
+
         foreach($data_payment_voucher_table_total as $payment) {
             $sum_payment_voucher_total += $payment['sumTotal'];
         }
