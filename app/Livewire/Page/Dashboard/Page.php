@@ -7,6 +7,7 @@ use Livewire\WithPagination;
 use Carbon\Carbon;
 
 use App\Functions\EngDate;
+use App\Models\Common\Supplier;
 use App\Models\Account\Invoice;
 use App\Models\Account\TaxInvoice;
 use App\Models\PettyCash\PettyCash;
@@ -14,6 +15,7 @@ use App\Models\Payment\PaymentVoucher;
 use App\Models\Payment\AdvancePayment;
 use App\Models\Marketing\JobOrder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 class Page extends Component
 {
@@ -65,6 +67,8 @@ class Page extends Component
     // public $sum_advance_total;
     // public $data_payment_voucher_table;
     // public $sum_payment_voucher_total;
+
+    public $commission_staff;
 
     public function boot()
     {
@@ -302,6 +306,13 @@ class Page extends Component
         }
     }
 
+    public function getNameSup($sup)
+    {
+        $name = Supplier::find($sup);
+        return $name->supNameTH;
+        // dd($name);
+    }
+
     public function mount()
     {
         $this->data_invoice = Invoice::where('documentstatus', 'A')
@@ -384,6 +395,21 @@ class Page extends Component
         foreach($this->data_invoice_table as $invoice) {
             $this->sum_invoice_total += $invoice['sum_total_netamt'];
         }
+
+        $yearSearch = $this->yearSearch;
+        $this->commission_staff = Cache::remember('commission_staff_' . $yearSearch, 60, function () use ($yearSearch) {
+            return PettyCash::selectRaw('supCode, MONTH(documentDate) as month, SUM(sumTotal) as sumTotal')
+                ->whereYear('documentDate', $yearSearch)
+                ->groupBy('supCode', 'month')
+                ->orderBy('supCode')
+                ->orderBy('month')
+                ->get()
+                ->mapToGroups(function ($item) {
+                    return [$item->supCode => $item];
+                });
+        });
+
+        // dd($this->commission_staff);
     }
 
     public function render()
