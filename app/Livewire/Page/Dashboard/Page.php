@@ -399,6 +399,7 @@ class Page extends Component
         $yearSearch = $this->yearSearch;
         $this->commission_staff = Cache::remember('commission_staff_' . $yearSearch, 60, function () use ($yearSearch) {
             return PettyCash::selectRaw('supCode, MONTH(documentDate) as month, SUM(sumTotal) as sumTotal')
+                ->whereRaw("documentstatus = 'A'")
                 ->whereYear('documentDate', $yearSearch)
                 ->groupBy('supCode', 'month')
                 ->orderBy('supCode')
