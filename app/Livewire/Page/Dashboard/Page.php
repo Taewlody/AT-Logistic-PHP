@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Cache;
 
 class Page extends Component
 {
+    public $action;
     public $data_invoice = null;
     public $data_vat = null;
     public $data_income = null;
@@ -67,8 +68,7 @@ class Page extends Component
     // public $sum_advance_total;
     // public $data_payment_voucher_table;
     // public $sum_payment_voucher_total;
-
-    public $commission_staff;
+    
 
     public function boot()
     {
@@ -77,7 +77,7 @@ class Page extends Component
     }
     
 
-    #[On('post-searchYearTax')] 
+    // #[On('post-searchYearTax')] 
     public function searchYearTax() {
         if($this->yearTaxSearch) {
             $this->getTaxYear();
@@ -395,23 +395,9 @@ class Page extends Component
         foreach($this->data_invoice_table as $invoice) {
             $this->sum_invoice_total += $invoice['sum_total_netamt'];
         }
-
-        $yearSearch = $this->yearSearch;
-        $this->commission_staff = Cache::remember('commission_staff_' . $yearSearch, 60, function () use ($yearSearch) {
-            return PettyCash::selectRaw('supCode, MONTH(documentDate) as month, SUM(sumTotal) as sumTotal')
-                ->whereRaw("documentstatus = 'A'")
-                ->whereYear('documentDate', $yearSearch)
-                ->groupBy('supCode', 'month')
-                ->orderBy('supCode')
-                ->orderBy('month')
-                ->get()
-                ->mapToGroups(function ($item) {
-                    return [$item->supCode => $item];
-                });
-        });
-
-        // dd($this->commission_staff);
+        
     }
+    
 
     public function render()
     {

@@ -388,7 +388,6 @@
                         <h3>ยอดถูกหักภาษี ณ ที่จ่าย </h3>
                     </div>
                     <div class="card-body">
-                        <form wire:submit="searchYearTax">
                             <div class="row mb-3 text-end">
                                 <div class="col text-end" style="margin: auto">
                                         Year   
@@ -402,10 +401,9 @@
                                     </select>
                                 </div>
                                 <div class="col-auto">
-                                    <button type="submit" class="btn btn-primary" id="postYearTaxSearch">Search</button>
+                                    <button type="button" class="btn btn-primary" id="postYearTaxSearch" wire:click="searchYearTax">Search</button>
                                 </div>
                             </div>
-                        </form>
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>
@@ -475,6 +473,7 @@
                 </div>
             </div>
         </div>
+        {{-- <livewire:page.dashboard.elements.year-tax/> --}}
         {{-- end row 6 ยอดถูกหักภาษี ณ ที่จ่าย  --}}
 
         {{-- start row 7 สรุปยอดสำรองจ่าย  --}}
@@ -496,82 +495,13 @@
         </div>
         {{-- end row 7 สรุปยอดสำรองจ่าย  --}}
 
-        {{-- start row 8 ยอดค้างจ่ายที่ต้องชำระ   --}}
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>สรุปยอดค้างจ่ายที่ต้องชำระ</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-body">
-                            
-                            
-                        </div>
-                                
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{-- end row 8 ยอดค้างจ่ายที่ต้องชำระ   --}}
+        {{-- <livewire:page.dashboard.elements.expense /> --}}
+        <livewire:page.dashboard.element.expense :$action/>
+        
+        {{-- end row 8 สรุปค่าใช้จ่ายดำเนินงาน   --}}
 
         {{-- start row 9 commission staff   --}}
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Commission Staff</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        @foreach (EngDate::full_month_list() as $month)
-                                        <th>{{$month}}</th>
-                                        @endforeach
-                                        <th>Sum</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if(count($commission_staff) > 0)
-                                    @foreach ($commission_staff as $supCode => $items)
-                                        <tr>
-                                            <th style="white-space: nowrap">{{ $this->getNameSup($supCode) }}</th>
-
-                                            @php
-                                                $monthlyTotals = array_fill(1, 12, 0); // Initialize array for 12 months
-                                                $sumTotal = 0;
-                                            @endphp
-
-                                            @foreach ($items as $item)
-                                                @php
-                                                    $monthlyTotals[$item->month] = $item->sumTotal;
-                                                    $sumTotal += $item->sumTotal;
-                                                @endphp
-                                            @endforeach
-
-                                            @foreach ($monthlyTotals as $monthTotal)
-                                                <td>{{ $monthTotal > 0 ? number_format($monthTotal, 2) : '-' }}</td>
-                                            @endforeach
-
-                                            <th>{{ number_format($sumTotal, 2) }}</th>
-                                        </tr>
-                                    @endforeach
-                                    @else
-                                    <tr>
-                                        <td colspan="13" class="text-center">Data Not Found</td>
-                                    </tr>
-                                    @endif
-                                </tbody>
-                            </table> 
-                        </div>    
-                                
-                    </div>
-                </div>
-            </div>
-        </div>
+        <livewire:page.dashboard.element.commission-staff :$action/>
         {{-- end row 9 commission staff   --}}
     </div>
 </div>
