@@ -66,8 +66,6 @@ class Page extends Component
 
     public $data_invoice_table;
     public $sum_invoice_total;
-    // public $data_advance_pyment_table;
-    // public $sum_advance_total;
     // public $data_payment_voucher_table;
     // public $sum_payment_voucher_total;
     
@@ -403,28 +401,6 @@ class Page extends Component
 
     public function render()
     {
-        $data_advance_pyment_table = AdvancePayment::selectRaw('Sum(advance_payment.sumTotal) AS sumTotal, advance_payment.cusCode, common_customer.custNameTH')
-            ->join('joborder', function($join) {
-                $join->on('advance_payment.comCode', 'joborder.comCode');
-                $join->on('advance_payment.refJobNo', 'joborder.documentID');
-            })
-            ->leftJoin('invoice', function($join) {
-                $join->on('joborder.comCode', 'invoice.comCode');
-                $join->on('joborder.documentID', 'invoice.ref_jobNo');
-            })
-            ->join('common_customer', function($join) {
-                $join->on('advance_payment.comCode', 'common_customer.comCode');
-                $join->on('advance_payment.cusCode', 'common_customer.cusCode');
-            })
-            ->whereRaw('invoice.documentID IS NULL')
-            ->groupBy('advance_payment.cusCode', 'common_customer.custNameTH');
-
-        $data_advance_pyment_table_total = $data_advance_pyment_table->get();
-        $sum_advance_total = 0;
-        foreach($data_advance_pyment_table_total as $advance) {
-            $sum_advance_total += $advance['sumTotal'];
-        }
-
         $data_payment_voucher_table = PaymentVoucher::selectRaw('sum(payment_voucher.sumTotal) as sumTotal, supCode')
         ->with(['supplier', 'docStatus'])->where('documentstatus', '!=', 'A')->groupBy('supCode')->orderBy('sumTotal', 'DESC');
         $data_payment_voucher_table_total = $data_payment_voucher_table->get();
@@ -435,10 +411,7 @@ class Page extends Component
         }
         
         return view('livewire.page.dashboard.page',[ 
-                'data_advance_pyment_table' => $data_advance_pyment_table->paginate(10),
                 'data_invoice_table' => $this->data_invoice_table,
-                'sum_invoice_total' => $this->sum_invoice_total,
-                'sum_advance_total' => $sum_advance_total,
                 'data_payment_voucher_table' => $data_payment_voucher_table->paginate(10),
                 'sum_payment_voucher_total' => $sum_payment_voucher_total
             ]
