@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Cache;
 
 class Page extends Component
 {
+    use WithPagination;
+
     public $action;
     public $data_invoice = null;
     public $data_vat = null;
@@ -433,7 +435,6 @@ class Page extends Component
         }
         
         return view('livewire.page.dashboard.page',[ 
-                'data_job_inprocess'=> JobOrder::where('documentstatus', 'P')->paginate(10),
                 'data_advance_pyment_table' => $data_advance_pyment_table->paginate(10),
                 'data_invoice_table' => $this->data_invoice_table,
                 'sum_invoice_total' => $this->sum_invoice_total,
