@@ -34,6 +34,7 @@
         body {
             font-family: 'TH-Sarabun', sans-serif;
         }
+
     </style>
 </head>
 
@@ -113,7 +114,8 @@
                                 
                             </td>
                             <td colspan="3">
-                                {{ $index }} 
+                                {{-- {{ $index }}  --}}
+                                {{ str_replace("\u{200B}", " ", $index) }}
                             </td>
                             <td>
                                 {{-- @foreach ($charges as $item)
@@ -138,7 +140,7 @@
                             <td style="height: {{{$heightItems}}}"></td>
                         </tr>
                     </tbody>
-                    <tfoot>
+                    <tfoot style="border: 1px solid #dee2e6;">
                         <tr>
                             <td style="border: none; vertical-align: top;" rowspan="7">Remark</td>
                             <td colspan="3">Total</td>
@@ -183,7 +185,7 @@
                                 ($data->itemsTax1Sum * 0.01) - $customer_piad) }}</td>
                         </tr>
                         <tr>
-                            <td style="border: 1px solid #000; text-align: center;" colspan="6">({{
+                            <td style="border: 1px solid #dee2e6; text-align: center;" colspan="6">({{
                                 Service::ThaiBahtConversion($data->items->sum('chargesReceive') + $data->items->sum('chargesbillReceive') +
                                 ($data->items->sum('chargesReceive') * 0.07) - ($data->itemsTax3Sum * 0.03) -
                                 ($data->itemsTax1Sum * 0.01) - $customer_piad) }})</td>
@@ -383,7 +385,7 @@
                                 ($data->itemsTax1Sum * 0.01) - $customer_piad) }}</td>
                         </tr>
                         <tr>
-                            <td style="border: 1px solid #000; text-align: center;" colspan="6">({{
+                            <td style="border: 1px solid #dee2e6; text-align: center;" colspan="6">({{
                                 Service::ThaiBahtConversion($data->items->sum('chargesReceive') +
                                 $data->items->sum('chargesbillReceive') +
                                 ($data->items->sum('chargesReceive') * 0.07) - ($data->itemsTax3Sum * 0.03) -
@@ -584,7 +586,7 @@
                                 ($data->itemsTax1Sum * 0.01) - $customer_piad) }}</td>
                         </tr>
                         <tr>
-                            <td style="border: 1px solid #000; text-align: center;" colspan="6">({{
+                            <td style="border: 1px solid #dee2e6; text-align: center;" colspan="6">({{
                                 Service::ThaiBahtConversion($data->items->sum('chargesReceive') + $data->items->sum('chargesbillReceive') +
                                 ($data->items->sum('chargesReceive') * 0.07) - ($data->itemsTax3Sum * 0.03) -
                                 ($data->itemsTax1Sum * 0.01) - $customer_piad) }})</td>

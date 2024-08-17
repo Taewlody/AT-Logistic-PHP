@@ -2,7 +2,6 @@
     margin-bottom: 0cm !important;
 }
 
-
 .header-page td.company-detail > * {
     font-size: 18px;
     line-height: 14px;
@@ -41,7 +40,7 @@
 }
 
 .detail > table td > div {
-    border: 1px solid #000;
+    border: 1px solid #dee2e6;
     border-radius: 20px;
     height: inherit;
     padding: 0px 5px;
@@ -118,6 +117,11 @@
     line-height: 14px;
 }
 
+.table {
+    margin-left: 0;
+    margin-right: 0;
+}
+
 .table table {
     width: 100%;
     font-size: 18px;
@@ -125,7 +129,7 @@
 }
 
 .table table th {
-    border: 1px solid #000;
+    border: 1px solid #dee2e6;
     padding-bottom: 5px;
 }
 
@@ -168,8 +172,8 @@
 }
 
 .table table tbody tr td {
-    border-left: 1px solid #000;
-    border-right: 1px solid #000;
+    border-left: 1px solid #dee2e6;
+    border-right: 1px solid #dee2e6;
     border-top: unset;
     border-bottom: unset;
 }
@@ -180,7 +184,11 @@
 }
 
 .table table tbody {
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.table table, .table th, .table td {
+    border: 1px solid #dee2e6;
 }
 
 .table table tfoot tr > td:nth-last-of-type(3) {
