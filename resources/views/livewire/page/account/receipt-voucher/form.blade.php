@@ -6,11 +6,11 @@
         <div class="wrapper wrapper-content animated fadeInRight">
 
             {{-- loading --}}
-            <div wire:loading.flex class="loader-wrapper" wire:target='save'>
+            <div wire:loading.flex class="loader-wrapper" wire:target='submit'>
                 <div class="loader"></div>
             </div>
     
-            <form class="form-body" wire:submit="save" onkeydown="return event.key != 'Enter';">
+            <form class="form-body" wire:submit="submit" onkeydown="return event.key != 'Enter';">
                 <div class="row">
 
                     {{-- Section 1 --}}
@@ -201,23 +201,13 @@
                                 <div class="card-body">
                                     <div class="form-group row">
                                         <div class="col-md-6">
-                                            {{-- <select class="select2_single form-control select2" style="width: 100%;"
-                                                id="chargeCode" wire:model.change="chargeCode">
-                                                <option value="">- select -</option>
-                                                @foreach (Service::ChargesSelecter() as $charge)
-                                                <option value="{{ $charge->chargeCode }}">
-                                                    {{ $charge->chargeName }}
-                                                </option>
-                                                @endforeach
-
-                                            </select> --}}
-                                            <livewire:element.select2 wire:model.live='data.chargeCode' name="chargeCode" :options="Service::ChargesSelecter()" itemKey="chargeCode" itemValue="chargeName" :searchable="true" >
+                                            <livewire:element.select2 wire:model.live='chargeCode'
+                                                name="chargeCode" id="chargeCode" :options="Service::ChargesSelecter()"
+                                                itemKey="chargeCode" itemValue="chargeName" 
+                                                :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
-                                            <button class="btn btn-primary " type="button" name="addPayment"
-                                                wire:click="addPayment" @disabled($chargeCode=='' ) id="addPayment"><i
-                                                    class="fa fa-plus"></i>
-                                                Add</button>
+                                            <button class="btn btn-primary " type="button" wire:click='addPayment' @disabled($chargeCode=='')><i class="fa fa-plus"></i> Add</button>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -414,13 +404,12 @@
                                     <a name="back" class="btn btn-white" type="button" href="{{ route('receipt-voucher') }}" wire.loading.attr="disabled">
                                         <i class="fa fa-reply"></i> Back</a>
 
-                                        @if($data->documentstatus != 'A')
-                                        <button name="save" id="save" class="btn  btn-success" type="button"
-                                            wire:click='save' @disabled($data->documentstatus != 'A')>
+                                        @if($data->documentstatus !== 'A')
+                                        <button name="save" id="save" class="btn  btn-success" type="submit">
                                             <i class="fa fa-save"></i> Save</button>
                                         @endif
-                                        <button name="approve" id="approve" class="btn btn-primary" type="button"
-                                            @disabled($data->documentstatus == 'A')>
+                                        <button name="approve" id="approve" class="btn btn-primary" type="button" wire:click='approve'
+                                            >
                                             <i class="fa fa-check"></i> Approve</button>
                                         @if($data->documentID != null && $data->documentID != '')
                                             <a class="btn" target="_blank" href="{{'/api/print/receipt_voucher_pdf/'.$data->documentID}}"><i class="fa fa-print"></i>
@@ -437,3 +426,6 @@
         </div>
 
 </div>
+@push('modal')
+<livewire:modal.modal-alert /> 
+@endpush

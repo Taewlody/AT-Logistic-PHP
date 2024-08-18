@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\DB;
 
 class Form extends Component
 {
@@ -140,15 +141,49 @@ class Form extends Component
         $this->attachs = $this->attachs->values();
     }
 
-    public function save() {
-        $this->data->editID = Auth::user()->usercode;
-        $this->data->save();
-        // $this->data->items()->delete();
-        $this->data->items->filter(function($item){
-            return !collect($this->payments->pluck('autoid'))->contains($item->autoid);
-        })->each->delete();
-        $this->data->items()->saveMany($this->payments);
-        $this->redirectRoute(name: 'receipt-voucher', navigate: true);
+    public function save(bool|null $approve = false) 
+    {
+        DB::beginTransaction();
+        try {
+            $this->data->editID = Auth::user()->usercode;
+            if($approve) {
+                $this->data->documentstatus = 'A';
+            }
+            $this->data->save();
+            // $this->data->items()->delete();
+            $this->data->items->filter(function($item){
+                return !collect($this->payments->pluck('autoid'))->contains($item->autoid);
+            })->each->delete();
+            $this->data->items()->saveMany($this->payments);
+            
+            \DB::commit();
+            return true;
+
+        } catch (\Exception $exception) {
+            \DB::rollBack();
+            dd($exception->getMessage());
+            return false;
+        }
+    }
+
+    public function submit(){
+        $success = $this->save();
+        if($success){
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
+            return redirect()->route('receipt-voucher.form', ['action' => 'edit', 'id' => $this->data->documentID]);
+        }else{
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
+        }
+    }
+    
+    public function approve(){
+        $success = $this->save(true);
+        if($success){
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
+            return redirect()->route('receipt-voucher.form', ['action' => 'edit', 'id' => $this->data->documentID]);
+        }else{
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'บันทึกข้อมูลไม่สำเร็จ', type: 'error');
+        }
     }
 
 
