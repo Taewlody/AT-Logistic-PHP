@@ -70,14 +70,26 @@ class Charges extends Model implements Wireable
 
     public static function genarateKey(){
         $prefix = "C";
-        $lastKey = self::where(self::getKeyName(), 'LIKE', $prefix.'%')->max(self::getKeyName());
-        if($lastKey != null){
-            $lastKey = intval(explode('-', $lastKey)[1]) + 1;
-        }else{
-            $lastKey = 1;
+        // $lastKey = self::where(self::getKeyName(), 'LIKE', $prefix.'%')->max(self::getKeyName());
+        // if($lastKey != null){
+        //     $lastKey = intval(explode('-', $lastKey)[1]) + 1;
+        // }else{
+        //     $lastKey = 1;
+        // }
+        $chargeCodes = self::pluck('chargeCode');
+        
+        $maxNumber = 0;
+        foreach ($chargeCodes as $chargeCode) {
+            $numericPart = (int) substr($chargeCode, strlen($prefix) + 1); 
+            if ($numericPart > $maxNumber) {
+                $maxNumber = $numericPart;
+            }
         }
-        $index = str_pad($lastKey, 3, '0', STR_PAD_LEFT);
+        $newNumber = $maxNumber + 1;
+
+        $index = str_pad($newNumber, 3, '0', STR_PAD_LEFT);
         return $prefix.'-'.$index;
+
     }
 
     public function __construct($attributes = [])

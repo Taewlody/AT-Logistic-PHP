@@ -31,18 +31,18 @@
 
 
                     <div class="form-group  row">
-                        <label class="col-sm-2 col-form-label">Charges Name</label>
+                        <label class="col-sm-2 col-form-label">Charges Name <span class="text-danger">*</span></label>
 
                         <div class="col-sm-10">
                             <input type="text" class="form-control" name="chargeName"
-                                id="chargeName" wire:model="data.chargeName" @disabled($action != 'create' && $action != 'edit')>
+                                id="chargeName" wire:model="data.chargeName" @disabled($action != 'create' && $action != 'edit') required>
                         </div>
                     </div>
 
                     <div class="form-group  row">
-                        <label class="col-sm-2 col-form-label">Charges Type</label>
+                        <label class="col-sm-2 col-form-label">Charges Type <span class="text-danger">*</span></label>
                         <div class="col-md-2">
-                            <select class="select2_single form-control select2" id="typeCode" name="typeCode" wire:model="data.typeCode" @disabled($action != 'create' && $action != 'edit')>
+                            <select class="select2_single form-control select2" id="typeCode" name="typeCode" wire:model="data.typeCode" @disabled($action != 'create' && $action != 'edit') required>
                                 <option value="">- select -</option>
                                 @foreach ($ChargesTypeList as $ChargesType)
                                     <option value="{{ $ChargesType->typeCode }}">{{ $ChargesType->typeName }}</option>
