@@ -178,6 +178,18 @@ class Invoice extends Model implements Wireable
         });
     }
 
+    public function itemsSumBillOfReceipt(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+            if($this->items != null){
+                return $this->items->sum('chargesbillReceive');
+            }else{
+                return 0;
+            }
+        });
+    }
+
     public function itemsTax1Sum(): Attribute
     {
         return Attribute::make(

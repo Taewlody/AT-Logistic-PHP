@@ -6,6 +6,7 @@ use App\Models\AttachFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Resources\PrintFileResource;
+use App\Livewire\Page\Account\BillingSummary\Form as BillingSummaryForm;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +80,9 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('print/report_tax_invoice/{year}/{month}', [PrintFileResource::class, 'ReportTaxInvoicePdf']);
 
     Route::get('print/report_payment_voucher/{year}/{month}', [PrintFileResource::class, 'ReportPaymentVoucherPdf']);
+
+    // Route::get('print/billing-summary', [BillingSummaryForm::class, 'printBillingPDF']);
+    Route::get('print/billing-summary', [PrintFileResource::class, 'printBillingPDF']);
 
     Route::get('testview/pdf/{id}', [PrintFileResource::class, 'testViewPdf']);
 });

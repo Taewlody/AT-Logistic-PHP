@@ -16,10 +16,13 @@ use App\Livewire\Page\Account\PettyCash\Page as PettyCashAccount;
 use App\Livewire\Page\Account\PettyCash\Form as PettyCashAccountForm;
 use App\Livewire\Page\Account\WithholdingTax\Page as WithholdingTax;
 use App\Livewire\Page\Account\WithholdingTax\Form as WithholdingTaxForm;
+use App\Livewire\Page\Account\BillingSummary\Form as BillingSummary;
 
 Route::group(['prefix'=> 'account',], function() {
     Route::get("/invoice", Invoice::class)->name('invoice');
     Route::get("/invoice/form", InvoiceForm::class)->name('invoice.form');
+
+    Route::get("/billing-summary", BillingSummary::class)->name('billing-summary');
 
     Route::get("/tax-invoice", TaxInvoice::class)->name('tax-invoice');
     Route::get("/tax-invoice/form", TaxInvoiceForm::class)->name('tax-invoice.form');

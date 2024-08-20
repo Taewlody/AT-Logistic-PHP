@@ -88,6 +88,7 @@ class Sidebar extends Component
             'icon' => 'fa fa-folder-open',
             'menu' => [
                 ['name' => 'Invoice', 'route_name' => 'invoice'],
+                ['name' => 'Billing Summary', 'route_name' => 'billing-summary'],
                 ['name' => 'Tax Invoice', 'route_name' => 'tax-invoice'],
                 ['name' => 'Payment Voucher', 'route_name' => 'account-payment-voucher'],
                 ['name' => 'Receipt Voucher', 'route_name' => 'receipt-voucher'],

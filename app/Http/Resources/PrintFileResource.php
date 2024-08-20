@@ -27,6 +27,9 @@ use Barryvdh\DomPDF\Facade\Pdf as DomPdf;
 use Dompdf\FontMetrics;
 use App\Functions\CalculatorPrice;
 use App\Functions\ThaiDate;
+use Carbon\Carbon;
+
+use Illuminate\Http\Request;
 
 class PrintFileResource extends Controller
 {
@@ -495,6 +498,38 @@ class PrintFileResource extends Controller
         return $pdf->stream('report_payment_voucher.pdf');
         // return view('print.report_payment_voucher_pdf', ['title' => "ภาษีขาย", 'month' => $month_th[$month-1],'year'=> $year, 'company' => $company, 'data' => $data, 'total_vat' => $totalVat, 'getTotalAmount' => $getTotalAmount, 'getTotalVat' => $getTotalVat,  'test' => true]);
 
+    }
+
+    public function printBillingPDF(Request $request)
+    {
+        $invoiceList = $request->query('selectedInvoice');
+        $data = Invoice::whereIn('documentID', $invoiceList)->get();
+        $customer = $data[0]->customer;
+        $sum = 0;
+        foreach($data as $d) {
+            if($d->jobOrder->AdvancePayment) {
+                $sum += $d->jobOrder->AdvancePayment->sum('sumTotal');
+            }
+        }
+        $pdf = DomPdf::loadView('print.billing_summary_pdf', [
+            'title' => "Billing Summary",
+            'customer' => $customer,
+            'data' => $data,
+            'date' => Carbon::now()->format('d/m/Y'),
+            'count' => count($data),
+            'sum' => $sum
+        ]);
+        $pdf->setPaper('A4', 'landscape');
+        return $pdf->stream('billing-summary.pdf');
+        // return view('print.billing_summary_pdf', [
+        //     'title' => "billing summary", 
+        //     'customer' => $customer,
+        //     'data' => $data,
+        //     'test' => true]);
+        //     'date' => Carbon::now(),
+        //     'count' => count($data),
+        //     'sum' => $sum
+        
     }
 
     public function testViewPdf(string $id)
