@@ -56,9 +56,9 @@ class Page extends Component
         if($this->documentID != null) {
             $this->query[] = ['documentID', 'like', '%'.$this->documentID.'%'];
         }
-        if($this->invoiceNo != null) {
-            $this->query[] = ['invoiceNo', 'like', '%'.$this->invoiceNo.'%'];
-        }
+        // if($this->invoiceNo != null) {
+        //     $this->query[] = ['invoiceNo', 'like', '%'.$this->invoiceNo.'%'];
+        // }
         if($this->invNo != null) {
             $this->query[] = ['invNo', 'like', '%'.$this->invNo.'%'];
         }
@@ -80,10 +80,34 @@ class Page extends Component
         if(Auth::user()->hasRole(Role::CUSTOMER)){
            
         }
-        // $data = JobOrder::with(['AdvancePayment', 'PettyCash', 'PaymentVoucher'])->where($this->query)->orderBy('documentID', 'DESC')->get();
-        // dd($data[0]);
+        $invoice = $this->invoiceNo?? '';
+        // $data = JobOrder::with(['AdvancePayment', 'PettyCash', 'PaymentVoucher', 'invoice' => function($query) use ($invoice) {
+        //     $query->where('documentID', $invoice);
+        // }])
+        // ->whereHas('invoice', function ($query) use ($invoice) {
+        //     $query->where('documentID', $invoice);
+        // })
+        // ->where($this->query)
+        // ->orderBy('documentID', 'DESC')
+        // ->get();
+        // dd($data);
+
         return view('livewire.page.marketing.job-order.page',[ 
-            'data'=> JobOrder::with(['AdvancePayment', 'PettyCash', 'PaymentVoucher'])->where($this->query)->orderBy('documentID', 'DESC')->paginate(20)
+            'data'=> JobOrder::with(['AdvancePayment', 'PettyCash', 'PaymentVoucher', 'invoice' => function($query) use ($invoice) {
+                if ($invoice) {
+                    $query->where('documentID', $invoice);
+                }
+            }])
+            ->when($invoice, function ($query) use ($invoice) {
+                $query->whereHas('invoice', function ($query) use ($invoice) {
+                    $query->where('documentID', $invoice);
+                });
+            })
+            ->where($this->query)
+            ->orderBy('documentID', 'DESC')->paginate(20)
             ])->extends('layouts.main')->section('main-content');
+        // return view('livewire.page.marketing.job-order.page',[ 
+        //     'data'=> JobOrder::with(['AdvancePayment', 'PettyCash', 'PaymentVoucher'])->where($this->query)->orderBy('documentID', 'DESC')->paginate(20)
+        //     ])->extends('layouts.main')->section('main-content');
     }
 }
