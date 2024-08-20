@@ -320,7 +320,7 @@
                                 
                             </td>
                             <td colspan="3">
-                                {{ $index }} 
+                                {{ str_replace("\u{200B}", " ", $index) }} 
                             </td>
                             <td>
                                 {{-- @foreach ($charges as $item)
@@ -521,7 +521,7 @@
                                 
                             </td>
                             <td colspan="3">
-                                {{ $index }} 
+                                {{ str_replace("\u{200B}", " ", $index) }}
                             </td>
                             <td>
                                 {{-- @foreach ($charges as $item)

@@ -104,7 +104,8 @@
                     <tbody>
                         @foreach ($itemChargesReceive as $item)
                             <tr>
-                                <td>{{$item->detail}}</td>
+                                {{-- <td>{{$item->detail}}</td> --}}
+                                <td>{{ str_replace("\u{200B}", " ", $item->detail) }}</td>
                                 <td>{{Service::MoneyFormat($item->chargesReceive)}} </td>
                             </tr>
                         @endforeach
@@ -258,7 +259,7 @@
                     <tbody>
                         @foreach ($itemChargesReceive as $item)
                             <tr>
-                                <td>{{$item->detail}}</td>
+                                <td>{{ str_replace("\u{200B}", " ", $item->detail) }}</td>
                                 <td>{{Service::MoneyFormat($item->chargesReceive)}} </td>
                             </tr>
                         @endforeach
@@ -413,7 +414,7 @@
                     <tbody>
                         @foreach ($itemChargesReceive as $item)
                             <tr>
-                                <td>{{$item->detail}}</td>
+                                <td>{{ str_replace("\u{200B}", " ", $item->detail) }}</td>
                                 <td>{{Service::MoneyFormat($item->chargesReceive)}} </td>
                             </tr>
                         @endforeach
@@ -567,7 +568,7 @@
                     <tbody>
                         @foreach ($itemChargesbillReceive as $item)
                             <tr>
-                                <td>{{$item->detail}}</td>
+                                <td>{{ str_replace("\u{200B}", " ", $item->detail) }}</td>
                                 <td>{{Service::MoneyFormat($item->chargesbillReceive)}} </td>
                             </tr>
                         @endforeach
