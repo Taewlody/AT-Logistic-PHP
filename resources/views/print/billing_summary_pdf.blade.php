@@ -90,7 +90,13 @@
                             <td align="center">{{ number_format( $item->itemsSum*0.07 , 2) }}</td>
                             <td align="center">{{ number_format( $item->itemsSumBillOfReceipt, 2) }}</td>
                             <td align="center">{{ $item->jobOrder->AdvancePayment != null ? number_format($item->jobOrder->AdvancePayment->sum('sumTotal'), 2) : '0.00' }}</td>
-                            <td align="center">{{ number_format($item->total_netamt, 2) }}</td>
+                            @php
+                                $grandTotalItem = 0;
+                                $advance = $item->jobOrder->AdvancePayment != null ? $item->jobOrder->AdvancePayment->sum('sumTotal') : '0.00';
+
+                                $grandTotalItem = $item->itemsSum - ($item->tax1 + $item->tax3) + $item->itemsSum*0.07 + $item->itemsSumBillOfReceipt - $advance;
+                            @endphp
+                            <td align="center">{{ number_format($grandTotalItem, 2) }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -121,7 +127,12 @@
                             <td align="center">{{ number_format($data->sum('itemsSum')*0.07 , 2) }}</td>
                             <td align="center">{{ number_format($data->sum('itemsSumBillOfReceipt'), 2) }}</td>
                             <td align="center">{{ number_format($sum, 2) }} </td>
-                            <td align="center">{{ number_format($data->sum('total_netamt'), 2) }}</td>
+                            {{-- <td align="center">{{ number_format($data->sum('total_netamt'), 2) }}</td> --}}
+                            @php
+                                $grandTotal = 0;
+                                $grandTotal = $data->sum('itemsSum') - ($data->sum('tax1') + $data->sum('tax3')) + $data->sum('itemsSum')*0.07 + $data->sum('itemsSumBillOfReceipt') - $sum
+                            @endphp
+                            <td align="center">{{ number_format( $grandTotal , 2) }}</td>
                         </tr>
                         <tr>
                             <td></td>
