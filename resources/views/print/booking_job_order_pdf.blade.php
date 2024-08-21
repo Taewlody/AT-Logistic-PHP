@@ -226,7 +226,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td colspan="2" style="color: red;">
                             <b>Remark : </b>
                             {{$data->note}}
                         </td>
