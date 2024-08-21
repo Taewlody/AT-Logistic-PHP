@@ -190,8 +190,8 @@ class PrintFileResource extends Controller
         $heightItems = 250 - $heightItems;
         $heightItems = $heightItems < 0 ? 'auto' : $heightItems.'px';
         
-        $credit = $data->credit && $data->credit->creditName ? $data->credit->creditName : $data->customer->creditDay.' Day';
-
+        $credit = $data->credit && $data->credit->creditName ? $data->credit->creditName : 'Cash';
+        
         $groupCommodity = [];
         if($data->joborder->commodity != null) {
             $groupCommodity = $data->joborder->commodity->map(function ($item, $key) {

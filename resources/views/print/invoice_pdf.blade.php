@@ -155,8 +155,7 @@
                         <tr>
                             <td colspan="3">GRAND TOTAL</td>
                             <td class="remove-border"></td>
-                            <td>{{ Service::MoneyFormat($data->items->sum('chargesReceive') +
-                                ($data->items->sum('chargesReceive') * 0.07)) }}</td>
+                            <td>{{ Service::MoneyFormat($data->items->sum('chargesReceive') + $data->items->sum('chargesbillReceive') + ($data->items->sum('chargesReceive') * 0.07)) }}</td>
                         </tr>
                         <tr>
                             <td colspan="3">WH TAX 3 % ( จากยอด )</td>
@@ -252,7 +251,7 @@
                         <div>
                             <span><b>Date</b>{{Carbon\Carbon::parse($data->documentDate)->format('d/m/Y')}}</span>
                             <span><b>Innoive No.</b>{{$data->documentID}}</span>
-                            <span><b>Credit Term</b>{{$data->credit?->creditName}}</span>
+                            <span><b>Credit Term</b>{{$credit}}</span>
                             <span><b>Your Ref. No</b> {{ $data->jobOrder->invNo }}</span>
                             <span><b>Sales Contact</b>{{$data->salemanRef?->empName}}</span>
                         </div>
@@ -359,8 +358,7 @@
                         <tr>
                             <td colspan="3">GRAND TOTAL</td>
                             <td class="remove-border"></td>
-                            <td>{{ Service::MoneyFormat($data->items->sum('chargesReceive') +
-                                ($data->items->sum('chargesReceive') * 0.07)) }}</td>
+                            <td>{{ Service::MoneyFormat($data->items->sum('chargesReceive') + $data->items->sum('chargesbillReceive') + ($data->items->sum('chargesReceive') * 0.07)) }}</td>
                         </tr>
                         <tr>
                             <td colspan="3">WH TAX 3 % ( จากยอด )</td>
@@ -453,7 +451,7 @@
                         <div>
                             <span><b>Date</b>{{Carbon\Carbon::parse($data->documentDate)->format('d/m/Y')}}</span>
                             <span><b>Innoive No.</b>{{$data->documentID}}</span>
-                            <span><b>Credit Term</b>{{$data->credit?->creditName}}</span>
+                            <span><b>Credit Term</b>{{$credit}}</span>
                             <span><b>Your Ref. No</b> {{$data->jobOrder->invNo}}</span>
                             <span><b>Sales Contact</b>{{$data->salemanRef?->empName}}</span>
                         </div>
@@ -560,8 +558,7 @@
                         <tr>
                             <td colspan="3">GRAND TOTAL</td>
                             <td class="remove-border"></td>
-                            <td>{{ Service::MoneyFormat($data->items->sum('chargesReceive') +
-                                ($data->items->sum('chargesReceive') * 0.07)) }}</td>
+                            <td>{{ Service::MoneyFormat($data->items->sum('chargesReceive') + $data->items->sum('chargesbillReceive') + ($data->items->sum('chargesReceive') * 0.07)) }}</td>
                         </tr>
                         <tr>
                             <td colspan="3">WH TAX 3 % ( จากยอด )</td>
