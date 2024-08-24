@@ -48,7 +48,7 @@
                     <div class="form-group  row">
                         <label class="col-sm-2 col-form-label">Branch Code</label>
                         <div class="col-md-2">
-                            <input type="text" name="branchCode" id="branchCode" wire:model="data.branchCode"
+                            <input type="text" name="branchCode" id="branchCode" wire:model="data.branchCode" maxlength="5"
                                 autocomplete="empty" class="form-control" @disabled($action != 'create' && $action != 'edit')>
                         </div>
 
