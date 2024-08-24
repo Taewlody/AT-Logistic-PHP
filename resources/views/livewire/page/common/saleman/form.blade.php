@@ -22,10 +22,10 @@
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group  row">
-                        <label class="col-sm-2 col-form-label">Employee Code</label>
-                        <div class="col-md-2">
-                            <input type="text" name="empCode" id="empCode" autocomplete="empty"
-                                class="form-control" wire:model="data.empCode" @disabled($action != 'create')>
+                        <label class="col-sm-2 col-form-label">Employee Code <sapn class="text-danger">*</span></label>
+                        <div class="col-md-3">
+                            <input type="text" name="empCode" id="empCode" autocomplete="empty" required
+                                class="form-control" maxlength="30" wire:model="data.empCode" @disabled($action != 'create')>
                         </div>
                     </div>
 
