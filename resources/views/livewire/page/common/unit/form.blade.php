@@ -24,16 +24,16 @@
                         <label class="col-sm-2 col-form-label"> Code</label>
                         <div class="col-md-2">
                             <input name="unitCode" type="text" class="form-control " id="unitCode"
-                                wire:model="data.unitCode" autocomplete="off" @disabled($action != 'create')>
+                                wire:model="data.unitCode" autocomplete="off" @disabled($action != 'create') readonly>
                         </div>
                     </div>
 
                     <div class="form-group  row">
-                        <label class="col-sm-2 col-form-label"> Name</label>
+                        <label class="col-sm-2 col-form-label"> Name <span class="text-danger">*</span></label>
                         <div class="col-sm-8">
                             <input name="unitName" type="text" class="form-control "
                                 wire:model="data.unitName" id="unitName" autocomplete="empty"
-                                @disabled($action != 'create' && $action != 'edit')>
+                                @disabled($action != 'create' && $action != 'edit') required>
                         </div>
                     </div>
 
