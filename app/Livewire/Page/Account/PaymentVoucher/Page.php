@@ -23,6 +23,7 @@ class Page extends Component
     public $invoiceNo = "";
     public $jobNo = "";
     public $documentNo = "";
+    public $documentstatus = "";
     public $query = [];
 
     public function mount(){
@@ -48,6 +49,9 @@ class Page extends Component
         }
         if($this->jobNo != null) {
             $this->query[] = ['refjobNo', 'like', '%'.$this->jobNo.'%'];
+        }
+        if($this->documentstatus != null || $this->documentstatus != '') {
+            $this->query[] = ['documentstatus', '=',  $this->documentstatus];
         }
     }
 

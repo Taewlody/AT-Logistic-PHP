@@ -72,6 +72,18 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-4">
+                                    <div class="form-group col-margin0">
+                                        <label class="font-normal">Status</label>
+                                        <div>
+                                            <select class="select2_single form-control select2" name="documentstatus" id="documentstatus" wire:model="documentstatus">
+                                                <option value="">- select -</option>
+                                                <option value="P">Pending</option>
+                                                <option value="A">Approve</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-12 text-center">
