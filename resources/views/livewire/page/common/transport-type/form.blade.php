@@ -22,19 +22,19 @@
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group  row">
-                        <label class="col-sm-2 col-form-label"> Code</label>
+                        <label class="col-sm-2 col-form-label"> Code </label>
                         <div class="col-md-2">
                             <input name="transportCode" type="text" class="form-control " id="transportCode"
-                                autocomplete="off" wire:model="data.transportCode" @disabled($action != 'create')>
+                                autocomplete="off" wire:model="data.transportCode" @disabled($action != 'create') readonly>
                         </div>
                     </div>
 
                     <div class="form-group  row">
-                        <label class="col-sm-2 col-form-label"> Name</label>
+                        <label class="col-sm-2 col-form-label"> Name <span class="text-danger">*</span></label>
                         <div class="col-sm-8">
                             <input name="transportName" type="text" class="form-control "
                                 wire:model="data.transportName" id="transportName" autocomplete="empty"
-                                @disabled($action != 'create' && $action != 'edit')>
+                                @disabled($action != 'create' && $action != 'edit') required>
                         </div>
                     </div>
 
