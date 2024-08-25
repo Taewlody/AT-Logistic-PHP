@@ -22,29 +22,29 @@
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group  row">
-                        <label class="col-sm-2 col-form-label">Bank Name</label>
+                        <label class="col-sm-2 col-form-label">Bank Name <span class="text-danger">*</span></label>
                         <div class="col-md-2">
                             <input type="hidden" name="accountCode" id="accountCode"
                                 wire:model="data.accountCode">
                             <input type="text" name="accountName" id="accountName" class="form-control "
-                                wire:model="data.accountName" @disabled($action != 'create' && $action != 'edit')>
+                                wire:model="data.accountName" @disabled($action != 'create' && $action != 'edit') required>
 
                         </div>
                     </div>
                     <div class="form-group  row">
-                        <label class="col-sm-2 col-form-label">initials Name</label>
+                        <label class="col-sm-2 col-form-label">initials Name<span class="text-danger">*</span></label>
                         <div class="col-sm-8">
                             <input name="accountNicname" type="text" class="form-control "
                                 wire:model="data.accountNicname" id="accountNicname"
-                                @disabled($action != 'create' && $action != 'edit')>
+                                @disabled($action != 'create' && $action != 'edit') required>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label"> Account ID</label>
+                        <label class="col-sm-2 col-form-label"> Account ID <span class="text-danger">*</span></label>
                         <div class="col-md-8">
                             <input type="text" class="form-control " name="accountID" autocomplete="off"
-                                wire:model="data.accountID" id="accountID" @disabled($action != 'create' && $action != 'edit')>
+                                wire:model="data.accountID" id="accountID" @disabled($action != 'create' && $action != 'edit') required>
                         </div>
                     </div>
 
