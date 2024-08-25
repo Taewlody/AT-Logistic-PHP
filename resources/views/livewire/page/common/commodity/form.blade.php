@@ -19,22 +19,22 @@
                         <label class="col-sm-2 col-form-label"> Code</label>
                         <div class="col-md-2">
                             <input type="text" class="form-control" wire:model="data.commodityCode" @disabled($action
-                                !='create' )>
+                                !='create' ) readonly>
                         </div>
                     </div>
-                    <div class="form-group  row"><label class="col-sm-2 col-form-label"> Name (TH)</label>
+                    <div class="form-group  row"><label class="col-sm-2 col-form-label"> Name (TH) <span class="text-danger">*</span></label>
                         <div class="col-sm-8"><input name="commodityNameTH" type="text" class="form-control "
                                 id="commodityNameTH" wire:model="data.commodityNameTH" @disabled($action !='create' &&
-                                $action !='edit' )>
+                                $action !='edit' ) required>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label"> Name (EN)</label>
+                        <label class="col-sm-2 col-form-label"> Name (EN) <span class="text-danger">*</span></label>
                         <div class="col-md-8">
                             <input type="text" class="form-control " name="commodityNameEN" autocomplete="off"
                                 id="commodityNameEN" wire:model="data.commodityNameEN" @disabled($action !='create' &&
-                                $action !='edit' )>
+                                $action !='edit' ) required>
                         </div>
                     </div>
 
