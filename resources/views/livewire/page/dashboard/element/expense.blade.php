@@ -37,7 +37,7 @@
                                 @if(count($expense_payment) > 0)
                                 @foreach ($expense_payment as $detail => $items)
                                     <tr>
-                                        <th style="white-space: nowrap">{{ $detail }}</th>
+                                        <th style="white-space: nowrap">{{ $this->getNameCharge($detail) }}</th>
 
                                         @php
                                         $monthlyTotals = array_fill(1, 12, 0); // Initialize array for 12 months
@@ -58,7 +58,7 @@
                                     @endphp
                                     
                                     @foreach ($monthlyTotals as $monthTotal)
-                                        <td>{{ $monthTotal > 0 ? number_format($monthTotal, 2) : '-' }}</td>
+                                        <td> {{ $monthTotal > 0 ? number_format($monthTotal, 2) : '-' }}</td>
                                     @endforeach
                                        
 

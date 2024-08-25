@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Cache;
 use App\Models\Payment\PaymentVoucher;
 use App\Models\Payment\PaymentVoucherItems;
 use App\Functions\EngDate;
-use App\Models\Common\Supplier;
+use App\Models\Common\Charges;
 
 class Expense extends Component
 { 
@@ -32,6 +32,14 @@ class Expense extends Component
     {
         $name = Supplier::find($sup);
         return $name->supNameTH;
+        // dd($name);
+    }
+
+    public function getNameCharge($charge)
+    {
+        $name = Charges::find($charge);
+        // dd($name);
+        return $name->chargeName;
         // dd($name);
     }
 
@@ -68,12 +76,12 @@ class Expense extends Component
         ->mapToGroups(function ($item) {
             $result = [];
             foreach ($item->items as $data) {
-                $result[$data->chartDetail] = [
+                $result[$data->chargeCode] = [
                     'amount' => $data['amount'],
                     'documentID' => $item->documentID,
                     'documentDate' => $item->documentDate,
                     'month' => $item->month,
-                    // Add more fields as needed
+                    'code' => $data['chargeCode']
                 ];
             }
             return $result;
