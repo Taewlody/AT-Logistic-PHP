@@ -36,10 +36,10 @@
                     </div>
 
                     <div class="form-group  row">
-                        <label class="col-sm-2 col-form-label"> Name</label>
+                        <label class="col-sm-2 col-form-label"> Name <span class="text-danger">*</span></label>
                         <div class="col-sm-8">
                             <input name="fName" type="text" class="form-control " id="fName"
-                                autocomplete="empty" wire:model="data.fName" @disabled($action != 'create' && $action != 'edit')>
+                                autocomplete="empty" wire:model="data.fName" @disabled($action != 'create' && $action != 'edit') required>
                         </div>
                     </div>
 
