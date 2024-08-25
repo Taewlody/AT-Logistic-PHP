@@ -39,7 +39,7 @@ class Form extends Component
     public function save()
     {
         if($this->data->currencyCode==''){
-            $this->data->currencyCode = 'C-' . str_pad(Currency::count() + 1, 8, '0', STR_PAD_LEFT);
+            $this->data->currencyCode = 'C-' . str_pad(Currency::count() + 1, 3, '0', STR_PAD_LEFT);
         }
         if($this->action=='create'){
             $this->data->createID = Auth::user()->usercode;

@@ -24,22 +24,22 @@
                         <label class="col-sm-2 col-form-label"> Code</label>
                         <div class="col-md-2">
                             <input name="currencyCode" type="text" class="form-control " id="currencyCode"
-                                wire:model="data.currencyCode" autocomplete="off" @disabled($action != 'create')>
+                                wire:model="data.currencyCode" autocomplete="off" @disabled($action != 'create') readonly>
                         </div>
                     </div>
 
                     <div class="form-group  row">
-                        <label class="col-sm-2 col-form-label"> Name</label>
+                        <label class="col-sm-2 col-form-label"> Name <span class="text-danger">*</span></label>
                         <div class="col-sm-8"><input name="currencyName" type="text" class="form-control"
                                 wire:model="data.currencyName" id="currencyName" autocomplete="empty"
-                                @disabled($action != 'create' && $action != 'edit')></div>
+                                @disabled($action != 'create' && $action != 'edit') required></div>
                     </div>
 
                     <div class="form-group  row">
-                        <label class="col-sm-2 col-form-label"> Exchange rate</label>
+                        <label class="col-sm-2 col-form-label"> Exchange rate <span class="text-danger">*</span></label>
                         <div class="col-sm-3">
                             <input name="exchange_rate" type="number" class="form-control" wire:model="data.exchange_rate"
-                                id="exchange_rate" autocomplete="empty" @disabled($action != 'create' && $action != 'edit')>
+                                id="exchange_rate" autocomplete="empty" @disabled($action != 'create' && $action != 'edit') required>
                         </div>
                     </div>
 
