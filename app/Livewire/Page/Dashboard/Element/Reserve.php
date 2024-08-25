@@ -31,27 +31,33 @@ class Reserve extends Component
         $this->yearOptions = JobOrder::selectRaw('YEAR(documentDate) as year')->whereRaw('YEAR(documentDate) > 0')->groupBy('year')->get();
         
 
-        $jobAll = JobOrder::selectRaw('documentID, MONTH(documentDate) as month')
-        ->where('documentstatus', 'A')
-        ->whereYear('documentDate', $this->yearBillSearch)
-        ->groupBy('documentID', 'month')
-        ->get()
-        ->mapToGroups(function ($item) {
-            return [$item->month => $item];
-        });
+        // $jobAll = JobOrder::selectRaw('documentID, MONTH(documentDate) as month')
+        // ->where('documentstatus', 'A')
+        // ->whereYear('documentDate', $this->yearBillSearch)
+        // ->groupBy('documentID', 'month')
+        // ->get()
+        // ->mapToGroups(function ($item) {
+        //     return [$item->month => $item];
+        // });
+        $jobAll = Joborder::with('invoice', 'charge')->select('documentID', 'documentDate')
+            ->selectRaw('MONTH(documentDate) as month')
+            ->where('documentstatus', 'A')
+            ->whereYear('documentDate', $this->yearBillSearch)
+            ->get();
 
+        $year = array_fill(1, 12, 0);
 
-        $year = array_fill(1, 12, 0); // Initialize the array with 12 elements, each set to 0
-
-        foreach ($jobAll as $month => $jobs) {
-            if ($month >= 1 && $month <= 12) { // Ensure the month index is valid
-                $year[$month] = $jobs->sum(function($job) {
-                    return $job->charge->sum('chargesbillReceive');
-                });
+        foreach ($jobAll as $job) {
+            if ($job->month >= 1 && $job->month <= 12) { 
+                if($job->invoice && ($job->invoice->taxivRef === '' || $job->invoice->taxivRef === null)) {
+                    // dd($jobs->charge);
+                    $year[$job->month] += $job->charge->sum('chargesbillReceive');
+                }
+                
             }
         }
         $this->dataBill = $year;
-        
+        // dd($this->dataBill);
     }
 
     public function searchYearReservePayment() {
