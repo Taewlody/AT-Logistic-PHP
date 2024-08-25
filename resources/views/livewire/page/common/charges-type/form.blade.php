@@ -25,26 +25,26 @@
                         <label class="col-sm-2 col-form-label">Charges Type Code</label>
                         <div class="col-md-2">
                             <input type="text" name="typeCode" id="typeCode" class="form-control"
-                                wire:model="data.typeCode" @disabled($action != 'create')>
+                                wire:model="data.typeCode" @disabled($action != 'create') readonly>
                         </div>
                     </div>
 
 
 
                     <div class="form-group  row">
-                        <label class="col-sm-2 col-form-label">Charges Type Name</label>
+                        <label class="col-sm-2 col-form-label">Charges Type Name <span class="text-danger">*</span></label>
 
                         <div class="col-sm-10">
                             <input type="text" name="typeName" id="typeName" wire:model="data.typeName"
-                                class="form-control" @disabled($action != 'create' && $action != 'edit')>
+                                class="form-control" @disabled($action != 'create' && $action != 'edit') required>
                         </div>
                     </div>
 
                     <div class="form-group  row">
-                        <label class="col-sm-2 col-form-label"> Type</label>
+                        <label class="col-sm-2 col-form-label"> Type <span class="text-danger">*</span></label>
                         <div class="col-md-2">
                             <select class="select2_single form-control select2" name="vatType" id="vatType"
-                                wire:model="data.vatType" @disabled($action != 'create' && $action != 'edit')>
+                                wire:model="data.vatType" @disabled($action != 'create' && $action != 'edit')required>
                                 <option value="">- select -</option>
                                 @foreach ($vatTypeList as $vatType)
                                     <option value="{{ $vatType->typeCode }}">{{ $vatType->typeName }}</option>
@@ -55,10 +55,10 @@
 
 
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Amount (%) </label>
+                        <label class="col-sm-2 col-form-label">Amount (%) <span class="text-danger">*</span></label>
                         <div class="col-md-2">
                             <input type="number" class="form-control" name="amount" id="amount"
-                                wire:model="data.amount" autocomplete="empty" @disabled($action != 'create' && $action != 'edit')>
+                                wire:model="data.amount" autocomplete="empty" @disabled($action != 'create' && $action != 'edit') required>
                         </div>
                     </div>
 
