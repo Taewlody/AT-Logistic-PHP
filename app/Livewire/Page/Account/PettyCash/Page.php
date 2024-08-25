@@ -30,6 +30,7 @@ class Page extends Component
     public $customerSearch = "";
     public $documentNo = "";
     public $jobNo = "";
+    public $documentstatus = "";
     public $query = [];
     public $amount;
 
@@ -60,6 +61,9 @@ class Page extends Component
         }
         if($this->jobNo != null) {
             $this->query[] = ['refJobNo', 'like', '%'.$this->jobNo.'%'];
+        }
+        if($this->documentstatus != null || $this->documentstatus != '') {
+            $this->query[] = ['documentstatus', '=',  $this->documentstatus];
         }
     }
 
@@ -97,6 +101,7 @@ class Page extends Component
             
             })->where($this->query)->orderBy('documentID', 'DESC')->paginate(20);
         }else{
+            
             $data = PettyCash::where($this->query)->orderBy('documentDate', 'desc')->paginate(20);
         }   
         return view('livewire.page.account.petty-cash.page', [ 'data'=> $data])->extends('layouts.main')->section('main-content');
