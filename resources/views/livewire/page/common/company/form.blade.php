@@ -80,10 +80,10 @@
                     <div class="hr-line-dashed"></div>
                     <div class="form-group row">
                         <div class="col-sm-4 col-sm-offset-2">
-                            <a name="back" class="btn btn-white" type="button" href="{{ route('dashboard') }}"
+                            {{-- <a name="back" class="btn btn-white" type="button" href="{{ route('dashboard') }}"
                                 wire.loading.attr="disabled">
                                 <i class="fa fa-reply"></i> Back
-                            </a>
+                            </a> --}}
                             <button name="save" id="save" class="btn btn-primary" wire.loading.attr="disabled"
                                 type="submit">
                                 <i class="fa fa-save"></i> Save
