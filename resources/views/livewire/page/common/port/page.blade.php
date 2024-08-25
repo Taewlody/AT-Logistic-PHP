@@ -47,7 +47,7 @@
                                     <td>
                                         <div class="btn-group">
                                             <a class="btn btn-xs btn-success" href="{{ route('port.form', ['action' => 'view', 'id' => $item->portCode])}}">View</a>
-                                            <a class="btn btn-xs btn-primary" href="{{ route('port.form', ['action' => 'edit', 'portCode' => $item->portCode])}}">Edit</a>
+                                            <a class="btn btn-xs btn-primary" href="{{ route('port.form', ['action' => 'edit', 'id' => $item->portCode])}}">Edit</a>
                                             <button class="btn btn-xs btn-danger" wire:confirm="Are you sure want to delete {{$item->portNameTH}}" wire:click="delete('{{$item->portCode}}')" wire:refresh="$refresh">Delete</button>
                                         </div>
                                     </td>
