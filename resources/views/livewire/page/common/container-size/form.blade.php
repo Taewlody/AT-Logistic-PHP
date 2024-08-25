@@ -25,16 +25,16 @@
                         <div class="col-md-2">
                             <input name="containersizeCode" type="text" class="form-control "
                                 id="containersizeCode" autocomplete="off" wire:model="data.containersizeCode"
-                                @disabled($action != 'create')>
+                                @disabled($action != 'create') readonly>
                         </div>
                     </div>
 
                     <div class="form-group  row">
-                        <label class="col-sm-2 col-form-label"> Name</label>
+                        <label class="col-sm-2 col-form-label"> Name <span class="text-danger">*</span></label>
                         <div class="col-sm-8">
                             <input name="containersizeName" type="text" class="form-control "
                                 id="containersizeName" autocomplete="empty" wire:model="data.containersizeName"
-                                @disabled($action != 'create' && $action != 'edit')>
+                                @disabled($action != 'create' && $action != 'edit') required>
                         </div>
                     </div>
 
