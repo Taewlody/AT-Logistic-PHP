@@ -169,7 +169,7 @@
                                 <div class="dotted-line"></div>
                             </td>
                             <td width="30%">
-                                <span>ผู้วางบิล/Biller Pay</span><br/><br/><br/>
+                                <span>ผู้รับวางบิล/Biller Pay</span><br/><br/><br/>
                                 <div class="dotted-line"></div><br/>
                                 <div class="dotted-line"></div>
                             </td>
