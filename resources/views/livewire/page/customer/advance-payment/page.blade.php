@@ -126,7 +126,7 @@
                                                 <td>{{ $item->customer != null ? $item->customer->custNameEN ? $item->customer->custNameEN : $item->customer->custNameTH : '' }}</td>
 
                                                 <td>{{ $item->refJobNo }}</td>
-                                                <td>{{ $item->sumTotal }}</td>
+                                                <td>{{ number_format($item->sumTotal,2) }}</td>
                                                 @if ($item->docStatus != null)
                                                     <td class="center"><span
                                                             @class([
