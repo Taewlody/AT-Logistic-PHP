@@ -36,9 +36,9 @@ class CommissionStaff extends Component
         // dd('get commission');
         $yearSearch = $this->yearSearch;
         $this->commission_staff = Cache::remember('commission_staff_' . $yearSearch, 60, function () use ($yearSearch) {
-            return PettyCash::selectRaw('supCode, MONTH(documentDate) as month, SUM(sumTotal) as sumTotal')
+            return PettyCash::selectRaw('supCode, MONTH(dueDate) as month, SUM(sumTotal) as sumTotal')
                 ->whereRaw("documentstatus = 'A'")
-                ->whereYear('documentDate', $yearSearch)
+                ->whereYear('dueDate', $yearSearch)
                 ->groupBy('supCode', 'month')
                 ->orderBy('supCode')
                 ->orderBy('month')
