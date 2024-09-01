@@ -92,65 +92,11 @@
         {{-- end row 1 --}}
 
         {{-- start row 2 --}}
-        <div class="row">
-            {{-- start advance payment --}}
-            <livewire:page.dashboard.element.advance :$action/>
-            {{-- end advance paynebt --}}
+       
 
-            {{-- start ใบแจ้งหนี้ ค้างชำระ --}}
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col">
-                                <h3>ใบแจ้งหนี้ ค้างชำระ</h3>
-                            </div>
-                            <div class="col text-end">
-                                <h3>{{ number_format($sum_invoice_total, 2) }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>No.</th>
-                                    <th>Customer Name</th>
-                                    <th style="white-space: nowrap">Total Net</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($data_invoice_table->sortByDesc('sum_total_netamt') as $invoice)
-                                {{-- @if(($invoice->total_netamt - $invoice->cus_paid > 0) || ($invoice->total_netamt - $invoice->cus_paid < 0)) --}}
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $invoice['custNameTH']}}</td>
-                                    <td>{{ number_format($invoice['sum_total_netamt'], 2) }}</td>
-                                </tr>
-                                {{-- @endif --}}
-                                @endforeach
-                            </tbody>
-                        </table>
-                        {{-- <br/>
-                        <div class="row">
-                            <div class="col">
-                                {{ $data_invoice_table->withQueryString()->links('layouts.themes.layout.custom-pagination-info') }}
-                            </div>
-                            <div class="col"> 
-                                {{ $data_invoice_table->withQueryString()->links('layouts.themes.layout.custom-pagination-links') }}
-                            </div>
-                        </div> --}}
-                    </div>
-                </div>
-            </div>
-            {{-- end ใบแจ้งหนี้ ค้างชำระ --}}
-        </div>
-        {{-- end row 2 --}}
-
-        {{-- start row 3 --}}
         <div class="row">
-            {{-- start ยอดเจ้าหนี้คงค้าง --}}
-            <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="col-lg-6 col-12">
+                <livewire:page.dashboard.element.advance :$action/>
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
@@ -194,10 +140,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            {{-- end ยอดเจ้าหนี้คงค้าง --}}
-
-            <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
@@ -214,8 +156,54 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-6 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">
+                                <h3>ใบแจ้งหนี้ ค้างชำระ</h3>
+                            </div>
+                            <div class="col text-end">
+                                <h3>{{ number_format($sum_invoice_total, 2) }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Customer Name</th>
+                                    <th style="white-space: nowrap">Total Net</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data_invoice_table->sortByDesc('sum_total_netamt') as $invoice)
+                                {{-- @if(($invoice->total_netamt - $invoice->cus_paid > 0) || ($invoice->total_netamt - $invoice->cus_paid < 0)) --}}
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $invoice['custNameTH']}}</td>
+                                    <td>{{ number_format($invoice['sum_total_netamt'], 2) }}</td>
+                                </tr>
+                                {{-- @endif --}}
+                                @endforeach
+                            </tbody>
+                        </table>
+                        {{-- <br/>
+                        <div class="row">
+                            <div class="col">
+                                {{ $data_invoice_table->withQueryString()->links('layouts.themes.layout.custom-pagination-info') }}
+                            </div>
+                            <div class="col"> 
+                                {{ $data_invoice_table->withQueryString()->links('layouts.themes.layout.custom-pagination-links') }}
+                            </div>
+                        </div> --}}
+                    </div>
+                </div>
+                
+            </div>
         </div>
-        {{-- end row 3 --}}
+        {{-- end row 2 --}}
 
         {{-- start row 4 job inprocess --}}
         <div class="row" wire:ignore.self>
