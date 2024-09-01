@@ -501,6 +501,7 @@
     })
 
     $('#postYearTaxSearch').click(function() {
+        console.log('postYearTaxSearch');
         setTimeout(() => {
             chartcolumnchart_yeartax.updateOptions({
                 xaxis: {
@@ -513,8 +514,8 @@
                     }
                 ],
             });
-
-        }, 500);
+        }, 7500);
+        // console.log('postYearTaxSearch', $wire.billingSummaryChart);
     })
 </script>
 

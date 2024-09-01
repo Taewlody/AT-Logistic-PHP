@@ -23,7 +23,7 @@ class Expense extends Component
     public function mount()
     {
         $this->yearExpensePaymentSearch =  date('Y');
-        $this->yearOptions = PaymentVoucher::selectRaw('YEAR(documentDate) as year')->whereRaw('YEAR(documentDate) > 0')->groupBy('year')->get();
+        // $this->yearOptions = PaymentVoucher::selectRaw('YEAR(documentDate) as year')->whereRaw('YEAR(documentDate) > 0')->groupBy('year')->get();
 
         $this->getExpensePayment();
     }
@@ -51,6 +51,9 @@ class Expense extends Component
 
     public function getExpensePayment()
     {
+        // $this->yearExpensePaymentSearch =  date('Y');
+        $this->yearOptions = PaymentVoucher::selectRaw('YEAR(documentDate) as year')->whereRaw('YEAR(documentDate) > 0')->groupBy('year')->get();
+
         // $this->expense_payment = PaymentVoucher::whereNull('refJobNo')->whereYear('documentDate', $this->yearExpensePaymentSearch)->get();
         $yearSearch = $this->yearExpensePaymentSearch;
 

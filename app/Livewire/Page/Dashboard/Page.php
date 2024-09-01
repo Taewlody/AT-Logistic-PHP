@@ -86,6 +86,7 @@ class Page extends Component
 
     public function getTaxYear()
     {
+        $this->yearOptions = PaymentVoucher::selectRaw('YEAR(documentDate) as year')->whereRaw('YEAR(documentDate) > 0')->groupBy('year')->get();
         //start ยอดถูกหักภาษี ณ ที่จ่าย vat 1% vat 3%
         
             //รายปี
