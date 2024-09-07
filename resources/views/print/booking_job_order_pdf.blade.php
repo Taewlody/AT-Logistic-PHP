@@ -109,12 +109,15 @@
                     <tr>
                         <td>
                             <b>Feeder : </b>
-                            {{$data->referFeeder != null ? $data->referFeeder->fName : "N/A"}}
+                            {{$data->referFeeder != null ? $data->referFeeder->fName : "N/A"}}&nbsp;&nbsp;&nbsp;
+                            <b>V.</b>
                             {{$data->feederVOY ?? ''}}
                         </td>
                         <td>
-                            <b>Vessel : </b>
-                            {{$data->vesselFeeder != null ? $data->vesselFeeder->fName : ""}}
+                            <b>Mother Vessel : </b>
+                            {{$data->vesselFeeder != null ? $data->vesselFeeder->fName : ""}}&nbsp;&nbsp;&nbsp;
+                            <b>V.</b>
+                            {{$data->vesselVOY ?? ''}}
                         </td>
                     </tr>
                     <tr>
