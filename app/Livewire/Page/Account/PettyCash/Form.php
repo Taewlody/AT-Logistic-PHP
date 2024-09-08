@@ -131,6 +131,7 @@ class Form extends Component
         if ($this->id != '') {
             $this->data = PettyCash::find($this->id);
             $this->payments = $this->data->items;
+            $this->data->dueDate = Carbon::now()->endOfMonth()->toDateString();
 
             // $this->calPrice(tax1: $this->data->sumTax1 ? $this->data->sumTax1 : 0, tax3: $this->data->sumTax3 ? $this->data->sumTax3 : 0, tax7: $this->data->sumTax7 ? $this->data->sumTax7 : 0);
 

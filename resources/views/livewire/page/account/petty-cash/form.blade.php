@@ -92,10 +92,10 @@
                                             <input type="text" name="cusCode" class="form-control">
                                         </div>
 
-                                        <label class="col-sm-2 col-form-label">วันชำระ <span class="text-danger">*</span></label>
+                                        <label class="col-sm-2 col-form-label">วันชำระ<span class="text-danger">*</span></label>
                                         <div class="col-md-4">
                                                 <input type="date" name="dueDate" class="form-control"
-                                                    wire:model="data.dueDate">
+                                                    wire:model="data.dueDate" @readonly(Auth::user()->hasRole('admin') ? false : true)>
                                                     @error('dueDate')
                                                         <div class="text-danger">{{ $message }}</div>
                                                     @enderror
