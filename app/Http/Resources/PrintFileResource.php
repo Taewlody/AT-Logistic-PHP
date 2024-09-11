@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 
 use App\Http\Controllers\Controller;
+use App\Exports\JobOrderExport;
+use App\Exports\ReportExpenseExport;
 use App\Models\Account\Invoice;
 use App\Models\Account\ReceiptVoucher;
 use App\Models\Account\TaxInvoice;
@@ -28,6 +30,7 @@ use Dompdf\FontMetrics;
 use App\Functions\CalculatorPrice;
 use App\Functions\ThaiDate;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 
 use Illuminate\Http\Request;
 
@@ -530,6 +533,16 @@ class PrintFileResource extends Controller
         //     'count' => count($data),
         //     'sum' => $sum
         
+    }
+
+    public function printCheckStatus()
+    {
+        return Excel::download(new JobOrderExport, 'job_orders.xlsx');
+    }
+
+    public function printReportExpense()
+    {
+        return Excel::download(new ReportExpenseExport, 'summary_expense.xlsx');
     }
 
     public function testViewPdf(string $id)

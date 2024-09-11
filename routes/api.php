@@ -84,6 +84,10 @@ Route::group(['middleware' => ['web']], function () {
     // Route::get('print/billing-summary', [BillingSummaryForm::class, 'printBillingPDF']);
     Route::get('print/billing-summary', [PrintFileResource::class, 'printBillingPDF']);
 
+    Route::get('print/check-status', [PrintFileResource::class, 'printCheckStatus'])->name('report-check-status');
+
+    Route::get('print/report-expense', [PrintFileResource::class, 'printReportExpense'])->name('report-expense');
+
     Route::get('testview/pdf/{id}', [PrintFileResource::class, 'testViewPdf']);
 });
 

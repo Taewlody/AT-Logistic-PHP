@@ -11,6 +11,7 @@ use App\Livewire\Page\Report\PaymentVoucherItems\Page as ReportPaymentVoucherIte
 use App\Livewire\Page\Report\ReceiptVoucher\Page as ReportReceiptVoucher;
 use App\Livewire\Page\Report\TaxInvoice\Page as ReportTaxInvoice;
 use App\Livewire\Page\Report\PaymentVoucher\Page as ReportPaymentVoucher;
+use App\Livewire\Page\Report\CheckStatusJob\Page as ReportCheckStatusJob;
 
 Route::group(['prefix'=> 'report',], function() {
     Route::get("/report-job", ReportJob::class)->name('report-job');
@@ -30,4 +31,6 @@ Route::group(['prefix'=> 'report',], function() {
     Route::get("/report-tax-invoice", ReportTaxInvoice::class)->name('report-tax-invoice');
 
     Route::get("/report-payment-voucher", ReportPaymentVoucher::class)->name('report-payment-voucher');
+
+    // Route::get("/report-check-status", ReportCheckStatusJob::class)->name('report-check-status');
 });

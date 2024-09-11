@@ -112,6 +112,7 @@ class Sidebar extends Component
                 ['name' => 'ภาษีขาย', 'route_name' => 'report-tax-invoice'],
                 ['name' => 'ภาษีซื้อ', 'route_name' => 'report-payment-voucher'],
                 ['name' => 'ภาษีหัก ณ ที่จ่าย', 'route_name' => 'report10'],
+                ['name' => 'Check Status Job', 'route_name' => 'report-check-status'],
                 
             ]
         ],
