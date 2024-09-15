@@ -51,7 +51,7 @@
                                         <td>
                                             <div class="btn-group">
                                                 <a class="btn btn-success btn-xs" href="{{ route('user.form', ['action' => 'view', 'id' => $item->usercode ]) }}">View</a>
-                                                <a class="btn btn-info btn-xs" href="{{ route('user.form', ['action' => 'edit', 'id' => $item->username ]) }}">Edit</a>
+                                                <a class="btn btn-info btn-xs" href="{{ route('user.form', ['action' => 'edit', 'id' => $item->usercode ]) }}">Edit</a>
                                                 <button class="btn btn-danger btn-xs" wire:confirm="Are you sure want to delete {{$item->username}}" wire:click="delete('{{$item->usercode}}')" wire:refresh="$refresh">Delete</button>
                                             </div>
                                         </td>
