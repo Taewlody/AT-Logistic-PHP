@@ -87,6 +87,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('print/check-status', [PrintFileResource::class, 'printCheckStatus'])->name('report-check-status');
 
     Route::get('print/report-expense', [PrintFileResource::class, 'printReportExpense'])->name('report-expense');
+    
+    Route::get('print/report-reserve', [PrintFileResource::class, 'printReportReserve'])->name('report-reserve');
 
     Route::get('testview/pdf/{id}', [PrintFileResource::class, 'testViewPdf']);
 });

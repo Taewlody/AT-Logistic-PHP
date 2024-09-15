@@ -6,6 +6,7 @@ namespace App\Http\Resources;
 use App\Http\Controllers\Controller;
 use App\Exports\JobOrderExport;
 use App\Exports\ReportExpenseExport;
+use App\Exports\ReportReserveExport;
 use App\Models\Account\Invoice;
 use App\Models\Account\ReceiptVoucher;
 use App\Models\Account\TaxInvoice;
@@ -543,6 +544,11 @@ class PrintFileResource extends Controller
     public function printReportExpense()
     {
         return Excel::download(new ReportExpenseExport, 'summary_expense.xlsx');
+    }
+
+    public function printReportReserve()
+    {
+        return Excel::download(new ReportReserveExport, 'summary_reserve.xlsx');
     }
 
     public function testViewPdf(string $id)

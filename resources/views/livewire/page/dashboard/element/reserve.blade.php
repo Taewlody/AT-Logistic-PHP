@@ -1,8 +1,16 @@
 <div class="row">
     <div class="col-12">
         <div class="card">
-            <div class="card-header">
-                <h3>สรุปยอดสำรองจ่าย</h3>
+            <div class="card-header row">
+                <div class="col-6">
+                    <h3>สรุปยอดสำรองจ่าย</h3>
+                </div>
+                <div class="col-6 text-end">
+                    <a class="btn btn-primary " target="_blank"
+                        href="{{'/api/print/report-reserve'}}">
+                        <i class="fa fa-print"></i> Export
+                    </a>
+                </div>
             </div>
             <div class="card-body">
                 <div class="row mb-3 text-end">
