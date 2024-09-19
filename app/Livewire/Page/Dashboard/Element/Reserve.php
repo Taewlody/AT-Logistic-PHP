@@ -41,10 +41,12 @@ class Reserve extends Component
         // });
         $jobAll = Joborder::with('invoice', 'charge')->select('documentID', 'documentDate')
             ->selectRaw('MONTH(documentDate) as month')
-            ->where('documentstatus', 'A')
+            // ->where('documentstatus', 'A')
+            ->whereHas('invoice', function($query) {
+                $query->whereNull('taxivRef');
+            })
             ->whereYear('documentDate', $this->yearBillSearch)
             ->get();
-
         $year = array_fill(1, 12, 0);
 
         foreach ($jobAll as $job) {

@@ -88,35 +88,35 @@ class ReportExpenseExport implements FromCollection, WithHeadings, WithMapping, 
     {
         $sheet->getStyle('A1:C1')->getFont()->setBold(true);
     
-    // Merge cells
-    $currentCompany = null;
-    $startRow = 2;
-    $lastRow = $startRow;
+        // Merge cells
+        $currentCompany = null;
+        $startRow = 2;
+        $lastRow = $startRow;
 
-    foreach ($this->data as $item) {
-        if ($item['supCode'] !== $currentCompany) {
-            if ($currentCompany !== null) {
-                $sheet->mergeCells("A{$startRow}:A" . ($lastRow - 1));
+        foreach ($this->data as $item) {
+            if ($item['supCode'] !== $currentCompany) {
+                if ($currentCompany !== null) {
+                    $sheet->mergeCells("A{$startRow}:A" . ($lastRow - 1));
+                }
+                $currentCompany = $item['supCode'];
+                $startRow = $lastRow;
             }
-            $currentCompany = $item['supCode'];
-            $startRow = $lastRow;
+            $lastRow++;
         }
-        $lastRow++;
-    }
-    
-    // Merge the last group
-    if ($currentCompany !== null) {
-        $sheet->mergeCells("A{$startRow}:A" . ($lastRow - 1));
-    }
+        
+        // Merge the last group
+        if ($currentCompany !== null) {
+            $sheet->mergeCells("A{$startRow}:A" . ($lastRow - 1));
+        }
 
-    // Set border style
-    $sheet->getColumnDimension('A')->setWidth(50);
-    $sheet->getColumnDimension('B')->setWidth(50);
-    $sheet->getColumnDimension('C')->setWidth(20);
+        // Set border style
+        $sheet->getColumnDimension('A')->setWidth(50);
+        $sheet->getColumnDimension('B')->setWidth(50);
+        $sheet->getColumnDimension('C')->setWidth(20);
 
-    $sheet->getStyle($sheet->calculateWorksheetDimension())->getFont()->setSize(14);
+        $sheet->getStyle($sheet->calculateWorksheetDimension())->getFont()->setSize(14);
 
-    $sheet->getStyle('A1:C' . ($lastRow - 1))->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
+        $sheet->getStyle('A1:C' . ($lastRow - 1))->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
 
         return [
             'A' => [

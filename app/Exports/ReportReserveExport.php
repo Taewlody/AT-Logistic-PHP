@@ -11,14 +11,15 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\WithStyles;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
 use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
-class ReportReserveExport implements FromCollection, WithHeadings, WithMapping, WithStyles
+class ReportReserveExport implements FromCollection, WithHeadings, WithMapping, WithStyles, WithEvents, WithColumnFormatting
 {
     private $data;
 
@@ -26,10 +27,13 @@ class ReportReserveExport implements FromCollection, WithHeadings, WithMapping, 
     {
         $yearSearch = 2024; 
         $test = Joborder::with(['invoice', 'charge', 'customerRefer'])
-            ->where('documentstatus', 'A')
+            // ->where('documentstatus', 'A')
+            ->whereHas('invoice', function($query) {
+                $query->whereNull('taxivRef');
+            })
             ->whereYear('documentDate', $yearSearch)
             ->get();
-
+            // dd($test[0]);
             $company = [];
 
             // Loop through each JobOrder
@@ -74,107 +78,136 @@ class ReportReserveExport implements FromCollection, WithHeadings, WithMapping, 
 
     public function map($row): array
     {
-        // dd($row);
+        
         $mappedRows = [];
         foreach ($row as $groupKey => $charges) {
+            $cusCode = $groupKey;  
+            $cusName = Customer::where('cusCode', $cusCode)->first();
            
             foreach ($charges as $chargeCode => $data) {
-                $cusCode = $groupKey;  
-                $cusName = Customer::where('cusCode', $cusCode)->first();
-                // dd($cusName);
+                
                 $mappedRows[] = [
-                    $cusName->custNameEN ? $cusName->custNameEN : $cusName->custNameTH,                         // Corrected customer code
-                    $chargeCode,                      // Charge code
-                    $data['detail'],                  // Charge detail
-                    $data['chargesbillReceive'],      // Total amount
+                    $cusName->custNameEN ? $cusName->custNameEN : $cusName->custNameTH,                 
+                    $chargeCode,                      
+                    $data['detail'],                  
+                    $data['chargesbillReceive'],      
                 ];
             }
+          
         }
-        // dd($row, $mappedRows);
         return $mappedRows;
         
     }
 
+    public function columnFormats(): array
+    {
+        return [
+            'D' => \PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
+        ];
+    }
+
     public function styles(Worksheet $sheet)
     {
+       
         $sheet->getStyle('A1:D1')->getFont()->setBold(true);
 
-    // Set column widths
-    $sheet->getColumnDimension('A')->setWidth(70);
-    $sheet->getColumnDimension('B')->setWidth(20);
-    $sheet->getColumnDimension('C')->setWidth(70);
-    $sheet->getColumnDimension('D')->setWidth(20);
+        $sheet->getColumnDimension('A')->setWidth(70);
+        $sheet->getColumnDimension('B')->setWidth(20);
+        $sheet->getColumnDimension('C')->setWidth(70);
+        $sheet->getColumnDimension('D')->setWidth(20);
 
-    // Set font size for the whole sheet
-    $sheet->getStyle($sheet->calculateWorksheetDimension())->getFont()->setSize(14);
+     
+        $sheet->getStyle($sheet->calculateWorksheetDimension())->getFont()->setSize(14);
 
-    // Initialize variables for merging
-    $currentCompany = null;
-    $startRow = 2; // Starting row (after the header)
-    $lastRow = $startRow;
+      
+        $currentCompany = null;
+        $startRow = 2; 
+        $lastRow = $startRow;
 
-    // Flatten data into an array to properly iterate through
-    $flattenedData = [];
-    foreach ($this->data as $item) {
-        foreach ($item as $cusCode => $charges) {
-            foreach ($charges as $chargeCode => $data) {
-                $flattenedData[] = ['cusCode' => $cusCode, 'chargeCode' => $chargeCode];
+        $flattenedData = [];
+        foreach ($this->data as $item) {
+            foreach ($item as $cusCode => $charges) {
+                foreach ($charges as $chargeCode => $data) {
+                    $flattenedData[] = ['cusCode' => $cusCode, 'chargeCode' => $chargeCode];
+                }
+            
+                
             }
-        }
-    }
-
-    // Loop through flattened data for merging
-    foreach ($flattenedData as $index => $row) {
-        $cusCode = $row['cusCode'];
-
-        // Check if we are on a new company
-        if ($cusCode !== $currentCompany) {
-            if ($currentCompany !== null) {
-                // Merge cells for the previous company
-                $sheet->mergeCells("A{$startRow}:A" . ($lastRow - 1));
-            }
-            // Update the company and start row for the new company
-            $currentCompany = $cusCode;
-            $startRow = $lastRow;
+            
         }
 
-        $lastRow++; // Increment row counter for each row
+        foreach ($flattenedData as $index => $row) {
+            $cusCode = $row['cusCode'];
+            
+            if ($cusCode !== $currentCompany) {
+                if ($currentCompany !== null) {
+                    
+                    $sheet->mergeCells("A{$startRow}:A" . ($lastRow - 1));
+                }
+                
+                $currentCompany = $cusCode;
+                $startRow = $lastRow;
+            }
+            $lastRow++; 
+        }
+
+        
+        if ($currentCompany !== null) {
+            
+            $sheet->mergeCells("A{$startRow}:A" . ($lastRow - 1));
+        }
+
+        
+        $sheet->getStyle('A1:D' . ($lastRow - 1))->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
+
+        return [
+            'A' => [
+                'alignment' => [
+                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+                    'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                ],
+            ],
+            'B' => [
+                'alignment' => [
+                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                    'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                ],
+            ],
+            'C' => [
+                'alignment' => [
+                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+                    'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                ],
+            ],
+            'D' => [
+                'alignment' => [
+                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT,
+                    'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                ],
+            ],
+        ];
     }
 
-    // Merge the last group
-    if ($currentCompany !== null) {
-        $sheet->mergeCells("A{$startRow}:A" . ($lastRow - 1));
-    }
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class => function (AfterSheet $event) {
+                $sheet = $event->sheet->getDelegate();
+                // dd($event, $sheet);
+                $lastRow = $sheet->getHighestRow() + 1; // Get the next empty row
+                
+                // Add sum formula in the 'Amount' column
+                $sheet->setCellValue('C' . $lastRow, 'Total');
+                $sheet->setCellValue('D' . $lastRow, '=SUM(D2:D' . ($lastRow - 1) . ')'); // Adjust column/row references
+                $sheet->getStyle($sheet->calculateWorksheetDimension())->getFont()->setSize(14);
 
-    // Set border style for all cells in the range
-    $sheet->getStyle('A1:D' . ($lastRow - 1))->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
+                $sheet->getStyle('D2:D' . $lastRow)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+                
+                // Optional: apply some styling
+                $sheet->getStyle('C' . $lastRow . ':D' . $lastRow)->getFont()->setBold(true);
 
-    // Alignment configuration
-    return [
-        'A' => [
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
-                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
-            ],
-        ],
-        'B' => [
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
-            ],
-        ],
-        'C' => [
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
-                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
-            ],
-        ],
-        'D' => [
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT,
-                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
-            ],
-        ],
-    ];
+                
+            }
+        ];
     }
 }
