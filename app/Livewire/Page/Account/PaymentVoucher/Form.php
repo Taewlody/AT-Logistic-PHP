@@ -48,6 +48,8 @@ class Form extends Component
     public FormMode $formMode;
     public $priceSum;
 
+    public $purchasevat = false;
+
     public $jobOrderSelecter;
 
     protected array $rules = [
@@ -154,6 +156,7 @@ class Form extends Component
             }
             $this->payments = $this->data->items;
             $this->attachs = $this->data->attachs;
+            $this->purchasevat = $this->data->purchasevat == 1 ? true : false;
             // dd($this->data);
             $this->calPrice(tax1: $this->data->sumTax1 ? $this->data->sumTax1 : 0, tax3: $this->data->sumTax3 ? $this->data->sumTax3 : 0);
         } else {
@@ -276,8 +279,9 @@ class Form extends Component
         $this->data->sumTax1 = $this->priceSum->tax1;
         $this->data->sumTax7 = $this->priceSum->vatTotal;
         $this->data->grandTotal = $this->priceSum->grandTotal;
-        // dd($this->data);
+        // dd($this->purchasevat);
         $this->data->save();
+        $this->data->update(['purchasevat' => $this->purchasevat ? 1 : 0]);
         $this->data->items->filter(function($item){
             return !collect($this->payments->pluck('autoid'))->contains($item->autoid);
         })->each->delete();

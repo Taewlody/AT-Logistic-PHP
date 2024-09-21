@@ -341,7 +341,7 @@
                                                                     class="checkbox-inline i-checks">
                                                                     <input type="checkbox" name="purchasevat"
                                                                         id="purchasevat"
-                                                                        wire:model.boolean='data.purchasevat'>
+                                                                        wire:model='purchasevat'>
                                                                 </label></td>
                                                         </tr>
 

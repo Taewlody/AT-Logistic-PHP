@@ -89,7 +89,7 @@ class PaymentVoucher extends Model implements Wireable
         'sumTax3' => 'float',
         'sumTax7' => 'float',
         'grandTotal' => 'float',
-        'purchasevat' => 'boolean',
+        'purchasevat' => 'integer',
     ];
 
     protected $attributes = [
@@ -100,7 +100,7 @@ class PaymentVoucher extends Model implements Wireable
         'sumTax3' => 0,
         'sumTax7' => 0,
         'grandTotal' => 0,
-        'purchasevat' => false,
+        'purchasevat' => 0,
     ];
 
     public static function boot()
