@@ -19,7 +19,7 @@ use App\Livewire\Page\Dashboard\Page as Dashboard;
 use App\Livewire\Page\Test;
 
  Route::group([
-    'prefix' => '/AT',
+    // 'prefix' => '/AT',
     'middleware' => ['auth', 'auth.session', 'session.timeout',]
 ], function() {
     Route::get('/', function() {
@@ -70,5 +70,6 @@ use App\Livewire\Page\Test;
 
 
 Route::fallback(function() {
-    return view('404');
+    // return view('404');
+    return view('login');
 });
