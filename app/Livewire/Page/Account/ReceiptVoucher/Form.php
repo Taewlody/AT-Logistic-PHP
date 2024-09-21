@@ -66,13 +66,15 @@ class Form extends Component
             $this->attachs = $this->data->attachs;
         } else {
             $this->action = 'create';
+            $this->data->documentDate = Carbon::now()->toDateString();
             $this->data->createID = Auth::user()->usercode;
             $this->payments = new Collection;
             $this->attachs = new Collection;
         }
     }
 
-    public function addPayment() {
+    #[On('Add-Charge')]
+    public function addCharge() {
         $newPayment = new ReceiptVoucherItems;
         $charge = Charges::find($this->chargeCode);
         $newPayment->documentID = $this->data->documentID;
@@ -82,6 +84,8 @@ class Form extends Component
         $newPayment->vatamount = 0;
         $this->payments->push($newPayment);
         $this->reset('chargeCode');
+        $this->dispatch('reset-select2-chargeCode');
+        $this->dispatch('update-charges');
     }
 
     public function removePayment(int $index) {
@@ -143,6 +147,9 @@ class Form extends Component
 
     public function save(bool|null $approve = false) 
     {
+        if(!$this->valid()) {
+            return false;
+        }
         DB::beginTransaction();
         try {
             $this->data->editID = Auth::user()->usercode;
@@ -164,6 +171,39 @@ class Form extends Component
             dd($exception->getMessage());
             return false;
         }
+    }
+
+    public function valid() {
+        $vaidate = true;
+        if($this->data->dueDate == null || $this->data->dueDate == '') {
+            $this->addError('data.dueDate', 'Please select due date');
+            $vaidate = false;
+        }else {
+            $this->resetErrorBag('data.dueDate');
+        }
+
+        if($this->data->cusCode == null || $this->data->cusCode == '') {
+            $this->addError('data.cusCode', 'Please select customer');
+            $vaidate = false;
+        }else {
+            $this->resetErrorBag('data.cusCode');
+        }
+
+        if($this->data->accountCode == null && $this->data->accountCode !== " ") {
+            $this->addError('data.accountCode', 'Please select account');
+            $vaidate = false;
+        }else {
+            $this->resetErrorBag('data.accountCode');
+        }
+
+        if($this->data->payType == null || $this->data->payType == '') {
+            $this->addError('data.payType', 'Please select pay type');
+            $vaidate = false;
+        }else {
+            $this->resetErrorBag('data.payType');
+        }
+
+        return $vaidate;
     }
 
     public function submit(){

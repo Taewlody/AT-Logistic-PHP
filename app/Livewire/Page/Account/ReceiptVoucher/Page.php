@@ -4,11 +4,13 @@ namespace App\Livewire\page\Account\ReceiptVoucher;
 
 use Livewire\Attributes\On;
 use App\Models\Account\ReceiptVoucher;
+use App\Models\Account\ReceiptVoucherItems;
 use App\Models\Common\Customer;
 use App\Models\Common\Saleman;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class Page extends Component
 {
@@ -46,6 +48,20 @@ class Page extends Component
         }
         if($this->jobNo != null) {
             $this->query[] = ['refJobNo', 'like', '%'.$this->jobNo.'%'];
+        }
+    }
+
+    public function delete($id) {
+        \DB::beginTransaction();
+        try {
+            ReceiptVoucher::find($id)->delete();
+            $check = ReceiptVoucherItems::where('documentID', $id)->get();
+            if($check) {
+                ReceiptVoucherItems::where('documentID', $id)->delete();
+            }
+            \DB::commit();
+        } catch (\Exception $exception) {
+            \DB::rollBack();
         }
     }
 

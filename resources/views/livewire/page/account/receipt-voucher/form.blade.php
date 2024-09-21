@@ -49,7 +49,7 @@
                                     <div class="form-group row">
                                         <label class="col-lg-2 col-form-label"><span class="col-form-label"
                                                 style="padding-top: 5px;">จ่ายให้/Paid
-                                                To</span></label>
+                                                To</span> <span class="text-danger">*</span></label>
                                         <div class="col-md-4">
                                             {{-- <select name="cusCode" class="select2_single form-control select2"
                                                 id="cusCode" wire:model="data.cusCode">
@@ -60,6 +60,9 @@
                                                 @endforeach
                                             </select> --}}
                                             <livewire:element.select2 wire:model='data.cusCode' name="cusCode" :options="Service::CustomerSelecter()" itemKey="cusCode" itemValue="custNameEN" :searchable="true" >
+                                            @error('data.cusCode')
+                                            <div class="text-danger m-2">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <div class="col-md-2">
                                             <label class="col-form-label" style="padding-top: 5px;">Ref. JobNo.</label>
@@ -109,7 +112,7 @@
                                 <div class="card-body">
                                     <div class="form-group row">
                                         <label class="col-lg-2 col-form-label"><span class="col-form-label"
-                                                style="padding-top: 5px;">ชื่อบัญชี</span></label>
+                                                style="padding-top: 5px;">ชื่อบัญชี</span> <span class="text-danger">*</span></label>
                                         <div class="col-md-10">
                                             <select name="accountCode" id="accountCode"
                                                 class="select2_single form-control select2" style="width: 100%"
@@ -121,11 +124,14 @@
                                                     </option>
                                                 @endforeach
                                             </select>
+                                            @error('data.accountCode')
+                                            <div class="text-danger m-2">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label">โดย By</label>
+                                        <label class="col-sm-2 col-form-label">โดย By <span class="text-danger">*</span></label>
                                         <div class="col-md-10">
                                             <div class="i-checks">
                                                 <input type="radio" id="chsh" value="c" name="payType"
@@ -145,7 +151,9 @@
                                                         class="form-control col-sm-6" wire:model="data.payTypeOther">
                                                 @endif
                                             </div>
-
+                                            @error('data.payType')
+                                                <div class="text-danger m-2">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
 
@@ -166,13 +174,15 @@
 
 
                                         <div class="col-md-2">
-                                            <label class="col-form-label" style="padding-top: 5px;">Due Date</label>
+                                            <label class="col-form-label" style="padding-top: 5px;">Due Date <span class="text-danger">*</span></label>
                                         </div>
                                         <div class="col-md-4">
                                             
-                                                <input type="date" name="dueDate" class="form-control"
-                                                    wire:model="data.dueDate">
-                                            
+                                            <input type="date" name="dueDate" class="form-control" wire:model="data.dueDate">
+
+                                            @error('data.dueDate')
+                                                <div class="text-danger m-2">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                     </div>
@@ -207,7 +217,10 @@
                                                 :searchable="true" :disabled="$action != 'create' && $action != 'edit'">
                                         </div>
                                         <div class="col-md-2" style="padding-left: 0px;">
-                                            <button class="btn btn-primary " type="button" wire:click='addPayment' @disabled($chargeCode=='')><i class="fa fa-plus"></i> Add</button>
+                                            {{-- <button class="btn btn-primary " type="button" wire:click='addPayment' @disabled($chargeCode=='')><i class="fa fa-plus"></i> Add</button> --}}
+                                            <button class="btn btn-primary " type="button"  @disabled($chargeCode=='') wire:click="addCharge"><i
+                                                class="fa fa-plus"></i>
+                                               Add</button>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -266,15 +279,15 @@
                                                     </tr>
                                                     <tr>
                                                       <td><strong>Tax 1% :</strong></td>
-                                                      <td><input type="number" name="tax1" id="tax1" class='form-control' wire:model.live.debounce.500ms.number='data.sumTax1' required></td>
+                                                      <td><input type="number" name="tax1" id="tax1" class='form-control' wire:model.live.debounce.500ms.number='data.sumTax1' ></td>
                                                     </tr>
                                                     <tr>
                                                       <td><strong>Tax 3% :</strong></td>
-                                                      <td><input type="number" name="tax3" id="tax3" class='form-control' wire:model.live.debounce.500ms.number='data.sumTax3' required></td>
+                                                      <td><input type="number" name="tax3" id="tax3" class='form-control' wire:model.live.debounce.500ms.number='data.sumTax3' ></td>
                                                     </tr>
                                                     <tr>
                                                       <td><strong>Vat7% :</strong></td>
-                                                      <td><input type="number" name="tax7" id="tax7" class='form-control' wire:model.live.debounce.500ms.number='data.sumTax7' required></td>
+                                                      <td><input type="number" name="tax7" id="tax7" class='form-control' wire:model.live.debounce.500ms.number='data.sumTax7' ></td>
                                                     </tr>
                                                     <tr>
                                                        <td><strong>GRAND TOTAL:</strong></td>

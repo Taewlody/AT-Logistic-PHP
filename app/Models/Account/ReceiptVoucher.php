@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 use App\Models\Common\Customer;
 use App\Models\Common\Saleman;
@@ -85,6 +86,41 @@ class ReceiptVoucher extends Model implements Wireable
         'grandTotal' => 'float',
     ];
 
+    protected $attributes = [
+        'comCode'=> 'C01',
+        'documentstatus'=> 'P',
+    ];
+
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function($model){
+            $model->documentID = self::genarateKey();
+        });
+    }
+
+    public static function genarateKey(){
+        $prefix = "RV".Carbon::now()->format('ym');
+
+        $documentIDs = self::where('documentID', 'LIKE', $prefix.'%')->pluck('documentID');
+        
+        $maxNumber = 0;
+
+        foreach ($documentIDs as $documentID) {
+           
+            $numericPart = (int) substr($documentID, strlen($prefix) + 1); 
+            
+            if ($numericPart > $maxNumber) {
+                $maxNumber = $numericPart;
+            }
+        }
+
+        $newNumber = $maxNumber + 1;
+
+        $index = str_pad($newNumber, 5, '0', STR_PAD_LEFT);
+        
+        return $prefix.'-'.$index;
+    }
 
     public function __construct($attributes = [])
     {
