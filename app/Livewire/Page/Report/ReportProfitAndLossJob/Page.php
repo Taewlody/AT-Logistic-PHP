@@ -80,15 +80,16 @@ class Page extends Component
     public function getTotalProfit()
     {
 
-        $this->totalProfit = JobOrder::with('charge')->get()->sum(function($jobOrder) {
-            $totalChargesCost = 0;
-            foreach ($jobOrder->charge as $charge) {
-                $totalChargesCost += $charge->chargesCost;
-            }
-            $difference = $jobOrder->total_amt - $totalChargesCost - $jobOrder->total_vat;
-            return $difference;
+        $this->totalProfit = JobOrder::sum('tax3');
+        // $this->totalProfit = JobOrder::with('charge')->get()->sum(function($jobOrder) {
+        //     $totalChargesCost = 0;
+        //     foreach ($jobOrder->charge as $charge) {
+        //         $totalChargesCost += $charge->chargesCost;
+        //     }
+        //     $difference = $jobOrder->total_amt - $totalChargesCost - $jobOrder->total_vat;
+        //     return $difference;
 
-        });
+        // });
         
         return $this->totalProfit;
     }
@@ -97,15 +98,16 @@ class Page extends Component
     public function getTotalNetProfit()
     {
 
-        $this->totalNetProfit = JobOrder::with('charge')->get()->sum(function($jobOrder) {
-            $totalChargesCost = 0;
-            foreach ($jobOrder->charge as $charge) {
-                $totalChargesCost += $charge->chargesCost;
-            }
-            $difference = $jobOrder->total_amt - $totalChargesCost - $jobOrder->total_vat - $jobOrder->tax3 - $jobOrder->tax1;
-            return $difference;
+        $this->totalNetProfit = JobOrder::sum('tax1');
+        // $this->totalNetProfit = JobOrder::with('charge')->get()->sum(function($jobOrder) {
+        //     $totalChargesCost = 0;
+        //     foreach ($jobOrder->charge as $charge) {
+        //         $totalChargesCost += $charge->chargesCost;
+        //     }
+        //     $difference = $jobOrder->total_amt - $totalChargesCost - $jobOrder->total_vat - $jobOrder->tax3 - $jobOrder->tax1;
+        //     return $difference;
 
-        });
+        // });
         
         return $this->totalNetProfit;
     }
@@ -129,6 +131,7 @@ class Page extends Component
     {
         // $data = JobOrder::with(['charge', 'customerRefer'])->orderBy('documentDate', 'DESC')->get();
         $data = JobOrder::selectRaw("joborder.documentID, 
+        joborder.tax3, joborder.tax1,
         joborder.total_amt, 
         documentDate, 
         SUM(joborder_charge.chargesCost) as cost, 

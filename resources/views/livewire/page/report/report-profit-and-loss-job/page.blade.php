@@ -132,8 +132,10 @@
                                                 <td>{{ $item->custNameEN ? $item->custNameEN : $item->custNameTH }}</td>
                                                 <td>{{ number_format($item->total_amt, 2) }}</td>
                                                 <td>{{ number_format($item->cost, 2) }}</td>
-                                                <td>{{ number_format($item->profit, 2) }}</td>
-                                                <td>{{ number_format($item->netprofit, 2) }}</td>
+                                                <td>{{ number_format($item->tax3, 2) }}</td>
+                                                <td>{{ number_format($item->tax1, 2) }}</td>
+                                                {{-- <td>{{ number_format($item->profit, 2) }}</td>
+                                                <td>{{ number_format($item->netprofit, 2) }}</td> --}}
                                                 <td>
                                                     <div class="btn-group">
                                                         <a class="btn btn-xs btn-success"
