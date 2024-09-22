@@ -75,6 +75,60 @@ class Page extends Component
         $this->render();
     }
 
+    public function createNewJobFromCopy($job) {
+        
+            \DB::beginTransaction();
+            try {
+                $newJob = new JobOrder;
+                
+                $newJob->createID = Auth::user()->usercode;
+                $newJob->documentDate = Carbon::now()->format('Y-m-d');
+
+                $newJob->bound = $job->bound;
+                $newJob->port_of_landing = $job->port_of_landing;
+                $newJob->freight = $job->freight;
+                $newJob->port_of_discharge = $job->port_of_discharge;
+                $newJob->etdDate = $job->etdDate;
+                $newJob->etaDate = $job->etaDate;
+                $newJob->closingDate = $job->closingDate;
+                $newJob->closingTime = $job->closingTime;
+                $newJob->deliveryType = $job->deliveryType;
+                $newJob->cusCode = $job->cusCode;
+                $newJob->agentCode = $job->agentCode;
+                $newJob->saleman = $job->saleman;
+                $newJob->feeder = $job->feeder;
+                
+                // dd($newJob, $job);
+
+                $newJob->save();
+
+                \DB::commit();
+                return true;
+            }catch (\Exception $exception) {
+                \DB::rollBack();
+                dd($exception->getMessage());
+                echo "Exception caught: " . $exception->getMessage();
+                return false;
+            }
+        
+    }
+
+    public function copy($id) {
+        $job = JobOrder::find($id);
+        $result = false;
+
+        if($job) {
+            $result = $this->createNewJobFromCopy($job);
+        }
+
+        if($result) {
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'Copy ข้อมูลสำเร็จ', type: 'success');
+            $this->render();
+        }else {
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'Copy ข้อมูลไม่สำเร็จ', type: 'error');
+        }
+    }
+
     public function render()
     {
         if(Auth::user()->hasRole(Role::CUSTOMER)){

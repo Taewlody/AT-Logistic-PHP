@@ -200,9 +200,14 @@
                                                     <div class="btn-group">
                                                         <a class="btn btn-xs btn-success"
                                                             href="{{ route('job-order.form', ['action' => 'view', 'id' => $item->documentID]) }}" wire:navigate>View</a>
+
+                                                        <button class="btn btn-xs btn-secondary"
+                                                            wire:confirm="Are you sure want to Copy {{$item->documentID}}" wire:click="copy('{{$item->documentID}}')" wire:refresh="$refresh">Copy</button>
+
                                                         <a class="btn btn-xs btn-primary"
                                                             href="{{ route('job-order.form', ['action' => 'edit', 'id' => $item->documentID]) }}" wire:navigate>Edit</a>
-                                                        
+
+
                                                         {{-- @if(!$item->charge->count() > 0 || Auth::user()->hasRole('admin')) --}}
                                                         @if(Service::CheckDeleteJob($item->documentID))
                                                             <button class="btn btn-xs btn-danger"
@@ -237,3 +242,7 @@
         </form>
     </div>
 </div>
+@push('modal')
+<livewire:modal.modal-alert /> 
+<livewire:modal.job-order.charges-alert />
+@endpush
