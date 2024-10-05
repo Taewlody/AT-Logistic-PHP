@@ -106,7 +106,7 @@
                             <tr>
                                 {{-- <td>{{$item->detail}}</td> --}}
                                 <td>{{ str_replace("\u{200B}", " ", $item->detail) }}</td>
-                                <td>{{Service::MoneyFormat($item->chargesReceive)}} </td>
+                                <td>{{$data->items->sum('chargesReceive') ? Service::MoneyFormat($item->chargesReceive) : '' }} </td>
                             </tr>
                         @endforeach
                         <tr>
@@ -117,7 +117,7 @@
                     <tfoot>
                         <tr>
                             <td><b>TOTAL/จำนวนเงิน</b></td>
-                            <td><b>{{Service::MoneyFormat($data->items->sum('chargesReceive'))}}</b></td>
+                            <td><b>{{$data->items->sum('chargesReceive') ? Service::MoneyFormat($data->items->sum('chargesReceive')) : '' }}</b></td>
                         </tr>
                         <tr>
                             <td><b>VAT 7% / ภาษีมูลค่าเพิ่ม 7%</b></td>
@@ -260,7 +260,7 @@
                         @foreach ($itemChargesReceive as $item)
                             <tr>
                                 <td>{{ str_replace("\u{200B}", " ", $item->detail) }}</td>
-                                <td>{{Service::MoneyFormat($item->chargesReceive)}} </td>
+                                <td>{{$item->chargesReceive ? Service::MoneyFormat($item->chargesReceive) : '' }} </td>
                             </tr>
                         @endforeach
                         <tr>
@@ -271,7 +271,7 @@
                     <tfoot>
                         <tr>
                             <td><b>TOTAL/จำนวนเงิน</b></td>
-                            <td><b>{{Service::MoneyFormat($data->items->sum('chargesReceive'))}}</b></td>
+                            <td><b>{{$data->items->sum('chargesReceive') ? Service::MoneyFormat($data->items->sum('chargesReceive')) : '' }}</b></td>
                         </tr>
                         <tr>
                             <td><b>VAT 7% / ภาษีมูลค่าเพิ่ม 7%</b></td>
@@ -415,7 +415,7 @@
                         @foreach ($itemChargesReceive as $item)
                             <tr>
                                 <td>{{ str_replace("\u{200B}", " ", $item->detail) }}</td>
-                                <td>{{Service::MoneyFormat($item->chargesReceive)}} </td>
+                                <td>{{$item->chargesReceive ? Service::MoneyFormat($item->chargesReceive) : '' }} </td>
                             </tr>
                         @endforeach
                         <tr>
@@ -426,7 +426,7 @@
                     <tfoot>
                         <tr>
                             <td><b>TOTAL/จำนวนเงิน</b></td>
-                            <td><b>{{Service::MoneyFormat($data->items->sum('chargesReceive'))}}</b></td>
+                            <td><b>{{$data->items->sum('chargesReceive') ? Service::MoneyFormat($data->items->sum('chargesReceive')) : '' }}</b></td>
                         </tr>
                         <tr>
                             <td><b>VAT 7% / ภาษีมูลค่าเพิ่ม 7%</b></td>
@@ -569,7 +569,7 @@
                         @foreach ($itemChargesbillReceive as $item)
                             <tr>
                                 <td>{{ str_replace("\u{200B}", " ", $item->detail) }}</td>
-                                <td>{{Service::MoneyFormat($item->chargesbillReceive)}} </td>
+                                <td>{{$item->chargesbillReceive ? Service::MoneyFormat($item->chargesbillReceive) : ''}} </td>
                             </tr>
                         @endforeach
                         <tr>
@@ -580,7 +580,7 @@
                     <tfoot>
                         <tr>
                             <td><b>TOTAL/จำนวนเงิน</b></td>
-                            <td rowspan="2" style="vertical-align: baseline;"><b>{{Service::MoneyFormat($data->items->sum('chargesbillReceive'))}}</b></td>
+                            <td rowspan="2" style="vertical-align: baseline;"><b>{{$data->items->sum('chargesbillReceive') ? Service::MoneyFormat($data->items->sum('chargesbillReceive')) : ''}}</b></td>
                         </tr>
                         {{-- <tr>
                             <td><b>VAT 7% / ภาษีมูลค่าเพิ่ม 7%</b></td>
