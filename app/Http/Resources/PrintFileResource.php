@@ -127,9 +127,11 @@ class PrintFileResource extends Controller
                 return $item->commodityNameEN ? $item->commodityNameEN : $item->commodityNameTH;
             })->toArray();
         }
-        
+        $name = $data->customerRefer->custNameEN.'_'.$data->landingPort->portNameEN.'_'.$data->dischargePort->portNameEN.'_'.$data->bookingNo.'_'.Carbon::parse($data->etdDate)->format('d/m/Y');
+        // dd($name);
+
         $pdf = DomPdf::loadView('print.booking_job_order_pdf', ['title' => "Booking Confirmation", 'data' => $data, 'groupContainer' => $groupContainer, 'groupPackage' => $groupPackage, 'groupCommodity' => $groupCommodity,]);
-        return $pdf->stream('booking_job_order.pdf');
+        return $pdf->stream($name.'.pdf');
 
         // return view('print.booking_job_order_pdf', [
         //     'title' => "Booking Confirmation", 
