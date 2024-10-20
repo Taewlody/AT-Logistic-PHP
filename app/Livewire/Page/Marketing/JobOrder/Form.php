@@ -516,7 +516,7 @@ class Form extends Component
                 return false;
             }
         }
-
+        // dd($this->data->bound, $this->data->bill_of_landing);
         if($this->data->bound == 1){
             if ($this->data->bill_of_landing !== null) {
                 $checkBillOfLanding = JobOrder::where('bill_of_landing', $this->data->bill_of_landing)->where('bill_of_landing', '!=', 'N/A')->where('documentID', '!=', $this->data->documentID)->first();
@@ -527,6 +527,7 @@ class Form extends Component
                 }
             }else {
                 $this->addError('bill_of_landing', 'Please enter Bill Of Lading');
+                return false;
             }
         }
 
@@ -645,6 +646,7 @@ class Form extends Component
     public function submitAfterConfirmCharge()
     {
         $success = $this->save();
+        
         if ($success) {
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'บันทึกข้อมูลสำเร็จ', type: 'success');
             return redirect()->route('job-order.form', ['action' => 'edit', 'id' => $this->data->documentID]);
