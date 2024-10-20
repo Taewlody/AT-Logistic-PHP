@@ -76,6 +76,13 @@ class Document extends Component
         }
     }
 
+    public function updatedValue($propertyName, $propertyValue)
+    {
+        if ($propertyValue === 'bill_of_landing' && !empty($this->value['bill_of_landing'])) {
+            $this->value['bookingNo'] = $this->value['bill_of_landing'];
+        }
+    }
+
     public function render()
     {
         return view('livewire.page.marketing.job-order.element.document');
