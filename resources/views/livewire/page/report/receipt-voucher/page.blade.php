@@ -3,7 +3,7 @@
         breadcrumb_page="ใบสำคัญรับ" />
 
     <div class="container-fluid">
-        <form wire:submit="search">
+        <form wire:submit="search" wire:refresh="$refresh">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
