@@ -218,18 +218,25 @@ class Form extends Component
             // dd($this->data);
             $this->data->save();
 
-            $this->data->items()->delete();
-            $job = JobOrder::where('documentID', $this->data->refJobNo)->first();
-            foreach($this->payments as $pay) {
-                $data = new PettyCashItems();
-                $data->comCode = 'C01';
-                $data->documentID = $this->data->documentID;
-                $data->chargeCode = $pay->chargeCode;
-                $data->chartDetail = $pay->chartDetail;
-                $data->amount = $pay->amount;
-                $data->invNo = $job->invNo;
+            if($this->data->refJobNo) {
+                $this->data->items()->delete();
+                $job = JobOrder::where('documentID', $this->data->refJobNo)->first();
+                foreach($this->payments as $pay) {
+                    $data = new PettyCashItems();
+                    $data->comCode = 'C01';
+                    $data->documentID = $this->data->documentID;
+                    $data->chargeCode = $pay->chargeCode;
+                    $data->chartDetail = $pay->chartDetail;
+                    $data->amount = $pay->amount;
+                    $data->invNo = $job->invNo;
 
-                $this->data->items()->save($data);
+                    $this->data->items()->save($data);
+                }
+            }else {
+                $this->data->items->filter(function($item){
+                    return !collect($this->payments->pluck('autoid'))->contains($item->autoid);
+                })->each->delete();
+                $this->data->items()->saveMany($this->payments);
             }
 
             \DB::commit();
@@ -255,12 +262,12 @@ class Form extends Component
         }else {
             $this->resetErrorBag('supCode');
         }
-        if($this->data->refJobNo == null || $this->data->refJobNo == '') {
-            $this->addError('refJobNo', 'Please select Ref. JobNo.');
-            $vaildated = false;
-        }else {
-            $this->resetErrorBag('refJobNo');
-        }
+        // if($this->data->refJobNo == null || $this->data->refJobNo == '') {
+        //     $this->addError('refJobNo', 'Please select Ref. JobNo.');
+        //     $vaildated = false;
+        // }else {
+        //     $this->resetErrorBag('refJobNo');
+        // }
         
         return $vaildated;
     }
