@@ -152,7 +152,7 @@
                         <span class="header">Booking No. : </span> <span style="color: red">{{$data->jobOrder != null ? $data->jobOrder->bookingNo : ""}}</span>
                     </td>
                     <td>
-                        <span class="header">Agent : </span>{{$data->supplier != null ? $data->supplier->supNameEN : ""}}
+                        <span class="header">Agent : </span>{{ $data->supplier != null ? $data->supplier->supNameEN ? $data->supplier->supNameEN : $data->supplier->supNameTH : "" }}
                     </td>
                 </tr>
                 <tr class="col-2">
