@@ -248,8 +248,7 @@
                                                                 wire:model.live.debounce.500ms="payments.{{ $loop->index }}.chartDetail">
                                                             </td>
                                                             <td class='center'>
-                                                                <input type='number' class='form-control'
-                                                                wire:model.live.debounce.500ms.number="payments.{{ $loop->index }}.amount">
+                                                                <input type='number' class='form-control' step="0.01" required wire:model.live.debounce.500ms.number="payments.{{ $loop->index }}.amount">
                                                             </td>
                                                             <td class='center'>
                                                                 <button type='button'
