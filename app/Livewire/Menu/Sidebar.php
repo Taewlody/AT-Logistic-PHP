@@ -27,7 +27,7 @@ class Sidebar extends Component
             'name' => 'Common Data', 
             'menu_name' => 'common',
             'icon' => 'fa fa-bars', 
-            'roles' => [1, 6],
+            'roles' => [1, 6, 7],
             'menu' => [
                 ['name' => 'Country', 'route_name' => 'country'],
                 ['name' => 'Port', 'route_name' => 'port'],

@@ -437,9 +437,11 @@
                                     <button name="save" id="save" class="btn  btn-success" type="submit">
                                         <i class="fa fa-save"></i> Save</button>
                                     @endif
+                                    @if(Auth::user()->hasRole('admin'))
                                     <button name="approve" id="approve" class="btn btn-primary" type="button" wire:click="approve"
                                         @disabled($data->documentstatus == 'A')>
                                         <i class="fa fa-check"></i> Approve</button>
+                                    @endif
                                     @if((now()->diffInDays($data->editTime) >= 15 && $data->documentstatus == 'A')&&Auth::user()->hasRole(Role::ADMIN))
                                     <button name="complete" id="complete" class="btn btn-info" type="button" wire:click="complete"
                                         @disabled($data->documentstatus != 'A')>

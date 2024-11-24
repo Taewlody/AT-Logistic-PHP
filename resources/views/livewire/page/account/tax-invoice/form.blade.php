@@ -441,11 +441,13 @@
                   @if($data->documentstatus != 'A' && $action != 'view')
                   <button name="save" id="save" class="btn  btn-success" type="submit">
                     <i class="fa fa-save"></i> Save</button>
-                  
-                  <button name="approve" id="approve" class="btn btn-primary" type="button" wire:click="approve"
-                    @disabled($data->documentstatus == 'A')>
-                    <i class="fa fa-check"></i> Approve</button>
+
+                    @if(Auth::user()->hasRole('admin'))
+                    <button name="approve" id="approve" class="btn btn-primary" type="button" wire:click="approve"
+                      @disabled($data->documentstatus == 'A')>
+                      <i class="fa fa-check"></i> Approve</button>
                     @endif
+                  @endif
                   @if($data->documentID != null && $data->documentID != '')
                   <a class="btn" target="_blank" href="{{'/api/print/tax_invoice_pdf/'.$data->documentID}}"><i
                       class="fa fa-print"></i>

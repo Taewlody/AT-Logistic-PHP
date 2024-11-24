@@ -420,9 +420,11 @@
                                         <button name="save" id="save" class="btn  btn-success" type="submit">
                                             <i class="fa fa-save"></i> Save</button>
                                         @endif
+                                        @if(Auth::user()->hasRole('admin'))
                                         <button name="approve" id="approve" class="btn btn-primary" type="button" wire:click='approve'
                                             >
                                             <i class="fa fa-check"></i> Approve</button>
+                                        @endif
                                         @if($data->documentID != null && $data->documentID != '')
                                             <a class="btn" target="_blank" href="{{'/api/print/receipt_voucher_pdf/'.$data->documentID}}"><i class="fa fa-print"></i>
                                                 Print</a>

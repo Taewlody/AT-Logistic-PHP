@@ -638,7 +638,7 @@
                                     <button name="Approve" id="Approve" class="btn btn-success" type="submit"><i
                                             class="fa fa-save"></i> Save</button>
                                     @endif
-                                    @if($action != 'create' && $job->documentstatus != 'A')
+                                    @if($action != 'create' && $job->documentstatus != 'A' && Auth::user()->hasRole('admin'))
                                     <button name="Approve" id="Approve" class="btn btn-success" wire:click="approve"
                                         type="button"><i class="fa fa-check"></i> Approve</button>
                                     @endif

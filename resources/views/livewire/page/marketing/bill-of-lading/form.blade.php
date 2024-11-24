@@ -212,10 +212,11 @@
                                 <button name="save" id="save" class="btn btn-primary" type="button" wire:click='save'
                                         @disabled($data->documentstatus == 'A')>
                                         <i class="fa fa-save"></i> Save</button>
+                                    @if(Auth::user()->hasRole('admin'))
                                     <button name="approve" id="approve" class="btn btn-success " type="button" wire:click='approve'
                                         @disabled($data->documentstatus == 'A' || $data->documentID != null)>
                                         <i class="fa fa-check"></i> Approve</button>
-
+                                    @endif
 
                                 <button class="btn btn-secondary " type="button" onclick=""><i
                                         class="fa fa-print"></i>
