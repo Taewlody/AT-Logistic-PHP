@@ -131,23 +131,27 @@ class Page extends Component
 
     public function render()
     {
-        if(Auth::user()->hasRole(Role::CUSTOMER)){
-           
-        }
+        // dd(Auth::user()->usercode);
         $invoice = $this->invoiceNo?? '';
-        // $data = JobOrder::with(['AdvancePayment', 'PettyCash', 'PaymentVoucher', 'invoice' => function($query) use ($invoice) {
-        //     $query->where('documentID', $invoice);
-        // }])
-        // ->whereHas('invoice', function ($query) use ($invoice) {
-        //     $query->where('documentID', $invoice);
-        // })
-        // ->where($this->query)
-        // ->orderBy('documentID', 'DESC')
-        // ->get();
-        // dd($data);
+        if(!Auth::user()->hasRole('Admin') && !Auth::user()->hasRole('Account') && !Auth::user()->hasRole('Shipping Officer')){
 
-        return view('livewire.page.marketing.job-order.page',[ 
-            'data'=> JobOrder::with(['AdvancePayment', 'PettyCash', 'PaymentVoucher', 'invoice' => function($query) use ($invoice) {
+            $data = JobOrder::with(['AdvancePayment', 'PettyCash', 'PaymentVoucher', 'invoice' => function($query) use ($invoice) {
+                if ($invoice) {
+                    $query->where('documentID', $invoice);
+                }
+            }])
+            ->when($invoice, function ($query) use ($invoice) {
+                $query->whereHas('invoice', function ($query) use ($invoice) {
+                    $query->where('documentID', $invoice);
+                });
+            })
+            ->where('createID', Auth::user()->usercode)
+            ->where($this->query)
+            ->orderBy('documentID', 'DESC');
+           
+        } else {
+        
+            $data = JobOrder::with(['AdvancePayment', 'PettyCash', 'PaymentVoucher', 'invoice' => function($query) use ($invoice) {
                 if ($invoice) {
                     $query->where('documentID', $invoice);
                 }
@@ -158,7 +162,11 @@ class Page extends Component
                 });
             })
             ->where($this->query)
-            ->orderBy('documentID', 'DESC')->paginate(20)
+            ->orderBy('documentID', 'DESC');
+        }
+
+        return view('livewire.page.marketing.job-order.page',[ 
+            'data'=> $data->paginate(20)
             ])->extends('layouts.main')->section('main-content');
         // return view('livewire.page.marketing.job-order.page',[ 
         //     'data'=> JobOrder::with(['AdvancePayment', 'PettyCash', 'PaymentVoucher'])->where($this->query)->orderBy('documentID', 'DESC')->paginate(20)

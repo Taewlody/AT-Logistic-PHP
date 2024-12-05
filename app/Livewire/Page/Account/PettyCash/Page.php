@@ -70,8 +70,21 @@ class Page extends Component
     #[Computed]
     public function getTotalAmount()
     {
+        if(Auth::user()->UserType->userTypeName == Role::SUPPLIER){
+            $results = PettyCash::whereHas('supplier', function($q) {
+                $q->where('usercode', Auth::user()->usercode);
+            
+            })->where($this->query)->orderBy('documentID', 'DESC')->paginate(20);
+        }else if(Auth::user()->hasRole('Shipping Operation')) {
+            $results = PettyCash::where($this->query)->where('createID', Auth::user()->usercode)->orderBy('documentDate', 'desc')->paginate(20);
+        }
+        else{
+            
+            $results = PettyCash::where($this->query)->orderBy('documentDate', 'desc')->paginate(20);
+        }  
 
-        $results = PettyCash::where($this->query)->orderBy('documentDate', 'desc')->get();
+
+        // $results = PettyCash::where($this->query)->orderBy('documentDate', 'desc')->get();
         // dd($results->sum('sumTotal'));
         $this->amount = $results->sum('sumTotal');
 
@@ -100,7 +113,10 @@ class Page extends Component
                 $q->where('usercode', Auth::user()->usercode);
             
             })->where($this->query)->orderBy('documentID', 'DESC')->paginate(20);
-        }else{
+        }else if(Auth::user()->hasRole('Shipping Operation')) {
+            $data = PettyCash::where($this->query)->where('createID', Auth::user()->usercode)->orderBy('documentDate', 'desc')->paginate(20);
+        }
+        else{
             
             $data = PettyCash::where($this->query)->orderBy('documentDate', 'desc')->paginate(20);
         }   

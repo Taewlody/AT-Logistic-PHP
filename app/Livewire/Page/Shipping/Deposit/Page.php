@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Page\Shipping\Deposit;
 
+use Auth;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -50,6 +51,23 @@ class Page extends Component
 
     public function render()
     {
-        return view('livewire.page.shipping.deposit.page', [ 'data'=> Deposit::whereBetween('documentDate', [$this->dateStart, $this->dateEnd] )->where($this->query)->orderBy('documentstatus', 'DESC')->orderBy('documentID', 'DESC')->paginate(20)])->extends('layouts.main')->section('main-content');
+        if(Auth::user()->hasRole('Shipping Operation')) {
+            $data = Deposit::whereBetween('documentDate', [$this->dateStart, $this->dateEnd] )
+            ->where($this->query)
+            ->where('createID', Auth::user()->usercode)
+            ->orderBy('documentstatus', 'DESC')
+            ->orderBy('documentID', 'DESC');
+        }
+        else{
+            
+            $data = Deposit::whereBetween('documentDate', [$this->dateStart, $this->dateEnd] )
+            ->where($this->query)
+            ->orderBy('documentstatus', 'DESC')
+            ->orderBy('documentID', 'DESC');
+        }  
+
+        return view('livewire.page.shipping.deposit.page', [ 
+            'data'=> $data->paginate(20)])
+            ->extends('layouts.main')->section('main-content');
     }
 }

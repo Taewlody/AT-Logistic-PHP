@@ -2,6 +2,7 @@
 
 namespace App\Livewire\page\Account\PaymentVoucher;
 
+use Auth;
 use Livewire\Attributes\On;
 use App\Models\Payment\PaymentVoucher;
 use App\Models\Common\Supplier;
@@ -71,6 +72,18 @@ class Page extends Component
 
     public function render()
     {
-        return view('livewire.page.account.payment-voucher.page', [ 'data'=> PaymentVoucher::where($this->query)->orderBy('documentID', 'desc')->paginate(20)])->extends('layouts.main')->section('main-content');
+        if(Auth::user()->hasRole('Shipping Operation')) {
+            $data = PaymentVoucher::where($this->query)
+            ->where('createID', Auth::user()->usercode)
+            ->orderBy('documentID', 'desc');
+
+        } else {
+            $data = PaymentVoucher::where($this->query)
+            ->orderBy('documentID', 'desc');
+        }
+
+        return view('livewire.page.account.payment-voucher.page', [ 
+            'data'=> $data->paginate(20)])
+            ->extends('layouts.main')->section('main-content');
     }
 }
