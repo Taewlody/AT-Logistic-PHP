@@ -92,11 +92,15 @@ class Form extends Component
         } 
 
         $this->jobOrderSelecter = Service::JobOrderSelecter();
+        // dd($this->jobOrderSelecter[0]);
     }
 
     #[On("updated-refJobNo")]
     public function updateRefJob(){
         $selectedJob = JobOrder::find($this->data->refJobNo);
+       
+        $this->data->cusCode = $selectedJob->cusCode;
+       
         if($selectedJob->invoice != null) {
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Warning', message: 'job นี้ได้มีการออก invoice แล้ว', type: 'warning');
         }
@@ -153,6 +157,7 @@ class Form extends Component
     }
 
     public function save(bool|null $approve = false) {
+        
         if(!$this->valid()) {
             return false;
         }

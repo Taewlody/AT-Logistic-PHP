@@ -58,9 +58,26 @@
                                                 <div class="text-danger m-2">{{ $message }}</div>
                                             @enderror
                                         </div>
+                                        @if(Auth::user()->UserType?->userTypeName == 'Customer')
+                                        <div class="col-md-2">
+                                            <label class="col-form-label" style="padding-top: 5px;">invNo.<span class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <livewire:element.select2 wire:model='data.refJobNo'
+                                            name="refJobNo" :options="$jobOrderSelecter"
+                                            itemKey="documentID" itemValue="invNo" 
+                                            :searchable="true">
+                                            @error('refJobNo')
+                                                <div class="text-danger m-2">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        @else
                                         <div class="col-md-2">
                                             <label class="col-form-label" style="padding-top: 5px;">Ref. JobNo.<span class="text-danger">*</span></label>
+                                           
                                         </div>
+                                        
                                         <div class="col-md-4">
                                             <livewire:element.select2 wire:model='data.refJobNo'
                                             name="refJobNo" :options="$jobOrderSelecter"
@@ -70,6 +87,8 @@
                                                 <div class="text-danger m-2">{{ $message }}</div>
                                             @enderror
                                         </div>
+                                        
+                                        @endif
 
                                     </div>
 

@@ -199,6 +199,7 @@ class Service
     public static function JobOrderSelecter(bool|null $approve = null)
     {
         return Cache::remember('job-order-select', 15, function () use ($approve) {
+            $customer = Customer::select('cusCode', 'custNameEN')->where('isActive', '=', '1')->where('usercode', '=', Auth::user()->usercode)->orderBy('custNameEN')->first();
             if ($approve === null) {
                 $invoice = Invoice::select('ref_jobNo')
                    ->where(function ($query) {
@@ -207,13 +208,26 @@ class Service
                    })
                    ->groupBy('ref_jobNo')
                    ->pluck('ref_jobNo');
-                   
+                
+                if (auth::user()->UserType?->userTypeName == 'Customer' && $customer->cusCode){
+                    return JobOrder::select('documentID', 'documentstatus', 'invNo')->whereNotIn('documentID', $invoice)->where('cusCode', '=', $customer->cusCode)->orderBy('documentID', 'desc')->get();
+                } else {
+                    return JobOrder::select('documentID', 'documentstatus', 'invNo')->whereNotIn('documentID', $invoice)->orderBy('documentID', 'desc')->get();
+                }
 
-                return JobOrder::select('documentID', 'documentstatus')->whereNotIn('documentID', $invoice)->orderBy('documentID', 'desc')->get();
+                
             }else{
-                return JobOrder::select('documentID', 'documentstatus')->with('invoice')->where("documentstatus", "=", ($approve ? "A" : "P"))->orWhereHas('invoice', function($query) {
-                    $query->where('taxivRef', '=', '');
-                })->orWhereDoesntHave('invoice')->orderBy('documentID', 'desc')->get();
+                if (auth::user()->UserType?->userTypeName == 'Customer' && $customer->cusCode){
+                    return JobOrder::select('documentID', 'documentstatus', 'invNo')->with('invoice')->where('cusCode', '=', $customer->cusCode)->where("documentstatus", "=", ($approve ? "A" : "P"))->orWhereHas('invoice', function($query) {
+                        $query->where('taxivRef', '=', '');
+                    })->orWhereDoesntHave('invoice')->orderBy('documentID', 'desc')->get();
+                } else {
+                    return JobOrder::select('documentID', 'documentstatus', 'invNo')->with('invoice')->where("documentstatus", "=", ($approve ? "A" : "P"))->orWhereHas('invoice', function($query) {
+                        $query->where('taxivRef', '=', '');
+                    })->orWhereDoesntHave('invoice')->orderBy('documentID', 'desc')->get();
+                }
+                
+                
             }
         });
     }

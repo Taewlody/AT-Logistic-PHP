@@ -83,7 +83,7 @@ class Sidebar extends Component
             'name' => 'Messenger',
             'menu_name' => 'messenger',
             'icon' => 'fa fa-taxi',
-            'roles' => [1,3,4,6,7],
+            'roles' => [1,3,6,7],
             'menu' => [
                 ['name' => 'messenger booking', 'route_name' => 'messanger-booking'],
                 ['name' => 'Calendar booking', 'route_name' => 'calendar-booking'],

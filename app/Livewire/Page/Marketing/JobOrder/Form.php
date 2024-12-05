@@ -728,7 +728,10 @@ class Form extends Component
             $Item_invoice = new Collection;
             $invoice = Invoice::where('ref_jobNo', $this->data->documentID)->firstOrNew();
             // dd($this->data, $invoice);
-            $invoice->documentDate = Carbon::now()->format('Y-m-d');
+           
+            if($invoice->documentID == null) {
+                $invoice->documentDate = Carbon::now()->format('Y-m-d');
+            }
             $invoice->ref_jobNo = $this->data->documentID;
             $invoice->cusCode = $this->data->cusCode;
             $invoice->saleman = $this->data->saleman;
