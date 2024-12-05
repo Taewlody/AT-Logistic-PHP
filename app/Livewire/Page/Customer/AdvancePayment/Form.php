@@ -211,12 +211,13 @@ class Form extends Component
             }else {
                 $this->resetErrorBag('branch');
             }
-            if($this->data->chequeNo == null || $this->data->chequeNo == '') {
-                $this->addError('chequeNo', 'Please select cheque');
-                $vaidate = false;
-            }else {
-                $this->resetErrorBag('chequeNo');
-            }
+            
+        }
+        if($this->data->chequeNo == null || $this->data->chequeNo == '') {
+            $this->addError('chequeNo', 'Please enter transfer amount');
+            $vaidate = false;
+        }else {
+            $this->resetErrorBag('chequeNo');
         }
         
         return $vaidate;

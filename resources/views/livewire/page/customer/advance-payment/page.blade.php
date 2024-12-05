@@ -83,6 +83,14 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-4">
+                                    <div class="form-group" id="chequeNo">
+                                        <label class="font-normal">ยอดโอน</label>
+                                        <div class="input-group date"> 
+                                            <input class="form-control digits" name="chequeNo" wire:model="chequeNo" autocomplete="off" type="text" value="">
+                                        </div>
+                                    </div>
+                                </div>
                                 
                             </div>
                             <div class="row">

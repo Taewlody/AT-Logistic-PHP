@@ -175,7 +175,7 @@
                                             @enderror
                                         </div>
 
-                                        <label class="col-sm-2 col-form-label">เลขที่เช็ค <span class="text-danger">*</span></label>
+                                        <label class="col-sm-2 col-form-label">ยอดโอน <span class="text-danger">*</span></label>
                                         <div class="col-md-4">
                                             <input type="text" name="chequeNo" id="chequeNo" class="form-control"
                                                 wire:model="data.chequeNo">

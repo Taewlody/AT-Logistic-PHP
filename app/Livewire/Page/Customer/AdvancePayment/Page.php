@@ -20,6 +20,7 @@ class Page extends Component
     public $customerSearch = "";
     public $documentNo = "";
     public $jobNo = "";
+    public $chequeNo = "";
 
     public $invoiceNo = "";
     public $query = [];
@@ -50,6 +51,9 @@ class Page extends Component
         }
         if($this->customerSearch != null) {
             $this->query[] = ['cusCode', $this->customerSearch];
+        }
+        if($this->chequeNo != null) {
+            $this->query[] = ['chequeNo', $this->chequeNo];
         }
     }
 
