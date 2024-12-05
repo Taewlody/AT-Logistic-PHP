@@ -5,6 +5,7 @@ namespace App\Livewire\Page\Marketing\TrailerBooking;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Carbon\Carbon;
+use Auth;
 
 use App\Models\Common\Customer;
 use App\Models\Common\Saleman;
@@ -66,9 +67,16 @@ class Page extends Component
 
     public function render()
     {
+        if(Auth::user()->UserType->userTypeName == 'Supplier'){
+            $data = TrailerBooking::with('jobOrder')->where($this->query)->where('createID', Auth::user()->usercode)->orderBy('documentID', 'DESC');
+        }else{
+            $data = TrailerBooking::with('jobOrder')
+            ->where($this->query)
+            ->orderBy('documentID', 'DESC');
+        } 
 
         return view('livewire.page.marketing.trailer-booking.page', [ 
-            'data'=> TrailerBooking::with('jobOrder')->where($this->query)->orderBy('documentID', 'DESC')->paginate(20)
+            'data'=> $data->paginate(20)
             ])->extends('layouts.main')->section('main-content');
     }
 }

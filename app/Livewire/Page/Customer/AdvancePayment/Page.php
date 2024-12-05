@@ -68,7 +68,11 @@ class Page extends Component
                 $q->where('usercode', Auth::user()->usercode);
             
             })->where($this->query)->orderBy('documentID', 'DESC')->paginate(20);
-        }else{
+
+        }else if(Auth::user()->UserType->userTypeName == 'Supplier') {
+            $data = AdvancePayment::with(['customer'])->where('createID', Auth::user()->usercode)->where($this->query)->orderBy('documentID', 'DESC')->paginate(20);
+        }
+        else{
             $data = AdvancePayment::with(['customer'])->where($this->query)->orderBy('documentID', 'DESC')->paginate(20);
         }   
         return view('livewire.page.customer.advance-payment.page', [ 'data'=> $data])->extends('layouts.main')->section('main-content');
