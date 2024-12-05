@@ -48,6 +48,18 @@
             <div class="detail" style="margin-top: -20px;">
                 <table style="width: 100%;">
                     <tr>
+
+                        <td style="color: red; font-size: 22px; font-weight: 700; padding: 0;">
+                            @if($data->bound == null || $data->bound == '')
+                            
+                            @elseif ($data->bound == 1)
+                            Bill of lading: {{$data->bill_of_landing ? $data->bill_of_landing : '' }}
+                            @else
+                            Booking No: {{$data->bookingNo ? $data->bookingNo : ''}}
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
                         <td style="color: blue; font-size: 22px; font-weight: 700; padding: 0; width:50%;">
                             Bound :
                             @if($data->bound == null || $data->bound == '')
@@ -70,7 +82,7 @@
                         <th style="width: 10%;">Saleman</th>
                         <td style="width: 32%;">: {{$data->salemanRefer != null ? $data->salemanRefer->empName : "N/A"}}</td>
 
-                        <th style="text-align: right;" colspan="2">เลขที่ IV ที่ลูกค้าวาง</th>
+                        <th style="text-align: left;" colspan="2">เลขที่ IV ที่ลูกค้าวาง</th>
                         <td style="width: 22%;">: {{$data->invoice != null ? $data->invoice->documentID : ""}}</td>
 
                         <th style="width: 5%;" text-align: right;>Job No.</th>
@@ -81,7 +93,7 @@
                         <th>Customer</th>
                         <td colspan="4">: {{$data->customerRefer != null ? $data->customerRefer->custNameEN : "N/A"}}</td>
 
-                        <th>LOAD</th>
+                        <th style="text-align: left;">LOAD</th>
                         <td></td>
                     </tr>
                     <tr>
@@ -97,13 +109,13 @@
                         <td>: {{$data->cusContact}}</td>
                         <th>Tel</th>
                         <td colspan="2">{{$data->customerRefer != null ? $data->customerRefer->tel : ""}}</td>
-                        <th style="">Fax</th>
+                        <th style="text-align: left;">Fax</th>
                         <td>{{$data->customerRefer != null ? $data->customerRefer->fax : ""}}</td>
                     </tr>
                     <tr>
                         <th>Agent</th>
                         <td colspan="4">: {{$data->agentRefer != null ? $data->agentRefer->supNameEN : "N/A"}}</td>
-                        <th>CTC.</th>
+                        <th style="text-align: left;">CTC.</th>
                         <td></td>
                     </tr>
                     <tr>
@@ -115,18 +127,19 @@
                     <tr>
                         <th>Feeder</th>
                         <td colspan="4">: {{$data->referFeeder != null ? $data->referFeeder->fName : "N/A"}}</td>
-                        <th>ETD</th>
+                        <th style="text-align: left;">ETD</th>
                         <td>: {{Carbon\Carbon::parse($data->etdDate) == Carbon\Carbon::createFromTimestamp(0) ?  "00/00/0000": Carbon\Carbon::parse($data->etdDate)->format('d/m/Y')}}</td>
                     </tr>
                     <tr>
                         <th>Vessel</th>
                         <td colspan="4">: {{$data->vesselFeeder != null ? $data->vesselFeeder->fName : ""}}</td>
-                        <th>ETA</th>
+                        <th style="text-align: left;">ETA</th>
                         <td>: {{Carbon\Carbon::parse($data->etaDate) == Carbon\Carbon::createFromTimestamp(0) ?  "00/00/0000": Carbon\Carbon::parse($data->etaDate)->format('d/m/Y')}}</td>
                     </tr>
                     <tr>
                         <th style="text-align: left">FCL</th>
                         <td>{{join(',', $groupContainer)}}</td>
+                        
                     </tr>
                 </table>
             </div>
