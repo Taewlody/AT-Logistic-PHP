@@ -60,7 +60,9 @@
                     <tr>
                         <td style="width: 50%;">
                             <b>TO : </b>
-                            {{$data->customerRefer != null ? $data->customerRefer->custNameEN : ""}}
+                            {{$data->customerRefer != null ? 
+                            $data->customerRefer->custNameEN ?  $data->customerRefer->custNameEN : $data->customerRefer->custNameTH
+                            : ""}}
                         </td>
                         <td style="width: 50%;">
                             <b>Tel : </b>
@@ -142,7 +144,7 @@
                     <tr>
                         <td>
                             <b>Port of Loading : </b>
-                            {{$data->landingPort != null ? $data->landingPort->portNameEN : ""}}
+                            {{$data->landingPort != null ? $data->landingPort->portNameEN ? $data->landingPort->portNameEN : $data->landingPort->portNameTH : ""}}
                         </td>
                         <td>
                             <b>ETD : </b>
@@ -152,7 +154,7 @@
                     <tr>
                         <td>
                             <b>Port of Discharge : </b>
-                            {{$data->dischargePort != null ? $data->dischargePort->portNameEN : ""}}
+                            {{$data->dischargePort != null ? $data->dischargePort->portNameEN ? $data->dischargePort->portNameEN : $data->dischargePort->portNameTH : ""}}
                         </td>
                         <td>
                             <b>ETA : </b>
