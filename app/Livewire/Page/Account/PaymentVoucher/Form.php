@@ -223,8 +223,10 @@ class Form extends Component
     public function changeGrandTotal(int $index) {
         if($this->payments->get($index)->tax == 1) {
             $this->priceSum->tax1 = round($this->payments->get($index)->amount * (0.01), 2);
+            $this->payments[$index]->taxamount = round($this->payments->get($index)->amount * (0.01), 2);
         }else if ($this->payments->get($index)->tax == 3) {
             $this->priceSum->tax3 = round($this->payments->get($index)->amount * (0.03), 2);
+            $this->payments[$index]->taxamount = round($this->payments->get($index)->amount * (0.03), 2);
         }
         
 
