@@ -617,14 +617,19 @@
                                 <label class="col-sm-2 col-form-label">Create By</label>
                                 <div class="col-sm-10">
                                     <label>{{ $createBy->username ?? '' }}
-                                        {{ $job->createTime ?? '' }}</label>
+                                        {{-- {{ $job->createTime ?? '' }} --}}
+                                        {{ optional(\Carbon\Carbon::parse($job->createTime))->addHours(7)->format('Y-m-d H:i:s') ?? '' }}</label>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Update By</label>
                                 <div class="col-sm-10">
-                                    <label>{{ $editBy->username ?? '' }} {{ $job->editTime ?? '' }}</label>
+                                    <label>
+                                        {{ $editBy->username ?? '' }} 
+                                        {{-- {{ $job->editTime ?? '' }} --}}
+                                        {{ optional(\Carbon\Carbon::parse($job->editTime))->addHours(7)->format('Y-m-d H:i:s') ?? '' }}
+                                    </label>
                                 </div>
                             </div>
                             @endif

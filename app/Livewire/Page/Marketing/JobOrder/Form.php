@@ -561,6 +561,7 @@ class Form extends Component
                     
                 }
             }
+            $this->data->editTime = Carbon::now();
             
             $this->data->save();
         
