@@ -13,7 +13,7 @@
         <div class="col-lg-4">
             
                 <input type="date" name="documentDate" class="form-control" placeholder="dd/mm/yyyy"
-                    wire:model.live.debounce.500ms="value.documentDate" @disabled($action != 'create' && $action != 'edit')>
+                    wire:model="value.documentDate" @disabled($action != 'create' && $action != 'edit')>
         
         </div>
     </div>
@@ -87,21 +87,21 @@
         <label class="col-lg-2 col-form-label">M B/L</label>
         <div class="col-md-4">
             <input type="text" name="mbl" class="form-control" id="mbl"
-                wire:model.live.debounce.500ms="value.mbl" @disabled($action != 'create' && $action != 'edit')>
+                wire:model="value.mbl" @disabled($action != 'create' && $action != 'edit')>
         </div>
         <div class="col-md-2">
             <label class="col-form-label" style="padding-top: 5px;">H B/L</label>
         </div>
         <div class="col-md-4">
             <input type="text" name="hbl" class="form-control" id="hbl"
-                wire:model.live.debounce.500ms="value.hbl" @disabled($action != 'create' && $action != 'edit')>
+                wire:model="value.hbl" @disabled($action != 'create' && $action != 'edit')>
         </div>
     </div>
     <div class="form-group row">
         <label class="col-lg-2 col-form-label">C/O</label>
         <div class="col-md-4">
             <input type="text" name="co" class="form-control" id="co"
-                wire:model.live.debounce.500ms="value.co" @disabled($action != 'create' && $action != 'edit')>
+                wire:model="value.co" @disabled($action != 'create' && $action != 'edit')>
         </div>
         <div class="col-md-2">
             <label class="col-form-label" style="padding-top: 5px;">Paper Less
@@ -109,7 +109,7 @@
         </div>
         <div class="col-md-4">
             <input type="text" name="paperless" class="form-control"
-                id="paperless" wire:model.live.debounce.500ms="value.paperless"
+                id="paperless" wire:model="value.paperless"
                 @disabled($action != 'create' && $action != 'edit')>
         </div>
     </div>
@@ -117,7 +117,7 @@
         <label class="col-lg-2 col-form-label">Bill of lading <span class="text-danger">*</span></label>
         <div class="col-md-4">
             <input type="text" name="bill_of_landing" class="form-control"
-                id="bill_of_landing" wire:model.live.debounce.500ms="value.bill_of_landing"
+                id="bill_of_landing" wire:model="value.bill_of_landing"
                 @disabled($action != 'create' && $action != 'edit')>
 
                 @error('bill_of_landing')
@@ -127,7 +127,7 @@
         <label class="col-lg-2 col-form-label">Import Entry</label>
         <div class="col-md-4">
             <input type="text" name="import_entry" class="form-control"
-                id="import_entry" wire:model.live.debounce.500ms="value.import_entry"
+                id="import_entry" wire:model="value.import_entry"
                 @disabled($action != 'create' && $action != 'edit')>
         </div>
     </div>
@@ -136,7 +136,7 @@
         <div class="col-lg-4">
             
                 <input type="date" name="etdDate" id="etdDate"
-                    class="form-control" wire:model.live.debounce.500ms="value.etdDate"
+                    class="form-control" wire:model="value.etdDate"
                     @disabled($action != 'create' && $action != 'edit')>
           
         </div>
@@ -145,7 +145,7 @@
         </div>
         <div class="col-lg-4">
                 <input name="etaDate" id="etaDate" type="date"
-                    class="form-control" wire:model.live.debounce.500ms="value.etaDate"
+                    class="form-control" wire:model="value.etaDate"
                     @disabled($action != 'create' && $action != 'edit')>
          
         </div>
@@ -154,7 +154,7 @@
         <label class="col-lg-2 col-form-label">Closing Date</label>
         <div class="col-lg-4">
                 <input name="closingDate" type="date" class="form-control"
-                    id="closingDate" wire:model.live.debounce.500ms="value.closingDate"
+                    id="closingDate" wire:model="value.closingDate"
                     @disabled($action != 'create' && $action != 'edit')>
        
         </div>
@@ -163,7 +163,7 @@
         </div>
         <div class="col-lg-4">
                 <input name="closingTime" type="time" class="form-control"
-                    id="closingTime" wire:model.live.debounce.500ms="value.closingTime"
+                    id="closingTime" wire:model="value.closingTime"
                     @disabled($action != 'create' && $action != 'edit')>
         
         </div>
@@ -182,14 +182,14 @@
         </div>
         <div class="col-md-4">
             <input type="text" name="bill" class="form-control" id="bill"
-                wire:model.live.debounce.500ms="value.bill" @disabled($action != 'create' && $action != 'edit')>
+                wire:model="value.bill" @disabled($action != 'create' && $action != 'edit')>
         </div>
     </div>
     <div class="form-group row">
         <label class="col-lg-2 col-form-label">Booking No. <span class="text-danger">*</span></label>
         <div class="col-md-4">
             <input type="text" name="bookingNo" class="form-control" 
-                id="bookingNo" wire:model.live.debounce.500ms="value.bookingNo"
+                id="bookingNo" wire:model="value.bookingNo"
                 @disabled($action != 'create' && $action != 'edit')>
                 @error('bookingNo')
                     <span class="text-danger">{{ $message }}</span>
@@ -249,7 +249,7 @@
         <label class="col-lg-2 col-form-label">Free Time</label>
         <div class="col-md-4">
             <input type="number" name="freetime" class="form-control"
-                id="freetime" wire:model.live.debounce.500ms="value.freetime"
+                id="freetime" wire:model="value.freetime"
                 @disabled($action != 'create' && $action != 'edit')>
         </div>
         <div class="col-md-2">
@@ -261,7 +261,7 @@
         <div class="col-md-4">
            
                 <input name="freetimeEXP" id="freetimeEXP" type="date"
-                    wire:model.live.debounce.500ms="value.freetimeEXP" class="form-control"
+                    wire:model="value.freetimeEXP" class="form-control"
                     @disabled($action != 'create' && $action != 'edit')>
             
         </div>

@@ -379,7 +379,7 @@ class Page extends Component
             ->where('documentstatus', 'A')
             ->orderBy('documentID', 'DESC');
         $collection = collect($group->get()->toArray());
-        // dd($collection);
+        // dd($collection->groupBy('cusCode')->toArray()['C-0086']);
         $this->data_invoice_table = $collection->groupBy('cusCode')->map(function ($row) {
             return [
                 'cusCode' => $row->first()['cusCode'],

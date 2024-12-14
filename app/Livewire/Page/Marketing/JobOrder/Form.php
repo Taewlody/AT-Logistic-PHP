@@ -547,7 +547,7 @@ class Form extends Component
             $this->data->tax1 = $calCharge->tax1;
             $this->data->total_amt = $calCharge->total;
             // $this->data->total_netamt = $this->data->total_amt - ($this->data->tax3 + $this->data->tax1);
-            $this->data->total_netamt = $calCharge->total - ($calCharge->tax3 + $calCharge->tax1 + $calCusPaid);
+            $this->data->total_netamt =  ($calCharge->total + $this->chargeList->sum('chargesbillReceive')) - ($calCharge->tax3 + $calCharge->tax1);
             $this->data->cus_paid = $calCusPaid;
             
             if ($approve) {
