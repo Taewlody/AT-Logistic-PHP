@@ -153,6 +153,7 @@ class Form extends Component
         DB::beginTransaction();
         try {
             $this->data->editID = Auth::user()->usercode;
+            $this->data->editTime = Carbon::now();
             if($approve) {
                 $this->data->documentstatus = 'A';
             }

@@ -117,6 +117,7 @@ class Form extends Component
 
     protected function save(bool|null $approve = false) {
         $this->data->editID = Auth::user()->usercode;
+        $this->data->editTime = Carbon::now();
         if($approve){
             $this->data->documentStatus = 'A';
         }

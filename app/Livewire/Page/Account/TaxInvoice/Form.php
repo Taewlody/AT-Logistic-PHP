@@ -251,6 +251,7 @@ class Form extends Component
             $this->data->total_netamt = $this->data->total_amt - ($this->data->tax1 + $this->data->tax3) - $this->cus_paid;
             
             $this->data->editID = Auth::user()->usercode;
+            $this->data->editTime = Carbon::now();
             if($approve){
                 $this->data->documentStatus = 'A';
             }
