@@ -34,14 +34,14 @@ class Form extends Component
         if($this->id!=''){
             $this->data = Port::find($this->id);
             $this->data->editID = Auth::user()->usercode;
-            $this->data->editTime = Carbon::now()->format('Y-m-d H:i:s');
+            // $this->data->editTime = Carbon::now()->format('Y-m-d H:i:s');
         }else{
             $this->action = 'create';
             $this->data = new Port();
             $this->data->createID = Auth::user()->usercode;
             $this->data->createTime = Carbon::now()->format('Y-m-d H:i:s');
-            $this->data->editID = Auth::user()->usercode;
-            $this->data->editTime = Carbon::now()->format('Y-m-d H:i:s');
+            // $this->data->editID = Auth::user()->usercode;
+            // $this->data->editTime = Carbon::now()->format('Y-m-d H:i:s');
         }
 
         // $this->portCode;
