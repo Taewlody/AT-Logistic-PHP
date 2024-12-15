@@ -618,7 +618,7 @@
                                 <div class="col-sm-10">
                                     <label>{{ $createBy->username ?? '' }}
                                         {{-- {{ $job->createTime ?? '' }} --}}
-                                        {{ optional(\Carbon\Carbon::parse($job->createTime))->addHours(7)->format('Y-m-d H:i:s') ?? '' }}</label>
+                                        {{($job->createTime && $job->createTime !== '0000-00-00 00:00:00') ? \Carbon\Carbon::parse($job->createTime)->addHours(7)->format('Y-m-d H:i:s') : ' '}}</label>
                                 </div>
                             </div>
 
@@ -628,7 +628,7 @@
                                     <label>
                                         {{ $editBy->username ?? '' }} 
                                         {{-- {{ $job->editTime ?? '' }} --}}
-                                        {{ optional(\Carbon\Carbon::parse($job->editTime))->addHours(7)->format('Y-m-d H:i:s') ?? '' }}
+                                        {{ ($job->editTime && $job->editTime !== '0000-00-00 00:00:00') ? \Carbon\Carbon::parse($job->editTime)->addHours(7)->format('Y-m-d H:i:s') : ' '}}
                                     </label>
                                 </div>
                             </div>
