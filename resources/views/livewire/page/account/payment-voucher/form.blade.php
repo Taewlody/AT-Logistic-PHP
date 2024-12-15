@@ -458,14 +458,14 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Create By</label>
                                 <div class="col-sm-10">
-                                    <label>{{ $data->createBy->username }} {{ $data->createTime ?? '' }}</label>
+                                    <label>{{ $data->createBy->username ?? '' }} {{($data->createTime && $data->createTime !== '0000-00-00 00:00:00') ? \Carbon\Carbon::parse($data->createTime)->addHours(7)->format('Y-m-d H:i:s') : ' '}}</label>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Update By</label>
                                 <div class="col-sm-10">
-                                    <label>{{ $data->editBy->username }} {{ $data->editTime ?? '' }}</label>
+                                    <label>{{ $data->editBy->username ?? '' }} {{ ($data->editTime && $data->editTime !== '0000-00-00 00:00:00') ? \Carbon\Carbon::parse($data->editTime)->addHours(7)->format('Y-m-d H:i:s') : ' '}}</label>
                                 </div>
                             </div>
                             @endif
