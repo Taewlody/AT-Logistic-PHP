@@ -166,6 +166,7 @@ class Form extends Component
         }
         $this->data->sumTotal = $this->payments->sum('amount');
         $this->data->editID = Auth::user()->usercode;
+        $this->data->editTime = Carbon::now();
         
         $this->data->save();
         $this->data->items->filter(function($item){
