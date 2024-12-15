@@ -52,7 +52,7 @@ class Sidebar extends Component
             'name' => 'Marketing',
             'menu_name' => 'marketing',
             'icon' => 'fa fa-shopping-cart',
-            'roles' => [1,3,5,6,7],
+            'roles' => [1,5,6,7],
             'menu' => [
                 ['name' => 'Job Order', 'route_name' => 'job-order'],
                 ['name' => 'Trailer Booking', 'route_name' => 'trailer-booking'],
@@ -63,9 +63,18 @@ class Sidebar extends Component
             'name' => 'Customer',
             'menu_name' => 'customer',
             'icon' => 'fa fa-user-circle-o',
-            'roles' => [1,3,4,6,7],
+            'roles' => [1,4,6,7],
             'menu' => [
                 ['name' => 'Advance Payment', 'route_name' => 'advance-payment'],
+            ]
+        ],
+        [
+            'name' => 'Supplier',
+            'menu_name' => 'supplier',
+            'icon' => 'fa fa-user-circle-o',
+            'roles' => [3],
+            'menu' => [
+                ['name' => 'Payment Voucher', 'route_name' => 'account-payment-voucher'],
             ]
         ],
         [
@@ -83,7 +92,7 @@ class Sidebar extends Component
             'name' => 'Messenger',
             'menu_name' => 'messenger',
             'icon' => 'fa fa-taxi',
-            'roles' => [1,3,6,7],
+            'roles' => [1,6,7],
             'menu' => [
                 ['name' => 'messenger booking', 'route_name' => 'messanger-booking'],
                 ['name' => 'Calendar booking', 'route_name' => 'calendar-booking'],

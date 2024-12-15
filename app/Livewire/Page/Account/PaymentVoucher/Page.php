@@ -77,7 +77,16 @@ class Page extends Component
             ->where('createID', Auth::user()->usercode)
             ->orderBy('documentID', 'desc');
 
-        } else {
+        } 
+        else if(Auth::user()->hasRole('Supplier')) {
+            $data = PaymentVoucher::whereHas('supplier', function($q) {
+                $q->where('usercode', Auth::user()->usercode);
+            
+            })->where($this->query)
+            ->orderBy('documentID', 'desc');
+            
+        }
+        else {
             $data = PaymentVoucher::where($this->query)
             ->orderBy('documentID', 'desc');
         }
