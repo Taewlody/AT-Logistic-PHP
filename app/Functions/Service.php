@@ -154,10 +154,16 @@ class Service
         });
     }
 
-    public static function SupplierSelecter()
+    public static function SupplierSelecter(bool|null $checkRole = true)
     {
-        return Cache::remember('supplier-select', 15, function () {
-            return Supplier::select('supCode', 'supNameTH', 'supNameEN')->where('isActive', '=', '1')->orderBy('supNameEN')->get();
+        return Cache::remember('supplier-select', 15, function () use ($checkRole) {
+            
+
+            if ($checkRole && Auth::user()->UserType?->userTypeName == 'Supplier'){
+                return Supplier::select('supCode', 'supNameTH', 'supNameEN')->where('isActive', '=', '1')->where('usercode', '=', Auth::user()->usercode)->orderBy('supNameEN')->get();
+            } else {
+                return Supplier::select('supCode', 'supNameTH', 'supNameEN')->where('isActive', '=', '1')->orderBy('supNameEN')->get();
+            }
         });
     }
 

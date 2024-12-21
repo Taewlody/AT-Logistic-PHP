@@ -67,7 +67,11 @@
                     </tr>
                     <tr>
                         <th></th>
+                        @if(!Auth::user()->hasRole('Supplier') && !Auth::user()->hasRole('Shipping Operation') && !Auth::user()->hasRole('Shipping Officer'))
                         <td>{{$data->jobOrder != null&&$data->jobOrder->customerRefer != null ? $data->jobOrder->customerRefer->custNameEN : ''}}</td>
+                        @else
+                        <td></td>
+                        @endif
                         <th>ชื่อบัญชี </th>
                         <td>{{$data->account != null ? $data->account->accountName : '' }}</td>
                     </tr>
