@@ -134,15 +134,10 @@ class Page extends Component
         // dd(Auth::user()->usercode);
         $invoice = $this->invoiceNo?? '';
         if(!Auth::user()->hasRole('Admin') && !Auth::user()->hasRole('Account') && !Auth::user()->hasRole('Shipping Officer')){
-
-            $data = JobOrder::with(['AdvancePayment', 'PettyCash', 'PaymentVoucher', 'invoice' => function($query) use ($invoice) {
-                if ($invoice) {
-                    $query->where('documentID', $invoice);
-                }
-            }])
+            $data = JobOrder::with(['AdvancePayment', 'PettyCash', 'PaymentVoucher', 'invoice'])
             ->when($invoice, function ($query) use ($invoice) {
                 $query->whereHas('invoice', function ($query) use ($invoice) {
-                    $query->where('documentID', $invoice);
+                    $query->where('documentID', 'LIKE',  '%'.$invoice);
                 });
             })
             ->where('createID', Auth::user()->usercode)
@@ -151,14 +146,10 @@ class Page extends Component
            
         } else {
         
-            $data = JobOrder::with(['AdvancePayment', 'PettyCash', 'PaymentVoucher', 'invoice' => function($query) use ($invoice) {
-                if ($invoice) {
-                    $query->where('documentID', $invoice);
-                }
-            }])
+            $data = JobOrder::with(['AdvancePayment', 'PettyCash', 'PaymentVoucher', 'invoice'])
             ->when($invoice, function ($query) use ($invoice) {
                 $query->whereHas('invoice', function ($query) use ($invoice) {
-                    $query->where('documentID', $invoice);
+                    $query->where('documentID', 'LIKE',  '%'.$invoice);
                 });
             })
             ->where($this->query)
