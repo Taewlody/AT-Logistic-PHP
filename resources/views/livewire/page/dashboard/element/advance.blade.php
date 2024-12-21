@@ -25,7 +25,7 @@
                                 @foreach ($data_advance_pyment_table as $advance)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $advance->customer != null ? $advance->customer->custNameTH : '' }}</td>
+                                        <td>{{ $advance->customer != null ? $advance->customer->custNameTH : '' }} ({{ $advance->recordCount }})</td>
                                         <td>{{ number_format($advance->sumTotal, 2) }}</td>
                                     </tr>
                                 @endforeach
