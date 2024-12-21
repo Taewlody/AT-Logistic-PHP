@@ -29,6 +29,7 @@
             placeholder: '{{$placeholder}}',
             // multiple: $wire.multiple ? true : false,
             minimumResultsForSearch: $wire.searchable ? 0 : Infinity,
+            allowClear: true
         });
         
         // $('#{{$this->__id}}').select2({
@@ -36,6 +37,8 @@
         //     // multiple: $wire.multiple ? true : false,
         //     minimumResultsForSearch: $wire.searchable ? 0 : Infinity,
         // });
+
+      
 
         $('#{{$this->__id}}').on('change', function (e) {
             const data = $(this).val();
@@ -86,6 +89,11 @@
         
         $(document).on('select2:open', () => {
             setTimeout(() => forceFocusFn(), 200);
+        });
+
+        $('#{{$this->__id}}').on('select2:unselect', function(e) {
+            
+            @this.set('value', '');
         });
 
     });

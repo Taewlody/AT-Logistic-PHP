@@ -147,7 +147,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">User</label>
                         <div class="col-md-2">
-                            <livewire:element.select2 wire:model='data.usercode' name="User" :options="Service::UserSelecter(Role::CUSTOMER)"
+                            <livewire:element.select2 wire:model='data.usercode' name="usercode" :options="Service::UserSelecter(Role::CUSTOMER)"
                                 itemKey="userCode" itemValue="username" :disabled="$action != 'create' && $action != 'edit'">
                         </div>
                     </div>
