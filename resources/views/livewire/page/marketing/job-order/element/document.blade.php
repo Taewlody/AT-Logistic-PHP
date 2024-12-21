@@ -117,7 +117,7 @@
         <label class="col-lg-2 col-form-label">Bill of lading <span class="text-danger">*</span></label>
         <div class="col-md-4">
             <input type="text" name="bill_of_landing" class="form-control"
-                id="bill_of_landing" wire:model="value.bill_of_landing"
+                id="bill_of_landing" wire:model.live.debounce.500ms="value.bill_of_landing"
                 @disabled($action != 'create' && $action != 'edit')>
 
                 @error('bill_of_landing')

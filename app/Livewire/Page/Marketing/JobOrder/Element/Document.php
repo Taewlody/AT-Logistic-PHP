@@ -78,8 +78,19 @@ class Document extends Component
 
     public function updatedValue($propertyName, $propertyValue)
     {
-        if ($propertyValue === 'bill_of_landing' && !empty($this->value['bill_of_landing'])) {
+        if($propertyValue === 'bound' && $propertyName === '1') {
             $this->value['bookingNo'] = $this->value['bill_of_landing'];
+        }else {
+            $this->value['bookingNo'] = '';
+        }
+
+        if ($propertyValue === 'bill_of_landing' && !empty($this->value['bill_of_landing'])) {
+            if($this->value->bound == 1) {
+                $this->value['bookingNo'] = $this->value['bill_of_landing'];
+
+            } else {
+                $this->value['bookingNo'] = '';
+            }
         }
     }
 
