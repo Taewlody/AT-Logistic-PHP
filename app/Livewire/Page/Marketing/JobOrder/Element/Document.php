@@ -80,8 +80,6 @@ class Document extends Component
     {
         if($propertyValue === 'bound' && $propertyName === '1') {
             $this->value['bookingNo'] = $this->value['bill_of_landing'];
-        }else {
-            $this->value['bookingNo'] = '';
         }
 
         if ($propertyValue === 'bill_of_landing' && !empty($this->value['bill_of_landing'])) {
