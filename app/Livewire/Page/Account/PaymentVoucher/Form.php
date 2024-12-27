@@ -232,7 +232,7 @@ class Form extends Component
 
         $this->payments[$index]->GrandTotal = $this->payments[$index]->amount + ($this->payments[$index]->vatamount - $this->payments[$index]->taxamount);
         
-        $this->calPrice(tax1: $this->priceSum->tax1 ? $this->priceSum->tax1 : 0, tax3: $this->priceSum->tax3 ? $this->priceSum->tax3 : 0);
+        $this->calPrice();
     }
 
     public function removePreFile() {
