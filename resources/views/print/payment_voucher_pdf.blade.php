@@ -67,7 +67,7 @@
                     </tr>
                     <tr>
                         <th></th>
-                        @if(!Auth::user()->hasRole('Supplier') && !Auth::user()->hasRole('Shipping Operation') && !Auth::user()->hasRole('Shipping Officer'))
+                        @if(!Auth::user()->hasRole('Supplier') && !Auth::user()->hasRole('Shipping Operation'))
                         <td>{{$data->jobOrder != null&&$data->jobOrder->customerRefer != null ? $data->jobOrder->customerRefer->custNameEN : ''}}</td>
                         @else
                         <td></td>
