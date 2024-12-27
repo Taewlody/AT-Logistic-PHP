@@ -52,7 +52,7 @@
                 <table>
                     <tr>
                         <th style="width: 20%;">รับจาก</th>
-                        <td style="width: 40%;">{{$data->supplier != null? $data->supplier->supNameEN : ""}}</td>
+                        <td style="width: 40%;">{{$data->customer != null? $data->customer->custNameEN : $data->customer->custNameTH}}</td>
                         <th style="width: 17%;">บัญชีธนาคาร</th>
                         <td>{{$data->account != null ? $data->account->accountName : ''}}</td>
                     </tr>
