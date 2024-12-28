@@ -42,6 +42,9 @@ class Charges extends Component
     #[Reactive]
     public $groupTypeContainer;
 
+    #[Reactive]
+    public $groupTypePackage;
+
     protected array $rules = [
         'value.*' => 'unique:App\Models\Marketing\JobOrderCharge',
         'value.*.items'=> 'number',
@@ -125,12 +128,13 @@ class Charges extends Component
         $this->dispatch('valueUpdated');
     }
 
-    public function mount($action, String|null $documentID = null, String|null $groupTypeContainer = null, String|null $commissionSale = null, String|null $commissionCustomers = null)
+    public function mount($action, String|null $documentID = null, String|null $groupTypeContainer = null, $groupTypePackage = null, String|null $commissionSale = null, String|null $commissionCustomers = null)
     {
         // $this->value;
         $this->action = $action;
         $this->documentID = $documentID ?? '';
         $this->groupTypeContainer = $groupTypeContainer ?? '';
+        $this->groupTypePackage = $groupTypePackage ?? '';
         $this->commissionSale = $commissionSale ?? '';
         $this->commissionCustomers = $commissionCustomers ?? '';
         // dd($this->commissionSale, $this->commissionCustomers);

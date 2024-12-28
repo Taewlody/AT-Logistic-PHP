@@ -408,6 +408,7 @@
                                     <livewire:page.marketing.job-order.element.charges 
                                         wire:model.live="chargeList" :$action
                                         :groupTypeContainer="$this->groupedContainer"
+                                        :groupTypePackage="$this->groupedPackage"
                                         :commissionSale="$job->commission_sale" :commissionCustomers="$job->commission_customers"
                                         :documentID="$job->documentID" />
                                 </div>

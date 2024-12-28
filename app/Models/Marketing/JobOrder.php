@@ -268,6 +268,23 @@ class JobOrder extends Model implements Wireable
         );
     }
 
+    public function sumPacked(): Attribute {
+        return Attribute::make(
+            get: function() {
+                if($this->packedList != null)
+                    $total = null;
+                    foreach($this->packedList as $pack) {
+                        $size = ($pack->packaed_width * $pack->packaed_length * $pack->packaed_height) / 1000000;
+                        $sum = $size * $pack->packaed_qty;
+                        $total += $sum;
+                    }
+                    
+                    return round($total, 2);
+                return [];
+            }
+        );
+    }
+
     public function commodity(): BelongsToMany
     {
         return $this->belongsToMany(Commodity::class, 'ref_joborder__commodity', 'documentID', 'commodityCode');

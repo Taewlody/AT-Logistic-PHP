@@ -47,7 +47,7 @@ class PackagedSize extends Component
         $length = $packed['packaed_length'] ?? 0;
         $height = $packed['packaed_height'] ?? 0;
         $qty = $packed['packaed_qty'] ?? 1;
-        $packed['packaed_totalCBM'] = ($width * $length * $height) / (1000000 * $qty);
+        $packed['packaed_totalCBM'] = (($width * $length * $height) / 1000000 )* $qty;
     }
     
     public function render()

@@ -243,6 +243,7 @@ class Form extends Component
         $this->invoice = $this->data->invoice;
         $this->billOfLanding = $this->data->billOfLanding;
         $this->checkApprove = $this->checkApprove();
+      
     }
 
     private function checkApprove()
@@ -374,6 +375,24 @@ class Form extends Component
             return join(", ", $this->containerList->groupBy('size.containersizeName')->map(function ($item, $key) {
                 return collect($item)->count() . 'x' . $key;
             })->toArray());
+        } else {
+            return "";
+        }
+    }
+
+    #[Computed]
+    public function groupedPackage()
+    {
+        if ($this->packagedList->isNotEmpty()) {
+            
+            $total = null;
+            foreach($this->packagedList as $pack) {
+                $size = ($pack->packaed_width * $pack->packaed_length * $pack->packaed_height) / 1000000;
+                $sum = $size * $pack->packaed_qty;
+                $total += $sum;
+            }
+            
+            return round($total, 2);
         } else {
             return "";
         }

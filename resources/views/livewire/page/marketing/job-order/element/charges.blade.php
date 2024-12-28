@@ -170,7 +170,7 @@
                     <tr>
                         <td style="width:5%"></td>
                         <td style="width:50%;"><strong>Volum :
-                                {{$groupTypeContainer}}
+                                {{$groupTypeContainer}} {{ number_format($groupTypePackage, 2)}}
                             </strong></td>
                         <td style="width:10%">&nbsp;</td>
                         <td style="width:10%">&nbsp;</td>

@@ -84,7 +84,7 @@
                     </tr>
                     <tr>
                         <td><b>Freight</b>{{$data->transport?->transportName}}</td>
-                        <td><b>Qty. / Measurement</b>&nbsp;{{join(',',$data->jobOrder?->qty ?? [])}}</td>
+                        <td><b>Qty. / Measurement</b>&nbsp;{{join(',',$data->jobOrder?->qty ?? [])}} {{ number_format($data->jobOrder?->sumPacked, 2) ?? ''}}</td>
                         <td><b>B/L No.</b>&nbsp;{{$data->jobOrder?->bill_of_landing}}</td>
                     </tr>
                     <tr>
