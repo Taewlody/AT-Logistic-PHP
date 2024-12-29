@@ -28,7 +28,26 @@ class AuthController extends Controller
 
         if(Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('dashboard');
+            // return redirect()->route('dashboard');
+
+            $user = Auth::user()->userType;
+            
+            if($user->userTypeName === 'Shipping Operation') {
+                return redirect()->route('shipping-payment-voucher');
+
+            }else if($user->userTypeName === 'Customer') {
+                return redirect()->route('advance-payment');
+
+            }else if($user->userTypeName === 'Supplier') {
+                return redirect()->route('account-payment-voucher');
+                
+            }else if($user->userTypeName === 'Sale') {
+                return redirect()->route('job-order');
+
+            }
+            else {
+                return redirect()->route('dashboard');
+            }
         }
         
         $request->session()->reflash();

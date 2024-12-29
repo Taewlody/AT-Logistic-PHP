@@ -18,7 +18,7 @@ class Sidebar extends Component
             'name' => 'Dashboards',
             'menu_name' => 'dashboard', 
             'icon' => 'fa fa-th-large', 
-            'roles' => [1,2,3,4,5,6,7],
+            'roles' => [1,6,7],
             'menu' => [
                 ['name' => 'Dashboard', 'route_name' => 'dashboard']
             ],
