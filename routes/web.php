@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
 use App\Livewire\Page\Dashboard\Page as Dashboard;
+use App\Http\Middleware\AdminMiddleware;
 
 use App\Livewire\Page\Test;
 
@@ -40,7 +41,7 @@ use App\Livewire\Page\Test;
     //     return view('dashboard');
     // })->name('dashboard');
 
-    Route::get("/dashboard", Dashboard::class)->name('dashboard');
+    Route::get("/dashboard", Dashboard::class)->name('dashboard')->middleware('admin');;
 
     Route::get('test-job-redis', function() {
         // \App\Jobs\TestJob::dispatch()->onQueue("processing");
