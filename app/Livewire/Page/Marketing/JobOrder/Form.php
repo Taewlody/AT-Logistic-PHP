@@ -353,14 +353,14 @@ class Form extends Component
         $this->dispatch('update-charges');
     }
 
-    #[On('commission-sale')]
+    #[On('updated-commissionSale')]
     public function commissionSale(string $value)
     {
-        // dd($value);
+        
         $this->job->commission_sale = $value;
     }
 
-    #[On('commission-customers')]
+    #[On('updated-commissionCustomers')]
     public function commissionCustomers(string $value)
     {
         // dd($value);
@@ -500,7 +500,6 @@ class Form extends Component
             return false;
         }
         $this->data = new JobOrder($this->job->toArray());
-        
         
         // check delivery type to validate
         if ($this->data->deliveryType) {

@@ -118,7 +118,7 @@
                                             <th width="10%">รายได้</th>
                                             <th width="10%">ค่าใช้จ่าย</th>
                                             <th width="15%">กำไร/ขาดทุน1</th>
-                                            <th width="15%">กำไร/ขาดทุน2</th>
+                                            {{-- <th width="15%">กำไร/ขาดทุน2</th> --}}
                                             <th width="15%">Action</th>
                                         </tr>
                                     </thead>
@@ -127,15 +127,18 @@
                                         @foreach ($data as $item)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $item->documentID }}</td>
-                                                <td>{{ Service::DateFormat($item->documentDate, true) }}</td>
-                                                <td>{{ $item->custNameEN ? $item->custNameEN : $item->custNameTH }}</td>
-                                                <td>{{ number_format($item->total_amt, 2) }}</td>
-                                                <td>{{ number_format($item->cost, 2) }}</td>
-                                                <td>{{ number_format($item->tax3, 2) }}</td>
-                                                <td>{{ number_format($item->tax1, 2) }}</td>
-                                                {{-- <td>{{ number_format($item->profit, 2) }}</td>
-                                                <td>{{ number_format($item->netprofit, 2) }}</td> --}}
+                                                {{-- <td>{{ $item->documentID }}</td> --}}
+                                                <td style="white-space: nowrap">{{ $item->invoice && $item->invoice->documentID ?$item->invoice->documentID : '' }}</td>
+                                                <td>{{ $item->invoice && $item->invoice->documentDate ? Service::DateFormat($item->invoice->documentDate, true) : '' }}</td>
+                                                {{-- <td>{{ $item->custNameEN ? $item->custNameEN : $item->custNameTH }}</td> --}}
+                                                <td>{{ $item->customerRefer->custNameEN ?  $item->customerRefer->custNameEN : $item->customerRefer->custNameTH }}</td>
+
+
+                                                <td>{{ number_format(($item->total_amt + $item->charge->sum('chargesbillReceive')), 2) }}</td>
+                                                
+                                                <td>{{ number_format(($item->charge->sum('chargesCost') + $item->tax3 + $item->tax1 + $item->total_vat), 2) }}</td>
+
+                                                <td>{{ number_format((($item->total_amt + $item->charge->sum('chargesbillReceive')) - ($item->charge->sum('chargesCost') + $item->tax3 + $item->tax1 + $item->total_vat)), 2) }}</td>
                                                 <td>
                                                     <div class="btn-group">
                                                         <a class="btn btn-xs btn-success"
@@ -155,10 +158,10 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td>{{ number_format($this->getTotalAmount, 2,'.', ',') }}</td>
-                                        <td>{{ number_format($this->getTotalCost, 2,'.', ',') }}</td>
-                                        <td>{{ number_format($this->getTotalProfit, 2,'.', ',') }}</td>
-                                        <td>{{ number_format($this->getTotalNetProfit, 2,'.', ',') }}</td>
+                                        <td>{{ number_format($totalAmount, 2,'.', ',') }}</td>
+                                        <td>{{ number_format($totalCost, 2,'.', ',') }}</td>
+                                        <td>{{ number_format($totalProfit, 2,'.', ',') }}</td>
+                                        {{-- <td>{{ number_format($this->getTotalNetProfit, 2,'.', ',') }}</td> --}}
                                         <td></td>
                                     </tfoot>
                                 </table>

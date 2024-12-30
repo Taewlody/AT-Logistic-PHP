@@ -51,66 +51,43 @@ class Page extends Component
         if($this->salemanSearch != null) {
             $this->query[] = ['joborder.saleman', '=', $this->salemanSearch];
         }
+        $this->getAllData();
     }
 
-    #[Computed]
-    public function getTotalAmount()
+    
+    public function getAllData()
     {
+        $job = Joborder::with(['invoice', 'charge', 'customerRefer'])->whereHas('invoice', function ($query) {
+            $query->where('documentID', '!=', '');
+        })->where($this->query);
 
-        $this->totalAmount = JobOrder::sum('total_amt');
-        return $this->totalAmount;
-    }
+        $chargesbillReceive = 0;
+        $chargeCost = 0;
 
-    #[Computed]
-    public function getTotalCost()
-    {
-
-        $jobOrders = JobOrder::with('charge')->get();
-
-        foreach ($jobOrders as $jobOrder) {
+        foreach ($job->get() as $jobOrder) {
             foreach ($jobOrder->charge as $charge) {
-                $this->totalCost += $charge->chargesCost;
+                $chargesbillReceive += $charge->chargesbillReceive;
+                $chargeCost += $charge->chargesCost;
             }
         }
-        
-        return $this->totalCost;
+
+        $this->totalAmount = $job->sum('total_amt') + $chargesbillReceive;
+
+        $this->totalCost = $chargeCost + $job->sum('tax1') + $job->sum('tax3') + $job->sum('total_vat');
+
+        $this->totalProfit = $this->totalAmount - $this->totalCost;
+
     }
 
-    #[Computed]
-    public function getTotalProfit()
-    {
 
-        $this->totalProfit = JobOrder::sum('tax3');
-        // $this->totalProfit = JobOrder::with('charge')->get()->sum(function($jobOrder) {
-        //     $totalChargesCost = 0;
-        //     foreach ($jobOrder->charge as $charge) {
-        //         $totalChargesCost += $charge->chargesCost;
-        //     }
-        //     $difference = $jobOrder->total_amt - $totalChargesCost - $jobOrder->total_vat;
-        //     return $difference;
+    // #[Computed]
+    // public function getTotalNetProfit()
+    // {
 
-        // });
+    //     $this->totalNetProfit = JobOrder::sum('tax1');
         
-        return $this->totalProfit;
-    }
-
-    #[Computed]
-    public function getTotalNetProfit()
-    {
-
-        $this->totalNetProfit = JobOrder::sum('tax1');
-        // $this->totalNetProfit = JobOrder::with('charge')->get()->sum(function($jobOrder) {
-        //     $totalChargesCost = 0;
-        //     foreach ($jobOrder->charge as $charge) {
-        //         $totalChargesCost += $charge->chargesCost;
-        //     }
-        //     $difference = $jobOrder->total_amt - $totalChargesCost - $jobOrder->total_vat - $jobOrder->tax3 - $jobOrder->tax1;
-        //     return $difference;
-
-        // });
-        
-        return $this->totalNetProfit;
-    }
+    //     return $this->totalNetProfit;
+    // }
 
     public function mount()
     {
@@ -125,23 +102,17 @@ class Page extends Component
         $this->customerList = Customer::all()->sortBy('custNameEN');
         $this->salemanList = Saleman::all()->sortBy('empName');
 
+        $this->getAllData();
+
     }
 
     public function render()
     {
-        // $data = JobOrder::with(['charge', 'customerRefer'])->orderBy('documentDate', 'DESC')->get();
-        $data = JobOrder::selectRaw("joborder.documentID, 
-        joborder.tax3, joborder.tax1,
-        joborder.total_amt, 
-        documentDate, 
-        SUM(joborder_charge.chargesCost) as cost, 
-        joborder.total_amt - SUM('joborder_charge.chargesCost') - joborder.total_vat as profit, 
-        joborder.total_amt - SUM('joborder_charge.chargesCost') - joborder.total_vat - joborder.tax3 - joborder.tax1 as netprofit, common_customer.custNameEN")
-        ->join('joborder_charge', 'joborder_charge.documentID', 'joborder.documentID')
-        ->join('common_customer', 'common_customer.cusCode', 'joborder.cusCode')
-        ->where($this->query)
-        ->groupBy('joborder.documentID', 'joborder.documentDate', 'joborder.total_amt', 'joborder.total_vat', 'joborder.tax3', 'joborder.tax1', 'common_customer.custNameEN')
-        ->orderBy('documentDate', 'DESC');
+
+        $data = Joborder::with(['invoice', 'charge', 'customerRefer'])->whereHas('invoice', function ($query) {
+            $query->where('documentID', '!=', '');
+        })->where($this->query)->orderBy('documentDate', 'DESC');
+        
         
         return view('livewire.page.report.report-profit-and-loss-job.page', ['data'=> $data->paginate(20)
         ])->extends('layouts.main')->section('main-content');

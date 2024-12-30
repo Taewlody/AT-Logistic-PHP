@@ -26,9 +26,13 @@
             if(data) {
                 // @this.call('getValue', data);
                 @this.set('value', parseFloat(data));
-                console.log('change item:', $wire.name ,'->', data)
+                console.log('change item curency:', $wire.name ,'->', data)
                 // @this.dispatch('changeValue');
                 console.log('charge : ', $wire.value, parseFloat(data));
+                
+                if($wire.name != null && $wire.name != ''){
+                    $wire.dispatch('updated-' + $wire.name, {value: data});
+                }
             }else {
                 console.log('currency not found');
             }
