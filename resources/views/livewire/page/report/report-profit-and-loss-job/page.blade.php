@@ -21,7 +21,7 @@
                             <div class="row">
                                 <div class="col-4">
                                     <div class="form-group col-margin0">
-                                        <label class="font-normal">Job No.</label>
+                                        <label class="font-normal">Document No.</label>
                                         <div>
                                             <input type='text' name='documentID' class='form-control' id="documentID" wire:model="documentID">
                                         </div>
@@ -128,8 +128,8 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 {{-- <td>{{ $item->documentID }}</td> --}}
-                                                <td style="white-space: nowrap">{{ $item->invoice && $item->invoice->documentID ?$item->invoice->documentID : '' }}</td>
-                                                <td>{{ $item->invoice && $item->invoice->documentDate ? Service::DateFormat($item->invoice->documentDate, true) : '' }}</td>
+                                                <td style="white-space: nowrap">{{ $item->invoiceID }}</td>
+                                                <td>{{ Service::DateFormat($item->invoiceDate, true) }}</td>
                                                 {{-- <td>{{ $item->custNameEN ? $item->custNameEN : $item->custNameTH }}</td> --}}
                                                 <td>{{ $item->customerRefer->custNameEN ?  $item->customerRefer->custNameEN : $item->customerRefer->custNameTH }}</td>
 

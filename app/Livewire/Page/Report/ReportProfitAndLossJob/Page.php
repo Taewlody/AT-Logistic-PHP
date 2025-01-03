@@ -37,13 +37,13 @@ class Page extends Component
         $this->queryCustomer = [];
 
         if($this->dateStart != null) {
-            $this->query[] = ['joborder.documentDate', '>=', $this->dateStart];
+            $this->query[] = ['invoice.documentDate', '>=', $this->dateStart];
         }
         if($this->dateEnd != null) {
-            $this->query[] = ['joborder.documentDate', '<=', $this->dateEnd];
+            $this->query[] = ['invoice.documentDate', '<=', $this->dateEnd];
         }
         if($this->documentID != null) {
-            $this->query[] = ['joborder.documentID', 'like', '%'.$this->documentID.'%'];
+            $this->query[] = ['invoice.documentID', 'like', '%'.$this->documentID.'%'];
         }
         if($this->customerSearch != null) {
             $this->query[] = ['joborder.cusCode', '=', $this->customerSearch];
@@ -57,19 +57,43 @@ class Page extends Component
     
     public function getAllData()
     {
-        $job = Joborder::with(['invoice', 'charge', 'customerRefer'])->whereHas('invoice', function ($query) {
-            $query->where('documentID', '!=', '');
-        })->where($this->query);
+        // $job = Joborder::with(['invoice', 'charge', 'customerRefer'])->whereHas('invoice', function ($query) {
+        //     $query->where('documentID', '!=', '');
+        // })->where($this->query);
 
-        $chargesbillReceive = 0;
-        $chargeCost = 0;
-
-        foreach ($job->get() as $jobOrder) {
-            foreach ($jobOrder->charge as $charge) {
-                $chargesbillReceive += $charge->chargesbillReceive;
-                $chargeCost += $charge->chargesCost;
+        $job = Joborder::with([
+            'charge' => function ($query) {
+                $query->select('documentID', 'chargesbillReceive', 'chargesCost');
+            },
+            'customerRefer' => function ($query) {
+                $query->select('cusCode', 'custNameEN', 'custNameTH');
             }
-        }
+        ])
+        ->join('invoice', 'joborder.documentID', '=', 'invoice.ref_jobNo')
+        ->where('invoice.documentID', '!=', '')
+        ->where($this->query)
+        ->orderBy('invoice.documentDate', 'DESC')
+        ->select([
+            'joborder.documentID', 
+            'joborder.documentDate', 
+            'joborder.total_amt', 
+            'joborder.tax1', 
+            'joborder.tax3', 
+            'joborder.total_vat',
+            'invoice.documentID as invoiceID', 
+            'invoice.documentDate as invoiceDate'
+        ])
+        ->get();
+
+        $chargesbillReceive = $job->sum(fn($jobOrder) => $jobOrder->charge->sum('chargesbillReceive'));
+        $chargeCost = $job->sum(fn($jobOrder) => $jobOrder->charge->sum('chargesCost'));
+
+        // foreach ($job as $jobOrder) {
+        //     foreach ($jobOrder->charge as $charge) {
+        //         $chargesbillReceive += $charge->chargesbillReceive;
+        //         $chargeCost += $charge->chargesCost;
+        //     }
+        // }
 
         $this->totalAmount = $job->sum('total_amt') + $chargesbillReceive;
 
@@ -109,11 +133,15 @@ class Page extends Component
     public function render()
     {
 
-        $data = Joborder::with(['invoice', 'charge', 'customerRefer'])->whereHas('invoice', function ($query) {
-            $query->where('documentID', '!=', '');
-        })->where($this->query)->orderBy('documentDate', 'DESC');
+        $data = Joborder::join('invoice', 'joborder.documentID', '=', 'invoice.ref_jobNo')
+        // ->with(['charge', 'customerRefer'])
+        ->with(['charge:documentID,chargesbillReceive,chargesCost', 'customerRefer:cusCode,custNameEN,custNameTH'])
+        ->where('invoice.documentID', '!=', '')
+        ->where($this->query)->orderBy('invoice.documentDate', 'DESC')
+        ->select('joborder.documentID', 'joborder.documentDate', 'joborder.total_amt', 'joborder.tax1', 'joborder.tax3', 'joborder.total_vat', 'joborder.cusCode',
+        'invoice.documentID as invoiceID', 'invoice.documentDate as invoiceDate');
         
-        
+        // dd($data->get()[0]);
         return view('livewire.page.report.report-profit-and-loss-job.page', ['data'=> $data->paginate(20)
         ])->extends('layouts.main')->section('main-content');
     }
