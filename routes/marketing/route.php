@@ -20,4 +20,6 @@ Route::group(['prefix' => '/marketing',], function() {
         Route::get('/bill-of-lading', BillOfLading::class)->name('bill-of-lading');
 
         Route::get('/bill-of-lading/form', BillOfLadingForm::class)->name('bill-of-lading.form');
+
+        Route::get('/update-all-joborder', [JobOrder::class, 'updateTotalAll'])->name('update-all-joborder');
     });

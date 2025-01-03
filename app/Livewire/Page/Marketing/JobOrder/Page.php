@@ -8,8 +8,10 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\Marketing\JobOrder;
+use App\Models\Marketing\JobOrderCharge;
 use App\Models\Common\Customer;
 use App\Models\Common\Saleman;
 
@@ -127,6 +129,57 @@ class Page extends Component
         }else {
             $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: 'Copy ข้อมูลไม่สำเร็จ', type: 'error');
         }
+    }
+
+    public function functionUpdateTotal()
+    {
+        \DB::beginTransaction();
+    try {
+        // Fetch jobs and calculate totals
+        $getAllJob = JobOrder::with('charge')
+            ->whereBetween('documentDate', ['2024-01-01', '2024-12-31'])
+            ->get();
+
+        $updates = [];
+
+        foreach ($getAllJob as $job) {
+            $sum = $job->charge->sum('chargesReceive');
+            $vat = $sum * 0.07;
+            $total = $sum + $vat;
+
+            // Prepare data for bulk update
+            $updates[] = [
+                'documentID' => $job->documentID,
+                'total_amt' => $total,
+            ];
+        }
+
+        // Bulk update
+        foreach ($updates as $update) {
+            JobOrder::where('documentID', $update['documentID'])->update(['total_amt' => $update['total_amt']]);
+        }
+
+        \DB::commit();
+        return true;
+
+        }catch (\Exception $exception) {
+            \DB::rollBack();
+            dd($exception->getMessage());
+            echo "Exception caught: " . $exception->getMessage();
+            return false;
+        }
+    }
+
+    public function updateTotalAll()
+    {
+        $status = $this->functionUpdateTotal();
+        if($status) {
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Success', message: 'update สำเร็จ', type: 'success');
+        } else {
+            $this->dispatch('modal.common.modal-alert', showModal: true, title: 'Error', message: $this->message ? $this->message : 'Update ไม่สำเร็จ', type: 'error');
+        }
+
+        dd($status);
     }
 
     public function render()

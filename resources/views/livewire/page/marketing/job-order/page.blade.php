@@ -3,6 +3,11 @@
         breadcrumb_page="Job Orders" />
 
     <div class="container-fluid">
+
+        {{-- <a href="{{ route('update-all-joborder') }}" class="btn btn-primary">
+            <i class="fa fa-plus "></i> Update All
+        </a> --}}
+
         <form wire:submit="search" wire:refresh="$refresh">
             <div class="row">
                 <div class="col-12">
