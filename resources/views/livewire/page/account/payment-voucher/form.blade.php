@@ -484,7 +484,7 @@
                                         wire:click='approve'><i class="fa fa-check"></i> Approve</button>
                                     @endif
                                     
-                                    @elseif($data->documentstatus === 'A')
+                                    @elseif($data->documentstatus === 'A' && Auth::user()->hasRole('admin'))
                                     <button name="Update" id="Update" class="btn btn-secondary" wire:click="update"
                                         type="button"><i class="fa fa-check"></i> Update</button>
                                     @endif
