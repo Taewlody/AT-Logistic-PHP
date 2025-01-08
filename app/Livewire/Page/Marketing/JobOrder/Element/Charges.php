@@ -33,6 +33,9 @@ class Charges extends Component
     // #[Reactive]
     public $commissionCustomers;
 
+    #[Reactive]
+    public $deliveryType;
+
     #[Locked]
     public String|null $documentID = '';
 
@@ -128,7 +131,7 @@ class Charges extends Component
         $this->dispatch('valueUpdated');
     }
 
-    public function mount($action, String|null $documentID = null, String|null $groupTypeContainer = null, $groupTypePackage = null, String|null $commissionSale = null, String|null $commissionCustomers = null)
+    public function mount($action, String|null $documentID = null, String|null $groupTypeContainer = null, $groupTypePackage = null, String|null $commissionSale = null, String|null $commissionCustomers = null, String|null $deliveryType = null)
     {
         // $this->value;
         $this->action = $action;
@@ -137,6 +140,8 @@ class Charges extends Component
         $this->groupTypePackage = $groupTypePackage ?? '';
         $this->commissionSale = $commissionSale ?? '';
         $this->commissionCustomers = $commissionCustomers ?? '';
+        $this->deliveryType = $deliveryType ?? '';
+        // dd($this->groupTypePackage);
         // dd($this->commissionSale, $this->commissionCustomers);
         if($action != 'create'){
             $this->customer_piad = CalculatorPrice::cal_customer_piad($this->documentID) ?? new Collection;

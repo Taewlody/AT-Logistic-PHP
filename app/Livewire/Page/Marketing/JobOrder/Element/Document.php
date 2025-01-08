@@ -78,6 +78,7 @@ class Document extends Component
 
     public function updatedValue($propertyName, $propertyValue)
     {
+        // dd($propertyValue, $this->value);
         if($propertyValue === 'bound' && $propertyName === '1') {
             $this->value['bookingNo'] = $this->value['bill_of_landing'];
         }
@@ -86,9 +87,7 @@ class Document extends Component
             if($this->value->bound == 1) {
                 $this->value['bookingNo'] = $this->value['bill_of_landing'];
 
-            } else {
-                $this->value['bookingNo'] = '';
-            }
+            } 
         }
     }
 

@@ -137,7 +137,7 @@ class Page extends Component
     try {
         // Fetch jobs and calculate totals
         $getAllJob = JobOrder::with('charge')
-            ->whereBetween('documentDate', ['2024-01-01', '2024-12-31'])
+            // ->whereBetween('documentDate', ['2024-01-01', '2024-12-31'])
             ->get();
 
         $updates = [];

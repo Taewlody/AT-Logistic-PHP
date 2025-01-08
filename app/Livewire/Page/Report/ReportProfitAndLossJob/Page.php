@@ -33,6 +33,8 @@ class Page extends Component
 
     #[On('post-search')] 
     public function search() {
+        $this->resetPage();
+        
         $this->query = [];
         $this->queryCustomer = [];
 
@@ -94,7 +96,7 @@ class Page extends Component
         //         $chargeCost += $charge->chargesCost;
         //     }
         // }
-
+        
         $this->totalAmount = $job->sum('total_amt') + $chargesbillReceive;
 
         $this->totalCost = $chargeCost + $job->sum('tax1') + $job->sum('tax3') + $job->sum('total_vat');

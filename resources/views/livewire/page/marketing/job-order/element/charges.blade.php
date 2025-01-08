@@ -170,7 +170,8 @@
                     <tr>
                         <td style="width:5%"></td>
                         <td style="width:50%;"><strong>Volum :
-                                {{$groupTypeContainer}} {{ $groupTypePackage }}
+                                {{ $deliveryType === 'LCL' ? $groupTypePackage : $groupTypeContainer }}
+                                {{-- {{$groupTypeContainer}} {{ $groupTypePackage }} --}}
                             </strong></td>
                         <td style="width:10%">&nbsp;</td>
                         <td style="width:10%">&nbsp;</td>
