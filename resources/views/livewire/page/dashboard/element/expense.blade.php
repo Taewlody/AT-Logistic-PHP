@@ -42,6 +42,12 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @php
+                                    // Initialize an array to hold the sum for each month
+                                    $overallMonthlyTotals = array_fill(1, 12, 0);
+                                    $grandTotal = 0; // Overall total sum
+                                @endphp
+
                                 @if(count($expense_payment) > 0)
                                 @foreach ($expense_payment as $detail => $items)
                                     <tr>
@@ -62,6 +68,8 @@
                                         foreach ($groupedItems as $month => $totalAmount) {
                                             $monthlyTotals[$month] = $totalAmount;
                                             $sumTotal += $totalAmount;
+
+                                            $overallMonthlyTotals[$month] += $totalAmount;
                                         }
                                     @endphp
                                     
@@ -71,8 +79,21 @@
                                        
 
                                         <th>{{ number_format($sumTotal, 2) }}</th>
+
+                                        @php
+                                            $grandTotal += $sumTotal; // Add to the overall total
+                                        @endphp
                                     </tr>
                                 @endforeach
+                                <tr>
+                                    <th>Sum</th>
+
+                                    @foreach ($overallMonthlyTotals as $total)
+                                        <td>{{ $total > 0 ? number_format($total, 2) : '-' }}</td>
+                                    @endforeach
+
+                                    <td>{{ number_format($grandTotal, 2) }}</td>
+                                </tr>
                                 @else
                                 <tr>
                                     <td colspan="14" class="text-center">Data Not Found</td>
