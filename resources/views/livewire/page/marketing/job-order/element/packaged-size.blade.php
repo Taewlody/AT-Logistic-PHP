@@ -59,7 +59,7 @@
                             </td>
                             <td class="center">
                                 <input type="number" class="form-control" step="0.000001"
-                                    wire:model.live.debounce.100ms="value.{{ $loop->index }}.packaed_totalCBM">
+                                    wire:model.live.debounce.100ms.number="value.{{ $loop->index }}.packaed_totalCBM">
                             </td>
                             <td class="center">
                                 <input type="number" class="form-control" step="0.01"
