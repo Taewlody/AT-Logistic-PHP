@@ -213,7 +213,18 @@ class PrintFileResource extends Controller
         }
 
         $customer_piad = CalculatorPrice::cal_customer_piad($data->ref_jobNo)->sum('sumTotal');
-       
+
+        $measurement = null;
+        if($data->joborder->deliveryType === 'LCL') {
+            if(count($data->joborder->packedList) > 0) {
+                $measurement = $data->joborder->packedList->sum('packaed_totalCBM');
+            }
+        }else {
+            $measurement = is_array($data->jobOrder?->qty) 
+                ? join(',', $data->jobOrder->qty) 
+                : $data->jobOrder?->qty;
+        }
+    //    dd($measurement);
         $pdf = DomPdf::loadView('print.invoice_pdf', [
             'title' => "Invoice", 
             'data' => $data, 
@@ -221,6 +232,7 @@ class PrintFileResource extends Controller
             'groupCommodity' => $groupCommodity,
             'onBoard' => $onBoard,
             'customer_piad' => $customer_piad,
+            'measurement' => $measurement,
             'heightItems' => $heightItems]);
         return $pdf->stream('invoice.pdf');
 
