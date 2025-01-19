@@ -170,7 +170,7 @@ return [
     */
 
     'secure' => env('SESSION_SECURE_COOKIE'),
-
+    'same_site' => 'none',
     /*
     |--------------------------------------------------------------------------
     | HTTP Access Only
