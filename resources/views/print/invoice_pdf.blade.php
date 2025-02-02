@@ -51,7 +51,7 @@
                 <table>
                     <td style="width: 55%;">
                         <div>
-                            <span><b>TO</b> : {{$data->jobOrder?->customerRefer?->custNameTH}} {{ $data->jobOrder?->customerRefer?->branchTH === '(สำนักงานใหญ่)' || $data->jobOrder?->customerRefer?->branchTH === 'สำนักงานใหญ่' ? $data->jobOrder?->customerRefer?->branchTH : ''}}</span>
+                            <span style="min-height: 20px; height: auto;"><b>TO</b> : {{$data->jobOrder?->customerRefer?->custNameTH}} {{ $data->jobOrder?->customerRefer?->branchTH === '(สำนักงานใหญ่)' || $data->jobOrder?->customerRefer?->branchTH === 'สำนักงานใหญ่' ? $data->jobOrder?->customerRefer?->branchTH : ''}}</span>
                             <span
                                 style="min-height: 20px; height: auto;">{{$data->jobOrder?->customerRefer?->addressTH}} {{$data->jobOrder?->customerRefer?->zipCode}}</span>
                             <span><b>เลขประจำตัวผู้เสียภาษี</b> : {{$data->jobOrder?->customerRefer?->taxID}}</span>
@@ -236,7 +236,7 @@
                 <table>
                     <td style="width: 55%;">
                         <div>
-                            <span><b>TO</b> : {{$data->jobOrder?->customerRefer?->custNameTH}} {{ $data->jobOrder?->customerRefer?->branchTH === '(สำนักงานใหญ่)' || $data->jobOrder?->customerRefer?->branchTH === 'สำนักงานใหญ่' ? $data->jobOrder?->customerRefer?->branchTH : ''}}</span>
+                            <span style="min-height: 20px; height: auto;"><b>TO</b> : {{$data->jobOrder?->customerRefer?->custNameTH}} {{ $data->jobOrder?->customerRefer?->branchTH === '(สำนักงานใหญ่)' || $data->jobOrder?->customerRefer?->branchTH === 'สำนักงานใหญ่' ? $data->jobOrder?->customerRefer?->branchTH : ''}}</span>
                             <span
                                 style="min-height: 20px; height: auto;">{{$data->jobOrder?->customerRefer?->addressTH}} {{$data->jobOrder?->customerRefer?->zipCode}}</span>
                             <span><b>เลขประจำตัวผู้เสียภาษี</b> : {{$data->jobOrder?->customerRefer?->taxID}}</span>
@@ -436,7 +436,7 @@
                 <table>
                     <td style="width: 55%;">
                         <div>
-                            <span><b>TO</b> : {{$data->jobOrder?->customerRefer?->custNameTH}} {{ $data->jobOrder?->customerRefer?->branchTH === '(สำนักงานใหญ่)' || $data->jobOrder?->customerRefer?->branchTH === 'สำนักงานใหญ่' ? $data->jobOrder?->customerRefer?->branchTH : ''}}</span>
+                            <span style="min-height: 20px; height: auto;"><b>TO</b> : {{$data->jobOrder?->customerRefer?->custNameTH}} {{ $data->jobOrder?->customerRefer?->branchTH === '(สำนักงานใหญ่)' || $data->jobOrder?->customerRefer?->branchTH === 'สำนักงานใหญ่' ? $data->jobOrder?->customerRefer?->branchTH : ''}}</span>
                             <span
                                 style="min-height: 20px; height: auto;">{{$data->jobOrder?->customerRefer?->addressTH}} {{$data->jobOrder?->customerRefer?->zipCode}}</span>
                             <span><b>เลขประจำตัวผู้เสียภาษี</b> : {{$data->jobOrder?->customerRefer?->taxID}}</span>

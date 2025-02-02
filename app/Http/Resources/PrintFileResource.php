@@ -243,6 +243,7 @@ class PrintFileResource extends Controller
         //     'groupCommodity' => $groupCommodity,
         //     'onBoard' => $onBoard,
         //     'customer_piad' => $customer_piad,
+        //     'measurement' => $measurement,
         //     'heightItems' => $heightItems,
         //     'test' => true]);
     }
