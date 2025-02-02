@@ -74,7 +74,7 @@ class Page extends Component
         ->join('invoice', 'joborder.documentID', '=', 'invoice.ref_jobNo')
         ->where('invoice.documentID', '!=', '')
         ->where($this->query)
-        ->orderBy('invoice.documentDate', 'DESC')
+        ->orderBy('invoice.documentID', 'DESC')
         ->select([
             'joborder.documentID', 
             'joborder.documentDate', 
@@ -83,7 +83,9 @@ class Page extends Component
             'joborder.tax3', 
             'joborder.total_vat',
             'invoice.documentID as invoiceID', 
-            'invoice.documentDate as invoiceDate'
+            'invoice.documentDate as invoiceDate',
+            'joborder.commission_customers',
+            'joborder.commission_sale'
         ])
         ->get();
 
@@ -99,7 +101,7 @@ class Page extends Component
         
         $this->totalAmount = $job->sum('total_amt') + $chargesbillReceive;
 
-        $this->totalCost = $chargeCost + $job->sum('tax1') + $job->sum('tax3') + $job->sum('total_vat');
+        $this->totalCost = $chargeCost + $job->sum('tax1') + $job->sum('tax3') + $job->sum('total_vat') + $job->sum('commission_sale') + $job->sum('commission_customers');
 
         $this->totalProfit = $this->totalAmount - $this->totalCost;
 
@@ -139,9 +141,9 @@ class Page extends Component
         // ->with(['charge', 'customerRefer'])
         ->with(['charge:documentID,chargesbillReceive,chargesCost', 'customerRefer:cusCode,custNameEN,custNameTH'])
         ->where('invoice.documentID', '!=', '')
-        ->where($this->query)->orderBy('invoice.documentDate', 'DESC')
+        ->where($this->query)->orderBy('invoice.documentID', 'DESC')
         ->select('joborder.documentID', 'joborder.documentDate', 'joborder.total_amt', 'joborder.tax1', 'joborder.tax3', 'joborder.total_vat', 'joborder.cusCode',
-        'invoice.documentID as invoiceID', 'invoice.documentDate as invoiceDate');
+        'invoice.documentID as invoiceID', 'invoice.documentDate as invoiceDate', 'joborder.commission_sale', 'joborder.commission_customers');
         
         // dd($data->get()[0]);
         return view('livewire.page.report.report-profit-and-loss-job.page', ['data'=> $data->paginate(20)

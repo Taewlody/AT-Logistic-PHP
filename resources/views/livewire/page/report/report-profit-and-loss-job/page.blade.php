@@ -136,9 +136,9 @@
 
                                                 <td>{{ number_format(($item->total_amt + $item->charge->sum('chargesbillReceive')), 2) }}</td>
                                                 
-                                                <td>{{ number_format(($item->charge->sum('chargesCost') + $item->tax3 + $item->tax1 + $item->total_vat), 2) }}</td>
+                                                <td>{{ number_format(($item->charge->sum('chargesCost') + $item->tax3 + $item->tax1 + $item->total_vat + $item->commission_customers + $item->commission_sale), 2) }}</td>
 
-                                                <td>{{ number_format((($item->total_amt + $item->charge->sum('chargesbillReceive')) - ($item->charge->sum('chargesCost') + $item->tax3 + $item->tax1 + $item->total_vat)), 2) }}</td>
+                                                <td>{{ number_format((($item->total_amt + $item->charge->sum('chargesbillReceive')) - ($item->charge->sum('chargesCost') + $item->tax3 + $item->tax1 + $item->total_vat + $item->commission_customers + $item->commission_sale)), 2) }}</td>
                                                 <td>
                                                     <div class="btn-group">
                                                         <a class="btn btn-xs btn-success"
