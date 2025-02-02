@@ -212,7 +212,7 @@
         {{-- end row 4 job inprocess --}}
 
         {{-- start row 5 ยอดภาษีมูลค่าเพิ่ม --}}
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
@@ -267,7 +267,8 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
+        <livewire:page.dashboard.element.vat :$action/>
         {{-- end row 5 ยอดภาษีมูลค่าเพิ่ม --}}
 
         {{-- start row 6 ยอดถูกหักภาษี ณ ที่จ่าย  --}}
