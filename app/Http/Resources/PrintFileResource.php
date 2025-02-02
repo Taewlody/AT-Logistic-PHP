@@ -234,7 +234,7 @@ class PrintFileResource extends Controller
             'customer_piad' => $customer_piad,
             'measurement' => $measurement,
             'heightItems' => $heightItems]);
-        return $pdf->stream('invoice.pdf');
+        return $pdf->stream('invoice_'.$data->jobOrder->invNo.'.pdf');
 
         // return view('print.invoice_pdf', [
         //     'title' => "Invoice", 
