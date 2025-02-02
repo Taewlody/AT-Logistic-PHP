@@ -60,7 +60,7 @@
                     </tr>
                     <tr>
                         <th>เพื่อชำระ/Paid For</th>
-                        <td>{{$data->refJobNo.'/'.($data->jobOrder != null ? $data->jobOrder->invNo : '')}}</td>
+                        <td>{{$data->refJobNo.($data->jobOrder != null ? '/'.$data->jobOrder->invNo : '')}}</td>
                         <th>วันที่/Date</th>
                         <td>{{Service::DateFormat($data->documentDate, true)}}</td>
                     </tr>

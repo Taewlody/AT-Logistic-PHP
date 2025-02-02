@@ -298,7 +298,10 @@ class PrintFileResource extends Controller
     {
         $data = PettyCash::find($documentID);
         $getInvoice = Joborder::where('documentID', $data->refJobNo)->first();
-        $checkInvoice = $getInvoice->invoice()->first();
+        $checkInvoice = null;
+        if($getInvoice) {
+            $checkInvoice = $getInvoice->invoice()->first();
+        }
         if($data == null) {
             return view('404');
         }
